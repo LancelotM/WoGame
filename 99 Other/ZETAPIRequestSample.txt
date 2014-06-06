@@ -1,0 +1,23 @@
+Request URL : http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=productdetail&productid=187834&state=101
+Method : GET
+
+Header:
+user-agent:Anroid/Lenovo798T
+storeua:Anroid/Lenovo798T
+x-up-calling-line-id:00000000000
+handphone:00000000000
+handua:9000000000
+settertype:3
+version:3
+imei:000000000000000
+imsi:000000000000000
+preassemble:Android-v16>Common>V2.0.0>20120328>NA>NA>NA>beiyong>NA>NA
+companylogo:18150
+sessionid:202dc1f08ee64f8f896fafc3c5c62c03
+appfrom:openfeint
+newclient:1
+phoneAccessMode:3
+usertype:3
+clientchannelflag:8
+
+Response Status: 200 OK
