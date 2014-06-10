@@ -1,0 +1,70 @@
+采用log4j记录日志信息，日志名称为wogamecenter_info.log
+
+log4j配置信息：
+log4j.logger.information=WARN, information
+log4j.appender.information=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.information.DatePattern='.'yyyy-MM-dd
+log4j.appender.information.File=/unicom/logs/wogamecenter_info.log
+log4j.appender.information.threshold=info
+log4j.appender.information.layout=org.apache.log4j.PatternLayout
+log4j.appender.information.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %-5p %c{2}:%L - %m%n
+
+日志的格式定义如下
+-- 1.新旧用户统计
+{ 
+    "userCount": {
+        "cookie": true,		//是否包含cookie信息
+        "channelId": ""		//渠道信息
+    }
+}
+
+-- 2.页面流量统计
+{
+    "pageTraffic": {
+        "pgeId": "",		//页面编号1：首页 2：分类 3：一周热榜 4：最新
+        "channelId": ""		//渠道信息
+    }
+}
+
+-- 3.首页广告的浏览统计
+{
+    "bannerTraffic": {
+        "productId": "",	//游戏的id
+		"productName": "",	//游戏名字
+        "productIcon": "",	//游戏图标地址
+		"channelId": ""		//渠道信息
+    }
+}
+
+-- 4.前30游戏点击次数统计
+{
+    "hotGameTraffic": {
+        "productId": "",	//游戏的id
+		"productName": "",	//游戏名字
+        "productIcon": "",	//游戏图标地址
+		"channelId": ""		//渠道信息
+    }
+}
+
+-- 5.搜索关键词
+{
+    "keyword": {
+        "keyword": ""		//关键词
+    }
+}
+
+-- 6.下载游戏请求统计
+
+{
+    "downloadInfo": {
+        "productId": "",	//游戏的id
+		"productName": "",	//游戏名字
+        "productIcon": "",	//游戏图标地址
+		"channelId": ""		//渠道信息
+    }
+}
+
+
+样例：
+-- 搜索关键词
+2014-06-10 00:00:00 INFO  XXXXXXXXXX:26 - {"keyword": {"keyword": "捕鱼达人"}}
