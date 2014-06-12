@@ -110,7 +110,7 @@ alter table download_info add constraint Download_Channel_FK foreign key (channe
 
 --用户
 create table account(
-	account_id int(20) primary key,
+	account_id int(20) primary key auto_increment,
 	account_name varchar(20) not null,
 	password varchar(20) not null,
 	date_created TIMESTAMP not null,
