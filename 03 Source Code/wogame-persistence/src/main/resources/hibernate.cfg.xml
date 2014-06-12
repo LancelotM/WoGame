@@ -11,6 +11,17 @@
 		<property name="hibernate.show_sql">true</property>
 
 		<mapping class="com.unicom.game.center.persistence.db.domain.PageTrafficDomain" />
+		<mapping class="com.unicom.game.center.persistence.db.domain.AccountDomain"/>
+		<mapping class="com.unicom.game.center.persistence.db.domain.ChannelInfoDomain" />
+		<mapping class="com.unicom.game.center.persistence.db.domain.DownloadInfoDomain"/>
+		<mapping class="com.unicom.game.center.persistence.db.domain.HotGameTrafficDomain" />
+		<mapping class="com.unicom.game.center.persistence.db.domain.KeyWordDomain"/>
+		<mapping class="com.unicom.game.center.persistence.db.domain.PackageInfoDomain" />
+		<mapping class="com.unicom.game.center.persistence.db.domain.PackageInfoKey"/>
+		<mapping class="com.unicom.game.center.persistence.db.domain.PageMapDomain" />
+		<mapping class="com.unicom.game.center.persistence.db.domain.ProductDomain"/>
+		<mapping class="com.unicom.game.center.persistence.db.domain.StatusMapDomain" />
+		<mapping class="com.unicom.game.center.persistence.db.domain.UserCountDomain"/>
 		
 	</session-factory>
 </hibernate-configuration>
