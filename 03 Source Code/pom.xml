@@ -21,7 +21,7 @@
             </activation>
             <modules>
 							<module>wogame-persistence</module>
-							<!--<module>wogame-backend</module>-->
+							<module>wogame-backend</module>
 							<!--<module>wogame-job</module>-->
             </modules>
         </profile>
