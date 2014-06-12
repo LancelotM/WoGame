@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+		
+	<context:component-scan base-package="com.uincom" />
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
+	<!-- Configures the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven/>
+
+	<mvc:resources location="/static/" mapping="/static/**"/>
+	
+	<mvc:view-controller path="/" view-name="index"/>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+	
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="messageConverters">
+    		<util:list id="beanList">
+    			<ref bean="jsonMessageConverter"/>
+    		</util:list>
+    	</property>
+    </bean>
+    
+    
+    <bean id="jsonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    	<property name="supportedMediaTypes">
+    		<util:list>
+    			<value>application/json;charset=UTF-8</value>
+    		</util:list>
+    	</property>
+    </bean>
+    
+    <bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/freemarker/" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="defaultEncoding">UTF-8</prop>
+			</props>
+		</property>
+	</bean>
+		
+	<bean id="freemarkerXmlViewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="order" value="2"></property>
+		<property name="cache" value="false" />
+		<property name="suffix" value=".xmlftl" />
+		<property name="contentType" value="text/xml;charset=utf-8" />
+	</bean>
+	<bean id="freemarkerViewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="order" value="3"></property>
+		<property name="cache" value="false" />
+		<property name="suffix" value=".ftl" />
+		<property name="contentType" value="text/html;charset=utf-8" />
+		<property name="requestContextAttribute" value="attrs" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+	</bean>
+
+</beans>
