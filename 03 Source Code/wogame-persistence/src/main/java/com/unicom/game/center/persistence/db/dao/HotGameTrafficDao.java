@@ -17,8 +17,9 @@ public class HotGameTrafficDao extends HibernateDao{
 		sb.append(productId);
 		sb.append(" and channelId =");
 		sb.append(channelId);
-		sb.append(" and dateCreated = ");
+		sb.append(" and dateCreated = '");
 		sb.append(date);
+		sb.append("'");
 		sb.append(" and flag = ");
 		sb.append(flag);
 		HotGameTrafficDomain hotGameTraffic = (HotGameTrafficDomain)getSession().

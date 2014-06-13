@@ -19,6 +19,7 @@ public class UserCountDomain implements Serializable{
 	private int id;
 	private int newUserCount;
 	private int oldUserCount;
+	private int channelId;
 	private Date dateCreated;
 	
 	@Id
@@ -57,6 +58,17 @@ public class UserCountDomain implements Serializable{
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
+
+	@Column(name="channel_id")
+	public int getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(int channelId) {
+		this.channelId = channelId;
+	}
+	
+	
 	
 	
 

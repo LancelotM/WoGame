@@ -10,7 +10,7 @@ import com.unicom.game.center.persistence.db.domain.KeyWordDomain;
 public class KeyWordDao extends HibernateDao{
 	
 	public KeyWordDomain getByKeyWord(String keyword){
-		String hql = "from KeyWordDomain where keyword = " +keyword;
+		String hql = "from KeyWordDomain where keyword = '" +keyword+"'";
 		return (KeyWordDomain)getSession().createQuery(hql).uniqueResult();
 	}
 	

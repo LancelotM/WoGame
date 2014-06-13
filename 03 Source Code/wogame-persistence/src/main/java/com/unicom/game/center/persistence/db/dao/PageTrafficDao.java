@@ -18,12 +18,13 @@ public class PageTrafficDao extends HibernateDao{
 	
 	public PageTrafficDomain getByPageAndChannel(int pageId,int channelId,Date date){
 		StringBuffer sb = new StringBuffer();
-		sb.append("from PageTrafficDomain where pageid =");
+		sb.append("from PageTrafficDomain where pageId =");
 		sb.append(pageId);
 		sb.append(" and channelId =");
 		sb.append(channelId);
-		sb.append(" and dateCreated = ");
+		sb.append(" and dateCreated = '");
 		sb.append(date);
+		sb.append("'");
 		PageTrafficDomain pageTraffic = (PageTrafficDomain)getSession().createQuery(sb.toString()).uniqueResult();
 		return pageTraffic;
 	}

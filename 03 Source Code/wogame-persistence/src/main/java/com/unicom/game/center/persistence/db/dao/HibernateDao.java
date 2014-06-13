@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Date Jun 09, 2014
  */
 
-public class HibernateDao {
+public class HibernateDao{
 
 	@Autowired
 	private SessionFactory sessionFactory;

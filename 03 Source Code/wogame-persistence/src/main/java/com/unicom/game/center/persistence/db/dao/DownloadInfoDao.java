@@ -13,12 +13,14 @@ public class DownloadInfoDao extends HibernateDao{
 	
 	public DownloadInfoDomain getByProductAndChannel(int productId,int channelId,Date date){
 		StringBuffer sb = new StringBuffer();
-		sb.append("from PageTrafficDomain where pageid =");
+		sb.append("from DownloadInfoDomain where productId =");
 		sb.append(productId);
 		sb.append(" and channelId =");
 		sb.append(channelId);
-		sb.append(" and dateCreated = ");
+		sb.append(" and dateCreated = '");
 		sb.append(date);
+		sb.append("'");
+		
 		DownloadInfoDomain downloadInfo = (DownloadInfoDomain)getSession().createQuery(sb.toString()).uniqueResult();
 		return downloadInfo;
 	}

@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="hot_game_traffic")
+@Table(name="game_traffic")
 public class HotGameTrafficDomain implements Serializable{
 
 	
@@ -71,7 +71,7 @@ public class HotGameTrafficDomain implements Serializable{
 		this.dateCreated = dateCreated;
 	}
 	
-	@Column(name="flag")
+	@Column(name="banner_flag")
 	public boolean getFlag() {
 		return flag;
 	}
