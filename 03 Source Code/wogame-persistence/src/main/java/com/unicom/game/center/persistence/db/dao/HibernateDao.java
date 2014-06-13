@@ -15,6 +15,6 @@ public class HibernateDao {
 	private SessionFactory sessionFactory;
 
 	protected Session getSession() {
-		return this.sessionFactory.getCurrentSession();
+		return this.sessionFactory.openSession();
 	}	
 }

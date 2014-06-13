@@ -24,7 +24,7 @@ public class ChannelInfoDao extends HibernateDao{
 		getSession().update(channelInfo);
 	}
 	
-	public List<ChannelInfoDomain> findAll(){
+	public List<ChannelInfoDomain> getAll(){
 		String hql = "from ChannelInfoDomain";
 		List<ChannelInfoDomain> list = getSession().createQuery(hql).list();
 		return list;
