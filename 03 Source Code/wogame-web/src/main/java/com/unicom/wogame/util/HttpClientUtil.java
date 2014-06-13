@@ -7,6 +7,7 @@ import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -20,6 +21,7 @@ import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.protocol.ExecutionContext;
@@ -38,6 +40,7 @@ import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @className:HttpClientUtil.java
@@ -234,6 +237,17 @@ public class HttpClientUtil {
     }
 
     /**
+     * 使用get方法获取相关的数据
+     *
+     * @param url
+     * @param paramsList
+     * @return
+     */
+    public static String get(String url, List<NameValuePair> paramsList, Map<String, String> headers) {
+        return httpRequest(url, paramsList, "GET", headers, null);
+    }
+
+    /**
      * 使用get方法并且通过代理获取相关的数据
      *
      * @param url
@@ -245,6 +259,95 @@ public class HttpClientUtil {
                              HttpHost proxy) {
         return httpRequest(url, paramsList, "GET", proxy);
     }
+
+
+    /**
+     * 提交数据到服务器
+     *
+     * @param url
+     * @param paramsList
+     * @param method
+     * @throws java.io.IOException
+     * @throws org.apache.http.client.ClientProtocolException
+     */
+    public static String httpRequest(String url,
+                                     List<NameValuePair> paramsList, String method,
+                                     Map<String, String> headers, HttpHost proxy) {
+        String responseStr = null;
+        // 判断输入的值是是否为空
+        if (null == url || "".equals(url)) {
+            return null;
+        }
+
+        // 创建HttpClient实例
+        DefaultHttpClient httpclient = getDefaultHttpClient(CHARSET_ENCODING);
+
+        //判断是否是https请求
+        if(url.startsWith("https")){
+            enableSSL(httpclient);
+        }
+        String formatParams = null;
+        // 将参数进行utf-8编码
+        if (null != paramsList && paramsList.size() > 0) {
+            formatParams = URLEncodedUtils.format(paramsList, CHARSET_ENCODING);
+        }
+        // 如果代理对象不为空则设置代理
+        if (null != proxy) {
+            httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
+                    proxy);
+        }
+        try {
+
+            HttpRequestBase rb = null;
+
+            // 如果方法为Get
+            if ("GET".equalsIgnoreCase(method)) {
+                if (formatParams != null) {
+                    url = (url.indexOf("?")) < 0 ? (url + "?" + formatParams)
+                            : (url.substring(0, url.indexOf("?") + 1) + formatParams);
+                }
+                rb = new HttpGet(url);
+//                responseStr = httpclient.execute(hg, responseHandler);
+
+                // 如果方法为Post
+            } else if ("POST".equalsIgnoreCase(method)) {
+                rb = new HttpPost(url);
+                if (formatParams != null) {
+                    StringEntity entity = new StringEntity(formatParams);
+                    entity.setContentType("application/x-www-form-urlencoded");
+                    ((HttpPost)rb).setEntity(entity);
+                }
+//                responseStr = httpclient.execute(hp, responseHandler);
+
+            }
+
+            if (headers != null) {
+                rb.setHeaders(convertMapToHeaders(headers));
+            }
+
+            responseStr = httpclient.execute(rb, responseHandler);
+
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return responseStr;
+    }
+
+    private static Header[] convertMapToHeaders(Map<String, String> headers) {
+        Header[] headerArray = new Header[headers.size()];
+
+        int loop = 0;
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            headerArray[loop++] = new BasicHeader(entry.getKey(), entry.getValue());
+        }
+
+        return headerArray;
+    }
+
 
     /**
      * 提交数据到服务器
