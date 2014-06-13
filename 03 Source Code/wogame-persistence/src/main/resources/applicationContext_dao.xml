@@ -58,7 +58,7 @@
 			<tx:method name="get*" read-only="true" propagation="NOT_SUPPORTED" />
 			<tx:method name="*" />
 		</tx:attributes>
-	</tx:advice>
+	</tx:advice> 
 
 
 

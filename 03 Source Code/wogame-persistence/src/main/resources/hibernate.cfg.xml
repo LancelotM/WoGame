@@ -9,6 +9,7 @@
 		</property>
 
 		<property name="hibernate.show_sql">true</property>
+		<property name="format_sql">true</property>
 
 		<mapping class="com.unicom.game.center.persistence.db.domain.PageTrafficDomain" />
 		<mapping class="com.unicom.game.center.persistence.db.domain.AccountDomain"/>
