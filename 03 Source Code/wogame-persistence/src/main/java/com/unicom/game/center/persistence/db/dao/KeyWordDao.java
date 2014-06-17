@@ -2,11 +2,11 @@ package com.unicom.game.center.persistence.db.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.persistence.db.domain.KeyWordDomain;
 
-@Repository
+@Component
 public class KeyWordDao extends HibernateDao{
 	
 	public KeyWordDomain getByKeyWord(String keyword){

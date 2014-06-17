@@ -3,11 +3,11 @@ package com.unicom.game.center.persistence.db.dao;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.persistence.db.domain.UserCountDomain;
 
-@Repository
+@Component
 public class UserCountDao extends HibernateDao{
 	
 	public UserCountDomain getByDate(Date date){

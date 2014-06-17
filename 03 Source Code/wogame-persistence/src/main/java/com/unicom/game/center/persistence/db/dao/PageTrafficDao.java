@@ -1,6 +1,6 @@
 package com.unicom.game.center.persistence.db.dao;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -22,7 +22,7 @@ public class PageTrafficDao extends HibernateDao{
 		sb.append(pageId);
 		sb.append(" and channelId =");
 		sb.append(channelId);
-		sb.append(" and dateCreated = '");
+		sb.append(" and dateCreated <= '");
 		sb.append(date);
 		sb.append("'");
 		PageTrafficDomain pageTraffic = (PageTrafficDomain)getSession().createQuery(sb.toString()).uniqueResult();

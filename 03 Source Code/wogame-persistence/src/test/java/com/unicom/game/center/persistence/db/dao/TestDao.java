@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.unicom.game.center.persistence.db.domain.AccountDomain;
 import com.unicom.game.center.persistence.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.persistence.db.domain.DownloadInfoDomain;
-import com.unicom.game.center.persistence.db.domain.HotGameTrafficDomain;
+import com.unicom.game.center.persistence.db.domain.GameTrafficDomain;
 import com.unicom.game.center.persistence.db.domain.KeyWordDomain;
 import com.unicom.game.center.persistence.db.domain.PackageInfoDomain;
 import com.unicom.game.center.persistence.db.domain.PackageInfoKey;
@@ -19,7 +19,7 @@ import com.unicom.game.center.persistence.db.domain.UserCountDomain;
 
 
 public class TestDao {
-	
+/*	
 	@Test
 	public void test1(){
 		AccountDomain account = new AccountDomain();
@@ -83,7 +83,7 @@ public class TestDao {
 		ProductDomain domain = new ProductDomain();
 		domain.setProductId(1);
 		domain.setProductIcon("fafa");
-		domain.setProductName("Ö²Îï´óÕ½½©Ê¬");
+		domain.setProductName("Ö²ï¿½ï¿½ï¿½Õ½ï¿½ï¿½Ê¬");
 		
 		AbstractApplicationContext ac = 
 			new ClassPathXmlApplicationContext("classpath:applicationContext_dao.xml");
@@ -98,7 +98,7 @@ public class TestDao {
 	
 	@Test
 	public void test5(){
-		HotGameTrafficDomain domain = new HotGameTrafficDomain();
+		GameTrafficDomain domain = new GameTrafficDomain();
 		domain.setClickThrough(1);
 		domain.setFlag(true);
 		domain.setChannelId(2);
@@ -106,7 +106,7 @@ public class TestDao {
 		
 		AbstractApplicationContext ac = 
 			new ClassPathXmlApplicationContext("classpath:applicationContext_dao.xml");
-		HotGameTrafficDao dao = (HotGameTrafficDao)ac.getBean("hotGameTrafficDao");
+		GameTrafficDao dao = (GameTrafficDao)ac.getBean("hotGameTrafficDao");
 		dao.save(domain);
 //		for(ChannelInfoDomain d : dao.getAll()){
 //			System.out.println(d.getChannelName());
@@ -208,7 +208,7 @@ public class TestDao {
 	
 	@Test
 	public void test11(){
-		HotGameTrafficDomain domain = new HotGameTrafficDomain();
+		GameTrafficDomain domain = new GameTrafficDomain();
 		domain.setClickThrough(1);
 		domain.setFlag(true);
 		domain.setChannelId(2);
@@ -216,7 +216,7 @@ public class TestDao {
 		
 		AbstractApplicationContext ac = 
 			new ClassPathXmlApplicationContext("classpath:applicationContext_dao.xml");
-		HotGameTrafficDao dao = (HotGameTrafficDao)ac.getBean("hotGameTrafficDao");
+		GameTrafficDao dao = (GameTrafficDao)ac.getBean("hotGameTrafficDao");
 		dao.save(domain);
 //		for(ChannelInfoDomain d : dao.getAll()){
 //			System.out.println(d.getChannelName());
@@ -224,5 +224,5 @@ public class TestDao {
 //		
 //		System.out.println(dao.getById(2).getChannelName());
 	}
-
+*/
 }

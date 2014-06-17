@@ -15,7 +15,7 @@
 		<mapping class="com.unicom.game.center.persistence.db.domain.AccountDomain"/>
 		<mapping class="com.unicom.game.center.persistence.db.domain.ChannelInfoDomain" />
 		<mapping class="com.unicom.game.center.persistence.db.domain.DownloadInfoDomain"/>
-		<mapping class="com.unicom.game.center.persistence.db.domain.HotGameTrafficDomain" />
+		<mapping class="com.unicom.game.center.persistence.db.domain.GameTrafficDomain" />
 		<mapping class="com.unicom.game.center.persistence.db.domain.KeyWordDomain"/>
 		<mapping class="com.unicom.game.center.persistence.db.domain.PackageInfoDomain" />
 		<mapping class="com.unicom.game.center.persistence.db.domain.PackageInfoKey"/>

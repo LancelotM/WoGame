@@ -3,12 +3,11 @@ package com.unicom.game.center.persistence.db.dao;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.persistence.db.domain.DownloadInfoDomain;
-import com.unicom.game.center.persistence.db.domain.PageTrafficDomain;
 
-@Repository
+@Component
 public class DownloadInfoDao extends HibernateDao{
 	
 	public DownloadInfoDomain getByProductAndChannel(int productId,int channelId,Date date){
