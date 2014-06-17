@@ -22,8 +22,8 @@
             <modules>
 				<module>wogame-persistence</module>
 				<module>wogame-backend</module>
-				<!-- <module>wogame-loganalyser</module> -->
-               <!--  <module>wogame-web</module> -->
+				<module>wogame-loganalyser</module>
+                <module>wogame-web</module>
             </modules>
         </profile>
     </profiles>
