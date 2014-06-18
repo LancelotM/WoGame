@@ -138,6 +138,6 @@ create table package_info(
 	reserve5 varchar(200),
 	date_created TIMESTAMP not null,
 	date_modified TIMESTAMP not null,
-	primary key(channel_id,product_id)	
+	primary key(channel_id,app_id)	
 )engine=innodb default charset=utf8;
 

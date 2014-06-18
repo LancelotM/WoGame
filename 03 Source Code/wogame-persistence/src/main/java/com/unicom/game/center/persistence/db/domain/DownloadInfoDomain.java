@@ -18,7 +18,7 @@ public class DownloadInfoDomain implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private int channelId;
-	private int productId;
+	private String productId;
 	private int downloadCount;
 	private Date dateCreated;
 	
@@ -43,11 +43,11 @@ public class DownloadInfoDomain implements Serializable{
 	}
 	
 	@Column(name="product_id")
-	public int getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 	
-	public void setProductId(int productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	

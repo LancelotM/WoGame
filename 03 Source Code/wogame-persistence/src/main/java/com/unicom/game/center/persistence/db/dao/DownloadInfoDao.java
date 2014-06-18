@@ -10,11 +10,11 @@ import com.unicom.game.center.persistence.db.domain.DownloadInfoDomain;
 @Component
 public class DownloadInfoDao extends HibernateDao{
 	
-	public DownloadInfoDomain getByProductAndChannel(int productId,int channelId,Date date){
+	public DownloadInfoDomain getByProductAndChannel(String productId,int channelId,Date date){
 		StringBuffer sb = new StringBuffer();
-		sb.append("from DownloadInfoDomain where productId =");
+		sb.append("from DownloadInfoDomain where productId ='");
 		sb.append(productId);
-		sb.append(" and channelId =");
+		sb.append("' and channelId =");
 		sb.append(channelId);
 		sb.append(" and dateCreated = '");
 		sb.append(date);
