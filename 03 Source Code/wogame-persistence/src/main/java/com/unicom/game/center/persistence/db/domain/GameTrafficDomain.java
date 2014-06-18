@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="hot_game_traffic")
-public class HotGameTrafficDomain implements Serializable{
+@Table(name="game_traffic")
+public class GameTrafficDomain implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
@@ -71,7 +71,7 @@ public class HotGameTrafficDomain implements Serializable{
 		this.dateCreated = dateCreated;
 	}
 	
-	@Column(name="flag")
+	@Column(name="banner_flag")
 	public boolean getFlag() {
 		return flag;
 	}

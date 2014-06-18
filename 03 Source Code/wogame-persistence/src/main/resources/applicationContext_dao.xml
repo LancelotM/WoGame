@@ -14,10 +14,7 @@
 	<context:component-scan base-package="com.unicom" />
 
 	<context:property-placeholder
-		location="file:unicom/conf/wogamecenter.properties" />
-
-	<util:properties id="properties"
-		location="file:unicom/conf/wogamecenter.properties" />
+		location="file:/unicom/conf/wogamecenter.properties" />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -47,19 +44,18 @@
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
 
-	<aop:config>
-		<aop:pointcut expression="execution(public * com.unicom.game.center.persistence.db.dao.*.*(..))"
-			id="dao" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="dao" />
-	</aop:config>
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="get*" read-only="true" propagation="NOT_SUPPORTED" />
-			<tx:method name="*" />
-		</tx:attributes>
-	</tx:advice> 
+    <tx:annotation-driven transaction-manager="transactionManager" />
 
-
+    <aop:config>
+        <aop:pointcut id="allManagerMethod" expression="execution (* com.unicom.game.center.persistence.db.dao.*.*(..))" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
+    </aop:config>	
 
 </beans>

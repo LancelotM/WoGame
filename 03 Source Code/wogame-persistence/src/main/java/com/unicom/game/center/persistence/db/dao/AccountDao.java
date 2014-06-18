@@ -2,11 +2,12 @@ package com.unicom.game.center.persistence.db.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+import org.hibernate.Session;
+import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.persistence.db.domain.AccountDomain;
 
-@Repository
+@Component
 public class AccountDao extends HibernateDao{
 	
 	public void save(AccountDomain account){
@@ -18,8 +19,9 @@ public class AccountDao extends HibernateDao{
 	}
 	
 	public void update(AccountDomain account){
+		Session session = getSession();
 		account.setDateModified(new java.sql.Date(System.currentTimeMillis()));
-		getSession().update(account);
+		getSession().merge(account);
 	}
 	
 	public void delete(int accountId){

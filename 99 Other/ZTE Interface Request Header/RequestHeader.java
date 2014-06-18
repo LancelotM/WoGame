@@ -23,3 +23,13 @@
 		headers.put(CLIENT_CHANNEL_FLAG, "8");
 		return headers;
 	}
+
+	Uri.Builder builder = ZTE_BASE_URI
+			.buildUpon()
+			.appendQueryParameter(ZTE_REQUEST_SERVICE_ID,
+					ZTE_REQUEST_SERVICE_DETAIL)
+			.appendQueryParameter(ZTE_REQUEST_PRODUCT_ID,
+					String.valueOf(productId))
+			.appendQueryParameter("state", "101")
+			.appendQueryParameter("referer", "" + refid);
+	return builder.build().toString();

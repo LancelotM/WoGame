@@ -1,11 +1,11 @@
 package com.unicom.game.center.persistence.db.dao;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.persistence.db.domain.PackageInfoDomain;
 import com.unicom.game.center.persistence.db.domain.PackageInfoKey;
 
-@Repository
+@Component
 public class PackageInfoDao extends HibernateDao{
 	
 	public void save(PackageInfoDomain packageInfo){

@@ -1,10 +1,10 @@
 package com.unicom.game.center.persistence.db.dao;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.persistence.db.domain.PageMapDomain;
 
-@Repository
+@Component
 public class PageMapDao extends HibernateDao{
 	
 	public PageMapDomain getByid(int id){

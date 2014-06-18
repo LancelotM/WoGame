@@ -2,11 +2,12 @@ package com.unicom.game.center.persistence.db.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.unicom.game.center.persistence.db.domain.ChannelInfoDomain;
 
-@Repository
+@Component
 public class ChannelInfoDao extends HibernateDao{
 	
 	public ChannelInfoDomain getById(int channelId){
