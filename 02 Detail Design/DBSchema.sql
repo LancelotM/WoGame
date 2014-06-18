@@ -26,8 +26,8 @@ insert into status_map(status_id, status) values(99, "inactive");
 --渠道编号
 create table channel_info(
 	channel_id int(20) primary key,
-	channel_name varchar(20) not null,
-	cp_id varchar(20),
+	channel_name varchar(200) not null,
+	cp_id varchar(40),
 	status_id int(20) not null default 70, 
 	date_created TIMESTAMP not null,
 	date_modified TIMESTAMP not null
@@ -38,9 +38,9 @@ alter table channel_info add constraint Channel_Status_FK foreign key (status_id
 
 --游戏
 create table product(
-	product_id int(20) primary key,
-	product_name varchar(50) not null,
-	product_icon varchar(255),
+	product_id varchar(40) primary key,
+	product_name varchar(200) not null,
+	product_icon varchar(512),
 	date_created TIMESTAMP not null
 )engine=innodb default charset=utf8;
 
@@ -74,7 +74,7 @@ alter table page_traffic add constraint Page_Traffic_Channel_FK foreign key (cha
 create table game_traffic(
 	id int(20) primary key auto_increment,
 	channel_id int(20) not null,
-	product_id int(20) not null,
+	product_id varchar(40) not null,
 	click_through int(20) not null default 0,
 	date_created TIMESTAMP not null,
 	banner_flag boolean not null default false
@@ -87,7 +87,7 @@ alter table game_traffic add constraint Game_Traffic_Channel_FK foreign key (cha
 --热词
 create table keyword(
 	id int(20) primary key auto_increment,
-	keyword varchar(50) not null,
+	keyword varchar(512) not null,
 	count int(20) not null default 0,
 	date_created TIMESTAMP not null,
 	date_modified TIMESTAMP not null
@@ -97,7 +97,7 @@ create table keyword(
 --下载游戏统计
 create table download_info(
 	id int(20) primary key auto_increment,
-	product_id int(20) not null,
+	product_id varchar(40) not null,
 	channel_id int(20) not null,
 	download_count int(20) default 0,
 	date_created TIMESTAMP not null
@@ -111,8 +111,8 @@ alter table download_info add constraint Download_Channel_FK foreign key (channe
 --用户
 create table account(
 	account_id int(20) primary key auto_increment,
-	account_name varchar(20) not null,
-	password varchar(20) not null,
+	account_name varchar(50) not null,
+	password varchar(50) not null,
 	date_created TIMESTAMP not null,
 	date_modified TIMESTAMP not null	
 )engine=innodb default charset=utf8;
@@ -120,8 +120,22 @@ create table account(
 
 --打包信息
 create table package_info(
-	channel_id int(20) not null,
-	product_id int(20) not null,
+	channel_id varchar(40) not null,
+	cp_id varchar(40) not null,
+	app_id varchar(40) not null,
+	app_name varchar(200),
+	update_type int(4),
+	soft_id varchar(40),
+	onlinetime varchar(14),
+	original_file_path varchar(512),
+	apk_file_path varchar(512),
+	apk_online_time varchar(14),
+	status varchar(8),
+	reserve1 varchar(200),
+	reserve2 varchar(200),
+	reserve3 varchar(200),
+	reserve4 varchar(200),
+	reserve5 varchar(200),
 	date_created TIMESTAMP not null,
 	date_modified TIMESTAMP not null,
 	primary key(channel_id,product_id)	
