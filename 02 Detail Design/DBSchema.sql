@@ -27,7 +27,6 @@ insert into wogamecenter.status_map(status_id, status) values(99, "inactive");
 create table wogamecenter.channel_info(
 	channel_id int(20) primary key,
 	channel_name varchar(200) not null,
-	cp_id varchar(40),
 	status_id int(20) not null default 70, 
 	date_created TIMESTAMP not null,
 	date_modified TIMESTAMP not null
@@ -109,7 +108,7 @@ alter table wogamecenter.download_info add constraint Download_Channel_FK foreig
 
 
 --用户
-create table account(
+create table wogamecenter.account(
 	account_id int(20) primary key auto_increment,
 	account_name varchar(50) not null,
 	password varchar(50) not null,
@@ -119,7 +118,7 @@ create table account(
 
 
 --打包信息
-create table package_info(
+create table wogamecenter.package_info(
 	channel_id varchar(40) not null,
 	cp_id varchar(40) not null,
 	app_id varchar(40) not null,
