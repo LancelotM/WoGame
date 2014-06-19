@@ -40,7 +40,6 @@ import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @className:HttpClientUtil.java
@@ -58,11 +57,11 @@ public class HttpClientUtil {
 
     // private static String
     // USER_AGENT="Mozilla/4.0 (compatible; MSIE 8.0; Win32)";//ie8
+
     /**
      * 获取DefaultHttpClient对象
      *
-     * @param charset
-     *            字符编码
+     * @param charset 字符编码
      * @return DefaultHttpClient对象
      */
     public static DefaultHttpClient getDefaultHttpsClient(final String charset) {
@@ -74,8 +73,7 @@ public class HttpClientUtil {
     /**
      * 获取DefaultHttpClient对象
      *
-     * @param charset
-     *            字符编码
+     * @param charset 字符编码
      * @return DefaultHttpClient对象
      */
     public static DefaultHttpClient getDefaultHttpClient(final String charset) {
@@ -97,15 +95,17 @@ public class HttpClientUtil {
 
         return httpclient;
     }
+
     /**
      * 访问https的网站
+     *
      * @param httpclient
      */
-    public static void enableSSL(DefaultHttpClient httpclient){
+    public static void enableSSL(DefaultHttpClient httpclient) {
         //调用ssl
         try {
             SSLContext sslcontext = SSLContext.getInstance("TLS");
-            sslcontext.init(null, new TrustManager[] { truseAllManager }, null);
+            sslcontext.init(null, new TrustManager[]{truseAllManager}, null);
             SSLSocketFactory sf = new SSLSocketFactory(sslcontext);
             sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
             Scheme https = new Scheme("https", sf, 443);
@@ -115,10 +115,11 @@ public class HttpClientUtil {
             e.printStackTrace();
         }
     }
+
     /**
      * 重写验证方法，取消检测ssl
      */
-    private static TrustManager truseAllManager = new X509TrustManager(){
+    private static TrustManager truseAllManager = new X509TrustManager() {
 
         public void checkClientTrusted(
                 java.security.cert.X509Certificate[] arg0, String arg1)
@@ -139,7 +140,7 @@ public class HttpClientUtil {
             return null;
         }
 
-    } ;
+    };
 
     /**
      * 异常自动恢复处理, 使用HttpRequestRetryHandler接口实现请求的异常恢复
@@ -283,7 +284,7 @@ public class HttpClientUtil {
         DefaultHttpClient httpclient = getDefaultHttpClient(CHARSET_ENCODING);
 
         //判断是否是https请求
-        if(url.startsWith("https")){
+        if (url.startsWith("https")) {
             enableSSL(httpclient);
         }
         String formatParams = null;
@@ -315,7 +316,7 @@ public class HttpClientUtil {
                 if (formatParams != null) {
                     StringEntity entity = new StringEntity(formatParams);
                     entity.setContentType("application/x-www-form-urlencoded");
-                    ((HttpPost)rb).setEntity(entity);
+                    ((HttpPost) rb).setEntity(entity);
                 }
 //                responseStr = httpclient.execute(hp, responseHandler);
 
@@ -370,7 +371,7 @@ public class HttpClientUtil {
         DefaultHttpClient httpclient = getDefaultHttpClient(CHARSET_ENCODING);
 
         //判断是否是https请求
-        if(url.startsWith("https")){
+        if (url.startsWith("https")) {
             enableSSL(httpclient);
         }
         String formatParams = null;
@@ -442,7 +443,7 @@ public class HttpClientUtil {
         DefaultHttpClient httpclient = getDefaultHttpClient(CHARSET_ENCODING);
 
         //判断是否是https请求
-        if(url.startsWith("https")){
+        if (url.startsWith("https")) {
             enableSSL(httpclient);
         }
 
@@ -453,18 +454,18 @@ public class HttpClientUtil {
         }
         try {
 
-                HttpPost hp = new HttpPost(url);
-                if (formatParams != null) {
-                    StringEntity entity = new StringEntity(formatParams);
-                    entity.setContentType("application/x-www-form-urlencoded");
-                    hp.setEntity(entity);
-                }
-                if (bodyContent != null) {
-                    ByteArrayEntity entity = new ByteArrayEntity(bodyContent);
+            HttpPost hp = new HttpPost(url);
+            if (formatParams != null) {
+                StringEntity entity = new StringEntity(formatParams);
+                entity.setContentType("application/x-www-form-urlencoded");
+                hp.setEntity(entity);
+            }
+            if (bodyContent != null) {
+                ByteArrayEntity entity = new ByteArrayEntity(bodyContent);
 
-                    hp.setEntity(entity);
-                }
-                responseStr = httpclient.execute(hp, responseHandler);
+                hp.setEntity(entity);
+            }
+            responseStr = httpclient.execute(hp, responseHandler);
 
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
@@ -487,7 +488,7 @@ public class HttpClientUtil {
      * @throws org.apache.http.client.ClientProtocolException
      */
     public static String httpFileRequest(String url,
-                                         Map<String, String> fileMap,Map<String, String> stringMap,int type, HttpHost proxy) {
+                                         Map<String, String> fileMap, Map<String, String> stringMap, int type, HttpHost proxy) {
         String responseStr = null;
         // 判断输入的值是是否为空
         if (null == url || "".equals(url)) {
@@ -497,7 +498,7 @@ public class HttpClientUtil {
         DefaultHttpClient httpclient = getDefaultHttpClient(CHARSET_ENCODING);
 
         //判断是否是https请求
-        if(url.startsWith("https")){
+        if (url.startsWith("https")) {
             enableSSL(httpclient);
         }
 
@@ -511,18 +512,18 @@ public class HttpClientUtil {
         MultipartEntity multiEntity = new MultipartEntity();
         try {
             //type=0是本地路径，否则是网络路径
-            if(type==0){
+            if (type == 0) {
                 for (String key : fileMap.keySet()) {
                     multiEntity.addPart(key, new FileBody(new File(fileMap.get(key))));
                 }
-            }else{
+            } else {
                 for (String key : fileMap.keySet()) {
-                    multiEntity.addPart(key,new ByteArrayBody(getUrlFileBytes(fileMap.get(key)),key));
+                    multiEntity.addPart(key, new ByteArrayBody(getUrlFileBytes(fileMap.get(key)), key));
                 }
             }
             // 加入相关参数 默认编码为utf-8
             for (String key : stringMap.keySet()) {
-                multiEntity.addPart(key, new StringBody(stringMap.get(key),Charset.forName(CHARSET_ENCODING)));
+                multiEntity.addPart(key, new StringBody(stringMap.get(key), Charset.forName(CHARSET_ENCODING)));
             }
             hp.setEntity(multiEntity);
             responseStr = httpclient.execute(hp, responseHandler);
@@ -535,6 +536,7 @@ public class HttpClientUtil {
 
     /**
      * 将相关文件和参数提交到相关服务器
+     *
      * @param url
      * @param fileMap
      * @param stringMap
@@ -542,10 +544,12 @@ public class HttpClientUtil {
      */
     public static String postFile(String url, Map<String, String> fileMap,
                                   Map<String, String> stringMap) {
-        return httpFileRequest( url,fileMap,stringMap,0, null);
+        return httpFileRequest(url, fileMap, stringMap, 0, null);
     }
+
     /**
      * 将相关文件和参数提交到相关服务器
+     *
      * @param url
      * @param urlMap
      * @param stringMap
@@ -553,7 +557,7 @@ public class HttpClientUtil {
      */
     public static String postUrlFile(String url, Map<String, String> urlMap,
                                      Map<String, String> stringMap) {
-        return httpFileRequest( url,urlMap,stringMap,1, null);
+        return httpFileRequest(url, urlMap, stringMap, 1, null);
     }
 
     /**
@@ -583,13 +587,13 @@ public class HttpClientUtil {
     /**
      * 获取图片的字节数组
      *
-     * @createTime 2011-11-24
      * @param url
      * @return
      * @throws java.io.IOException
      * @throws org.apache.http.client.ClientProtocolException
      * @throws org.apache.http.client.ClientProtocolException
      * @throws java.io.IOException
+     * @createTime 2011-11-24
      */
     public static byte[] getImg(String url) throws ClientProtocolException,
             IOException {
@@ -603,6 +607,7 @@ public class HttpClientUtil {
         // 转换内容为字节
         return bytes;
     }
+
     /**
      * Processes the parameters passed through to the request,
      * removing the parameters used by the proxy itself
@@ -619,7 +624,7 @@ public class HttpClientUtil {
                     parameters.add(param);
                 }
             } else {
-                NameValuePair param = new BasicNameValuePair((String) key, (String)map.get(key));
+                NameValuePair param = new BasicNameValuePair((String) key, (String) map.get(key));
                 parameters.add(param);
             }
         }
@@ -628,11 +633,10 @@ public class HttpClientUtil {
     }
 
 
-
     public static void main(String[] args) throws URISyntaxException, ClientProtocolException, IOException {
 
-        String url="http://www.baidu.com/";
-        String str=HttpClientUtil.get(url, null);
+        String url = "http://www.baidu.com/";
+        String str = HttpClientUtil.get(url, null);
         System.out.println(str);
 
     }

@@ -11,6 +11,10 @@
     <meta content="false" id="twcClient" name="twcClient">
     <title>最新</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    <script src="${ctx}/static/js/index.js"></script>
 </head>
 
 <body class="ibody_bg">
@@ -19,8 +23,8 @@
     <div class="w_search"><a href="#">搜索</a></div>
 </div>
 <!--分类筛选-->
-<div class="w_paihangtitle">
-    <!--选中状态-->
+<div class="w_paihangtitle" id="w_paihangtitle">
+<!--选中状态-->
     <div class="w_new_011"><a href="#">首页</a></div>
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list">分类</a></div>
@@ -40,5 +44,21 @@
 
     </div>
 </c:forEach>
+
+<script type="text/javascript">
+
+    $(function () {
+        app.initialize();
+        $("#w_paihangtitle").bind("swipeleft", function () {
+            location.href = "http://www.163.com";
+        });
+        $("#w_paihangtitle").bind("swiperight", function () {
+            location.href = "http://www.baidu.com";
+        });
+
+
+    });
+</script>
+
 </body>
 </html>

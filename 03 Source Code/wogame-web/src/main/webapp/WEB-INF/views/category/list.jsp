@@ -19,11 +19,11 @@
     <div class="w_search"><a href="#">搜索</a></div>
 </div>
 <!--分类筛选-->
-<div class="w_paihangtitle">
+<div class="w_paihangtitle" id="w_paihangtitle">
     <!--选中状态-->
-    <div class="w_new_011"><a href="#">首页</a></div>
+    <div class="w_new_01"><a href="#">首页</a></div>
     <!--没有选中-->
-    <div class="w_new_02"><a href="#">分类</a></div>
+    <div class="w_new_022"><a href="#">分类</a></div>
     <div class="w_new_033"><a href="#">一周热榜</a></div>
     <div class="w_new_044"><a href="${ctx}/newGame?pageNum=1">最新</a></div>
 

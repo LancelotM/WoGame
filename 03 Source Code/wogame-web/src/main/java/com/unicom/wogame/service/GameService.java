@@ -9,7 +9,6 @@ import org.springside.modules.mapper.JsonMapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Created by jession on 14-6-11.
@@ -35,7 +34,8 @@ public class GameService {
         Map<String, Object> urlVariables = new HashMap<String, Object>();
         urlVariables.put("jsondata","{\"page_num\":\"1\"}");
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-        return restTemplate.getForObject(URL_RECOMMENDED_LIST, RecommendedListVo.class, urlVariables);
+        String responseDataString = (restTemplate.getForObject(URL_RECOMMENDED_LIST, String.class, urlVariables));
+        return JsonMapper.nonDefaultMapper().fromJson(responseDataString, RecommendedListVo.class);
     }
 
     public WeekHotVo readWeekHotDownloadList(int pageNum, int pageSize) {

@@ -52,7 +52,7 @@ public class TestZteIf extends AbstractJUnit4SpringContextTests {
         headers.set("newclient", "1");
         headers.set("phoneAccessMode", "3");
         headers.set("usertype", "3");
-        headers.set("clientchannelflag", "3");
+        headers.set("clientchannelflag", "8");
 
 
         HttpEntity<String> entity = new HttpEntity<String>("", headers);
