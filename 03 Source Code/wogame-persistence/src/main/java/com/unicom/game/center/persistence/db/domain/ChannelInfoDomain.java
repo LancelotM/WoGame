@@ -16,7 +16,6 @@ public class ChannelInfoDomain implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int channelId;
 	private String channelName;
-	private String cpId;
 	private int statusId;
 	private Date dateCreated;
 	private Date dateModified;
@@ -38,15 +37,6 @@ public class ChannelInfoDomain implements Serializable{
 	
 	public void setChannelName(String channelName) {
 		this.channelName = channelName;
-	}
-	
-	@Column(name="cp_id")
-	public String getCpId() {
-		return cpId;
-	}
-	
-	public void setCpId(String cpId) {
-		this.cpId = cpId;
 	}
 	
 	@Column(name="status_id")

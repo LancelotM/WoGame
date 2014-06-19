@@ -2,6 +2,7 @@ package com.unicom.game.center.persistence.db.dao;
 
 import java.util.Date;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class PageTrafficDaoTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testGetByPageAndChannel(){		
 		PageTrafficDomain domain = dao.getByPageAndChannel(1, 2, new Date());
 		System.out.print(domain.getClickThrough());
