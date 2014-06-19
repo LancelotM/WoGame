@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="keyword")
-public class KeyWordDomain implements Serializable{
+public class KeywordDomain implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;

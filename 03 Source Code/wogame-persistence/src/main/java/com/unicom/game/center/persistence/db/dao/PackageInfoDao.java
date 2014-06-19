@@ -12,10 +12,10 @@ public class PackageInfoDao extends HibernateDao{
 		getSession().save(packageInfo);
 	}
 	
-	public PackageInfoDomain getById(int channelId,int productId){
+	public PackageInfoDomain getById(String channelId,String productId){
 		PackageInfoKey key = new PackageInfoKey();
 		key.setChannelId(channelId);
-		key.setProductId(productId);
+		key.setAppId(productId);
 		return (PackageInfoDomain)getSession().load(PackageInfoDomain.class, key);
 	}
 

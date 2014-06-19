@@ -15,6 +15,9 @@
 
 	<context:property-placeholder
 		location="file:/unicom/conf/wogamecenter.properties" />
+		
+	<util:properties id="properties"
+		location="file:/unicom/conf/wogamecenter.properties" />		
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">

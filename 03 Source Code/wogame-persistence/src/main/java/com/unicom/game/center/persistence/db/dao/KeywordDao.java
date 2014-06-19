@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.unicom.game.center.persistence.db.domain.KeyWordDomain;
+import com.unicom.game.center.persistence.db.domain.KeywordDomain;
 
 @Component
-public class KeyWordDao extends HibernateDao{
+public class KeywordDao extends HibernateDao{
 	
-	public KeyWordDomain getByKeyWord(String keyword){
+	public KeywordDomain getByKeyWord(String keyword){
 		String hql = "from KeyWordDomain where keyword = '" +keyword+"'";
-		return (KeyWordDomain)getSession().createQuery(hql).uniqueResult();
+		return (KeywordDomain)getSession().createQuery(hql).uniqueResult();
 	}
 	
-	public void save(KeyWordDomain keyWord){
-		KeyWordDomain keyWordDomain = getByKeyWord(keyWord.getKeyword());
+	public void save(KeywordDomain keyWord){
+		KeywordDomain keyWordDomain = getByKeyWord(keyWord.getKeyword());
 		if(keyWordDomain == null){
 			getSession().save(keyWord);
 		}else{
@@ -25,7 +25,7 @@ public class KeyWordDao extends HibernateDao{
 		}
 	}
 	
-	public List<KeyWordDomain> getAll(){
+	public List<KeywordDomain> getAll(){
 		return getSession().createQuery("from KeyWordDomain").list();
 	}
 

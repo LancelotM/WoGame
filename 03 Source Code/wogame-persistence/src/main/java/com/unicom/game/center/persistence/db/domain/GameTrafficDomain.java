@@ -18,7 +18,7 @@ public class GameTrafficDomain implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
-	private int productId;
+	private String productId;
 	private int channelId;
 	private int clickThrough;
 	private Date dateCreated;
@@ -36,11 +36,11 @@ public class GameTrafficDomain implements Serializable{
 	}
 	
 	@Column(name="product_id")
-	public int getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 	
-	public void setProductId(int productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	

@@ -14,18 +14,18 @@ public class ProductDomain implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
-	private int productId;
+	private String productId;
 	private String productName;
 	private String productIcon;
 	private Date dateCreated;
 	
 	@Id
 	@Column(name="product_id")
-	public int getProductId() {
+	public String getProductId() {
 		return productId;
 	}
 	
-	public void setProductId(int productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	@Column(name="product_name")
