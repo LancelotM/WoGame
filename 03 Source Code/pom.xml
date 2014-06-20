@@ -20,7 +20,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-				<module>wogame-persistence</module>
+				<module>wogame-common</module>
 				<module>wogame-backend</module>
 				<module>wogame-loganalyser</module>
                 <module>wogame-web</module>

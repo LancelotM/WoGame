@@ -111,7 +111,7 @@
 
         <dependency>
         	<groupId>${project.groupId}</groupId>
-        	<artifactId>wogame-persistence</artifactId>
+        	<artifactId>wogame-common</artifactId>
         	<version>${project.version}</version>
         </dependency>
 
