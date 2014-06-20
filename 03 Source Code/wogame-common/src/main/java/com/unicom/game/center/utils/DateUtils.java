@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
-
 /**
  * @author Alex Yin
  * 
@@ -14,7 +12,6 @@ import org.apache.log4j.Logger;
 
 public class DateUtils {
 	
-	protected static Logger logger = Logger.getLogger(AESEncryptionHelper.class);
 	
 	/**
 	 * converting date to user want format 
@@ -62,7 +59,7 @@ public class DateUtils {
                 SimpleDateFormat format = new SimpleDateFormat(parFormat);
                 dateTime = format.parse(parDate);
             } catch (Exception e) {
-            	logger.error("Error occurs in string to date.", e);
+            	Logging.logError("Error occurs in string to date.", e);
             }
         }
         return dateTime;

@@ -1,7 +1,7 @@
 package com.unicom.game.center.loganalyser.imp;
 
 import com.unicom.game.center.loganalyser.ILogAnalyser;
-import com.unicom.game.center.loganalyser.utils.Logging;
+import com.unicom.game.center.utils.Logging;
 
 public class LogAnalyser implements ILogAnalyser {
 

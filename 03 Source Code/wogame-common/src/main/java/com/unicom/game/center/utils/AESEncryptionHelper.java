@@ -13,8 +13,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.log4j.Logger;
-
 /**
  * @author Alex Yin
  * @version Aug 10, 2013 3:08:11 PM
@@ -24,7 +22,7 @@ import org.apache.log4j.Logger;
 
 public class AESEncryptionHelper {
 
-    protected static Logger logger = Logger.getLogger(AESEncryptionHelper.class);
+//    protected static Logger logger = Logger.getLogger(AESEncryptionHelper.class);
 
 	private final static String AES = "AES";
 	
@@ -54,23 +52,17 @@ public class AESEncryptionHelper {
 			
 			return parseByte2HexStr(result);
 		} catch (NoSuchAlgorithmException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (NoSuchPaddingException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (InvalidKeyException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (UnsupportedEncodingException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (IllegalBlockSizeException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (BadPaddingException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		}
 		return null;
 	}
@@ -99,20 +91,15 @@ public class AESEncryptionHelper {
 
 			return result;
 		} catch (NoSuchAlgorithmException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (NoSuchPaddingException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (InvalidKeyException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (IllegalBlockSizeException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		} catch (BadPaddingException e) {
-            logger.error("exception",e);
-			e.printStackTrace();
+            Logging.logError("exception",e);
 		}
 		return null;
 	}
