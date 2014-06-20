@@ -111,10 +111,12 @@ alter table wogamecenter.download_info add constraint Download_Channel_FK foreig
 create table wogamecenter.account(
 	account_id int(20) primary key auto_increment,
 	account_name varchar(50) not null,
-	password varchar(50) not null,
+	password varchar(128) not null,
 	date_created TIMESTAMP not null,
 	date_modified TIMESTAMP not null	
 )engine=innodb default charset=utf8;
+
+alter table wogamecenter.account add unique key (account_name);
 
 
 --打包信息

@@ -1,0 +1,89 @@
+package com.unicom.game.center.business;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.unicom.game.center.db.dao.AccountDao;
+import com.unicom.game.center.db.domain.AccountDomain;
+import com.unicom.game.center.utils.AESEncryptionHelper;
+import com.unicom.game.center.utils.Logging;
+
+/**
+ * @author Alex Yin
+ * 
+ * @Date 2014-6-20
+ */
+@Component
+@Transactional
+public class AccountBusiness {
+
+	@Autowired
+	private AccountDao accountDao;
+	
+	@Value("#{properties['site.secret.key']}")
+	private String secretKey;
+	
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @return --0:OK  --1:user not exist  --2:password error  --3:other error
+	 */
+	public int login(String username, String password){
+		int flag = 0;
+		
+		try{
+			String pwd = AESEncryptionHelper.encrypt(password, secretKey);
+			AccountDomain account = accountDao.fetchUserByName(username);
+			if(null != account){
+				if(!pwd.equals(account.getPassword())){
+					flag = 2;
+				}
+			}else{
+				flag = 1;
+			}
+		}catch(Exception e){
+			Logging.logError("Error occur in login", e);
+			flag = 3;
+		}
+		
+		return flag;
+	}
+	
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @return	--0:OK	--1:user exist error --2:other error
+	 */
+	public int signup(String username, String password){
+		int flag = 0;
+		
+		try{
+			AccountDomain account = accountDao.fetchUserByName(username);
+			
+			if(null == account){
+				Date date = new Date();
+				String pwd = AESEncryptionHelper.encrypt(password, secretKey);
+				account = new AccountDomain();
+				account.setAccountName(username);
+				account.setPassword(pwd);
+				account.setDateCreated(date);
+				account.setDateModified(date);
+				accountDao.save(account);				
+			}else{
+				flag = 1;
+			}			
+
+		}catch(Exception e){
+			Logging.logError("Error occur in login", e);
+			flag = 2;
+		}
+		
+		return flag;
+	}
+}

@@ -16,24 +16,24 @@ public class AccountDomain implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
-	private int accountId;
+	private Integer accountId;
 	private String accountName;
 	private String password;
 	private Date dateCreated;
 	private Date dateModified;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="account_id")
-	public int getAccountId() {
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="account_id", unique = true, nullable = false)
+	public Integer getAccountId() {
 		return accountId;
 	}
 	
-	public void setAccountId(int accountId) {
+	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
 	}
 	
-	@Column(name="account_name")
+	@Column(name="account_name", unique = true, nullable = false)
 	public String getAccountName() {
 		return accountName;
 	}

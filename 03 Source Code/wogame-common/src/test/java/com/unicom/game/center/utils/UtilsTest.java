@@ -1,4 +1,4 @@
-package com.unicom.game.center.db.dao;
+package com.unicom.game.center.utils;
 
 import java.util.Date;
 
@@ -21,7 +21,7 @@ import com.unicom.game.center.utils.DateUtils;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UtilsTest {
 
-	@Value("#{properties['secret.key']}")
+	@Value("#{properties['site.secret.key']}")
 	private String secretKey;
 	
 	@Test
