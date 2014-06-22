@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="sessionid" value="${pageContext.request.requestedSessionId}"/>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -25,11 +27,11 @@
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
     <!--选中状态-->
-    <div class="w_new_011"><a href="${ctx}/index">首页</a></div>
+    <div class="w_new_011"><a href="${ctx}/index;jsessionid=${sessionid}">首页</a></div>
     <!--没有选中-->
-    <div class="w_new_022"><a href="${ctx}/category/list">分类</a></div>
+    <div class="w_new_022"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
     <div class="w_new_03"><a href="#">一周热榜</a></div>
-    <div class="w_new_044"><a href="${ctx}/newGame?pageNum=1">最新</a></div>
+    <div class="w_new_044"><a href="${ctx}/newGame;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 </div>
 
 <div id="content">
