@@ -19,6 +19,7 @@ public class ProductDomain implements Serializable{
 	private String productIcon;
 	private Date dateCreated;
 	
+	
 	@Id
 	@Column(name="product_id")
 	public String getProductId() {
@@ -54,4 +55,5 @@ public class ProductDomain implements Serializable{
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
+		
 }

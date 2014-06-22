@@ -32,7 +32,8 @@ log4j.appender.information.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %-5
         "productId": "",	//游戏的id
 		"productName": "",	//游戏名字
         "productIcon": "",	//游戏图标地址
-		"channelId": ""		//渠道信息
+		"channelId": "",	//渠道信息
+		"sort":""			//广告的排位顺序
     }
 }
 
@@ -42,7 +43,8 @@ log4j.appender.information.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %-5
         "productId": "",	//游戏的id
 		"productName": "",	//游戏名字
         "productIcon": "",	//游戏图标地址
-		"channelId": ""		//渠道信息
+		"channelId": "",	//渠道信息
+		"sort":""			//前30游戏的排位顺序		
     }
 }
 

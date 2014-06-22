@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,7 +18,7 @@ public class ChannelInfoDomain implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int channelId;
 	private String channelName;
-	private int statusId;
+	private StatusMapDomain status;
 	private Date dateCreated;
 	private Date dateModified;
 	
@@ -39,15 +41,16 @@ public class ChannelInfoDomain implements Serializable{
 		this.channelName = channelName;
 	}
 	
-	@Column(name="status_id")
-	public int getStatusId() {
-		return statusId;
+	@ManyToOne
+	@JoinColumn(name = "status_id")
+	public StatusMapDomain getStatus() {
+		return status;
 	}
-	
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
+
+	public void setStatus(StatusMapDomain status) {
+		this.status = status;
 	}
-	
+
 	@Column(name="date_created")
 	public Date getDateCreated() {
 		return dateCreated;

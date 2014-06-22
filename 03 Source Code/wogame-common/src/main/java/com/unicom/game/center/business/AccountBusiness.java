@@ -37,9 +37,9 @@ public class AccountBusiness {
 		int flag = 0;
 		
 		try{
-			String pwd = AESEncryptionHelper.encrypt(password, secretKey);
 			AccountDomain account = accountDao.fetchUserByName(username);
 			if(null != account){
+				String pwd = AESEncryptionHelper.encrypt(password, secretKey);
 				if(!pwd.equals(account.getPassword())){
 					flag = 2;
 				}

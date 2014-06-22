@@ -16,20 +16,20 @@ public class DownloadInfoDomain implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private int channelId;
 	private String productId;
 	private int downloadCount;
 	private Date dateCreated;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
-	public int getId() {
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id", unique = true, nullable = false)
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

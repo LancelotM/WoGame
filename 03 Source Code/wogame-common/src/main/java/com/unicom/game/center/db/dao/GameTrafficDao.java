@@ -3,17 +3,26 @@ package com.unicom.game.center.db.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.GameTrafficDomain;
+import com.unicom.game.center.model.GameInfo;
 
 @Component
 public class GameTrafficDao extends HibernateDao{
 	
+	public void save(GameTrafficDomain gameTraffic){
+		getSession().save(gameTraffic);
+	}
+	
+	public void update(GameTrafficDomain gameTraffic){		
+		getSession().update(gameTraffic);
+	}
+	
 	public GameTrafficDomain getByProductAndChannelAndDate(String productId,int channelId,Date date,boolean flag){
 		StringBuffer sb = new StringBuffer();
-		sb.append("from HotGameTrafficDomain where productId ='");
+		sb.append("from GameTrafficDomain where productId ='");
 		sb.append(productId);
 		sb.append("' and channelId =");
 		sb.append(channelId);
@@ -25,26 +34,33 @@ public class GameTrafficDao extends HibernateDao{
 		GameTrafficDomain hotGameTraffic = (GameTrafficDomain)getSession().
 			createQuery(sb.toString()).uniqueResult();
 		return hotGameTraffic;
-	}
-	
-	public void save(GameTrafficDomain hotGameTraffic){
-		GameTrafficDomain hotGameTrafficDomain = getByProductAndChannelAndDate
-			(hotGameTraffic.getProductId(), hotGameTraffic.getChannelId(),
-					hotGameTraffic.getDateCreated(),hotGameTraffic.getFlag());
-		if(hotGameTrafficDomain == null){
-			getSession().save(hotGameTraffic);
-		}else{
-			hotGameTrafficDomain.setClickThrough(hotGameTrafficDomain.getClickThrough() + 1);
-			getSession().update(hotGameTrafficDomain);
+	}	
+
+
+	public List<GameInfo> fetchGameInfoByDate(String startDate, String endDate, boolean bannerFlag, Integer channelId){	
+		StringBuffer sb = new StringBuffer();
+		sb.append("select traffic.product.productName as name,  traffic.product.productIcon as icon,");
+		sb.append(" traffic.clickThrough as clickThrough, traffic.downloadCount as downloadCount,");
+		sb.append(" traffic.dateCreated as date");
+		sb.append(" from GameTrafficDomain traffic");
+		sb.append(" where traffic.dateCreated >= '");
+		sb.append(startDate);
+		sb.append("' and traffic.dateCreated < '");
+		sb.append(endDate);
+		sb.append("' and traffic.flag = ");
+		sb.append(bannerFlag);
+		
+		if(null != channelId && 0 != channelId.intValue()){
+			sb.append(" and traffic.channelId = ");
+			sb.append(channelId);
 		}
-	}
-	
-	public List getByFlag(boolean flag){
-		StringBuilder hql = new StringBuilder();
-		hql.append("from HotGameTrafficDomain where flag = ");
-		hql.append(flag);
-		Query query = getSession().createQuery(hql.toString());
-		return query.list();
+		
+		sb.append(" order by traffic.sort asc, traffic.dateCreated desc");
+		
+		@SuppressWarnings("unchecked")
+		List<GameInfo> gameList= getSession().createQuery(sb.toString()).setResultTransformer(Transformers.aliasToBean(GameInfo.class)).list();		
+		return gameList;
 	}
 
+	
 }

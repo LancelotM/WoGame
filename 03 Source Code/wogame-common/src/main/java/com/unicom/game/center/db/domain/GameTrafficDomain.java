@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,42 +19,54 @@ public class GameTrafficDomain implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
-	private String productId;
+	private Integer id;
+	private ProductDomain product;
 	private int channelId;
+	private int sort;
 	private int clickThrough;
+	private int downloadCount;
 	private Date dateCreated;
 	private boolean flag;
 	
 	@Id  
-	@GeneratedValue(strategy=GenerationType.AUTO)   
+	@GeneratedValue(strategy=GenerationType.IDENTITY)   
 	@Column(name = "id")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
-	@Column(name="product_id")
-	public String getProductId() {
-		return productId;
+	@ManyToOne
+	@JoinColumn(name = "product_id")	
+	public ProductDomain getProduct() {
+		return product;
 	}
-	
-	public void setProductId(String productId) {
-		this.productId = productId;
+
+	public void setProduct(ProductDomain product) {
+		this.product = product;
 	}
 	
 	@Column(name="channel_id")
 	public int getChannelId() {
 		return channelId;
 	}
-	
+
 	public void setChannelId(int channelId) {
 		this.channelId = channelId;
 	}
 	
+	@Column(name="sort")
+	public int getSort() {
+		return sort;
+	}
+
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
 	@Column(name="click_through")
 	public int getClickThrough() {
 		return clickThrough;
@@ -60,6 +74,15 @@ public class GameTrafficDomain implements Serializable{
 	
 	public void setClickThrough(int clickThrough) {
 		this.clickThrough = clickThrough;
+	}
+
+	@Column(name="download_count")
+	public int getDownloadCount() {
+		return downloadCount;
+	}
+	
+	public void setDownloadCount(int downloadCount) {
+		this.downloadCount = downloadCount;
 	}
 	
 	@Column(name="date_created")

@@ -68,22 +68,16 @@ public class DateUtils {
     /**
      * get privious day's date
      * @param date
+     * @param amount	--amount>0	next day	--amount<0 previousDay
      * @return
      */
-    public static Date getPreviousDay(Date date){
+    public static Date getDayByInterval(Date date, int amount){
     	Calendar calendar = Calendar.getInstance();
     	calendar.setTime(date);
-    	calendar.add(Calendar.DAY_OF_MONTH, -1);
+    	calendar.add(Calendar.DAY_OF_MONTH, amount);
     	return calendar.getTime();
     }
-    
-    public static Date getNextDay(Date date){
-    	Calendar calendar = Calendar.getInstance();
-    	calendar.setTime(date);
-    	calendar.add(Calendar.DAY_OF_MONTH, 1);
-    	return calendar.getTime();
-    }    
-
+      
     public static Date beginOfDate(Date date) {
         if (date != null) {
             Calendar calendar = Calendar.getInstance();
