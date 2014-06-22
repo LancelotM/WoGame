@@ -6,7 +6,7 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
-    <title>排行</title>
+    <title>搜索</title>
     <link href="css/main.css" rel="stylesheet" type="text/css"/>
 </head>
 
@@ -14,8 +14,8 @@
 <!--top-->
 <div class="w-header">
     <div class="w-sousuo_icon"><a href="#">搜索</a></div>
-    <div class="w-sousuo"><a href="#">搜索</a></div>
-    <div class="w_download2"><a href="#">下载</a></div>
+    <div class="w-sousuo"><a href="#">${返回}</a></div>
+    <%--<div class="w_download2"><a href="#">下载</a></div>--%>
 </div>
 <!--分类筛选-->
 <div class="w_search_box">

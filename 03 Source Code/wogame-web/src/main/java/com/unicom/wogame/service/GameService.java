@@ -2,6 +2,7 @@ package com.unicom.wogame.service;
 
 import com.google.common.collect.Maps;
 import com.unicom.wogame.vo.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +17,9 @@ import java.util.Map;
 @Component
 public class GameService {
 
+    @Autowired
+    private ZTEService zteService;
+
     private static final String URL_ROLLING_AD_LIST = "http://wogame.wostore.cn:8080/gameservice/rollingAdList.do?jsondata={jsondata}";
     private static final String URL_RECOMMENDED_LIST = "http://wogame.wostore.cn:8080/gameservice/recommendedList.do?jsondata={jsondata}";
     private static final String URL_WEEK_HOT_DOWNLOAD_LIST = "http://wogame.wostore.cn:8080/gameservice/weekHotDownloadList.do?jsondata={jsondata}";
@@ -25,14 +29,14 @@ public class GameService {
 
     public RollingAdListVo readRollingAdList() {
         Map<String, Object> urlVariables = new HashMap<String, Object>();
-        urlVariables.put("jsondata","{\"navigation\":\"001001\"}");
+        urlVariables.put("jsondata", "{\"navigation\":\"001001\"}");
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
         return restTemplate.getForObject(URL_ROLLING_AD_LIST, RollingAdListVo.class, urlVariables);
     }
 
     public RecommendedListVo readRecommendedList() {
         Map<String, Object> urlVariables = new HashMap<String, Object>();
-        urlVariables.put("jsondata","{\"page_num\":\"1\"}");
+        urlVariables.put("jsondata", "{\"page_num\":\"1\"}");
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
         String responseDataString = (restTemplate.getForObject(URL_RECOMMENDED_LIST, String.class, urlVariables));
         return JsonMapper.nonDefaultMapper().fromJson(responseDataString, RecommendedListVo.class);
@@ -82,5 +86,9 @@ public class GameService {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
         return restTemplate.getForObject(URL_SHOW_CATEGORY, ShowCategoryVo.class, urlVariables);
+    }
+
+    public GameInfoVo readGameInfo(String productId) {
+        return zteService.readProductDetail(productId);
     }
 }

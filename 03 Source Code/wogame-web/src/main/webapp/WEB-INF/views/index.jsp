@@ -20,13 +20,17 @@
 </head>
 
 <body class="ibody_bg">
+<!--top-->
+<div class="w-header">
+    <div class="w_search"><a href="#">搜索</a></div>
+</div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
     <!--选中状态-->
     <div class="w_new_01"><a href="#">首页</a></div>
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list">分类</a></div>
-    <div class="w_new_033"><a href="#">一周热榜</a></div>
+    <div class="w_new_033"><a href="${ctx}/weeklyHot?pageNum=1">一周热榜</a></div>
     <div class="w_new_044"><a href="${ctx}/newGame?pageNum=1">最新</a></div>
 
 </div>
@@ -36,7 +40,6 @@
         <c:forEach items="${adList}" var="item">
             <a><img src="${item.bannerUrl}" width="320" height="160"/></a>
         </c:forEach>
-
 
     </div>
     <div id="mark"></div>
@@ -184,6 +187,21 @@
         </c:if>
     </c:forEach>
 </c:forEach>
+
+<script type="text/javascript">
+
+    $(function () {
+        app.initialize();
+        $("#w_paihangtitle").bind("swipeleft", function () {
+            location.href = "${ctx}/newGame?pageNum=1";
+        });
+        $("#w_paihangtitle").bind("swiperight", function () {
+            location.href = "${ctx}/category/list";
+        });
+
+
+    });
+</script>
 
 </body>
 </html>

@@ -9,8 +9,12 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
-    <title>分类</title>
+    <title>一周热榜</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    <script src="${ctx}/static/js/index.js"></script>
 </head>
 
 <body class="ibody_bg">
@@ -23,24 +27,41 @@
     <!--选中状态-->
     <div class="w_new_011"><a href="${ctx}/index">首页</a></div>
     <!--没有选中-->
-    <div class="w_new_02"><a href="#">分类</a></div>
-    <div class="w_new_033"><a href="${ctx}/weeklyHot?pageNum=1">一周热榜</a></div>
+    <div class="w_new_022"><a href="${ctx}/category/list">分类</a></div>
+    <div class="w_new_03"><a href="#">一周热榜</a></div>
     <div class="w_new_044"><a href="${ctx}/newGame?pageNum=1">最新</a></div>
-
-    <!--<div class="w_new_077"><a href="#">分类</a></div>-->
 </div>
-<!--列表-->
-<c:forEach items="${list}" var="item">
 
-    <a href="${ctx}/category/detail?categoryId=${item.categoryId}&pageNum=1">
-    <div class="w_list_fenlei">
+<div id="content">
+    <!--列表-->
+    <c:forEach items="${list}" var="item">
+        <div class="w_list">
+
             <div class="w_list_img"><img src="${item.iconUrl}" width="48" height="48"/></div>
-            <div class="w_list_title">${item.categoryTitle}</div>
-            <div class="w_list_numm">${item.description}</div>
-        </div>
-    </a>
+            <div class="w_list_title"><a href="#">${item.title}</a></div>
+            <div class="w_list_numm">${item.apkSize / 1000}MB</div>
+            <div class="w_list_download"><a href="#">下载</a></div>
+            <div class="w_list_download_txt"><a href="#">下载</a></div>
 
-</c:forEach>
+
+        </div>
+    </c:forEach>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        app.initialize();
+        $("#w_paihangtitle").bind("swipeleft", function () {
+            location.href = "${ctx}/category/list";
+        });
+        $("#w_paihangtitle").bind("swiperight", function () {
+            location.href = "${ctx}/newGame?pageNum=1";
+        });
+
+
+    });
+</script>
 
 </body>
 </html>

@@ -25,10 +25,10 @@
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
 <!--选中状态-->
-    <div class="w_new_011"><a href="#">首页</a></div>
+    <div class="w_new_011"><a href="${ctx}/index">首页</a></div>
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list">分类</a></div>
-    <div class="w_new_033"><a href="#">一周热榜</a></div>
+    <div class="w_new_033"><a href="${ctx}/weeklyHot?pageNum=1">一周热榜</a></div>
     <div class="w_new_04"><a href="#">最新</a></div>
 </div>
 <!--列表-->
@@ -50,10 +50,7 @@
     $(function () {
         app.initialize();
         $("#w_paihangtitle").bind("swipeleft", function () {
-            location.href = "http://www.163.com";
-        });
-        $("#w_paihangtitle").bind("swiperight", function () {
-            location.href = "http://www.baidu.com";
+            location.href = "${ctx}/weeklyHot?pageNum=1";
         });
 
 
