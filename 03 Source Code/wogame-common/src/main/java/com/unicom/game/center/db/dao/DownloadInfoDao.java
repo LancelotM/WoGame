@@ -1,7 +1,6 @@
 package com.unicom.game.center.db.dao;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -10,6 +9,14 @@ import com.unicom.game.center.db.domain.DownloadInfoDomain;
 @Component
 public class DownloadInfoDao extends HibernateDao{
 	
+	public void save(DownloadInfoDomain downloadInfo){
+		getSession().save(downloadInfo);
+	}
+
+	public void update(DownloadInfoDomain downloadInfo){
+		getSession().update(downloadInfo);
+	}
+
 	public DownloadInfoDomain getByProductAndChannel(String productId,int channelId,Date date){
 		StringBuffer sb = new StringBuffer();
 		sb.append("from DownloadInfoDomain where productId ='");
@@ -21,23 +28,7 @@ public class DownloadInfoDao extends HibernateDao{
 		sb.append("'");
 		
 		DownloadInfoDomain downloadInfo = (DownloadInfoDomain)getSession().createQuery(sb.toString()).uniqueResult();
-		return downloadInfo;
-	}
-	
-	public void save(DownloadInfoDomain downloadInfo){
-		DownloadInfoDomain downloadInfoDomain = getByProductAndChannel(downloadInfo.getProductId(),
-				downloadInfo.getChannelId(),downloadInfo.getDateCreated());
 		
-		if(downloadInfoDomain == null){
-			getSession().save(downloadInfo);
-		}else{
-			downloadInfoDomain.setDownloadCount(downloadInfoDomain.getDownloadCount() + 1);
-			getSession().update(downloadInfoDomain);
-		}
-	}
-	
-	public List getAll(){
-		return getSession().createQuery("from DownloadInfoDomain").list();
-	}
-
+		return downloadInfo;
+	}	
 }

@@ -2,15 +2,11 @@ package com.unicom.game.center.utils;
 
 import java.util.Date;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.unicom.game.center.utils.AESEncryptionHelper;
-import com.unicom.game.center.utils.DateUtils;
 
 /**
  * @author Alex Yin
@@ -25,7 +21,6 @@ public class UtilsTest {
 	private String secretKey;
 	
 	@Test
-	@Ignore
 	public void dateUtilsTest(){
 		Date today = new Date();
 		Date beginDate = DateUtils.beginOfDate(today);
@@ -34,10 +29,10 @@ public class UtilsTest {
 		Date endDate = DateUtils.endOfDate(today);
 		System.out.println(endDate);
 
-		Date previousDate = DateUtils.getPreviousDay(today);
+		Date previousDate = DateUtils.getDayByInterval(today, -1);
 		System.out.println(previousDate);
 		
-		Date nextDate = DateUtils.getNextDay(today);
+		Date nextDate = DateUtils.getDayByInterval(today, 1);
 		System.out.println(nextDate);
 	}
 	

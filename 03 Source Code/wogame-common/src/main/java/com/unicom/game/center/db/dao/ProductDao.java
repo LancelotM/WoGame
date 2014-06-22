@@ -11,8 +11,12 @@ public class ProductDao extends HibernateDao{
 		getSession().save(product);
 	}
 	
-	public ProductDomain getByProductId(int productId){
-		return (ProductDomain)getSession().load(ProductDomain.class, productId);
+	public void update(ProductDomain product){
+		getSession().update(product);
+	}	
+	
+	public ProductDomain getByProductId(String productId){
+		return (ProductDomain)getSession().get(ProductDomain.class, productId);
 	}
-
+	
 }

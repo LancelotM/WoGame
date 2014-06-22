@@ -1,6 +1,5 @@
 package com.unicom.game.center.db.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ public class AccountDao extends HibernateDao{
 	}
 	
 	public void update(AccountDomain account){
-		account.setDateModified(new Date());
 		getSession().update(account);
 	}
 	
