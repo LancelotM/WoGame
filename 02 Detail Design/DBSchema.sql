@@ -170,7 +170,7 @@ create table wogamecenter.package_info(
 	reserve4 varchar(200),
 	reserve5 varchar(200),
 	date_modified TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
-	date_created TIMESTAMP not null DEFAULT '2014-06-20 00:00:00'
+	date_created TIMESTAMP not null DEFAULT '2014-06-20 00:00:00',
 	primary key(channel_id,app_id)	
 )engine=innodb default charset=utf8;
 
