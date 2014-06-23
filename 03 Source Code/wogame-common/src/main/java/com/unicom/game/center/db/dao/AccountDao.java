@@ -2,6 +2,7 @@ package com.unicom.game.center.db.dao;
 
 import java.util.List;
 
+import org.hibernate.type.Type;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.AccountDomain;
@@ -39,6 +40,11 @@ public class AccountDao extends HibernateDao{
 									.uniqueResult();
 		
 		return (null != account) ? account : null;
-	}	
+	}
+
+    public AccountDomain fetchUserByNameAndPassword(String username,String password){
+        String hql = "from AccountDomain ac where ac.accountName = "+username+" and ac.password ="+password;
+        return  (AccountDomain)getSession().createQuery(hql).uniqueResult();
+    }
 	
 }

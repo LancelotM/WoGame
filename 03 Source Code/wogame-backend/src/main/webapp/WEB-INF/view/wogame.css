@@ -97,21 +97,21 @@ a{
 	font-weight:bold;
 }
 .title_td{
-	padding:0px;
-	width:100px;
-	color:#ffc821;
-	font-size:25px;
-	font-weight:bold;
-	text-align:left;
-				
+    padding:0px;
+    width:100px;
+    color:#ffc821;
+    font-size:25px;
+    font-weight:bold;
+    text-align:left;
+
 }
 .enter_td{
-	width:330px;
-	text-align:center;
+    width:330px;
+    text-align:center;
 }
 .check_box{
-	text-align:left;
-	vertical-align:top;
+    text-align:left;
+    vertical-align:top;
 }
 /*日志管理*/
 .main_block{
@@ -150,7 +150,7 @@ a{
 }
 .info span{
 	/*display:black;
-	float:left;*/
+	float:left; */
 	font-weight:bold;
 	height:100%;
 	margin-right:20px;

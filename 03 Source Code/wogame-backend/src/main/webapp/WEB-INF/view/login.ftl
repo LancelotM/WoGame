@@ -4,20 +4,19 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=GBK" />
         <title>登陆</title>
         <link type="text/css" rel="stylesheet" media="all" href="wogame.css"/>
-		
 	</head>
 	<body>
 		<div class="login_img">
 			<div class="login_box">
-				<form action="" method="post">
+				<form action="" name="form" method="post">
 					<table class="login_table">
 						<tr>
-							<td class="title_td">用户名</td>
-							<td class="enter_td"><input type="text" /></td>
+							<td  class="title_td">用户名</td>
+							<td  class="enter_td"><input name="username" onblur="checkBlank(this.id);" type="text" /></td>
 						</tr>
 						<tr>
 							<td class="title_td">密码</td>
-							<td class="enter_td"><input type="password" /></td>
+							<td class="enter_td"><input name="password" onblur="checkBlank(this.id);" type="password" /></td>
 						</tr>
 						<tr>
 							<td></td>
