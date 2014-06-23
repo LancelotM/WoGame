@@ -12,4 +12,6 @@ public class Constant
 	public static final int ACTIVE_STATUS_ID = 90;
 	public static final int IN_ACTIVE_STATUS_ID = 99;
     
+	
+	public static final String WOGAME_CHANNEL_CODE = "18589";
 }

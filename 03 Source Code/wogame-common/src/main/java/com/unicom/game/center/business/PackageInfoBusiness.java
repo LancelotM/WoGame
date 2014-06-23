@@ -1,11 +1,15 @@
 package com.unicom.game.center.business;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.PackageInfoDao;
-import com.unicom.game.center.db.domain.PackageInfoDomain;
+import com.unicom.game.center.model.PackageInfo;
+import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 
 /**
@@ -30,10 +34,17 @@ public class PackageInfoBusiness {
 		String channelCode = null;
 		
 		try{
-			PackageInfoDomain packageInfo = packageInfoDao.getById(channelId, productId);
-			if(null != packageInfo && null != packageInfo.getApkOnlineTime()){
-				if(Integer.parseInt(packageInfo.getApkOnlineTime()) >= Integer.parseInt(onlinetime)){
-
+			List<PackageInfo> packageInfoList = packageInfoDao.getDLPackageInfo(channelId, productId);
+			if(null != packageInfoList && !packageInfoList.isEmpty()){
+				for(PackageInfo packageInfo : packageInfoList){
+					if((packageInfo.getChannelCode().equals(channelId)) &&
+						(DateUtils.compareDate(packageInfo.getApkOnlineTime(),onlinetime) >= 0)){
+						channelCode = channelId;
+						break;
+					}else if((packageInfo.getChannelCode().equals(Constant.WOGAME_CHANNEL_CODE)) &&
+						(DateUtils.compareDate(packageInfo.getApkOnlineTime(),onlinetime) >= 0)){
+						channelCode = Constant.WOGAME_CHANNEL_CODE;
+					}
 				}
 			}
 		}catch(Exception ex){

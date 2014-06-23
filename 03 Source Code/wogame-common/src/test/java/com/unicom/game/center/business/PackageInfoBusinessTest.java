@@ -19,7 +19,7 @@ public class PackageInfoBusinessTest {
 	
 	@Test
 	public void testCheckPackageExist(){
-		String channelCode = packageInfo.checkPackageExist("123", "1","20140430193859");
+		String channelCode = packageInfo.checkPackageExist("18144", "1","20140630193859");
 		System.out.println(channelCode);
 	}
 }
