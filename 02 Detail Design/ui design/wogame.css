@@ -229,9 +229,18 @@ a{
 	width:273px;
 	border-radius:5px;
 }
+.detail_tb{
+	table-layout: fixed;
+}
 .detail_tb tr{
 	border:1px solid #e3e3e3;
 	height:34px;
+}
+.detail_tb td{
+	white-space: nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+
 }
 .operate_td{
 	padding:0px;
@@ -311,6 +320,10 @@ a{
 .cityTab label{
 	color:#999999;
 	font-size:9px;
+}
+.cityTab:hover{
+	text-decoration:underline;
+	color:#f60;
 }
 .myCity {
     background: none repeat scroll 0 0 #FFFFFF;
