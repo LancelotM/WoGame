@@ -362,24 +362,40 @@ a{
 	font-size:20px;
 	border-radius:5px;
 }
-.pages{
-	width:965px;
-	height:40px;
-	line-height:23px;
-	text-align:right;
+
+/*分页部分*/
+#pages
+{
+    width: 965px;
+    text-align: right;
+    height: 22px;
+    line-height: 22px;
+    margin-top: 22px;
 }
-.pages a{
-	display:block;
-	float:right;
-	width:20px;
-	height:20px;
-	text-align:center;
-	line-height:20px;
-	border:1px solid #ed6e02;
-	color:#ed6e02;
-	margin-left:10px;
+#pages a, #pages a.current_page:hover
+{
+	border: #ed6e02 solid 1px;
+    padding: 2px 7px;
 	border-radius:3px;
 }
+#pages a:hover
+{
+    padding: 2.5px 7.5px;
+	background: #cddde4;
+    border: #ed6e02 solid 1px;
+    color: #067db5;
+	border-radius:3px;
+}
+#pages a
+{
+    color: #ed6e02;
+}
+#pages a.current_page
+{
+    background: #ed6e02;
+    color: #ffffff;
+}
+
 
 
 
