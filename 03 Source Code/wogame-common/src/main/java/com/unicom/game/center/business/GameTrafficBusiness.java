@@ -33,11 +33,13 @@ public class GameTrafficBusiness {
 	public List<GameInfo> fetchBannerInfo(int channelId, int type){
 		List<GameInfo>  gameList = null;
 		
+		// TODO : use mysql function to implement 
 		try{
 			if(1 == type){
 				Date today = new Date();
-				String endDate = DateUtils.formatDateToString(today, "yyyy-MM-dd");
-				Date previousDate = DateUtils.getDayByInterval(today, -4);
+				Date yesterday = DateUtils.getDayByInterval(today, -1);
+				String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
+				Date previousDate = DateUtils.getDayByInterval(today, -5);
 				String startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
 				gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, false, 18082);				
 			}else{

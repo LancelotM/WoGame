@@ -23,18 +23,23 @@ public class PackageInfoBusiness {
 	 * 
 	 * @param channelId
 	 * @param productId
+	 * @param onlinetime
 	 * @return
 	 */
-	public boolean checkPackageExist(String channelId,String productId){
-		boolean flag = false;
+	public String checkPackageExist(String channelId,String productId, String onlinetime){
+		String channelCode = null;
 		
 		try{
 			PackageInfoDomain packageInfo = packageInfoDao.getById(channelId, productId);
-			flag = (null != packageInfo) ? true : false;
+			if(null != packageInfo && null != packageInfo.getApkOnlineTime()){
+				if(Integer.parseInt(packageInfo.getApkOnlineTime()) >= Integer.parseInt(onlinetime)){
+
+				}
+			}
 		}catch(Exception ex){
 			Logging.logError("Error occur in checkPackageExist", ex);
 		}
-		return flag;
+		return channelCode;
 	}
 	
 	/**

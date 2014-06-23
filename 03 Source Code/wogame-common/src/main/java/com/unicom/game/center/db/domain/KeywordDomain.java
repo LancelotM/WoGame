@@ -16,20 +16,20 @@ public class KeywordDomain implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private Integer id;
 	private String keyword;
 	private int count;
 	private Date dateCreated;
 	private Date dateModified;
 	
 	@Id  
-	@GeneratedValue(strategy=GenerationType.AUTO)   
+	@GeneratedValue(strategy=GenerationType.IDENTITY)   
 	@Column(name = "id")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
