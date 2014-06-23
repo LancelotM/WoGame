@@ -30,7 +30,7 @@ public class PackageInfoDomain implements Serializable{
 	private String appName;
 	
 	@Column(name="update_type")
-	private int updateType;
+	private Integer updateType;
 	
 	@Column(name="soft_id")
 	private String softId;
@@ -42,7 +42,7 @@ public class PackageInfoDomain implements Serializable{
 	private String originalFilePath;
 	
 	@Column(name="apk_file_path")
-	private int apkFilePath;
+	private String apkFilePath;
 	
 	@Column(name="apk_online_time")
 	private String apkOnlineTime;
@@ -51,13 +51,13 @@ public class PackageInfoDomain implements Serializable{
 	private String status;
 	
 	@Column(name="reserve1")
-	private int reserve1;
+	private String reserve1;
 	
 	@Column(name="reserve2")
 	private String reserve2;
 	
 	@Column(name="reserve3")
-	private int reserve3;
+	private String reserve3;
 	
 	@Column(name="reserve4")
 	private String reserve4;
@@ -95,11 +95,11 @@ public class PackageInfoDomain implements Serializable{
 		this.appName = appName;
 	}
 
-	public int getUpdateType() {
+	public Integer getUpdateType() {
 		return updateType;
 	}
 
-	public void setUpdateType(int updateType) {
+	public void setUpdateType(Integer updateType) {
 		this.updateType = updateType;
 	}
 
@@ -127,11 +127,11 @@ public class PackageInfoDomain implements Serializable{
 		this.originalFilePath = originalFilePath;
 	}
 
-	public int getApkFilePath() {
+	public String getApkFilePath() {
 		return apkFilePath;
 	}
 
-	public void setApkFilePath(int apkFilePath) {
+	public void setApkFilePath(String apkFilePath) {
 		this.apkFilePath = apkFilePath;
 	}
 
@@ -151,11 +151,11 @@ public class PackageInfoDomain implements Serializable{
 		this.status = status;
 	}
 
-	public int getReserve1() {
+	public String getReserve1() {
 		return reserve1;
 	}
 
-	public void setReserve1(int reserve1) {
+	public void setReserve1(String reserve1) {
 		this.reserve1 = reserve1;
 	}
 
@@ -167,11 +167,11 @@ public class PackageInfoDomain implements Serializable{
 		this.reserve2 = reserve2;
 	}
 
-	public int getReserve3() {
+	public String getReserve3() {
 		return reserve3;
 	}
 
-	public void setReserve3(int reserve3) {
+	public void setReserve3(String reserve3) {
 		this.reserve3 = reserve3;
 	}
 

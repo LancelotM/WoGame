@@ -16,7 +16,7 @@ public class PackageInfoDao extends HibernateDao{
 		PackageInfoKey key = new PackageInfoKey();
 		key.setChannelId(channelId);
 		key.setAppId(productId);
-		return (PackageInfoDomain)getSession().load(PackageInfoDomain.class, key);
+		return (PackageInfoDomain)getSession().get(PackageInfoDomain.class, key);
 	}
 
 }

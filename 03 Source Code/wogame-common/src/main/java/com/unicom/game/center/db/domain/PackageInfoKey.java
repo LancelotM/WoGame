@@ -2,6 +2,9 @@ package com.unicom.game.center.db.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class PackageInfoKey implements Serializable{
 	
 	private static final long serialVersionUID = -2127956450923443152L;
