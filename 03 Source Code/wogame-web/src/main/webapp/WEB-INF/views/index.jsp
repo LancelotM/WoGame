@@ -151,7 +151,6 @@
 </script>
 <!--列表-->
 <c:forEach items="${recommendedList}" var="item">
-    <a id="download" href="http://www.baidu.com">ttt</a>
     <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx">
         <c:if test="${item.adType == 4}">
             <div class="w_houlist">
@@ -177,7 +176,7 @@
                         <div class="w_img_bg"><a
                                 href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}"><img
                                 width="100" height="100"
-                                                               src="${item.apps[idx.index+1].iconUrl}"></a></div>
+                                src="${item.apps[idx.index+1].iconUrl}"></a></div>
                         <div class="w_img_count">
                             <h3>
                                 <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">${item.apps[idx.index+1].appName}</a>
