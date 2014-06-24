@@ -15,25 +15,25 @@ public class LoginInfo implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int newUser;
+	private long newUser;
 	
-	private int oldUser;
+	private long oldUser;
 	
 	private Date date;
 
-	public int getNewUser() {
+	public long getNewUser() {
 		return newUser;
 	}
 
-	public void setNewUser(int newUser) {
+	public void setNewUser(long newUser) {
 		this.newUser = newUser;
 	}
 
-	public int getOldUser() {
+	public long getOldUser() {
 		return oldUser;
 	}
 
-	public void setOldUser(int oldUser) {
+	public void setOldUser(long oldUser) {
 		this.oldUser = oldUser;
 	}
 

@@ -23,6 +23,10 @@ public class UtilsTest {
 	@Test
 	public void dateUtilsTest(){
 		Date today = new Date();
+		
+		String date = DateUtils.formatDateToString(today, "MMM dd");
+		System.out.println(date);
+		
 		Date beginDate = DateUtils.beginOfDate(today);
 		System.out.println(beginDate);
 		
