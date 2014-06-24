@@ -18,7 +18,7 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w_search"><a href="${ctx}/search">搜索</a></div>
+    <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">

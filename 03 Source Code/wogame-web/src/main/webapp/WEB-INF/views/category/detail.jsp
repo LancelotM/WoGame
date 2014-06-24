@@ -20,7 +20,7 @@
 <div class="w-header">
     <div class="w-sousuo_icon"><a href="javascript:back(-1);"></a></div>
     <div class="w-sousuo"><a href="javascript:back(-1);">${categoryName}</a></div>
-    <div class="w_search"><a href="${ctx}/search">搜索</a></div>
+    <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 </div>
 
 <!--列表-->

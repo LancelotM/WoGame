@@ -12,7 +12,11 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
     <title>搜索</title>
-    <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    <script src="${ctx}/static/js/index.js"></script>
 </head>
 
 <body class="ibody_bg">
@@ -39,7 +43,7 @@
 
 <script type="text/javascript">
     function search() {
-        var keyword = $("#txtSearch").text();
+        var keyword = $("#txtSearch").val();
         location.href = "${ctx}/search/keyword;jsessionid=${sessionid}?keyword=" + keyword;
     }
 </script>

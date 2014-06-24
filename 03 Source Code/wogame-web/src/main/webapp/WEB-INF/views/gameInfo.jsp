@@ -24,7 +24,7 @@
 <div class="w-header">
     <div class="w-sousuo_icon"><a href="javascript:back(-1);"></a></div>
     <div class="w-sousuo"><a href="javascript:back(-1);">${info.name}</a></div>
-    <div class="w_search2"><a href="${ctx}/search">搜索</a></div>
+    <div class="w_search2"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 
 </div>
 <!--分类筛选-->
