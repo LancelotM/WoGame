@@ -1,10 +1,10 @@
-<#include "/common/template.ftl">
+﻿<#include "/common/template.ftl">
 <@template csses=["index"] jses=["index"]>
 <#assign basePath=attrs.contextPath>
 
-		<div class="login_img">
-			<div class="login_box">
-				<form action="/login" method="post">
+		<div class="login_img" style="background-image: url(${basePath}/static/images/login_bg.png);">
+			<div class="login_box" style="background-image: url(${basePath}/static/images/login_blackframe.png);">
+				<form action="/login" name="form" method="post">
 					<table class="login_table">
 						<tr>
 							<td class="title_td">用户名</td>
@@ -18,14 +18,14 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td class="check_box">
-								<div class="login_checkbox"><img src="${basePath}/static/images/check_in.png" id="checkbox_img"/></div>&nbsp;
+							<td class="check_box" style="background-image:url(${basePath}/static/images/check_back.png);">
+								<div class="login_checkbox" style="background-image:url(${basePath}/static/images/check_back.png);"><img src="${basePath}/static/images/check_in.png" id="checkbox_img"/></div>&nbsp;
 								<label class="label_info">记住我的登录账号</label>
 							</td>
 							<td><td>
 						</tr>
 					</table>
-					<a id="submit" class="submit_button" href="javascript:void(0)">
+					<a id="submit" class="submit_button" style="background-image:url(${basePath}/static/images/login_btn.png);" href="javascript:void(0)" onclick="checkForm('form');">
 						登录
 					</a>
 				</form>

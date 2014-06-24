@@ -30,7 +30,7 @@
 		</property>
 	</bean>
     
-	<bean id="exceptionHandler" class="com.unicom.game.center.exception.resolver.ExceptionResolver"/> 
+	
 	
 
 </beans>

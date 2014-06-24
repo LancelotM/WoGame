@@ -1,4 +1,4 @@
-/* 全局样式 */
+﻿/* 全局样式 */
 html, body, div, p, ul, li,form, input, select, button, textarea, iframe, table, th, td ,image
 {
     margin: 0px;
@@ -31,7 +31,7 @@ a{
 	width:1280px;
 	height:800px;
 	margin:0px auto;
-	background-image: url(images/login_bg.png);
+	/*background-image: url(${basePath}/static/images/login_bg.png);*/
     background-position: bottom center;
 	background-color:blue;
     background-repeat: no-repeat;
@@ -40,7 +40,7 @@ a{
 	width:524px;
 	height:394px;
 	margin:107px auto;
-	background-image: url(images/login_blackframe.png);
+	/*background-image: url(${basePath}/static/images/login_blackframe.png);*/
 	background-position: center top;
     background-repeat: no-repeat;
 	position:relative;
@@ -66,7 +66,7 @@ a{
 	float:left;
 	width:22px;
 	height:22px;
-	background-image:url(images/check_back.png);
+	/*background-image:url(${basePath}/static/images/check_back.png);*/
 	background-repeat:no-repeat;
 	background-position:left center;
 	position:relative;
@@ -89,7 +89,7 @@ a{
 	left:358px;
 	width:135px;
 	height:134px;
-	background-image:url(images/login_btn.png);
+	/*background-image:url(images/login_btn.png);*/
 	background-repeat:no-repeat;
 	line-height:135px;
 	font-size:30px;
@@ -334,7 +334,7 @@ a{
 	color:#ec6e07;
 }
 .add_backround{
-	background:url(images/leftmenu_select.png) no-repeat scroll 0 center;
+	background:url(${basePath}/static/images/leftmenu_select.png) no-repeat scroll 0 center;
 }
 .margin_top45{
 	display:block;
@@ -403,18 +403,6 @@ a{
 	border-radius:5px;
 }
 
-.link_class,.link_address{
-	padding:0px;
-	text-align:left;
-	vertical-align:bottom;
-}
-.link_class{
-	width:180px;
-}
-.link_address{
-	border-bottom:1px solid #ffc821;
-}
-
 /*分页部分*/
 #pages
 {
@@ -447,3 +435,10 @@ a{
     background: #ed6e02;
     color: #ffffff;
 }
+
+
+
+
+
+
+
