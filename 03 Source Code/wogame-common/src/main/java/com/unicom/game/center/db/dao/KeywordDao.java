@@ -26,12 +26,16 @@ public class KeywordDao extends HibernateDao{
 	
 	public List<KeywordInfo> getTop50Keyword(){
 		StringBuffer sb = new StringBuffer();
-		sb.append("select top 50 key.keyword as keyword, key.count as count");
+		sb.append("select key.keyword as keyword, key.count as count");
 		sb.append(" from KeywordDomain key");
 		sb.append(" order by key.count desc");
 		
 		@SuppressWarnings("unchecked")
-		List<KeywordInfo> keywords= getSession().createQuery(sb.toString()).setResultTransformer(Transformers.aliasToBean(KeywordInfo.class)).list();		
+		List<KeywordInfo> keywords= getSession().createQuery(sb.toString())
+										.setFirstResult(0)
+										.setMaxResults(50)
+										.setResultTransformer(Transformers.aliasToBean(KeywordInfo.class))
+										.list();		
 		return keywords;
 	}
 

@@ -1,14 +1,13 @@
 package com.unicom.game.center.controller;
 
-import com.unicom.game.center.db.dao.AccountDao;
-import com.unicom.game.center.db.domain.AccountDomain;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import com.unicom.game.center.business.AccountBusiness;
 
 /**
  * @author Alex Yin
@@ -19,26 +18,27 @@ import java.util.Map;
 @Controller
 public class HomeController
 {
-    @Resource
-    public AccountDao dao;
+    @Autowired
+    public AccountBusiness accountService;
 
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
 	public String index() {
 		return "index";
 	}
-
-    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
-    public String login(String username, String password){
-        Map<String,String> loginInfo = new HashMap<String, String>();
-        if(dao.fetchUserByName(username) != null){
-            AccountDomain account = dao.fetchUserByNameAndPassword(username,password);
-            if(account != null){
-                return "createManager";
-            }
-            return null;
-        }
-        return null;
-
-    }
-	
+    
+    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    public ModelAndView login(
+    		@RequestParam(value = "username", required = true) String username,
+    		@RequestParam(value = "password", required = true) String password){
+    	ModelAndView model = new ModelAndView();
+    	int flag = accountService.login(username, password);
+    	if(flag == 0){
+    		model.setViewName("siteManager");
+    	}else if(flag == 1){
+    		model.addObject("loginInfo", "用户不存在！");
+    	}else if(flag == 2){
+    		model.addObject("loginInfo", "密码错误！");
+    	}
+    	return model;
+    }	
 }

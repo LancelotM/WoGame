@@ -1,8 +1,7 @@
-function checkBlank(id){
+function checkBlank(id,checkInfo){
      var value = document.getElementById(id).value;
      if(value == "" || value == null){
-         alert("内容不能为空！");
-         return false;
+		document.getElementById(checkInfo).innerHTML = "内容不能为空!";
      }
 }
 function checkForm(form){

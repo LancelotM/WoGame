@@ -1,30 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=GBK" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>建站管理</title>
         <link type="text/css" rel="stylesheet" media="all" href="wogame.css"/>
-		<script type="text/javascript" src="js/styleControl.js"></script>
-		<style type="text/css">
-			.link_class,.link_address{
-				padding:0px;
-				text-align:left;
-				vertical-align:bottom;
-			}
-			.link_class{
-				width:180px;
-			}
-			.link_address{
-				border-bottom:1px solid #ffc821;
-			}
-		</style>
+		<script type="text/javascript" src="${basePath}/static/js/styleControl.js"></script>
     </head>
     <body>
 		<div class="main_block">
 			<div class="header">
 				<img class="logo" src="images/logo.png" alt=""/>
 				<div class="info">
-					<span>${roleDesc}，你好</span>
+					<span>管理员，你好</span>
 					<input type="button" class="exite_button" value="安全登出"/>
 				</div>
 			</div>
@@ -107,11 +94,11 @@
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">站点链接</td>
-									<td class="link_address" colspan="2">${siteLink}</td>
+									<td class="link_address" colspan="2">${url}</td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">后台管理链接</td>
-									<td class="link_address" colspan="2" >${managerLink}</td>
+									<td class="link_address" colspan="2" >${url}</td>
 								</tr>
 							</table>
 						</div>
@@ -128,8 +115,16 @@
 									<td>建站时间</td>
 									<td class="operate_td">站点操作</td>
 								</tr>
-                                <#list createSiteInfo as siteInfo>
-
+                                <#list channelInfos as channelInfo>
+									<tr>
+										<td>${channelInfo.channelName}</td>
+										<td>${}</td>
+										<td></td>
+										<td>2014/06/22</td>
+										<td class="operate_td">
+											<a href="#"><img src="images/detail.png" alt=""/></a>
+										</td>
+									</tr>
                                 </#list>
 								<tr>
 									<td>上海联通</td>
