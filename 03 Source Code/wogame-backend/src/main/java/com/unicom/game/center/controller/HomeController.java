@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import com.unicom.game.center.business.*;
 
 /**
  * @author Alex Yin
@@ -20,25 +21,31 @@ import java.util.Map;
 public class HomeController
 {
     @Resource
-    public AccountDao dao;
+    public AccountBusiness accountService;
+    
+    @Resource
+    public ChannelInfoBusiness channelInfoService;
 
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
 	public String index() {
 		return "index";
 	}
-/*
+    
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
-    public String login(String username, String password){
-        Map<String,String> loginInfo = new HashMap<String, String>();
-        if(dao.fetchUserByName(username) != null){
-            AccountDomain account = dao.fetchUserByNameAndPassword(username,password);
-            if(account != null){
-                return "createManager";
-            }
-            return null;
-        }
-        return null;
-
-    }
-*/	
+    public ModelAndView login(String username, String password,HttpServletRequest req){
+    	ModelAndView mad = new ModelAndView();
+    	int flag = accountService.login(username, password);
+    	if(flag == 0){
+    		String url = req.getContextPath();
+    		List<ChannelInfoDomain> channelInfos =  channelInfoService.fetchActiveChannelInfos();
+    		mad.addObject("channelInfos", channelInfos);
+    		mad.addObject("url", url);
+    		mad.setViewName("createManager");
+    	}else if(flag == 1){
+    		mad.addObject("loginInfo", "用户不存在！");
+    	}else if(flag == 2){
+    		mad.addObject("loginInfo", "密码错误！");
+    	}
+    	return mad;
+    }	
 }

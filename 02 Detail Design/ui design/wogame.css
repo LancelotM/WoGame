@@ -46,6 +46,7 @@ a{
 	position:relative;
 }
 .login_table{
+	table-layout:fixed;
 	text-align:center;
 	width:430px;
 	position:absolute;
@@ -57,7 +58,7 @@ a{
 }
 .login_table input{
 	height:40px;
-	width:330px;
+	width:250px;
 	border:0.5px solid #ffc821;
 	border-radius:10px;
 }
@@ -98,7 +99,7 @@ a{
 }
 .title_td{
 	padding:0px;
-	width:100px;
+	width:90px;
 	color:#ffc821;
 	font-size:25px;
 	font-weight:bold;
@@ -106,12 +107,21 @@ a{
 				
 }
 .enter_td{
-	width:330px;
+	width:250px;
 	text-align:center;
 }
 .check_box{
 	text-align:left;
 	vertical-align:top;
+}
+.error_info{
+	text-align:left;
+	color: #f60;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    padding-left: 22px;
+    width: 90px;
 }
 /*日志管理*/
 .main_block{
