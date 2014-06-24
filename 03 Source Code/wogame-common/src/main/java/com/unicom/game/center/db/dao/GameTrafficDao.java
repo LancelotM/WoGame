@@ -45,7 +45,7 @@ public class GameTrafficDao extends HibernateDao{
 		sb.append(" from GameTrafficDomain traffic");
 		sb.append(" where traffic.dateCreated >= '");
 		sb.append(startDate);
-		sb.append("' and traffic.dateCreated < '");
+		sb.append("' and traffic.dateCreated <= '");
 		sb.append(endDate);
 		sb.append("' and traffic.flag = ");
 		sb.append(bannerFlag);

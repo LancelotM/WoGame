@@ -19,7 +19,7 @@ public class PackageInfoBusinessTest {
 	
 	@Test
 	public void testCheckPackageExist(){
-		boolean flag = packageInfo.checkPackageExist("123", "1");
-		System.out.println(flag);
+		String channelCode = packageInfo.checkPackageExist("18144", "1","20140630193859");
+		System.out.println(channelCode);
 	}
 }

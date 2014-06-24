@@ -1,11 +1,15 @@
 package com.unicom.game.center.business;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.PackageInfoDao;
-import com.unicom.game.center.db.domain.PackageInfoDomain;
+import com.unicom.game.center.model.PackageInfo;
+import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 
 /**
@@ -23,18 +27,30 @@ public class PackageInfoBusiness {
 	 * 
 	 * @param channelId
 	 * @param productId
+	 * @param onlinetime
 	 * @return
 	 */
-	public boolean checkPackageExist(String channelId,String productId){
-		boolean flag = false;
+	public String checkPackageExist(String channelId,String productId, String onlinetime){
+		String channelCode = null;
 		
 		try{
-			PackageInfoDomain packageInfo = packageInfoDao.getById(channelId, productId);
-			flag = (null != packageInfo) ? true : false;
+			List<PackageInfo> packageInfoList = packageInfoDao.getDLPackageInfo(channelId, productId);
+			if(null != packageInfoList && !packageInfoList.isEmpty()){
+				for(PackageInfo packageInfo : packageInfoList){
+					if((packageInfo.getChannelCode().equals(channelId)) &&
+						(DateUtils.compareDate(packageInfo.getApkOnlineTime(),onlinetime) >= 0)){
+						channelCode = channelId;
+						break;
+					}else if((packageInfo.getChannelCode().equals(Constant.WOGAME_CHANNEL_CODE)) &&
+						(DateUtils.compareDate(packageInfo.getApkOnlineTime(),onlinetime) >= 0)){
+						channelCode = Constant.WOGAME_CHANNEL_CODE;
+					}
+				}
+			}
 		}catch(Exception ex){
 			Logging.logError("Error occur in checkPackageExist", ex);
 		}
-		return flag;
+		return channelCode;
 	}
 	
 	/**
