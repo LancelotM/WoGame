@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>建站管理</title>
         <link type="text/css" rel="stylesheet" media="all" href="wogame.css"/>
-		<script type="text/javascript" src="js/styleControl.js"></script>
+		<script type="text/javascript" src="${basePath}/static/js/styleControl.js"></script>
     </head>
     <body>
 		<div class="main_block">

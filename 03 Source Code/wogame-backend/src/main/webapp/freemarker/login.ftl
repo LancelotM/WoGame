@@ -4,7 +4,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>登陆</title>
         <link type="text/css" rel="stylesheet" media="all" href="wogame.css"/>
-		<script type="text/javascript" src="js/vertify.js"></script>
+		<script type="text/javascript" src="${basePath}/static/js/vertify.js"></script>
 	</head>
 	<body>
 		<div class="login_img">
