@@ -1,15 +1,18 @@
 package com.unicom.game.center.controller;
 
-import com.unicom.game.center.db.dao.AccountDao;
-import com.unicom.game.center.db.domain.AccountDomain;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
-import com.unicom.game.center.business.*;
+import com.unicom.game.center.business.AccountBusiness;
+import com.unicom.game.center.business.ChannelInfoBusiness;
+import com.unicom.game.center.db.domain.ChannelInfoDomain;
 
 /**
  * @author Alex Yin
@@ -20,10 +23,10 @@ import com.unicom.game.center.business.*;
 @Controller
 public class HomeController
 {
-    @Resource
+    @Autowired
     public AccountBusiness accountService;
     
-    @Resource
+    @Autowired
     public ChannelInfoBusiness channelInfoService;
 
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
@@ -33,19 +36,19 @@ public class HomeController
     
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView login(String username, String password,HttpServletRequest req){
-    	ModelAndView mad = new ModelAndView();
+    	ModelAndView model = new ModelAndView();
     	int flag = accountService.login(username, password);
     	if(flag == 0){
     		String url = req.getContextPath();
     		List<ChannelInfoDomain> channelInfos =  channelInfoService.fetchActiveChannelInfos();
-    		mad.addObject("channelInfos", channelInfos);
-    		mad.addObject("url", url);
-    		mad.setViewName("createManager");
+    		model.addObject("channelInfos", channelInfos);
+    		model.addObject("url", url);
+    		model.setViewName("createManager");
     	}else if(flag == 1){
-    		mad.addObject("loginInfo", "用户不存在！");
+    		model.addObject("loginInfo", "用户不存在！");
     	}else if(flag == 2){
-    		mad.addObject("loginInfo", "密码错误！");
+    		model.addObject("loginInfo", "密码错误！");
     	}
-    	return mad;
+    	return model;
     }	
 }
