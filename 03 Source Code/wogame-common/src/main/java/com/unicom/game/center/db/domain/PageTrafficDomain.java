@@ -20,20 +20,20 @@ import javax.persistence.Table;
 public class PageTrafficDomain implements Serializable {
 
 	private static final long serialVersionUID = 8201851094435250244L;
-	private int id;
+	private Integer id;
 	private int pageId;
 	private int channelId;
 	private int clickThrough;
 	private Date dateCreated;
 	
 	@Id  
-	@GeneratedValue(strategy=GenerationType.AUTO)   
+	@GeneratedValue(strategy=GenerationType.IDENTITY)   
 	@Column(name = "id")
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

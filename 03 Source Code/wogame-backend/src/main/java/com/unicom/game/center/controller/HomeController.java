@@ -26,7 +26,7 @@ public class HomeController
 	public String index() {
 		return "index";
 	}
-
+/*
     @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
     public String login(String username, String password){
         Map<String,String> loginInfo = new HashMap<String, String>();
@@ -40,5 +40,5 @@ public class HomeController
         return null;
 
     }
-	
+*/	
 }
