@@ -144,6 +144,10 @@ public class ZTEService {
     }
 
     private HttpHeaders getHttpHeaders() {
+        return getHttpHeaders(true);
+    }
+
+    private HttpHeaders getHttpHeaders(boolean isContainChannel) {
         HttpHeaders headers = new HttpHeaders();
 //        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 //        headers.setContentLength(57);
@@ -163,7 +167,9 @@ public class ZTEService {
         headers.set("newclient", "1");
         headers.set("phoneAccessMode", "3");
         headers.set("usertype", "3");
-        headers.set("clientchannelflag", "8");
+        if (isContainChannel) {
+            headers.set("clientchannelflag", "8");
+        }
         return headers;
     }
 
@@ -233,7 +239,7 @@ public class ZTEService {
 
         urlVariables.put("productid", productId);
 
-        HttpHeaders headers = getHttpHeaders();
+        HttpHeaders headers = getHttpHeaders(false);
 
 
         HttpEntity<String> entity = new HttpEntity<String>("", headers);

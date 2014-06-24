@@ -22,6 +22,8 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
+    <div class="w-sousuo_icon"><a href="javascript:back(-1);"></a></div>
+    <div class="w-sousuo"><a href="javascript:back(-1);">${categoryName}</a></div>
     <div class="w-sousuo_icon"><a href="＃">搜索</a></div>
 <%--<div class="w_download2"><a href="#">下载</a></div>--%>
 </div>

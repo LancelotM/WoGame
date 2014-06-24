@@ -44,7 +44,7 @@
             <div class="w_list_title"><a
                     href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.productId}">${item.title}</a></div>
             <div class="w_list_numm">${item.apkSize / 1000}MB</div>
-            <div class="w_list_download"><a href="#">下载</a></div>
+            <div class="w_list_download"><a href="javascript:download('${item.productId}');">下载</a></div>
             <div class="w_list_download_txt"><a href="javascript:download('${item.productId}');">下载</a></div>
 
 
