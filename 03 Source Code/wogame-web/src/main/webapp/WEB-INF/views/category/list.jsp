@@ -18,16 +18,16 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w_search"><a href="#">搜索</a></div>
+    <div class="w_search"><a href="${ctx}/search">搜索</a></div>
 </div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
     <!--选中状态-->
-    <div class="w_new_011"><a href="${ctx}/index">首页</a></div>
+    <div class="w_new_011"><a href="${ctx}/main;jsessionid=${sessionid}">首页</a></div>
     <!--没有选中-->
     <div class="w_new_02"><a href="#">分类</a></div>
-    <div class="w_new_033"><a href="${ctx}/weeklyHot?pageNum=1">一周热榜</a></div>
-    <div class="w_new_044"><a href="${ctx}/newGame?pageNum=1">最新</a></div>
+    <div class="w_new_033"><a href="${ctx}/weeklyHot;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
+    <div class="w_new_044"><a href="${ctx}/newGame;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 
     <!--<div class="w_new_077"><a href="#">分类</a></div>-->
 </div>
@@ -35,7 +35,7 @@
 <c:forEach items="${list}" var="item">
 
     <a href="${ctx}/category/detail;jsessionid=${sessionid}?categoryId=${item.categoryId}&pageNum=1">
-    <div class="w_list_fenlei">
+        <div class="w_list_fenlei">
             <div class="w_list_img"><img src="${item.iconUrl}" width="48" height="48"/></div>
             <div class="w_list_title">${item.categoryTitle}</div>
             <div class="w_list_numm">${item.description}</div>

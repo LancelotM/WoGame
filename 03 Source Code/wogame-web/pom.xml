@@ -64,6 +64,11 @@
     <!-- 依赖项定义 -->
     <dependencies>
 
+        <dependency>
+            <groupId>com.unicom</groupId>
+            <artifactId>wogame-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <!-- SPRINGSIDE -->
         <dependency>
             <groupId>org.springside</groupId>
@@ -121,9 +126,9 @@
             <version>2.6.6</version>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.hibernate</groupId>-->
-            <!--<artifactId>hibernate-ehcache</artifactId>-->
-            <!--<version>4.2.8.Final</version>-->
+        <!--<groupId>org.hibernate</groupId>-->
+        <!--<artifactId>hibernate-ehcache</artifactId>-->
+        <!--<version>4.2.8.Final</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>commons-codec</groupId>
@@ -308,7 +313,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
 
 
         <!-- jetty -->

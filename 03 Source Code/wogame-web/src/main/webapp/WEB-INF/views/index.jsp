@@ -24,7 +24,7 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w_search"><a href="#">搜索</a></div>
+    <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
@@ -151,13 +151,18 @@
 </script>
 <!--列表-->
 <c:forEach items="${recommendedList}" var="item">
+    <a id="download" href="http://www.baidu.com">ttt</a>
     <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx">
         <c:if test="${item.adType == 4}">
             <div class="w_houlist">
                 <div class="w_houlist_l">
-                    <div class="w_img_bg"><a href="#"><img width="100" height="100" src="${appItem.iconUrl}"></a></div>
+                    <div class="w_img_bg"><a
+                            href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}"><img
+                            width="100" height="100" src="${appItem.iconUrl}"></a></div>
                     <div class="w_img_count">
-                        <h3><a href="#">${appItem.appName}</a></h3>
+                        <h3>
+                            <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">${appItem.appName}</a>
+                        </h3>
 
                         <div class="isio">
                             <div class="w_start_0${appItem.rate}${appItem.rate}">一星</div>
@@ -165,14 +170,18 @@
                         </div>
                         <h5>${appItem.apkSize / 1000}MB</h5>
                     </div>
-                    <div class="w_img_xz"><a href="#">下载</a></div>
+                    <div class="w_img_xz"><a href="javascript:download('${appItem.productId}');">下载</a></div>
                 </div>
                 <c:if test="${idx.index+1 < fn:length(item.apps)}">
                     <div class="w_houlist_r">
-                        <div class="w_img_bg"><a href="#"><img width="100" height="100"
+                        <div class="w_img_bg"><a
+                                href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}"><img
+                                width="100" height="100"
                                                                src="${item.apps[idx.index+1].iconUrl}"></a></div>
                         <div class="w_img_count">
-                            <h3><a href="#">${item.apps[idx.index+1].appName}</a></h3>
+                            <h3>
+                                <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">${item.apps[idx.index+1].appName}</a>
+                            </h3>
 
                             <div class="isio">
                                 <div class="w_start_0${item.apps[idx.index+1].rate}${item.apps[idx.index+1].rate}">二星
@@ -181,11 +190,28 @@
                             </div>
                             <h5>${item.apps[idx.index+1].apkSize / 1000}MB</h5>
                         </div>
-                        <div class="w_img_xz"><a href="#">下载</a></div>
+                        <div class="w_img_xz"><a
+                                href="javascript:download('${item.apps[idx.index+1].productId}');">下载</a></div>
 
                     </div>
                 </c:if>
             </div>
+        </c:if>
+        <c:if test="${item.adType == 1}">
+            <div class="w_houlist">
+                <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">
+                    <img width="100%" height="100" src="${appItem.iconUrl}">
+                </a>
+            </div>
+
+            <c:if test="${idx.index+1 < fn:length(item.apps)}">
+                <div class="w_houlist">
+                    <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
+                        <img width="100%" height="100" src="${item.apps[idx.index+1].iconUrl}">
+                    </a>
+                </div>
+            </c:if>
+
         </c:if>
     </c:forEach>
 </c:forEach>
@@ -203,6 +229,18 @@
 
 
     });
+
+    function download(id) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+            if (data.downloadUrl == "") {
+                alert(data.description);
+            } else {
+                download_file(data.downloadUrl);
+            }
+        })
+    }
+
+
 </script>
 
 </body>

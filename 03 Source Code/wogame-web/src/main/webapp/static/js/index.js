@@ -71,6 +71,19 @@ function checkConnection() {
     }
 }
 
+function download_file(url) {
+
+    if (typeof(download_file.iframe) == "undefined") {
+        var iframe = document.createElement("iframe");
+        download_file.iframe = iframe;
+        document.body.appendChild(download_file.iframe);
+    }
+
+    download_file.iframe.src = url;
+
+    download_file.iframe.style.display = "none";
+
+}
 
 
 

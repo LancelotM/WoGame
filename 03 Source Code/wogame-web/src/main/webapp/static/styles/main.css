@@ -570,7 +570,7 @@ a.w_list_fenlei:hover {
     height: 25px;
     width: 22px;
     position: absolute;
-    right: 62px;
+    right: 40px;
     top: 10px;
     background-position: -211px -3px;
 }
@@ -859,14 +859,25 @@ dl.w_dowload dt {
     color: #5A5A5A;
 }
 
+.youxi_desc_height_min {
+    height: 75px;
+}
+
 .youxi_lr_04 {
     margin: 0px 6px 0px 6px;
     height: 30px;
     position: relative;
     overflow: hidden;
-    background: url(../images/xiaosanjiao_bottom.png) #B2B2B2 center 8px no-repeat;
     border-bottom: #939393 3px solid;
     color: #5A5A5A;
+}
+
+.youxi_lr_04_bottom {
+    background: url(../images/xiaosanjiao_bottom.png) #B2B2B2 center 8px no-repeat;
+}
+
+.youxi_lr_04_up {
+    background: url(../images/xiaosanjiao_up.png) #B2B2B2 center 8px no-repeat;
 }
 
 .youxi_lr_04 a {

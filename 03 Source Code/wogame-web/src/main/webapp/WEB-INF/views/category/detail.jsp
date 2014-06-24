@@ -18,14 +18,16 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w_search"><a href="#">搜索</a></div>
+    <div class="w-sousuo_icon"><a href="javascript:back(-1);"></a></div>
+    <div class="w-sousuo"><a href="javascript:back(-1);">${categoryName}</a></div>
+    <div class="w_search"><a href="${ctx}/search">搜索</a></div>
 </div>
 
 <!--列表-->
 <c:forEach items="${list}" var="item">
 
     <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.productId}">
-    <div class="w_list_fenlei">
+        <div class="w_list_fenlei">
             <div class="w_list_img"><img src="${item.iconUrl}" width="48" height="48"/></div>
             <div class="w_list_title">${item.appName}</div>
             <div class="w_list_numm">${item.description}</div>

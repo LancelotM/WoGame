@@ -1,4 +1,4 @@
-import com.unicom.wogame.vo.RecommendedListVo;
+import com.unicom.game.center.vo.RecommendedListVo;
 import org.junit.Test;
 import org.springside.modules.mapper.JsonMapper;
 

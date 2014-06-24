@@ -1,8 +1,9 @@
-import com.unicom.wogame.service.GameService;
-import com.unicom.wogame.service.ZTEService;
-import com.unicom.wogame.util.HttpClientUtil;
-import com.unicom.wogame.vo.GameInfoVo;
-import com.unicom.wogame.vo.SearchResultVo;
+import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.service.ZTEService;
+import com.unicom.game.center.util.HttpClientUtil;
+import com.unicom.game.center.vo.GameDownloadVo;
+import com.unicom.game.center.vo.GameInfoVo;
+import com.unicom.game.center.vo.SearchResultVo;
 import org.apache.http.NameValuePair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -112,20 +113,25 @@ public class TestZteIf extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void searchGame() {
-        SearchResultVo resultVo = zteService.readSearchResult("萝卜", 1);
+        SearchResultVo resultVo = zteService.readSearchResult("星星", 1);
         System.out.println(resultVo.getReturnRows());
+    }
+
+    @Test
+    public void downloadGame() {
+        GameDownloadVo resultVo = zteService.readProductDownloadUrl("193215");
+        System.out.println(resultVo.getDownloadUrl());
     }
 
     @Test
     public void searchGame2() {
 
-        String url = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid={serviceid}&keyword={keyword}&pagenum={pageNum}" +
-                "&tablename=search&count=20&sorttype=4&sortpath=2&area=1111&clientflag=0";
+        String url = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=searchallgameapp&keyword=萝卜&pagenum=1&tablename=search&count=20";
         Map<String, Object> urlVariables = new HashMap<String, Object>();
 
-        urlVariables.put("serviceid", "search");
-        urlVariables.put("keyword", "萝卜");
-        urlVariables.put("pageNum", 1);
+//        urlVariables.put("serviceid", "search");
+//        urlVariables.put("keyword", "萝卜");
+//        urlVariables.put("pageNum", 1);
 
         HttpHeaders headers = new HttpHeaders();
 //        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -153,7 +159,7 @@ public class TestZteIf extends AbstractJUnit4SpringContextTests {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(url, HttpMethod.POST, entity, byte[].class, urlVariables);
+        ResponseEntity<byte[]> response = restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class, urlVariables);
 
         System.out.println("-----" + new String(response.getBody()));
 

@@ -13,13 +13,18 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
     <title>${title}</title>
-    <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    <script src="${ctx}/static/js/index.js"></script>
 </head>
 
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w_search2"><a href="#">搜索</a></div>
+    <div class="w-sousuo_icon"><a href="javascript:back(-1);"></a></div>
+    <div class="w-sousuo"><a href="javascript:back(-1);">${info.name}</a></div>
+    <div class="w_search2"><a href="${ctx}/search">搜索</a></div>
 
 </div>
 <!--分类筛选-->
@@ -37,7 +42,7 @@
     <div class="w_img_txt">
         <ul>
             <li>类型：${info.catagory}</li>
-            <li>大小：${info.size / 1000}MB</li>
+            <li>大小：${info.size}MB</li>
             <li>时间：${info.appDate}</li>
             <li>版本：${info.versionName}</li>
         </ul>
@@ -46,13 +51,13 @@
 <div class="youxi_lr_02">
     <div class="youxi_lr_02_title">介绍</div>
 </div>
-<div class="youxi_lr_03">
-    ${inf.description}
+<div class="youxi_lr_03 youxi_desc_height_min">
+    ${info.desc}
 </div>
-<div class="youxi_lr_04"><a href="#">更多</a></div>
+<div class="youxi_lr_04 youxi_lr_04_bottom"><a href="javascript:void(0);" onclick="toggleShowDesc();">更多</a></div>
 <div class="youxi_lr_05">
     <div class="youxi_lr_06">
-        <c:forEach var="screenshot" items="${item.screenshots}">
+        <c:forEach var="screenshot" items="${info.screenshots}">
             <img src="${screenshot}" width="108" height="156"/>
         </c:forEach>
     </div>
@@ -61,8 +66,36 @@
 <!--列表-->
 <div class="w_footer_dow">
     <dl class="w_dowload">
-        <dt>下载</dt>
+        <a href="javascript:download('${info.productId}')">
+            <dt>下载</dt>
+        </a>
     </dl>
 </div>
+
+<script type="text/javascript">
+    var descEle = $(".youxi_lr_03");
+    var descImg = $(".youxi_lr_04");
+    function toggleShowDesc() {
+
+        if (descEle.hasClass("youxi_desc_height_min")) {
+            descEle.removeClass("youxi_desc_height_min");
+            descImg.removeClass("youxi_lr_04_bottom").addClass("youxi_lr_04_up");
+        } else {
+            descEle.addClass("youxi_desc_height_min");
+            descImg.removeClass("youxi_lr_04_up").addClass("youxi_lr_04_bottom");
+        }
+
+    }
+
+    function download(id) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+            if (data.downloadUrl == "") {
+                alert(data.description);
+            } else {
+                download_file(data.downloadUrl);
+            }
+        })
+    }
+</script>
 </body>
 </html>

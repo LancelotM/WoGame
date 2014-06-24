@@ -18,9 +18,8 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w-sousuo_icon"><a href="javascript:void(0)" onclick="search();">搜索</a></div>
-    <div class="w-sousuo"><a href="#">${返回}</a></div>
-    <%--<div class="w_download2"><a href="#">下载</a></div>--%>
+    <div class="w-sousuo_icon"><a href="＃">搜索</a></div>
+<%--<div class="w_download2"><a href="#">下载</a></div>--%>
 </div>
 <!--分类筛选-->
 <div class="w_search_box">
@@ -28,10 +27,10 @@
         <div class="w_in_01"><a href="#">关闭</a></div>
         <div class="w_in_02"></div>
         <input name="txtSearch" id="txtSearch" type="text" class="w_input"/></div>
-    <input name="" type="button" class="w_buttion" value="搜索"/>
+    <input name="" type="button" class="w_buttion" value="搜索" onclick="search()"/>
 </div>
 
-<c:forEach items="list" var="item">
+<c:forEach items="${list}" var="item">
     <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.id}">
         <div class="w_list_youxi">${item.name}</div>
     </a>
@@ -41,7 +40,7 @@
 <script type="text/javascript">
     function search() {
         var keyword = $("#txtSearch").text();
-        Location.href = "${ctx}/search;jsessionid=${sessionid}?keyword=" + keyword;
+        location.href = "${ctx}/search/keyword;jsessionid=${sessionid}?keyword=" + keyword;
     }
 </script>
 

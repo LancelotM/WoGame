@@ -22,12 +22,12 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w_search"><a href="#">搜索</a></div>
+    <div class="w_search"><a href="${ctx}/search">搜索</a></div>
 </div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
     <!--选中状态-->
-    <div class="w_new_011"><a href="${ctx}/index;jsessionid=${sessionid}">首页</a></div>
+    <div class="w_new_011"><a href="${ctx}/main;jsessionid=${sessionid}">首页</a></div>
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
     <div class="w_new_03"><a href="#">一周热榜</a></div>
@@ -39,11 +39,13 @@
     <c:forEach items="${list}" var="item">
         <div class="w_list">
 
-            <div class="w_list_img"><img src="${item.iconUrl}" width="48" height="48"/></div>
-            <div class="w_list_title"><a href="#">${item.title}</a></div>
+            <div class="w_list_img"><a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.productId}"><img
+                    src="${item.iconUrl}" width="48" height="48"/></a></div>
+            <div class="w_list_title"><a
+                    href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.productId}">${item.title}</a></div>
             <div class="w_list_numm">${item.apkSize / 1000}MB</div>
             <div class="w_list_download"><a href="#">下载</a></div>
-            <div class="w_list_download_txt"><a href="#">下载</a></div>
+            <div class="w_list_download_txt"><a href="javascript:download('${item.productId}');">下载</a></div>
 
 
         </div>
@@ -63,6 +65,16 @@
 
 
     });
+
+    function download(id) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+            if (data.downloadUrl == "") {
+                alert(data.description);
+            } else {
+                download_file(data.downloadUrl);
+            }
+        })
+    }
 </script>
 
 </body>

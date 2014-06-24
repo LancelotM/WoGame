@@ -1,5 +1,6 @@
-import com.unicom.wogame.service.GameService;
-import com.unicom.wogame.vo.*;
+
+import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.vo.*;
 import org.apache.http.MethodNotSupportedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
