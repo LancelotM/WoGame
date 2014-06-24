@@ -37,8 +37,8 @@ public class ChannelInfoBusinessTest {
 	
 	@Test
 	public void testStartChannel(){
-		boolean flag = channel.startChannel(18129);
-		System.out.println(flag);
+		ChannelInfoDomain channelInfo = channel.startChannel(18129);
+		System.out.println(channelInfo);
 	}
 	
 	@Test

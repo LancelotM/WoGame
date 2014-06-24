@@ -18,9 +18,12 @@ public class ChannelInfoDomain implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int channelId;
 	private String channelName;
+	private String wapURL;
+	private String logURL;
 	private StatusMapDomain status;
 	private Date dateCreated;
 	private Date dateModified;
+	
 	
 	@Id
 	@Column(name="channel_id")
@@ -41,6 +44,24 @@ public class ChannelInfoDomain implements Serializable{
 		this.channelName = channelName;
 	}
 	
+	@Column(name="wap_url")
+	public String getWapURL() {
+		return wapURL;
+	}
+
+	public void setWapURL(String wapURL) {
+		this.wapURL = wapURL;
+	}
+
+	@Column(name="log_url")
+	public String getLogURL() {
+		return logURL;
+	}
+
+	public void setLogURL(String logURL) {
+		this.logURL = logURL;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "status_id")
 	public StatusMapDomain getStatus() {
