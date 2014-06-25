@@ -57,7 +57,7 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
 
     <aop:config>
-        <aop:pointcut id="allManagerMethod" expression="execution (* com.unicom.game.center.persistence.db.dao.*.*(..))" />
+        <aop:pointcut id="allManagerMethod" expression="execution (* com.unicom.game.center.db.dao.*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
     </aop:config>	
 

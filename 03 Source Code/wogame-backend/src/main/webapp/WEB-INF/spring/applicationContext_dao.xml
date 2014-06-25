@@ -21,16 +21,10 @@
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${dataSource.driverClassName}">
-		</property>
-
-		<property name="url" value="${dataSource.url}">
-		</property>
+		<property name="driverClassName" value="${dataSource.driverClassName}"></property>
+		<property name="url" value="${dataSource.url}"></property>
 		<property name="username" value="${dataSource.username}"></property>
 		<property name="password" value="${dataSource.password}"></property>
-
-
-
 	</bean>
 
 	<bean id="sessionFactory"
@@ -38,12 +32,7 @@
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
-
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
-            </props>
-        </property>
+       
         <property name="configLocation">
 			<value>/WEB-INF/spring/hibernate.cfg.xml
 			</value>
@@ -64,7 +53,7 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
 
     <aop:config>
-        <aop:pointcut id="allManagerMethod" expression="execution (* com.unicom.game.center.persistence.db.dao.*.*(..))" />
+        <aop:pointcut id="allManagerMethod" expression="execution (* com.unicom.game.center.db.dao.*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
     </aop:config>
 

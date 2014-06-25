@@ -34,7 +34,7 @@ public class HomeController
 
         int flag = account.login(username, password);
     	if(flag == 0){
-    		model.setViewName("siteManager");
+    		model.setViewName("site");
     	}else if(flag == 1){
     		model.addObject("loginInfo", "用户不存在！");
     	}else if(flag == 2){
