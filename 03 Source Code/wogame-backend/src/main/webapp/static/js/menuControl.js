@@ -13,3 +13,14 @@ function show_hidden(id){
         obj.style.display='block';
     }
 }
+function switch_className(id){
+    var obj = document.getElementById(id);
+    if(obj.className == "checked"){
+        obj.className = "unchecked";
+        obj.style.display='none';
+    }else if(obj.className == "unchecked"){
+        obj.className = "checked";
+        obj.src="${basePath}/static/images/check_in.png";
+    }
+
+}

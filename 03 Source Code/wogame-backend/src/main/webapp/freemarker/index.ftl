@@ -2,7 +2,7 @@
 <@template csses=["index"] jses=["index"]>
 <#assign basePath=attrs.contextPath>
 
-		<div class="login_img" style="background-image: url(${basePath}/static/images/login_bg.png);">
+		<div class="login_img" style="background:url(${basePath}/static/images/login_bg.png)  no-repeat center bottom;">
 			<div class="login_box" style="background-image: url(${basePath}/static/images/login_blackframe.png);">
 				<form action="${basePath}/login" id="form" method="post">
 					<table class="login_table">
@@ -19,10 +19,12 @@
 						<tr>
 							<td></td>
 							<td class="check_box">
-								<div class="login_checkbox" style="background-image:url(${basePath}/static/images/check_back.png);"><img src="${basePath}/static/images/check_in.png" id="checkbox_img"/></div>&nbsp;
+								<div class="login_checkbox" style="background-image:url(${basePath}/static/images/check_back.png);" onclick="switch_className('checkbox_img')";>
+                                    <img id="checkbox_img" src="${basePath}/static/images/check_in.png" class="checked"/>
+                                </div>&nbsp;
 								<label class="label_info">记住我的登录账号</label>
 							</td>
-							<td><td>
+							<td></td>
 						</tr>
 					</table>
 					<a id="submit" class="submit_button" style="background-image:url(${basePath}/static/images/login_btn.png);" href="javascript:;" onclick="checkForm();">
