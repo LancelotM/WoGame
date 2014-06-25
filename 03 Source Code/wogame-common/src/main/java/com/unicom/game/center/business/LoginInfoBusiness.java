@@ -72,7 +72,13 @@ public class LoginInfoBusiness {
 		List<LoginInfo> loginInfoList = null;
 		
 		try{
+			Date today = new Date();
+			Date yesterday = DateUtils.getDayByInterval(today, -1);
+			String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
+			String startDate = DateUtils.getMonthFirstByInterval(today, -11);
 			
+			loginInfoList = userCountDao.fetchLoginInfoByMonth(startDate, endDate, channelId);
+	
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchLoginInfoByMonth", ex);
 		}
