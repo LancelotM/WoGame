@@ -88,11 +88,11 @@
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">站点链接</td>
-									<td class="link_address" colspan="2">${channelInfoDomain.wapURL}</td>
+									<td class="link_address" colspan="2"></td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">后台管理链接</td>
-									<td class="link_address" colspan="2" >${channelInfoDomain.logURL}</td>
+									<td class="link_address" colspan="2" ></td>
 								</tr>
 							</table>
 						</div>
@@ -109,18 +109,19 @@
 									<td>建站时间</td>
 									<td class="operate_td">站点操作</td>
 								</tr>
-                                <#list channelInfos as channelInfo>
-									<tr>
-										<td>${channelInfo.channelName}</td>
-										<td>${channelInfo.wapURL}</td>
-										<td>${channelInfo.logURL}</td>
-										<td>${channelInfo.dateCreated}</td>
-										<td class="operate_td">
-											<a href="#"><img src="${basePath}/static/images/detail.png" alt=""/></a>
-										</td>
-									</tr>
-                                </#list>
-
+								<#if channelInfos?exists>
+	                                <#list channelInfos as channelInfo>
+										<tr>
+											<td>${channelInfo.channelName!}</td>
+											<td>${channelInfo.wapURL!}</td>
+											<td>${channelInfo.logURL!}</td>
+											<td>${channelInfo.dateCreated!}</td>
+											<td class="operate_td">
+												<a href="#"><img src="${basePath}/static/images/detail.png" alt=""/></a>
+											</td>
+										</tr>
+	                                </#list>
+								</#if>
 							</table>
 						</div>
 					</div>
