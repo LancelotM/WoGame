@@ -19,7 +19,7 @@ import com.unicom.game.center.business.AccountBusiness;
 public class HomeController
 {
     @Autowired
-    public AccountBusiness accountService;
+    private AccountBusiness account;
 
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
 	public String index() {
@@ -31,7 +31,8 @@ public class HomeController
     		@RequestParam(value = "username", required = true) String username,
     		@RequestParam(value = "password", required = true) String password){
     	ModelAndView model = new ModelAndView();
-    	int flag = accountService.login(username, password);
+
+        int flag = account.login(username, password);
     	if(flag == 0){
     		model.setViewName("siteManager");
     	}else if(flag == 1){

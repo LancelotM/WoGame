@@ -38,7 +38,7 @@
 							<table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
 									<tr class="first_tr">
 									<td style="color:#ed6d02">
-										${city}
+										北京联通
 										<a href="javascript:void(0)" class="cityTab" onmouseover="show_hidden('province_div');">
 											[ <b></b>切换地区<label>▼</label>]
 										</a>
@@ -94,11 +94,11 @@
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">站点链接</td>
-									<td class="link_address" colspan="2">${url}</td>
+									<td class="link_address" colspan="2">${channelInfoDomain.wapURL}</td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">后台管理链接</td>
-									<td class="link_address" colspan="2" >${url}</td>
+									<td class="link_address" colspan="2" >${channelInfoDomain.logURL}</td>
 								</tr>
 							</table>
 						</div>
@@ -118,41 +118,41 @@
                                 <#list channelInfos as channelInfo>
 									<tr>
 										<td>${channelInfo.channelName}</td>
-										<td>${}</td>
-										<td></td>
-										<td>2014/06/22</td>
+										<td>${channelInfo.wapURL}</td>
+										<td>${channelInfo.logURL}</td>
+										<td>${channelInfo.dateCreated}</td>
 										<td class="operate_td">
 											<a href="#"><img src="images/detail.png" alt=""/></a>
 										</td>
 									</tr>
                                 </#list>
-								<tr>
-									<td>上海联通</td>
-									<td>http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
-									<td>http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>
-									<td>2014/06/22</td>
-									<td class="operate_td">
-										<a href="#"><img src="images/detail.png" alt=""/></a>
-									</td>
-								</tr>
-								<tr>
-									<td>浙江联通</td>
-									<td>http://xxx</td>
-									<td>http://xxx</td>
-									<td>2014/06/22</td>
-									<td class="operate_td">
-										<a href="#"><img src="images/detail.png" alt=""/></a>
-									</td>
-								</tr>
-								<tr>
-									<td>江苏联通</td>
-									<td>http://xxx</td>
-									<td>http://xxx</td>
-									<td>2014/06/22</td>
-									<td class="operate_td">
-										<a href="#"><img src="images/detail.png" alt=""/></a>
-									</td>
-								</tr>
+								<#--<tr>-->
+									<#--<td>上海联通</td>-->
+									<#--<td>http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>-->
+									<#--<td>http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</td>-->
+									<#--<td>2014/06/22</td>-->
+									<#--<td class="operate_td">-->
+										<#--<a href="#"><img src="images/detail.png" alt=""/></a>-->
+									<#--</td>-->
+								<#--</tr>-->
+								<#--<tr>-->
+									<#--<td>浙江联通</td>-->
+									<#--<td>http://xxx</td>-->
+									<#--<td>http://xxx</td>-->
+									<#--<td>2014/06/22</td>-->
+									<#--<td class="operate_td">-->
+										<#--<a href="#"><img src="images/detail.png" alt=""/></a>-->
+									<#--</td>-->
+								<#--</tr>-->
+								<#--<tr>-->
+									<#--<td>江苏联通</td>-->
+									<#--<td>http://xxx</td>-->
+									<#--<td>http://xxx</td>-->
+									<#--<td>2014/06/22</td>-->
+									<#--<td class="operate_td">-->
+										<#--<a href="#"><img src="images/detail.png" alt=""/></a>-->
+									<#--</td>-->
+								<#--</tr>-->
 							</table>
 						</div>
 					</div>

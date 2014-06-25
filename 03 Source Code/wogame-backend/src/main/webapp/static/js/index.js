@@ -4,9 +4,11 @@ function checkBlank(id,checkInfo){
 		document.getElementById(checkInfo).innerHTML = "内容不能为空!";
      }
 }
-function checkForm(form){
-    if(form.username.value != "" && form.username.value != null && form.password.value != "" && form.password.value != null){
-         form.submit();
+function checkForm(){
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    if(username != "" && username != null && password != "" && password != null){
+         document.getElementById('form').submit();
     }
 
 }
