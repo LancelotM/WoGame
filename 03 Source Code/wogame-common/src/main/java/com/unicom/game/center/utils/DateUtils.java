@@ -69,7 +69,7 @@ public class DateUtils {
     /**
      * get privious day's date
      * @param date
-     * @param amount	--amount>0	next day	--amount<0 previousDay
+     * @param amount	--amount>0	next day	--amount<0 previous day
      * @return
      */
     public static Date getDayByInterval(Date date, int amount){
@@ -77,6 +77,25 @@ public class DateUtils {
     	calendar.setTime(date);
     	calendar.add(Calendar.DAY_OF_MONTH, amount);
     	return calendar.getTime();
+    }
+    
+    /**
+     * get first day of previous month
+     * @param date
+     * @param amount	--amount>0	next month	--amount<0 previous month
+     * @return
+     */
+    public static String getMonthFirstByInterval(Date date, int amount){
+        String str = "";       
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");           
+       
+        Calendar calendar = Calendar.getInstance();  
+        calendar.setTime(date);
+        calendar.set(Calendar.DATE,1);
+        calendar.add(Calendar.MONTH,amount);
+
+        str=sdf.format(calendar.getTime());       
+        return str;    	
     }
       
     public static Date beginOfDate(Date date) {

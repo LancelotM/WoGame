@@ -397,6 +397,15 @@ a.bai14zt:hover {
     height: 20px;
     line-height: 20px;
     color: #5A5A5A;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 70%;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 .w_list_download {

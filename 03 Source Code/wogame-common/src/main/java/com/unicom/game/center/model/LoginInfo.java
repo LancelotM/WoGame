@@ -1,7 +1,6 @@
 package com.unicom.game.center.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author Alex Yin
@@ -15,33 +14,33 @@ public class LoginInfo implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private int newUser;
+	private String newUser;
 	
-	private int oldUser;
+	private String oldUser;
 	
-	private Date date;
+	private String date;
 
-	public int getNewUser() {
+	public String getNewUser() {
 		return newUser;
 	}
 
-	public void setNewUser(int newUser) {
+	public void setNewUser(String newUser) {
 		this.newUser = newUser;
 	}
 
-	public int getOldUser() {
+	public String getOldUser() {
 		return oldUser;
 	}
 
-	public void setOldUser(int oldUser) {
+	public void setOldUser(String oldUser) {
 		this.oldUser = oldUser;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}	
 
