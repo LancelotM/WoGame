@@ -1,9 +1,7 @@
 package com.unicom.game.center.db.dao;
 
 import java.util.Date;
-import java.util.List;
 
-import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.PageTrafficDomain;
@@ -15,6 +13,14 @@ import com.unicom.game.center.db.domain.PageTrafficDomain;
 
 @Component
 public class PageTrafficDao extends HibernateDao{
+
+	public void save(PageTrafficDomain pageTraffic){
+		getSession().save(pageTraffic);
+	}
+	
+	public void update(PageTrafficDomain pageTraffic){
+		getSession().update(pageTraffic);
+	}
 	
 	public PageTrafficDomain getByPageAndChannel(int pageId,int channelId,Date date){
 		StringBuffer sb = new StringBuffer();
@@ -27,28 +33,7 @@ public class PageTrafficDao extends HibernateDao{
 		sb.append("'");
 		PageTrafficDomain pageTraffic = (PageTrafficDomain)getSession().createQuery(sb.toString()).uniqueResult();
 		return pageTraffic;
-	}
-	
-	
-	public void save(PageTrafficDomain pageTraffic){
-		PageTrafficDomain pageTrafficDomain = getByPageAndChannel(pageTraffic.getPageId(), 
-				pageTraffic.getChannelId(),pageTraffic.getDateCreated());
-		if(pageTrafficDomain == null){
-			getSession().save(pageTraffic);
-		}else{
-			pageTrafficDomain.setClickThrough(pageTrafficDomain.getClickThrough() + 1);
-			getSession().update(pageTrafficDomain);
-		}
-	}
-	
-	public List getAllByPage(int page,int rowsPerPage){
-		
-		String hql = "from PageTrafficDomain";
-		int startRows = (page - 1) * rowsPerPage + 1;
-		Query query = getSession().createQuery(hql);
-		query.setFirstResult(startRows);
-		query.setMaxResults(rowsPerPage);
-		return query.list();
-	}
+	}	
+
 
 }
