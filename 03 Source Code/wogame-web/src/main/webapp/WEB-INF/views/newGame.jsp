@@ -13,41 +13,99 @@
     <meta content="false" id="twcClient" name="twcClient">
     <title>最新</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <script src="${ctx}/static/js/index.js"></script>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 </head>
 
-<body class="ibody_bg">
 <!--top-->
 <div class="w-header">
     <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
-<!--选中状态-->
+    <!--选中状态-->
     <div class="w_new_011"><a href="${ctx}/main;jsessionid=${sessionid}">首页</a></div>
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
-    <div class="w_new_033"><a href="${ctx}/weeklyHot;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
+    <div class="w_new_033"><a href="${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
     <div class="w_new_04"><a href="#">最新</a></div>
 </div>
 <!--列表-->
-<c:forEach items="${list}" var="item">
-    <div class="w_list">
+<div id="wrapper">
+    <div id="scroller">
+        <div id="pullDown">
+            <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
+        </div>
+        <div id="list">
 
-        <div class="w_list_img"><a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.id}"><img
-                src="${item.icon}" width="48" height="48"/></a></div>
-        <div class="w_list_title"><a
-                href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.id}">${item.name}</a></div>
-        <div class="w_list_numm">${item.sizeinfo}</div>
-        <div class="w_list_download"><a href="#">下载</a></div>
-        <div class="w_list_download_txt"><a href="javascript:download('${item.id}')">下载</a></div>
-
-
+        </div>
+        <div id="pullUp">
+            <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
+        </div>
     </div>
-</c:forEach>
+</div>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript">
+
+    var myScroll,
+            pullDownEl, pullDownOffset,
+            pullUpEl, pullUpOffset,
+            generatedCount = 0;
+    var categoryId = $("#categoryId").val();
+    pageNum = 1;
+    var urlBase = '${ctx}/gameInfo;jsessionid=${sessionid}?productId=';
+    var el = $('#list');
+    el.empty();
+
+    function ajaxGetData(pPageNum, callback) {
+        $.getJSON("${ctx}/newGame/ajaxList", {"pageNum": pPageNum}, function (data) {
+            if (data.length != 0) {
+
+                if (pPageNum <= 1) {
+                    el.empty();
+                }
+
+                $.each(data, function (index, entry) {
+
+                    var stringBuffer = [];
+
+
+                    stringBuffer.push('<div class="w_list">');
+                    stringBuffer.push('<div class="w_list_img">');
+                    stringBuffer.push('<a href="' + urlBase + entry.id + '">');
+                    stringBuffer.push('<img src="' + entry.icon + '" width="48" height="48"/></a></div>');
+                    stringBuffer.push('<div class="w_list_title">');
+                    stringBuffer.push('<a href="' + urlBase + entry.id + '">' + entry.name + '</a>');
+                    stringBuffer.push('</div>');
+                    stringBuffer.push('<div class="w_list_numm">' + entry.sizeinfo + '</div>');
+                    stringBuffer.push('<div class="w_list_download">');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.id + '\')">下载</a>');
+                    stringBuffer.push('</div>');
+                    stringBuffer.push('<div class="w_list_download_txt">');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.id + '\')">下载</a>');
+                    stringBuffer.push('</div>');
+
+                    el.append(stringBuffer.join(""));
+                });
+            }
+            if (callback) {
+                callback();
+            }
+
+        });
+    }
+
+    document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+    }, false);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(loaded, 200);
+    }, false);
+
+    ajaxGetData(1);
+</script>
 
 <script type="text/javascript">
 

@@ -26,16 +26,16 @@
     <div class="w_new_011"><a href="${ctx}/main;jsessionid=${sessionid}">首页</a></div>
     <!--没有选中-->
     <div class="w_new_02"><a href="#">分类</a></div>
-    <div class="w_new_033"><a href="${ctx}/weeklyHot;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
-    <div class="w_new_044"><a href="${ctx}/newGame;jsessionid=${sessionid}?pageNum=1">最新</a></div>
+    <div class="w_new_033"><a href="${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
+    <div class="w_new_044"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 
     <!--<div class="w_new_077"><a href="#">分类</a></div>-->
 </div>
 <!--列表-->
 <c:forEach items="${list}" var="item">
 
-    <a href="${ctx}/category/detail;jsessionid=${sessionid}?categoryId=${item.categoryId}&pageNum=1">
-        <div class="w_list_fenlei">
+    <a href="${ctx}/category/detail;jsessionid=${sessionid}?categoryId=${item.categoryId}&categoryName=${item.categoryTitle}">
+    <div class="w_list_fenlei">
             <div class="w_list_img"><img src="${item.iconUrl}" width="48" height="48"/></div>
             <div class="w_list_title">${item.categoryTitle}</div>
             <div class="w_list_numm">${item.description}</div>

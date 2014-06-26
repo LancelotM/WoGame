@@ -104,6 +104,7 @@
                 useTransform: true,
                 useTransition: false,
                 topOffset: 0,
+                buttomOffset: 0,
                 checkDOMChanges: false,		// Experimental
                 handleClick: true,
 
@@ -937,7 +938,7 @@
             that.scrollerW = m.round(that.scroller.offsetWidth * that.scale);
             that.scrollerH = m.round((that.scroller.offsetHeight + that.minScrollY) * that.scale);
             that.maxScrollX = that.wrapperW - that.scrollerW;
-            that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY;
+            that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY + that.options.buttomOffset;
             that.dirX = 0;
             that.dirY = 0;
 

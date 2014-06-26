@@ -13,10 +13,7 @@
     <meta content="false" id="twcClient" name="twcClient">
     <title>一周热榜</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <script src="${ctx}/static/js/index.js"></script>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body class="ibody_bg">
@@ -31,27 +28,109 @@
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
     <div class="w_new_03"><a href="#">一周热榜</a></div>
-    <div class="w_new_044"><a href="${ctx}/newGame;jsessionid=${sessionid}?pageNum=1">最新</a></div>
+    <div class="w_new_044"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 </div>
 
-<div id="content">
-    <!--列表-->
-    <c:forEach items="${list}" var="item">
-        <div class="w_list">
-
-            <div class="w_list_img"><a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.productId}"><img
-                    src="${item.iconUrl}" width="48" height="48"/></a></div>
-            <div class="w_list_title"><a
-                    href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.productId}">${item.title}</a></div>
-            <div class="w_list_numm">${item.apkSize / 1000}MB</div>
-            <div class="w_list_download"><a href="javascript:download('${item.productId}');">下载</a></div>
-            <div class="w_list_download_txt"><a href="javascript:download('${item.productId}');">下载</a></div>
-
+<div id="wrapper">
+    <div id="scroller">
+        <div id="pullDown">
+            <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
+        </div>
+        <div id="list">
 
         </div>
-    </c:forEach>
+        <div id="pullUp">
+            <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
+        </div>
+    </div>
 </div>
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript">
+
+    var myScroll,
+            pullDownEl, pullDownOffset,
+            pullUpEl, pullUpOffset,
+            generatedCount = 0;
+    var categoryId = $("#categoryId").val();
+    pageNum = 1;
+    var urlBase = '${ctx}/gameInfo;jsessionid=${sessionid}?productId=';
+    var el = $('#list');
+
+    function ajaxGetData(pPageNum, callback) {
+
+
+        $.getJSON("${ctx}/weeklyHot/ajaxList", {"pageNum": pPageNum}, function (data) {
+
+            if (data.length != 0) {
+
+                if (pPageNum <= 1) {
+                    el.empty();
+                }
+                $.each(data, function (index, entry) {
+                    var stringBuffer = [];
+
+                    stringBuffer.push('<div class="w_list">');
+                    stringBuffer.push('<div class="w_list_img">');
+                    stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
+                    stringBuffer.push('<img src="' + entry.icon_url + '" width="48" height="48"/></a></div>');
+                    stringBuffer.push('<div class="w_list_title">');
+                    stringBuffer.push('<a href="' + urlBase + entry.product_id + '">' + entry.title + '</a>');
+                    stringBuffer.push('</div>');
+                    stringBuffer.push('<div class="w_list_numm">' + ((entry.apk_size) / 1000) + 'MB</div>');
+                    stringBuffer.push('<div class="w_list_download">');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
+                    stringBuffer.push('</div>');
+                    stringBuffer.push('<div class="w_list_download_txt">');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
+                    stringBuffer.push('</div>');
+
+                    el.append(stringBuffer.join(""));
+                });
+            }
+
+            if (callback) {
+                callback();
+            }
+        });
+
+
+    }
+
+    document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+    }, false);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(loaded, 200);
+    }, false);
+
+    ajaxGetData(1);
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        app.initialize();
+        $("#w_paihangtitle").bind("swipeleft", function () {
+            location.href = "${ctx}/weeklyHot?pageNum=1";
+        });
+
+
+    });
+
+    function download(id) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+            if (data.downloadUrl == "") {
+                alert(data.description);
+            } else {
+                download_file(data.downloadUrl);
+            }
+        })
+    }
+</script>
 <script type="text/javascript">
 
     $(function () {

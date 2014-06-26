@@ -15,15 +15,14 @@
     <title>${title}</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script src="${ctx}/static/js/index.js"></script>
 </head>
 
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w-sousuo_icon"><a href="javascript:back(-1);"></a></div>
-    <div class="w-sousuo"><a href="javascript:back(-1);">${info.name}</a></div>
+    <div class="w-sousuo_icon"><a data-rel="back">后退</a></div>
+    <div class="w-sousuo"><a data-rel="back">${info.name}</a></div>
     <div class="w_search2"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 
 </div>
