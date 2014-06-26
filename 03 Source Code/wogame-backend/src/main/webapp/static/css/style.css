@@ -257,19 +257,12 @@ a{
 	width:273px;
 	border-radius:5px;
 }
-.detail_tb{
-	table-layout: fixed;
-}
+
 .detail_tb tr{
 	border:1px solid #e3e3e3;
 	height:34px;
 }
-.detail_tb td{
-	white-space: nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
 
-}
 .operate_td{
 	padding:0px;
 	text-align:center;
@@ -322,13 +315,21 @@ a{
 #top30Game img{
 	vertical-align:middle;
 }
-.hot_words{
-	color:#ed6d02;
-	background-color:#f7f7f7;
-	font-weight:bold;
+
+.keyword{
+    margin-top:20px;
+    color:#ed6d02;
+    background-color:#f7f7f7;
+    font-weight:bold;
+    width:965px;
 }
-.hot_words tr{
-	height:34px;
+.keyword span{
+    display:block;
+    float:left;
+    width:173px;
+    height:34px;
+    line-height:34px;
+    padding-left: 20px;
 }
 .numberal_format{
 	font-size:26px;

@@ -5,10 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unicom.game.center.business.ChannelInfoBusiness;
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Alex Yin
@@ -20,26 +23,16 @@ public class SiteController {
 	@Autowired
 	private ChannelInfoBusiness channelService;
 	
-	@RequestMapping(value = "/startSite", method = {RequestMethod.POST})
-    public ModelAndView startChannel(@RequestParam(value = "channelId", required = true) int channelId){
-        ModelAndView modelView = new ModelAndView();
-        modelView.setViewName("siteManager");
-        if(channelService.checkChannelIsActive(channelId)){
-             modelView.addObject(true);
-        }else {
-            ChannelInfoDomain channelInfoDomain = channelService.startChannel(channelId);
-            modelView.addObject(channelInfoDomain);
-        }
-        return modelView;
+	@RequestMapping(value = "/startSite", method = {RequestMethod.GET})
+    public @ResponseBody ChannelInfoDomain startChannel(@RequestParam(value = "channelId", required = true) int channelId){
+        ChannelInfoDomain channelInfoDomain = channelService.startChannel(channelId);
+        return channelInfoDomain;
     }
 
     @RequestMapping(value = "/getActiveInfo", method = {RequestMethod.GET})
-    public ModelAndView getActiveInfo(@RequestParam(value = "channelId", required = true) int channelId){
-        ModelAndView modelView = new ModelAndView();
-        modelView.setViewName("siteManager");
+    public @ResponseBody String getActiveInfo(@RequestParam(value = "channelId", required = true) int channelId,HttpServletResponse response){
         boolean activeInfo = channelService.checkChannelIsActive(channelId);
-        modelView.addObject(true);
-        return modelView;
+        return String.valueOf(activeInfo);
     }
 
     @RequestMapping(value = "/exit", method = {RequestMethod.GET})

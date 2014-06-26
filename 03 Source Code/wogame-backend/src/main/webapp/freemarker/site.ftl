@@ -1,5 +1,5 @@
 ﻿<#include "/common/template.ftl">
-<@template csses=["index"] jses=["index"]>
+<@template csses=["index"] jses=["site"]>
 <#assign basePath=attrs.contextPath>
 		<div class="main_block">
 			<div class="header">
@@ -15,9 +15,9 @@
 						<a href="#" class="margin_top45" onclick="show_hidden('first_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png" alt=""/>&nbsp;日志统计信息</a>
 						<ul id="first_ul" class="son_ul" style="display:none">
 							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="#">日志总览</a></li>
-							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="#">搜索日志</a></li>
+							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getAllKeyWowrd">搜索日志</a></li>
 						</ul>
-					<a href="#" class="margin_top45" onclick="show_hidden('second_ul');"><img src="images/leftmenu_arrow.png" alt=""/>&nbsp;站点管理</a>
+					<a href="#" class="margin_top45" onclick="show_hidden('second_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png" alt=""/>&nbsp;站点管理</a>
 						<ul id="second_ul" class="son_ul" style="display:none">
 							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="#">建站管理</a></li>
 						</ul>
@@ -84,21 +84,23 @@
 											  </ul>
 										</div>
 									</td>
-									<td><a href="#" style="text-align:right"><img src="${basePath}/static/images/launch.png" alt=""/></a></td>
+									<td><a id="launch" href="javascript:;" style="text-align:right"><img src="${basePath}/static/images/launch.png" alt=""/></a></td>
+                                    <td><input type="hidden" id="channelId" value=""/> </td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">站点链接</td>
-									<td class="link_address" colspan="2"></td>
+									<td id="wapURL" class="link_address" colspan="2"></td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">后台管理链接</td>
-									<td class="link_address" colspan="2" ></td>
+									<td id="logURL" class="link_address" colspan="2" ></td>
 								</tr>
 							</table>
 						</div>
 						<div class="create_detail">
 							<div class="log_title">
-								<img class="title_image" src="${basePath}/static/images/icon_sitelist.png" alt="" />已建站<span class="numberal_format">3</span>个
+								<img class="title_image" src="${basePath}/static/images/icon_sitelist.png" alt="" />已建站
+                                <span class="numberal_format">3</span>个
 							</div>
 							<table class="detail_tb">
 								<caption class="table_title"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>已建站站点详细</span></caption>
