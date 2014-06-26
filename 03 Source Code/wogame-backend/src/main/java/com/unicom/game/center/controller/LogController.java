@@ -32,8 +32,8 @@ public class LogController {
     @Autowired
     private GameTrafficBusiness gemeTrafficService;
 
-    @RequestMapping(value = "/getBannerTraffic", method = {RequestMethod.GET})
-    public ModelAndView getBannerTraffic(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
+    @RequestMapping(value = "/getLog", method = {RequestMethod.GET})
+    public ModelAndView getLog(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
         ModelAndView modelView = new ModelAndView();
         modelView.setViewName("log");
         int intType = Integer.parseInt(type);

@@ -26,11 +26,15 @@
         </div>
         <div class="main">
             <div class="main_info">
+                <form action="" method="post">
+
+                </form>
                 <div class="select_data">
                     <select>
-                        <option>日数据</option>
-                        <option>月数据</option>
+                        <option value="1">日数据</option>
+                        <option value="2">月数据</option>
                     </select>
+                    <input type="hidden" value=""/>
                 </div>
 
                 <image src="images/icon_radio.png" class="title_image"/>今日新增用户数<span class="numberal_format">21</span>人，总计用户数<span class="numberal_format">15875</span>人
