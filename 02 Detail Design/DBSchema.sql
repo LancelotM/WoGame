@@ -97,7 +97,7 @@ create table wogamecenter.game_traffic(
 	product_id varchar(40) not null,
 	sort int(20) not null default 0,
 	click_through int(20) not null default 0,
-	download_count int(20) default 0,
+	download_count int(20) not null default 0,
 	date_created TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
 	banner_flag boolean not null default false
 )engine=innodb default charset=utf8;
