@@ -21,9 +21,11 @@ public class PageTrafficDomain implements Serializable {
 
 	private static final long serialVersionUID = 8201851094435250244L;
 	private Integer id;
-	private int pageId;
 	private int channelId;
-	private int clickThrough;
+	private int homepage;
+	private int category;
+	private int hotlist;
+	private int latest;
 	private Date dateCreated;
 	
 	@Id  
@@ -35,16 +37,7 @@ public class PageTrafficDomain implements Serializable {
 	
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	
-	@Column(name="page_id")
-	public int getPageId() {
-		return pageId;
-	}
-	
-	public void setPageId(int pageId) {
-		this.pageId = pageId;
-	}
+	}	
 	
 	@Column(name="channel_id")
 	public int getChannelId() {
@@ -55,15 +48,42 @@ public class PageTrafficDomain implements Serializable {
 		this.channelId = channelId;
 	}
 	
-	@Column(name="click_through")
-	public int getClickThrough() {
-		return clickThrough;
+	@Column(name="homepage")
+	public int getHomepage() {
+		return homepage;
 	}
-	
-	public void setClickThrough(int clickThrough) {
-		this.clickThrough = clickThrough;
+
+	public void setHomepage(int homepage) {
+		this.homepage = homepage;
 	}
-	
+
+	@Column(name="category")
+	public int getCategory() {
+		return category;
+	}
+
+	public void setCategory(int category) {
+		this.category = category;
+	}
+
+	@Column(name="hotlist")
+	public int getHotlist() {
+		return hotlist;
+	}
+
+	public void setHotlist(int hotlist) {
+		this.hotlist = hotlist;
+	}
+
+	@Column(name="latest")
+	public int getLatest() {
+		return latest;
+	}
+
+	public void setLatest(int latest) {
+		this.latest = latest;
+	}
+
 	@Column(name="date_created")
 	public Date getDateCreated() {
 		return dateCreated;
