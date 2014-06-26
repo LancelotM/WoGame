@@ -258,6 +258,19 @@ a{
 	border-radius:5px;
 }
 
+.link_class,.link_address{
+    padding:0px;
+    text-align:left;
+    vertical-align:bottom;
+}
+.link_class{
+    width:180px;
+}
+.link_address{
+    font-size:15px;
+    border-bottom:1px solid #ffc821;
+}
+
 .detail_tb tr{
 	border:1px solid #e3e3e3;
 	height:34px;

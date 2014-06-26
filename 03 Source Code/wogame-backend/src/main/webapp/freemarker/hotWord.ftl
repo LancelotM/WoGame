@@ -14,7 +14,7 @@
             <div class="ul_info">
                 <a href="#" class="margin_top45" onclick="show_hidden('first_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png"/>&nbsp;日志统计信息</a>
                 <ul id="first_ul" class="son_ul" style="display:none">
-                    <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="#">日志总览</a></li>
+                    <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getLog">日志总览</a></li>
                     <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="#">搜索日志</a></li>
                 </ul>
                 <a href="#" class="margin_top45" onclick="show_hidden('second_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png"/>&nbsp;站点管理</a>
