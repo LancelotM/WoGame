@@ -1,7 +1,6 @@
 package com.unicom.game.center.db.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -20,11 +19,6 @@ public class UserCountDao extends HibernateDao{
 	
 	public void update(UserCountDomain userCountDomain){
 		getSession().update(userCountDomain);
-	}
-	
-	public UserCountDomain getByDate(Date date){
-		String hql = "from UserCountDomain where dateCreated = '"+date+"'";
-		return (UserCountDomain)getSession().createQuery(hql).uniqueResult();
 	}
 	
 	public long fetchNewUserCount(String date, Integer channelId){
