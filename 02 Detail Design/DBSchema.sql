@@ -1,17 +1,5 @@
 CREATE DATABASE wogamecenter DEFAULT CHARSET utf8;
 
---页面编号
-create table wogamecenter.page_map(
-	page_id int(20) primary key,
-	page_desc varchar(50) not null
-)engine=innodb default charset=utf8;
-
-insert into wogamecenter.page_map(page_id, page_desc) values(1, "首页"); 
-insert into wogamecenter.page_map(page_id, page_desc) values(2, "分类");
-insert into wogamecenter.page_map(page_id, page_desc) values(3, "一周热榜");
-insert into wogamecenter.page_map(page_id, page_desc) values(4, "最新");
-
-
 --状态 
 create table wogamecenter.status_map(
 	status_id int(20) primary key,
@@ -91,13 +79,14 @@ alter table wogamecenter.user_count add constraint User_Count_Channel_FK foreign
 --页面流量统计
 create table wogamecenter.page_traffic(
 	id int(20) primary key auto_increment,
-	page_id int(20) not null,
 	channel_id int(20) not null,
-	click_through int(20) not null default 0,
+	homepage int(20) not null default 0,
+	category int(20) not null default 0,
+	hotlist int(20) not null default 0,
+	latest int(20) not null default 0,
 	date_created TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.page_traffic add constraint Page_Traffic_Page_FK foreign key (page_id) references  wogamecenter.page_map(page_id);
 alter table wogamecenter.page_traffic add constraint Page_Traffic_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
 
 
@@ -108,7 +97,7 @@ create table wogamecenter.game_traffic(
 	product_id varchar(40) not null,
 	sort int(20) not null default 0,
 	click_through int(20) not null default 0,
-	download_count int(20) default 0,
+	download_count int(20) not null default 0,
 	date_created TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
 	banner_flag boolean not null default false
 )engine=innodb default charset=utf8;

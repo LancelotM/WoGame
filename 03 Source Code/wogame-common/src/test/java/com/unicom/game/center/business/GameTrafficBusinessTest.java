@@ -23,8 +23,20 @@ public class GameTrafficBusinessTest {
 	
 	@Test
 	public void testFetchBannerInfo(){
-		List<GameInfo>  gameList =game.fetchBannerInfo(18082, 1);
+		List<GameInfo>  gameList =game.fetchGameInfoByDate(18082, true);
 		System.out.println((null != gameList) ? gameList.size() : 0);
+		
+		gameList =game.fetchGameInfoByMonth(18082, true);
+		System.out.println((null != gameList) ? gameList.size() : 0);		
+	}
+	
+	@Test
+	public void testFetchHotListInfo(){
+		List<GameInfo>  gameList =game.fetchGameInfoByDate(18082, false);
+		System.out.println((null != gameList) ? gameList.size() : 0);
+		
+		gameList =game.fetchGameInfoByMonth(18082, false);
+		System.out.println((null != gameList) ? gameList.size() : 0);			
 	}	
 	
 }

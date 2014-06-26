@@ -1,7 +1,6 @@
 package com.unicom.game.center.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author Alex Yin
@@ -19,11 +18,11 @@ public class GameInfo implements Serializable{
 	
 	private String icon;
 	
-	private int clickThrough;
+	private String clickThrough;
 	
-	private int downloadCount;
+	private String downloadCount;
 	
-	private Date date;
+	private String date;
 
 	public String getName() {
 		return name;
@@ -41,27 +40,27 @@ public class GameInfo implements Serializable{
 		this.icon = icon;
 	}
 
-	public int getClickThrough() {
+	public String getClickThrough() {
 		return clickThrough;
 	}
 
-	public void setClickThrough(int clickThrough) {
+	public void setClickThrough(String clickThrough) {
 		this.clickThrough = clickThrough;
 	}
 
-	public int getDownloadCount() {
+	public String getDownloadCount() {
 		return downloadCount;
 	}
 
-	public void setDownloadCount(int downloadCount) {
+	public void setDownloadCount(String downloadCount) {
 		this.downloadCount = downloadCount;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}		
 

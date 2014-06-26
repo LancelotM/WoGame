@@ -149,13 +149,14 @@ a{
 	float:left;
 }
 .exite_button{
-	width:111px;
-	height:38px;
-	border:2px solid #ffc821;
-	background-color:#757575;
-	font-size:20px;
-	color:#ffc821;
-	border-radius:10px;
+    padding:7px 14px;
+    border:2px solid #ffc821;
+    background-color:#757575;
+    font-size:20px;
+    font-weight:bold;
+    color:#ffc821;
+    text-align:center;
+    border-radius:10px;
 }
 
 .info{
@@ -169,11 +170,6 @@ a{
 	font-weight:bold;
 	height:100%;
 	margin-right:20px;
-}
-.info a{
-	height:100%;
-	width:112px;
-	float:right;
 }
 .menu_main{
 	width:100%;
@@ -261,19 +257,12 @@ a{
 	width:273px;
 	border-radius:5px;
 }
-.detail_tb{
-	table-layout: fixed;
-}
+
 .detail_tb tr{
 	border:1px solid #e3e3e3;
 	height:34px;
 }
-.detail_tb td{
-	white-space: nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
 
-}
 .operate_td{
 	padding:0px;
 	text-align:center;
@@ -326,13 +315,21 @@ a{
 #top30Game img{
 	vertical-align:middle;
 }
-.hot_words{
-	color:#ed6d02;
-	background-color:#f7f7f7;
-	font-weight:bold;
+
+.keyword{
+    margin-top:20px;
+    color:#ed6d02;
+    background-color:#f7f7f7;
+    font-weight:bold;
+    width:965px;
 }
-.hot_words tr{
-	height:34px;
+.keyword span{
+    display:block;
+    float:left;
+    width:173px;
+    height:34px;
+    line-height:34px;
+    padding-left: 20px;
 }
 .numberal_format{
 	font-size:26px;
