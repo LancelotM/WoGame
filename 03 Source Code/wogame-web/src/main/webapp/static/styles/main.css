@@ -38,6 +38,7 @@ ul, ol {
 
 a {
     outline: 0;
+    color: #333333;
 }
 
 a:link {
@@ -1022,6 +1023,18 @@ dl.w_dowload dt {
     color: #000;
     font-size: 14px;
     font-weight: bold;
+}
+
+.w_img_count h3 a {
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 70%;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 .w_img_count h5 {

@@ -15,10 +15,6 @@
     <title>首页</title>
 
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <script src="${ctx}/static/js/index.js"></script>
 </head>
 
 <body class="ibody_bg">
@@ -27,13 +23,13 @@
     <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <!--分类筛选-->
-<div class="w_paihangtitle" id="w_paihangtitle">
+<div class="w_paihangtitle" id="w_paihangtitle" data-role="none">
     <!--选中状态-->
     <div class="w_new_01"><a href="#">首页</a></div>
     <!--没有选中-->
-    <div class="w_new_022"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
-    <div class="w_new_033"><a href="${ctx}/weeklyHot;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
-    <div class="w_new_044"><a href="${ctx}/newGame;jsessionid=${sessionid}?pageNum=1">最新</a></div>
+    <div class="w_new_022" data-role="none"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
+    <div class="w_new_033"><a href="${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
+    <div class="w_new_044"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 
 </div>
 <!--大图-->
@@ -215,6 +211,8 @@
     </c:forEach>
 </c:forEach>
 
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="${ctx}/static/js/index.js"></script>
 <script type="text/javascript">
 
     $(function () {

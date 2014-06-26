@@ -13,40 +13,111 @@
     <meta content="false" id="twcClient" name="twcClient">
     <title>搜索</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <script src="${ctx}/static/js/index.js"></script>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w-sousuo_icon"><a href="javascript:back(-1);"></a></div>
-    <div class="w-sousuo"><a href="javascript:back(-1);">${categoryName}</a></div>
-    <div class="w-sousuo_icon"><a href="＃">搜索</a></div>
-<%--<div class="w_download2"><a href="#">下载</a></div>--%>
+    <div class="w-sousuo_icon"><a data-rel="back"></a></div>
+    <div class="w-sousuo"><a data-rel="back">搜索</a></div>
 </div>
 <!--分类筛选-->
 <div class="w_search_box">
     <div class="w_inputbox">
         <div class="w_in_01"><a href="#">关闭</a></div>
         <div class="w_in_02"></div>
-        <input name="txtSearch" id="txtSearch" type="text" class="w_input"/></div>
-    <input name="" type="button" class="w_buttion" value="搜索" onclick="search()"/>
+        <input name="txtSearch" id="txtSearch" type="text" data-role="none" class="w_input"/>
+    </div>
+    <input name="" type="button" class="w_buttion" value="搜索" data-role="none" onclick="search()"/>
 </div>
 
-<c:forEach items="${list}" var="item">
-    <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.id}">
-        <div class="w_list_youxi">${item.name}</div>
-    </a>
-</c:forEach>
-<!--列表-->
+<div id="wrapper">
+    <div id="scroller">
+        <div id="pullDown">
+            <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
+        </div>
+        <div id="list">
+
+        </div>
+        <div id="pullUp">
+            <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript">
+
+    var myScroll,
+            pullDownEl, pullDownOffset,
+            pullUpEl, pullUpOffset,
+            generatedCount = 0;
+    var categoryId = $("#categoryId").val();
+    pageNum = 1;
+    var urlBase = '${ctx}/gameInfo;jsessionid=${sessionid}?productId=';
+    var el = $('#list');
+    el.empty();
+
+    function ajaxGetData(pPageNum, callback) {
+
+        var keyword = $("#txtSearch").val();
+
+//        if (keyword == "") {
+//            $('#pullDown, #pullUp').hide();
+//            myScroll.refresh();
+//            return;
+//        }
+//
+//        $('#pullDown, #pullUp').show();
+
+        $.getJSON("${ctx}/search/ajaxSearch;jsessionid=${sessionid}", {"pageNum": pPageNum, "keyword": keyword}, function (data) {
+
+            if (data.length != 0) {
+
+                if (pPageNum <= 1) {
+                    el.empty();
+                }
+
+                $.each(data, function (index, entry) {
+                    var stringBuffer = [];
+
+                    stringBuffer.push('<a href="' + urlBase + entry.id + '">');
+                    stringBuffer.push('<div class="w_list_youxi">' + entry.name + '</div>');
+                    stringBuffer.push('</a>');
+
+                    el.append(stringBuffer.join(""));
+                });
+
+            } else {
+                $('#pullDown, #pullUp').hide();
+            }
+            if (callback) {
+                callback();
+            } else {
+                myScroll.refresh();
+            }
+        });
+
+
+    }
+
+    document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+    }, false);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(loaded, 200);
+    }, false);
+
+    ajaxGetData(1);
+</script>
 
 <script type="text/javascript">
     function search() {
-        var keyword = $("#txtSearch").val();
-        location.href = "${ctx}/search/keyword;jsessionid=${sessionid}?keyword=" + keyword;
+        ajaxGetData(1);
     }
 </script>
 

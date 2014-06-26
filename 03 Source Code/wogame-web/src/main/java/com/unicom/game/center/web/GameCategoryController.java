@@ -37,13 +37,11 @@ public class GameCategoryController {
 
     @RequestMapping(value = "detail", method = RequestMethod.GET)
     public String detail(@RequestParam("categoryId") int categoryId,
-                         @RequestParam("pageNum") int pageNum,
+                         @RequestParam("categoryName") String categoryName,
                          Model model) {
-        ShowCategoryVo categoryVo = gameService.readShowCategory(categoryId, pageNum, Constants.PAGE_SIZE_DEFAULT);
 
         model.addAttribute("categoryId", categoryId);
-        model.addAttribute("categoryName", categoryVo.getCategoryTitle());
-        model.addAttribute("list", categoryVo.getAppList());
+        model.addAttribute("categoryName", categoryName);
 
         return "category/detail";
     }
