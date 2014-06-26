@@ -19,6 +19,7 @@ public class UserCountDao extends HibernateDao{
 	
 	public void update(UserCountDomain userCountDomain){
 		getSession().update(userCountDomain);
+		getSession().flush();
 	}
 	
 	public long fetchNewUserCount(String date, Integer channelId){

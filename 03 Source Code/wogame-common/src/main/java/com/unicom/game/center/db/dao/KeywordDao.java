@@ -22,6 +22,7 @@ public class KeywordDao extends HibernateDao{
 	
 	public void update(KeywordDomain keyWord){
 		getSession().update(keyWord);
+		getSession().flush();
 	}	
 	
 	public List<KeywordInfo> getTop50Keyword(){

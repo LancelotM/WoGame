@@ -61,7 +61,7 @@ public class GameTrafficBusiness {
 			Date yesterday = DateUtils.getDayByInterval(today, -1);
 			String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
 			String startDate = DateUtils.getMonthFirstByInterval(today, -5);
-			gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, bannerFlag, channelId);					
+			gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);					
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchBannerInfoByMonth.", ex);
 		}

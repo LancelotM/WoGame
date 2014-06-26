@@ -15,6 +15,7 @@ public class DownloadInfoDao extends HibernateDao{
 
 	public void update(DownloadInfoDomain downloadInfo){
 		getSession().update(downloadInfo);
+		getSession().flush();
 	}
 
 	public DownloadInfoDomain getByProductAndChannel(String productId,int channelId,Date date){

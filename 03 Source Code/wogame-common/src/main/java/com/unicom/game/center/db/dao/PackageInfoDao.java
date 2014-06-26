@@ -20,6 +20,7 @@ public class PackageInfoDao extends HibernateDao{
 	
 	public void update(PackageInfoDomain packageInfo){
 		getSession().update(packageInfo);
+		getSession().flush();
 	}	
 	
 	public PackageInfoDomain getByKey(String channelId,String productId){
