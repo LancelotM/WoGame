@@ -25,11 +25,34 @@ public class SiteController {
         ModelAndView modelView = new ModelAndView();
         modelView.setViewName("siteManager");
         if(channelService.checkChannelIsActive(channelId)){
-             modelView.addObject("isActive",true);
+             modelView.addObject(true);
         }else {
             ChannelInfoDomain channelInfoDomain = channelService.startChannel(channelId);
             modelView.addObject(channelInfoDomain);
         }
+        return modelView;
+    }
+
+    @RequestMapping(value = "/getActiveInfo", method = {RequestMethod.GET})
+    public ModelAndView getActiveInfo(@RequestParam(value = "channelId", required = true) int channelId){
+        ModelAndView modelView = new ModelAndView();
+        modelView.setViewName("siteManager");
+        boolean activeInfo = channelService.checkChannelIsActive(channelId);
+        modelView.addObject(true);
+        return modelView;
+    }
+
+    @RequestMapping(value = "/exit", method = {RequestMethod.GET})
+    public ModelAndView exit(){
+        ModelAndView modelView = new ModelAndView();
+        modelView.setViewName("index");
+        return modelView;
+    }
+
+    @RequestMapping(value = "/getChannelDetail", method = {RequestMethod.GET})
+    public ModelAndView getChanneldetail(@RequestParam(value = "channelId", required = true) int channelId){
+        ModelAndView modelView = new ModelAndView();
+        modelView.setViewName("log");
         return modelView;
     }
 

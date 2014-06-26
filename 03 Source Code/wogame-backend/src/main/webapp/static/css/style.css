@@ -149,13 +149,14 @@ a{
 	float:left;
 }
 .exite_button{
-	width:111px;
-	height:38px;
-	border:2px solid #ffc821;
-	background-color:#757575;
-	font-size:20px;
-	color:#ffc821;
-	border-radius:10px;
+    padding:7px 14px;
+    border:2px solid #ffc821;
+    background-color:#757575;
+    font-size:20px;
+    font-weight:bold;
+    color:#ffc821;
+    text-align:center;
+    border-radius:10px;
 }
 
 .info{
@@ -169,11 +170,6 @@ a{
 	font-weight:bold;
 	height:100%;
 	margin-right:20px;
-}
-.info a{
-	height:100%;
-	width:112px;
-	float:right;
 }
 .menu_main{
 	width:100%;

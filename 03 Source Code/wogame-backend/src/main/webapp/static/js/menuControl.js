@@ -15,12 +15,10 @@ function show_hidden(id){
 }
 function switch_className(id){
     var obj = document.getElementById(id);
-    if(obj.className == "checked"){
-        obj.className = "unchecked";
+    if(obj.style.display=="inline"){
         obj.style.display='none';
-    }else if(obj.className == "unchecked"){
-        obj.className = "checked";
-        obj.src="${basePath}/static/images/check_in.png";
+    }else{
+        obj.style.display='inline';
     }
 
 }

@@ -6,7 +6,7 @@
 				<img class="logo" src="${basePath}/static/images/logo.png" alt=""/>
 				<div class="info">
 					<span>管理员，你好</span>
-					<input type="button" class="exite_button" value="安全登出"/>
+                    <a class="exite_button" href="${basePath}/exit">安全登出</a>
 				</div>
 			</div>
 			<div class="menu_main">
@@ -32,7 +32,7 @@
 							<table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
 									<tr class="first_tr">
 									<td style="color:#ed6d02">
-										北京联通
+										<span id="channel">北京联通</span>
 										<a href="javascript:void(0)" class="cityTab" onmouseover="show_hidden('province_div');">
 											[ <b></b>切换地区<label>▼</label>]
 										</a>
@@ -40,46 +40,46 @@
 											  <ul>
 												<li>
 													<span>A-G</span>
-													<a href="javascript:void(0)">北京联通</a>
-													<a href="javascript:void(0)">安徽联通</a>
-													<a href="javascript:void(0)">重庆联通</a>
-													<a href="javascript:void(0)">福建联通</a>
-													<a href="javascript:void(0)">广东联通</a>
-													<a href="javascript:void(0)">甘肃联通</a>
-													<a href="javascript:void(0)">广西联通</a>
-													<a href="javascript:void(0)">贵州联通</a>
+													<a name="18130" href="javascript:;">北京联通</a>
+													<a name="18129" href="javascript:;">安徽联通</a>
+													<a name="18131" href="javascript:;">重庆联通</a>
+													<a name="18132" href="javascript:;">福建联通</a>
+													<a name="18182" href="javascript:;">广东联通</a>
+													<a name="18133" href="javascript:;">甘肃联通</a>
+													<a name="18134" href="javascript:;">广西联通</a>
+													<a name="18135" href="javascript:;">贵州联通</a>
 												</li>
 												<li>
 													<span>H-J</span>
-													<a href="javascript:void(0)">湖北联通</a>
-													<a href="javascript:void(0)">湖南联通</a>
-													<a href="javascript:void(0)">河北联通</a>
-													<a href="javascript:void(0)">河南联通</a>
-													<a href="javascript:void(0)">海南联通</a>
-													<a href="javascript:void(0)">黑龙江联通</a>
-													<a href="javascript:void(0)">江苏联通</a>
-													<a href="javascript:void(0)">吉林联通</a>
-													<a href="javascript:void(0)">江西联通</a>
+													<a name="18130" href="javascript:;">湖北联通</a>
+													<a name="18130" href="javascript:;">湖南联通</a>
+													<a name="18130" href="javascript:;">河北联通</a>
+													<a name="18130" href="javascript:;">河南联通</a>
+													<a name="18130" href="javascript:;">海南联通</a>
+													<a name="18130" href="javascript:;">黑龙江联通</a>
+													<a name="18130" href="javascript:;">江苏联通</a>
+													<a name="18130" href="javascript:;">吉林联通</a>
+													<a name="18130" href="javascript:;">江西联通</a>
 												</li>
 												<li>
 													<span>L-S</span>
-													<a href="javascript:void(0)">辽宁联通</a>
-													<a href="javascript:void(0)">内蒙古联通</a>
-													<a href="javascript:void(0)">宁夏联通</a>
-													<a href="javascript:void(0)">青海联通</a>
-													<a href="javascript:void(0)">山东联通</a>
-													<a href="javascript:void(0)">上海联通</a>
-													<a href="javascript:void(0)">山西联通</a>
-													<a href="javascript:void(0)">陕西联通</a>
-													<a href="javascript:void(0)">四川联通</a>
+													<a name="18130" href="javascript:;">辽宁联通</a>
+													<a name="18130" href="javascript:;">内蒙古联通</a>
+													<a name="18130" href="javascript:;">宁夏联通</a>
+													<a name="18130" href="javascript:;">青海联通</a>
+													<a name="18130" href="javascript:;">山东联通</a>
+													<a name="18130" href="javascript:;">上海联通</a>
+													<a name="18130" href="javascript:;">山西联通</a>
+													<a name="18130" href="javascript:;">陕西联通</a>
+													<a name="18130" href="javascript:;">四川联通</a>
 												</li>
 												<li>
 													<span>T-Z</span>
-													<a href="javascript:void(0)">天津联通</a>
-													<a href="javascript:void(0)">新疆联通</a>
-													<a href="javascript:void(0)">西藏联通</a>
-													<a href="javascript:void(0)">云南联通</a>
-													<a href="javascript:void(0)">浙江联通</a>
+													<a name="18130" href="javascript:;">天津联通</a>
+													<a name="18130" href="javascript:;">新疆联通</a>
+													<a name="18130" href="javascript:;">西藏联通</a>
+													<a name="18130" href="javascript:;">云南联通</a>
+													<a name="18130" href="javascript:;">浙江联通</a>
 												</li>
 											  </ul>
 										</div>
