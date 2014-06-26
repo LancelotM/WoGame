@@ -19,7 +19,6 @@
 		<mapping class="com.unicom.game.center.db.domain.KeywordDomain"/>
 		<mapping class="com.unicom.game.center.db.domain.PackageInfoDomain" />
 		<mapping class="com.unicom.game.center.db.domain.PackageInfoKey"/>
-		<mapping class="com.unicom.game.center.db.domain.PageMapDomain" />
 		<mapping class="com.unicom.game.center.db.domain.ProductDomain"/>
 		<mapping class="com.unicom.game.center.db.domain.StatusMapDomain" />
 		<mapping class="com.unicom.game.center.db.domain.UserCountDomain"/>
