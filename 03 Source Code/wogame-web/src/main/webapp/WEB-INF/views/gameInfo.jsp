@@ -14,6 +14,7 @@
     <meta content="false" id="twcClient" name="twcClient">
     <title>${title}</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script src="${ctx}/static/js/index.js"></script>
@@ -21,10 +22,10 @@
 
 <body class="ibody_bg">
 <!--top-->
-<div class="w-header">
+<div class="w-header" data-role="header">
     <div class="w-sousuo_icon"><a data-rel="back">后退</a></div>
     <div class="w-sousuo"><a data-rel="back">${info.name}</a></div>
-    <div class="w_search2"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
+    <div class="w_search2"><a data-rol="none" href="javascript:toSearch();">搜索</a></div>
 
 </div>
 <!--分类筛选-->
@@ -59,19 +60,12 @@
     ${info.desc}
 </div>
 <div class="youxi_lr_04 youxi_lr_04_bottom"><a href="javascript:void(0);" onclick="toggleShowDesc();">更多</a></div>
-<div class="youxi_lr_05">
-    <div class="youxi_lr_06">
-        <c:forEach var="screenshot" items="${info.screenshots}">
-            <img src="${screenshot}" width="108" height="156"/>
-        </c:forEach>
-    </div>
-</div>
 
 <!--列表-->
 <div class="w_footer_dow">
-    <dl class="w_dowload">
-        <a href="javascript:download('${info.productId}')">
-            <dt>下载</dt>
+    <dl class="w_dowload" data-role="none">
+        <a href="javascript:download('${info.productId}')" data-role="none">
+        <dt>下载</dt>
         </a>
     </dl>
 </div>
@@ -99,6 +93,10 @@
                 download_file(data.downloadUrl);
             }
         })
+    }
+
+    function toSearch() {
+        location.href = "${ctx}/search/init;jsessionid=${sessionid}";
     }
 </script>
 </c:if>

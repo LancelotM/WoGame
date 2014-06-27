@@ -47,6 +47,7 @@
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/index.js"></script>
 <script type="text/javascript">

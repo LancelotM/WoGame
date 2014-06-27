@@ -65,13 +65,21 @@
 
                 $.each(data, function (idx, entry) {
                     var stringBuffer = [];
+
+                    stringBuffer.push('<div class="w_list">');
+                    stringBuffer.push('<div class="w_list_img">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                    stringBuffer.push('<div class="w_list_fenlei">');
-                    stringBuffer.push('<div class="w_list_img"><img src="' + entry.icon_url + '" width="48" height="48"/></div>');
-                    stringBuffer.push('<div class="w_list_title">' + entry.app_name + '</div>');
-                    stringBuffer.push('<div class="w_list_numm">' + entry.description + '</div>');
+                    stringBuffer.push('<img src="' + entry.icon_url + '" width="48" height="48"/></a></div>');
+                    stringBuffer.push('<div class="w_list_title">');
+                    stringBuffer.push('<a href="' + urlBase + entry.product_id + '">' + entry.app_name + '</a>');
                     stringBuffer.push('</div>');
-                    stringBuffer.push('</a>');
+                    stringBuffer.push('<div class="w_list_numm">' + entry.description + '</div>');
+                    stringBuffer.push('<div class="w_list_download">');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
+                    stringBuffer.push('</div>');
+                    stringBuffer.push('<div class="w_list_download_txt">');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
+                    stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
                 });
@@ -90,6 +98,16 @@
     document.addEventListener('DOMContentLoaded', function () {
         setTimeout(loaded, 200);
     }, false);
+
+    function download(id) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+            if (data.downloadUrl == "") {
+                alert(data.description);
+            } else {
+                download_file(data.downloadUrl);
+            }
+        })
+    }
 
     ajaxGetData(1);
 </script>
