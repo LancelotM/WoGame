@@ -28,7 +28,7 @@
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle" data-role="none">
     <!--选中状态-->
-    <div class="w_new_01"><a href="#">首页</a></div>
+    <div class="w_new_01">首页</div>
     <!--没有选中-->
     <div class="w_new_022" data-role="none"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
     <div class="w_new_033"><a href="${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
@@ -36,13 +36,15 @@
 
 </div>
 <!--大图-->
-<div id="pic_div" class="container">
+<c:if test="${fn:length(adList) > 0}">
+    <div id="pic_div" class="container">
     <div id="slides">
         <c:forEach items="${adList}" var="item">
             <img src="${item.bannerUrl}"/>
         </c:forEach>
     </div>
 </div>
+</c:if>
 
 <!--列表-->
 <c:forEach items="${recommendedList}" var="item">
@@ -92,16 +94,32 @@
             </div>
         </c:if>
         <c:if test="${item.adType == 1}">
+            <div class="w_houlist_large">
+                <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">
+                    <img width="100%" height="200" src="${appItem.bannerUrl}">
+                </a>
+            </div>
+
+            <c:if test="${idx.index+1 < fn:length(item.apps)}">
+                <div class="w_houlist_large">
+                    <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
+                        <img width="100%" height="200" src="${item.apps[idx.index+1].bannerUrl}">
+                    </a>
+                </div>
+            </c:if>
+
+        </c:if>
+        <c:if test="${item.adType == 2}">
             <div class="w_houlist">
                 <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">
-                    <img width="100%" height="100" src="${appItem.iconUrl}">
+                    <img width="100%" height="100" src="${appItem.bannerUrl}">
                 </a>
             </div>
 
             <c:if test="${idx.index+1 < fn:length(item.apps)}">
                 <div class="w_houlist">
                     <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
-                        <img width="100%" height="100" src="${item.apps[idx.index+1].iconUrl}">
+                        <img width="100%" height="100" src="${item.apps[idx.index+1].bannerUrl}">
                     </a>
                 </div>
             </c:if>

@@ -2,6 +2,8 @@ package com.unicom.game.center.web;
 
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.vo.GameInfoVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +23,23 @@ public class GameInfoController {
     @Autowired
     private GameService gameService;
 
+    private Logger logger = LoggerFactory.getLogger(GameInfoController.class);
+
     @RequestMapping(method = RequestMethod.GET)
     public String info(@RequestParam("productId") String productId, Model model) {
-        GameInfoVo info = gameService.readGameInfo(productId);
+        model.addAttribute("error", "");
+        try {
+            GameInfoVo info = gameService.readGameInfo(productId);
+            if (info == null) {
+                model.addAttribute("error", "1");
+            } else {
+                model.addAttribute("info", info);
+            }
+        } catch (Exception ex) {
+            logger.error("Server Internal Error.", ex);
+            model.addAttribute("error", "1");
+        }
 
-        model.addAttribute("info", info);
         return "gameInfo";
     }
 

@@ -969,6 +969,14 @@ dl.w_dowload dt {
     border-bottom: #e7e7e7 1px solid;
 }
 
+.w_houlist_large {
+    margin: 0px 6px 0px 6px;
+    position: relative;
+    height: 200px;
+    background: #ffffff;
+    border-bottom: #e7e7e7 1px solid;
+}
+
 .w_houlist_l {
     position: absolute;
     left: 0px;
