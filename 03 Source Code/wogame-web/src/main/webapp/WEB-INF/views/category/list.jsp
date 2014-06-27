@@ -46,7 +46,7 @@
 
 <script type="text/javascript">
     function listDetail(cid, cname) {
-        var url = "${ctx}/category/detail;jsessionid=${sessionid}?categoryId=" + cid + "&categoryName=" + encodeURI(cname);
+        var url = "${ctx}/category/detail;jsessionid=${sessionid}?categoryId=" + cid + "&categoryName=" + encodeURI(encodeURI(cname));
         location.href = url;
     }
 </script>
