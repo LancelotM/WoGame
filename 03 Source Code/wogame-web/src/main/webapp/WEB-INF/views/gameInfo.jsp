@@ -15,6 +15,7 @@
     <title>${title}</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <script src="${ctx}/static/js/index.js"></script>
 </head>
 
@@ -34,7 +35,11 @@
     <!--没有选中--><!--<div class="w_new_011"><a href="#">详情</a></div>-->
     <%--<div class="w_new_022"><a href="#">玩家评论</a></div>--%>
 </div>
-<!--列表-->
+<c:if test="${error == '1'}">
+    服务器出故障啦。
+</c:if>
+<c:if test="${error == ''}">
+    <!--列表-->
 <div class="youxi_lr_01">
     <div class="w_img_bg"><a href="#"><img src="${info.iconUrl}" width="100" height="100"/></a></div>
     <div class="w_start_0${info.rate}"></div>
@@ -96,5 +101,6 @@
         })
     }
 </script>
+</c:if>
 </body>
 </html>

@@ -12,10 +12,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>错误</title>
+    <title>温馨提示</title>
 </head>
 
 <body>
-<h2>服务器故障.</h2>
+<h2>服务器出故障了.</h2>
 </body>
 </html>

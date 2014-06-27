@@ -34,7 +34,7 @@
 <!--列表-->
 <c:forEach items="${list}" var="item">
 
-    <a href="${ctx}/category/detail;jsessionid=${sessionid}?categoryId=${item.categoryId}&categoryName=${item.categoryTitle}">
+    <a href="javascript:listDetail('${item.categoryId}','${item.categoryTitle}');">
     <div class="w_list_fenlei">
             <div class="w_list_img"><img src="${item.iconUrl}" width="48" height="48"/></div>
             <div class="w_list_title">${item.categoryTitle}</div>
@@ -43,6 +43,13 @@
     </a>
 
 </c:forEach>
+
+<script type="text/javascript">
+    function listDetail(cid, cname) {
+        var url = "${ctx}/category/detail;jsessionid=${sessionid}?categoryId=" + cid + "&categoryName=" + encodeURI(encodeURI(cname));
+        location.href = url;
+    }
+</script>
 
 </body>
 </html>

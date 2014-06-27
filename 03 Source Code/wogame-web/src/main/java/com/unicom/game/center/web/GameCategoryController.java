@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -41,7 +43,11 @@ public class GameCategoryController {
                          Model model) {
 
         model.addAttribute("categoryId", categoryId);
-        model.addAttribute("categoryName", categoryName);
+        try {
+            model.addAttribute("categoryName", URLDecoder.decode(categoryName, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            model.addAttribute("categoryName", categoryName);
+        }
 
         return "category/detail";
     }

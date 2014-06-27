@@ -73,15 +73,21 @@ function checkConnection() {
 
 function download_file(url) {
 
-    if (typeof(download_file.iframe) == "undefined") {
-        var iframe = document.createElement("iframe");
-        download_file.iframe = iframe;
-        document.body.appendChild(download_file.iframe);
+    var form = $("#downloadForm");
+    if (form.length > 0) {
+        form.attr("target", "");
+        form.attr("action", url);
+    } else {
+        form = $("<form>");//定义一个form表单
+        form.attr("style", "display:none");
+        form.attr("id", "downloadForm");
+        form.attr("target", "");
+        form.attr("method", "post");
+        form.attr("action", url);
+        $("body").append(form);//将表单放置在web中
     }
 
-    download_file.iframe.src = url;
-
-    download_file.iframe.style.display = "none";
+    form.submit();//表单提交
 
 }
 
