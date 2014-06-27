@@ -15,6 +15,9 @@
     <title>首页</title>
 
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
+
+
 </head>
 
 <body class="ibody_bg">
@@ -33,118 +36,14 @@
 
 </div>
 <!--大图-->
-<div id="pic_div">
-    <div id="pic">
+<div id="pic_div" class="container">
+    <div id="slides">
         <c:forEach items="${adList}" var="item">
-            <a><img src="${item.bannerUrl}" width="320" height="160"/></a>
+            <img src="${item.bannerUrl}"/>
         </c:forEach>
-
     </div>
-    <div id="mark"></div>
-    <ul id="sign">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-    </ul>
 </div>
-<script type="text/javascript">
-    var li = document.getElementsByTagName("li");
-    var i_all = li.length - 1;
-    var i_width = 320;//图片宽度，10的倍数
-    var i = 0;//当前图片编号
-    var scs = setInterval(function () {
-    }, 1000);
-    var pic = document.getElementById("pic");
-    touches(pic, "swipeleft", function () {
-        i++;
-        roll_pic(-10);
-    });
-    touches(pic, "swiperight", function () {
-        i--;
-        roll_pic(10);
-    });
-    var img = document.getElementsByTagName("img");
-    function roll_pic(sp) {
-        clearInterval(scs);
-        i = i < 0 ? i_all : (i > i_all ? 0 : i);
-        var img1 = img[i], img0, img2;
-        if (i == i_all) {
-            img0 = img[i - 1];
-            img2 = img[0];
-        } else if (i == 0) {
-            img0 = img[i_all];
-            img2 = img[1];
-        } else {
-            img0 = img[i - 1];
-            img2 = img[i + 1];
-        }
-        for (var k = 0; k <= i_all; k++) {
-            img[k].style.zIndex = 1;
-            li[k].style.backgroundColor = "#fff";
-        }
-        img0.style.zIndex = 2;
-        img1.style.zIndex = 2;
-        img2.style.zIndex = 2;
-        var i_left = 0;
-        scs = setInterval(function () {
-            i_left += sp;
-            img0.style.left = (-i_width + i_left) + "px";
-            img1.style.left = i_left + "px";
-            img2.style.left = (i_width + i_left) + "px";
-            if (Math.abs(i_left) == i_width) {
-                clearInterval(scs);
-            }
-        }, 10);
-        li[i].style.backgroundColor = "#f00";
-    }
-    roll_pic(0);
-    function touches(obj, direction, fun) {
-        //obj:ID对象
-        //direction:swipeleft,swiperight,swipetop,swipedown,singleTap,touchstart,touchmove,touchend
-        //          划左，    划右，     划上，   划下，    点击，    开始触摸， 触摸移动， 触摸结束
-        //fun:回调函数
-        var defaults = {x: 5, y: 5, ox: 0, oy: 0, nx: 0, ny: 0};
-        direction = direction.toLowerCase();
-        //配置：划的范围在5X5像素内当点击处理
-        obj.addEventListener("touchstart", function () {
-            defaults.ox = event.targetTouches[0].pageX;
-            defaults.oy = event.targetTouches[0].pageY;
-            defaults.nx = defaults.ox;
-            defaults.ny = defaults.oy;
-            if (direction.indexOf("touchstart") != -1)fun();
-        }, false);
-        obj.addEventListener("touchmove", function () {
-            event.preventDefault();
-            defaults.nx = event.targetTouches[0].pageX;
-            defaults.ny = event.targetTouches[0].pageY;
-            if (direction.indexOf("touchmove") != -1)fun();
-        }, false);
-        obj.addEventListener("touchend", function () {
-            var changeY = defaults.oy - defaults.ny;
-            var changeX = defaults.ox - defaults.nx;
-            if (Math.abs(changeX) > Math.abs(changeY) && Math.abs(changeY) > defaults.y) {
-                //左右事件
-                if (changeX > 0) {
-                    if (direction.indexOf("swipeleft") != -1)fun();
-                } else {
-                    if (direction.indexOf("swiperight") != -1)fun();
-                }
-            } else if (Math.abs(changeY) > Math.abs(changeX) && Math.abs(changeX) > defaults.x) {
-                //上下事件
-                if (changeY > 0) {
-                    if (direction.indexOf("swipetop") != -1)fun();
-                } else {
-                    if (direction.indexOf("swipedown") != -1)fun();
-                }
-            } else {
-                //点击事件
-                if (direction.indexOf("singleTap") != -1)fun();
-            }
-            if (direction.indexOf("touchend") != -1)fun();
-        }, false);
-    }
-</script>
+
 <!--列表-->
 <c:forEach items="${recommendedList}" var="item">
     <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx">
@@ -211,18 +110,31 @@
     </c:forEach>
 </c:forEach>
 
+
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
+
 <script type="text/javascript">
 
     $(function () {
+        $('#slides').slidesjs({
+            width: 320,
+            height: 160,
+            navigation: false,
+            start: 1,
+            play: {
+                auto: true
+            }
+        });
+
         app.initialize();
-        $("#w_paihangtitle").bind("swipeleft", function () {
-            location.href = "${ctx}/newGame?pageNum=1";
+        /*$("#w_paihangtitle").bind("swipeleft", function () {
+         location.href = "${ctx}/newGame?pageNum=1";
         });
         $("#w_paihangtitle").bind("swiperight", function () {
             location.href = "${ctx}/category/list";
-        });
+         });*/
 
 
     });

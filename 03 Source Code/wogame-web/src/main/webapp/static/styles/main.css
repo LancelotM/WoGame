@@ -917,26 +917,20 @@ dl.w_dowload dt {
 
 /*图片切换*/
 #pic_div {
-    margin: auto;
-    width: 320px;
-    height: 160px;
+    margin: 0 auto;
+    height: 150px;
     overflow: hidden;
     position: relative;
     margin-bottom: 15px;
 }
 
 #pic {
-    width: 1280px;
-    height: 160px;
-    position: relative;
-    left: 0;
+
 }
 
 #pic img {
-    position: absolute;
-    left: 0;
-    z-index: 1;
-    border: none;
+    width: 320px;
+    height: 160px;
 }
 
 #sign, #mark {

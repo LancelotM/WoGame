@@ -1,0 +1,81 @@
+.slidesjs-pagination {
+    position: absolute;
+    bottom: 0;
+    width: 320px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+    z-index: 999;
+}
+
+.slidesjs-pagination li {
+    margin: 0 1px;
+}
+
+.slidesjs-pagination li a {
+    display: block;
+    width: 30px;
+    height: 0;
+    padding-top: 14px;
+    background-image: url(../images/slide_pagination.png);
+    background-position: 0 0;
+    float: left;
+    overflow: hidden;
+}
+
+.slidesjs-pagination li a.active,
+.slidesjs-pagination li a:hover.active {
+    background-position: 0 -13px
+}
+
+.slidesjs-pagination li a:hover {
+    background-position: 0 -26px
+}
+
+.slidesjs-pagination li a:link,
+.slidesjs-pagination li a:visited {
+    color: #F09700
+}
+
+.slidesjs-pagination li a:hover,
+.slidesjs-pagination li a:active {
+    color: #F09700
+}
+
+.navbar {
+    overflow: hidden
+}
+
+#slides {
+    display: none
+}
+
+/* For tablets & smart phones */
+@media (max-width: 767px) {
+
+    .container {
+        width: auto
+    }
+}
+
+/* For smartphones */
+@media (max-width: 480px) {
+    .container {
+        width: auto
+    }
+}
+
+/* For smaller displays like laptops */
+@media (min-width: 768px) and (max-width: 979px) {
+    .container {
+        width: 724px
+    }
+}
+
+/* For larger displays */
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px
+    }
+}
