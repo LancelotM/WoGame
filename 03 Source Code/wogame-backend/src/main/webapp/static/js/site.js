@@ -11,7 +11,6 @@ $(function(){
 
     $('#launch').click(function(){
         $.get("/wogamecenter/startSite?channelId="+$('#channelId').attr('value'),function(data,status){
-            alert("data:"+data.wapURL);
             $('#wapURL').text(data.wapURL);
             $('#logURL').text(data.logURL);
         });

@@ -28,11 +28,11 @@
             <div class="main_info">
                 <form action="${basePath}/getLog" method="post" id="dateForm">
                     <div class="select_data">
-                        <select>
+                        <select id="select">
                             <option value="1">日数据</option>
                             <option value="2">月数据</option>
                         </select>
-                        <input type="hidden" value=""/>
+                        <input id="channelId" type="hidden" value="${channelId!}"/>
                     </div>
                 </form>
                 <image src="images/icon_radio.png" class="title_image"/>今日新增用户数<span class="numberal_format">21</span>人，总计用户数<span class="numberal_format">15875</span>人
@@ -54,7 +54,7 @@
                         <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
                         <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
                     </caption>
-                    <tr class="first_tr">
+                    <tr id="banner" class="first_tr">
                         <td>日期<td>
                         <td>广告图片1<td>
                         <td>广告图片2<td>
@@ -113,85 +113,13 @@
                     <img class="title_image" src="${basePath}/static/images/icon_ranking.png" />首页Top30游戏点击|下载情况
                 </div>
                 <table id="top30Game" class="detail_tb">
-                    <tr class="table_title font_color">
+                    <tr id="gameFirstTd" class="table_title font_color">
                         <td>游戏名称<td>
                         <td>昨日<td>
                         <td>前两天<td>
                         <td>前三天<td>
                         <td>前四天<td>
                         <td>前五天<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>23|26<td>
-                        <td>30|30<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>23|26<td>
-                        <td>30|30<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>23|26<td>
-                        <td>30|30<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>2|26<td>
-                        <td>30|30<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>2|26<td>
-                        <td>30|30<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>2|26<td>
-                        <td>30|30<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>2|26<td>
-                        <td>30|30<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>2|26<td>
-                        <td>30|30<td>
-                    </tr>
-                    <tr>
-                        <td><img src="${basePath}/static/images/game_img.png"/>地铁跑酷<td>
-                        <td>11|15<td>
-                        <td>24|16<td>
-                        <td>23|14<td>
-                        <td>2|26<td>
-                        <td>30|30<td>
                     </tr>
                 </table>
                 <div id="pages">

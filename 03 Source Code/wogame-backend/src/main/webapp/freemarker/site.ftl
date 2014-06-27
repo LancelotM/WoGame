@@ -114,12 +114,13 @@
 								<#if channelInfos?exists>
 	                                <#list channelInfos as channelInfo>
 										<tr>
+                                            <input id="channel_id" type="hidden" value="${channelInfo.channelId}"/>
 											<td>${channelInfo.channelName!}</td>
 											<td>${channelInfo.wapURL!}</td>
 											<td>${channelInfo.logURL!}</td>
 											<td>${channelInfo.dateCreated!}</td>
 											<td class="operate_td">
-												<a href="#"><img src="${basePath}/static/images/detail.png" alt=""/></a>
+												<a href="${basePath}/getlog?channelid=${channelInfo.channelId}"><img src="${basePath}/static/images/detail.png" alt="detail"/></a>
 											</td>
 										</tr>
 	                                </#list>
