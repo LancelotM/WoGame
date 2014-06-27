@@ -26,17 +26,15 @@
         </div>
         <div class="main">
             <div class="main_info">
-                <form action="" method="post">
-
+                <form action="${basePath}/getLog" method="post" id="dateForm">
+                    <div class="select_data">
+                        <select>
+                            <option value="1">日数据</option>
+                            <option value="2">月数据</option>
+                        </select>
+                        <input type="hidden" value=""/>
+                    </div>
                 </form>
-                <div class="select_data">
-                    <select>
-                        <option value="1">日数据</option>
-                        <option value="2">月数据</option>
-                    </select>
-                    <input type="hidden" value=""/>
-                </div>
-
                 <image src="images/icon_radio.png" class="title_image"/>今日新增用户数<span class="numberal_format">21</span>人，总计用户数<span class="numberal_format">15875</span>人
                 <div id="uv" style="width:963px;height:556px;margin-top:20px;margin-bottom:20px;"></div>
                 <div class="log_title" style="margin-top:17px;">

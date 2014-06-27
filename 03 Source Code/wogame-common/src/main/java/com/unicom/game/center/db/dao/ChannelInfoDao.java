@@ -19,6 +19,7 @@ public class ChannelInfoDao extends HibernateDao{
 	
 	public void update(ChannelInfoDomain channelInfo){		
 		getSession().update(channelInfo);
+		getSession().flush();
 	}
 	
 	@SuppressWarnings("unchecked")

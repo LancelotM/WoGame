@@ -19,6 +19,7 @@ public class AccountDao extends HibernateDao{
 	
 	public void update(AccountDomain account){
 		getSession().update(account);
+		getSession().flush();
 	}
 	
 	public void delete(int accountId){

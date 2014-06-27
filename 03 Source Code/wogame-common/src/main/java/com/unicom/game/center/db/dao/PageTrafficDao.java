@@ -24,6 +24,7 @@ public class PageTrafficDao extends HibernateDao{
 	
 	public void update(PageTrafficDomain pageTraffic){
 		getSession().update(pageTraffic);
+		getSession().flush();
 	}
 	
 	public List<PageTrafficInfo> fetchTrafficInfoByDate(String startDate, String endDate, Integer channelId){

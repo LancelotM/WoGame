@@ -13,6 +13,7 @@ public class ProductDao extends HibernateDao{
 	
 	public void update(ProductDomain product){
 		getSession().update(product);
+		getSession().flush();
 	}	
 	
 	public ProductDomain getByProductId(String productId){
