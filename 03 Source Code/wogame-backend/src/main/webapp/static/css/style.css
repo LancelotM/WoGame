@@ -319,6 +319,28 @@ a{
 	margin-right:20px;
 	margin-bottom:6px;
 }
+.banner_desc_tb tr{
+    width:90px;
+    border-right-width:0px;
+}
+
+.banner_tb tr{
+    width:877px;
+    border-left:0px;
+}
+.banner_desc_tb caption{
+    border-right-width:0px;
+}
+.banner_tb caption{
+    border-left:0px;
+}
+
+#page_banner{
+    height:77px;
+    background-color:#fff4d3;
+    font-weight:bold;
+    color:#ec6e01;;
+}
 .font_color{
 	color:#98958d;
 }

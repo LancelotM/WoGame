@@ -10,10 +10,23 @@ $(function(){
     });
 
     $('#launch').click(function(){
-        $.get("/wogamecenter/startSite?channelId="+$('#channelId').attr('value'),function(data,status){
-            $('#wapURL').text(data.wapURL);
-            $('#logURL').text(data.logURL);
-        });
+//        $.get("/wogamecenter/startSite?channelId="+$('#channelId').attr('value'),function(data,status){
+//            $('#wapURL').text(data.wapURL);
+//            $('#logURL').text(data.logURL);
+//        });
+        var infoForm = document.createElement("form");
+        infoForm.method="POST" ;
+        infoForm.action = "/wogamecenter/startSite";
+        var channelIdInput = document.createElement("input") ;
+        channelIdInput.setAttribute("name", "channelId") ;
+        channelIdInput.setAttribute("value", $('#channelId').attr('value'));
+        infoForm.appendChild(channelIdInput) ;
+
+        document.body.appendChild(infoForm) ;
+        infoForm.submit() ;
+        document.body.removeChild(infoForm) ;
     });
+
+    $('#')
 });
 

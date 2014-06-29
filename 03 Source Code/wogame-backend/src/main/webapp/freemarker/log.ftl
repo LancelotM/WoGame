@@ -44,9 +44,17 @@
                 <div class="log_title" style="margin-top:17px;">
                     <img class="title_image" src="${basePath}/static/images/icon_adv.png" />首页轮播广告点击|下载情况
                 </div>
-                <table class="detail_tb">
+                <table style="width:90px;" class="detail_tb banner_desc_tb left">
+                    <tr id="page_banner"><td><p>首页轮播<br/>广告图片</p></td></tr>
+                    <tr class="first_tr"><td>日期</td></tr>
+                    <tr><td>昨日</td></tr>
+                    <tr><td>前两天</td></tr>
+                    <tr><td>前三天</td></tr>
+                    <tr><td>前四天</td></tr>
+                    <tr><td>前五天</td></tr>
+                </table>
+                <table style="width:877px;"class="detail_tb banner_tb left">
                     <caption class="table_title banner_title">
-                        <p class="banner_desc left">首页轮播<br/>广告图片</p>
                         <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
                         <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
                         <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
@@ -55,7 +63,6 @@
                         <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
                     </caption>
                     <tr id="banner" class="first_tr">
-                        <td>日期<td>
                         <td>广告图片1<td>
                         <td>广告图片2<td>
                         <td>广告图片3<td>
@@ -63,53 +70,8 @@
                         <td>广告图片5<td>
                         <td>广告图片6<td>
                     </tr>
-                    <tr>
-                        <td>昨日<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                    </tr>
-                    <tr>
-                        <td>前两天<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                    </tr>
-                    <tr>
-                        <td>前三天<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                    </tr>
-                    <tr>
-                        <td>前四天<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                    </tr>
-                    <tr>
-                        <td>前五天<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                        <td>11|10<td>
-                    </tr>
                 </table>
-                <div class="log_title" style="margin-top:17px">
+                <div class="log_title" style="margin-top:17;pxmargin-top:17px;clear:both;">
                     <img class="title_image" src="${basePath}/static/images/icon_ranking.png" />首页Top30游戏点击|下载情况
                 </div>
                 <table id="top30Game" class="detail_tb">

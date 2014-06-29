@@ -2,6 +2,7 @@ package com.unicom.game.center.controller;
 
 import java.util.List;
 
+import com.unicom.game.center.model.GameInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,13 +69,13 @@ public class LogController {
     }
 
     @RequestMapping(value = "/firstPageBannerLog", method = {RequestMethod.GET})
-    public @ResponseBody List<GameDisplayModel>  firstPageBannerLog(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
+    public @ResponseBody List<List<GameInfo>>  firstPageBannerLog(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
         int dateType = Integer.parseInt(type);
-        List<GameDisplayModel>  gameInfos = null;
+        List<List<GameInfo>>  gameInfos = null;
         if(dateType == 1){
-            gameInfos = gameTrafficService.fetchGameInfoByDate(channelID,false);
+            gameInfos = gameTrafficService.getBannerDateModel(channelID);
         }else if(dateType == 2){
-            gameInfos = gameTrafficService.fetchGameInfoByDate(channelID,true);
+            gameInfos = gameTrafficService.getBannerMothModel(channelID);
         }
         return gameInfos;
     }
@@ -84,9 +85,9 @@ public class LogController {
         int dateType = Integer.parseInt(type);
         List<GameDisplayModel>  gameInfos = null;
         if(dateType == 1){
-            gameInfos = gameTrafficService.fetchGameInfoByDate(channelID,false);
+            gameInfos = gameTrafficService.getGameDayModel(channelID);
         }else if(dateType == 2){
-            gameInfos = gameTrafficService.fetchGameInfoByDate(channelID, true);
+            gameInfos = gameTrafficService.getGameMonthModel(channelID);
         }
         return gameInfos;
     }
