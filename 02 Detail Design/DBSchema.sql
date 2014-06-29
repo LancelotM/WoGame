@@ -16,8 +16,8 @@ create table wogamecenter.channel_info(
 	channel_id int(20) primary key,
 	channel_name varchar(200) not null,
 	status_id int(20) not null default 70, 
-	wap_url varchar(1024),
-	log_url varchar(1024),
+	wap_token varchar(128),
+	log_token varchar(128),
 	date_modified TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
 	date_created TIMESTAMP not null DEFAULT '2014-06-20 00:00:00'
 )engine=innodb default charset=utf8;

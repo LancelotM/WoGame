@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.unicom.game.center.business.AccountBusiness;
 import com.unicom.game.center.business.ChannelInfoBusiness;
-import com.unicom.game.center.db.domain.ChannelInfoDomain;
+import com.unicom.game.center.model.ChannelInfo;
 
 /**
  * @author Alex Yin
@@ -51,7 +51,7 @@ public class HomeController
 
         int flag = accountService.login(username, password);
     	if(flag == 0){
-    		List<ChannelInfoDomain> channelInfos = channelService.fetchActiveChannelInfos();
+    		List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
 			model.put("channelInfos", channelInfos);
 			session.setAttribute("admin", true);
 			return new ModelAndView("/site", model);	    		
@@ -75,7 +75,7 @@ public class HomeController
     }
     
 	@RequestMapping(value = "/exit", method = RequestMethod.GET)
-	public ModelAndView postLogin(HttpSession session) 
+	public ModelAndView logout(HttpSession session) 
 	{
 		ModelMap model = new ModelMap();
 

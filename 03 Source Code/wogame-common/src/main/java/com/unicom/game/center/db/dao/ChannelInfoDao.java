@@ -2,9 +2,11 @@ package com.unicom.game.center.db.dao;
 
 import java.util.List;
 
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
+import com.unicom.game.center.model.ChannelInfo;
 
 @Component
 public class ChannelInfoDao extends HibernateDao{
@@ -22,16 +24,17 @@ public class ChannelInfoDao extends HibernateDao{
 		getSession().flush();
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<ChannelInfoDomain> getAll(){
-		return getSession().createQuery("from ChannelInfoDomain").list();
-	}
-	
-	public List<ChannelInfoDomain> fetchActiveChannels(){
-		String hql = "from ChannelInfoDomain channel where channel.status.statusId = 90";
+	public List<ChannelInfo> fetchActiveChannels(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("select channel.channelId as channelId, channel.channelName as channelName,");
+		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken,");
+		sb.append(" DATE_FORMAT(channel.dateModified, '%Y-%m-%d') as date");
+		sb.append(" from ChannelInfoDomain channel where channel.status.statusId = 90");
 		
 		@SuppressWarnings("unchecked")
-		List<ChannelInfoDomain> channelInfos= getSession().createQuery(hql).list();
+		List<ChannelInfo> channelInfos= getSession().createQuery(sb.toString())
+									.setResultTransformer(Transformers.aliasToBean(ChannelInfo.class))
+									.list();
 		
 		return channelInfos;
 	}

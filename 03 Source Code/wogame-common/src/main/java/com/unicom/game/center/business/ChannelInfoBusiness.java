@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.db.domain.StatusMapDomain;
+import com.unicom.game.center.model.ChannelInfo;
 import com.unicom.game.center.utils.AESEncryptionHelper;
 import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.Logging;
@@ -31,33 +32,16 @@ public class ChannelInfoBusiness {
 	private String siteKey;
 	
 	@Value("#{properties['backend.secret.key']}")
-	private String backendKey;
+	private String backendKey;	
 	
-	@Value("#{properties['wogame.wap.link']}")
-	private String wapLink;
 	
-	@Value("#{properties['wogame.log.link']}")
-	private String logLink;	
-	
-	public List<ChannelInfoDomain> fetchAllChannelInfos(){
-		List<ChannelInfoDomain> channelInfos = null;
-		
-		try{
-			channelInfos = channelInfoDao.getAll();
-		}catch(Exception e){
-			Logging.logError("Error occur in fetchAllChannelInfos", e);
-		}
-		
-		return channelInfos;
-	}
-	
-	public List<ChannelInfoDomain> fetchActiveChannelInfos(){
-		List<ChannelInfoDomain> channelInfos = null;
+	public List<ChannelInfo> fetchActiveChannelInfos(){
+		List<ChannelInfo> channelInfos = null;
 		
 		try{
 			channelInfos = channelInfoDao.fetchActiveChannels();
 		}catch(Exception e){
-			Logging.logError("Error occur in fetchAllChannelInfos", e);
+			Logging.logError("Error occur in fetchActiveChannelInfos", e);
 		}
 		
 		return channelInfos;
@@ -86,8 +70,8 @@ public class ChannelInfoBusiness {
 				channel.setStatus(status);
 				String siteToken = AESEncryptionHelper.encrypt(String.valueOf(channelId), siteKey);
 				String backendToken = AESEncryptionHelper.encrypt(String.valueOf(channelId), backendKey);
-				channel.setWapURL(wapLink + siteToken);
-				channel.setLogURL(logLink + backendToken);
+				channel.setWapToken(siteToken);
+				channel.setLogToken(backendToken);
 				channel.setDateModified(new Date());
 				channelInfoDao.update(channel);
 			}

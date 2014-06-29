@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
+import com.unicom.game.center.model.ChannelInfo;
 
 /**
  * @author Alex Yin
@@ -24,12 +25,6 @@ public class ChannelInfoBusinessTest {
 	private ChannelInfoBusiness channel;
 	
 	@Test
-	public void testFetchAllChannelInfos(){
-		List<ChannelInfoDomain> channelInfos = channel.fetchAllChannelInfos();
-		System.out.println((null != channelInfos) ? channelInfos.size() : 0);
-	}
-	
-	@Test
 	public void testFetchChannelInfo(){
 		ChannelInfoDomain channelInfo = channel.fetchChannelInfo(18129);
 		System.out.println((null != channelInfo) ? true : false);
@@ -43,7 +38,7 @@ public class ChannelInfoBusinessTest {
 	
 	@Test
 	public void testFetchActiveChannelInfos(){
-		List<ChannelInfoDomain> channelInfos = channel.fetchActiveChannelInfos();
+		List<ChannelInfo> channelInfos = channel.fetchActiveChannelInfos();
 		System.out.println((null != channelInfos) ? channelInfos.size() : 0);
 	}
 }
