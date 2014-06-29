@@ -2,6 +2,9 @@ package com.unicom.game.center.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,13 +40,20 @@ public class HomeController
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     public ModelAndView login(
     		@RequestParam(value = "username", required = true) String username,
-    		@RequestParam(value = "password", required = true) String password){
+    		@RequestParam(value = "password", required = true) String password,
+    		@RequestParam(value = "remember", required = false) boolean remember,
+    		HttpServletRequest request, HttpSession session){
     	ModelMap model = new ModelMap();
+    	
+		if(null == session){
+			session = request.getSession(true);
+		}
 
         int flag = accountService.login(username, password);
     	if(flag == 0){
     		List<ChannelInfoDomain> channelInfos = channelService.fetchActiveChannelInfos();
 			model.put("channelInfos", channelInfos);
+			session.setAttribute("admin", true);
 			return new ModelAndView("/site", model);	    		
     	}else if(flag == 1){
 			model.put("loginInfo", "用户不存在！");
@@ -62,5 +72,18 @@ public class HomeController
 			return new ModelAndView("index", model);    		
     	}
     	
-    }	
+    }
+    
+	@RequestMapping(value = "/exit", method = RequestMethod.GET)
+	public ModelAndView postLogin(HttpSession session) 
+	{
+		ModelMap model = new ModelMap();
+
+		if(null != session)
+		{
+			session.invalidate();
+		}
+		
+		return new ModelAndView("/index", model);
+	}    
 }

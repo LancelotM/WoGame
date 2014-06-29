@@ -1,10 +1,7 @@
 package com.unicom.game.center.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.unicom.game.center.model.GameDisplayModel;
-import com.unicom.game.center.model.JsonParent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.unicom.game.center.business.GameTrafficBusiness;
 import com.unicom.game.center.business.LoginInfoBusiness;
 import com.unicom.game.center.business.PageTrafficBusiness;
-import com.unicom.game.center.model.GameInfo;
+import com.unicom.game.center.model.GameDisplayModel;
+import com.unicom.game.center.model.JsonParent;
 
 /**
  * Created with IntelliJ IDEA.
