@@ -36,7 +36,7 @@ public class LogController {
     @Autowired
     private GameTrafficBusiness gameTrafficService;
 
-    @RequestMapping(value = "/getlog", method = {RequestMethod.GET})
+    @RequestMapping(value = "/getlog", method = {RequestMethod.POST})
     public ModelAndView userLoginCount(@RequestParam(value="channelId",required = true) int channelID){
         ModelAndView modelView = new ModelAndView();
         modelView.setViewName("log");
@@ -44,7 +44,7 @@ public class LogController {
         return modelView;
     }
 
-    @RequestMapping(value = "/userLoginLog", method = {RequestMethod.GET})
+    @RequestMapping(value = "/userLoginLog", method = {RequestMethod.POST})
     public @ResponseBody JsonParent userLoginCount(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
         int dateType = Integer.parseInt(type);
         JsonParent displayModel = null;
@@ -56,7 +56,7 @@ public class LogController {
         return displayModel;
     }
 
-    @RequestMapping(value = "/pageTrafficLog", method = {RequestMethod.GET})
+    @RequestMapping(value = "/pageTrafficLog", method = {RequestMethod.POST})
     public @ResponseBody JsonParent pageTrafficCount(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
         int dateType = Integer.parseInt(type);
         JsonParent displayModel = null;
@@ -68,7 +68,7 @@ public class LogController {
         return displayModel;
     }
 
-    @RequestMapping(value = "/firstPageBannerLog", method = {RequestMethod.GET})
+    @RequestMapping(value = "/firstPageBannerLog", method = {RequestMethod.POST})
     public @ResponseBody List<List<GameInfo>>  firstPageBannerLog(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
         int dateType = Integer.parseInt(type);
         List<List<GameInfo>>  gameInfos = null;
@@ -80,7 +80,7 @@ public class LogController {
         return gameInfos;
     }
 
-    @RequestMapping(value = "/topGameLog", method = {RequestMethod.GET})
+    @RequestMapping(value = "/topGameLog", method = {RequestMethod.POST})
     public @ResponseBody List<GameDisplayModel>  topGameLog(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
         int dateType = Integer.parseInt(type);
         List<GameDisplayModel>  gameInfos = null;

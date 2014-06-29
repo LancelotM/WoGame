@@ -84,16 +84,16 @@
                                             </ul>
 										</div>
 									</td>
-									<td><a id="launch" href="javascript:;" style="text-align:right"><img src="${basePath}/static/images/launch.png" alt=""/></a></td>
+									<td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="${basePath}/static/images/launch.png" alt=""/></a></td>
                                     <td><input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/> </td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">站点链接</td>
-									<td id="wapURL" class="link_address" colspan="2">${(channelInfoDomain.wapURL)!}</td>
+									<td id="wapURL" class="link_address" colspan="2">${(channelInfoDomain.wapToken)!}</td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">后台管理链接</td>
-									<td id="logURL" class="link_address" colspan="2" >${(channelInfoDomain.logURL)!}</td>
+									<td id="logURL" class="link_address" colspan="2" >${(channelInfoDomain.logToken)!}</td>
 								</tr>
 							</table>
 						</div>
@@ -101,7 +101,7 @@
 							<div class="log_title">
 								<img class="title_image" src="${basePath}/static/images/icon_sitelist.png" alt="" />已建站<span class="numberal_format">
                                 <#if channelInfos?exists>
-                                     channelInfos?size;
+                                     ${channelInfos?size}
                                     <#else>
                                         0
                                 </#if>
@@ -111,21 +111,20 @@
 								<caption class="table_title"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>已建站站点详细</span></caption>
 								<tr class="first_tr">
 									<td>渠道名</td>
-									<td>站点链接</td>
-									<td>后台管理链接</td>
+									<td>站点链接令牌</td>
+									<td>后台管理链接令牌</td>
 									<td>建站时间</td>
 									<td class="operate_td">站点操作</td>
 								</tr>
 								<#if channelInfos?exists>
 	                                <#list channelInfos as channelInfo>
 										<tr>
-											<td>${channelInfo.channelName!}</td>
-											<td>${channelInfo.wapURL!}</td>
-											<td>${channelInfo.logURL!}</td>
-											<td>${channelInfo.dateCreated!}</td>
-											<td class="operate_td">
-                                                <input type="hidden" value="${channelInfo.channelId!}"/>
-												<a href="${basePath}/getlog?channelId=${channelInfo.channelId!}"><img src="${basePath}/static/images/detail.png" alt="detail"/></a>
+											<td class="width147">${channelInfo.channelName!}</td>
+											<td class="widht262px">${channelInfo.wapToken!}</td>
+											<td class="widht262px">${channelInfo.logToken!}</td>
+											<td class="width147">${channelInfo.date!}</td>c
+											<td class="operate_td" class="width147">
+												<a href="javascript:;" onclick="getDetailInfo(${channelInfo.channelId?c})"><img src="${basePath}/static/images/detail.png" alt="detail"/></a>
 											</td>
 										</tr>
 	                                </#list>

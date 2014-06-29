@@ -32,7 +32,7 @@
                             <option value="1">日数据</option>
                             <option value="2">月数据</option>
                         </select>
-                        <input id="channelId" type="hidden" value="${channelId!}"/>
+                        <input id="channelId" type="hidden" value="${channelId?c}"/>
                     </div>
                 </form>
                 <image src="images/icon_radio.png" class="title_image"/>今日新增用户数<span class="numberal_format">21</span>人，总计用户数<span class="numberal_format">15875</span>人

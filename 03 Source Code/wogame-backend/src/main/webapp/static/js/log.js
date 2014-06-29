@@ -1,11 +1,11 @@
 
 $(function(){
     var typeVlaue = $("#select").find("option:selected").val();
-    alert(typeVlaue);
+    var channelNum = $("#channelId").val();
     $.ajax({
-        type: "GET",
-        url: "/userLoginLog",
-        data: {type:typeVlaue, channelId:$("#channelId").val()},
+        type: "POST",
+        url: "/wogamecenter/userLoginLog",
+        data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
             $('#uv').highcharts({ title: { text: '联通沃游戏中心', x: -20 },subtitle:{text:'新老用户登录统计',x:-20},
@@ -16,9 +16,9 @@ $(function(){
         }
     });
     $.ajax({
-        type: "GET",
-        url: "/userLoginLog",
-        data: {type:typeVlaue, channelId:$("#channelId").val()},
+        type: "POST",
+        url: "/wogamecenter/userLoginLog",
+        data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
             $(function () { $('#pv').highcharts({ title: { text: '联通沃游戏中心', x: -20 },subtitle:{text:'主要页面流量统计',x:-20},
@@ -29,9 +29,9 @@ $(function(){
         }
     });
     $.ajax({
-        type: "GET",
-        url: "/firstPageBannerLog",
-        data: {type:typeVlaue, channelId:$("#channelId").val()},
+        type: "POST",
+        url: "/wogamecenter/firstPageBannerLog",
+        data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
             var html = "";
@@ -47,9 +47,9 @@ $(function(){
     });
 
     $.ajax({
-        type: "GET",
-        url: "/topGameLog",
-        data: {type:typeVlaue, channelId:$("#channelId").val()},
+        type: "POST",
+        url: "/wogamecenter/topGameLog",
+        data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
             var html = "";
