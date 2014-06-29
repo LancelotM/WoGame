@@ -7,14 +7,14 @@ package com.unicom.game.center.model;
  * Time: 下午5:34
  * To change this template use File | Settings | File Templates.
  */
-public class FirstPageGameLog {
+public class GameDisplayModel {
 
     private String icon;
     private String gameName;
     private String thisTimeData;
     private String lastTimeData;
     private String last2TimeData;
-    private System last3TimeData;
+    private String last3TimeData;
     private String last4TimeData;
 
     public String getIcon() {
@@ -57,11 +57,11 @@ public class FirstPageGameLog {
         this.last2TimeData = last2TimeData;
     }
 
-    public System getLast3TimeData() {
+    public String getLast3TimeData() {
         return last3TimeData;
     }
 
-    public void setLast3TimeData(System last3TimeData) {
+    public void setLast3TimeData(String last3TimeData) {
         this.last3TimeData = last3TimeData;
     }
 

@@ -2,6 +2,7 @@ package com.unicom.game.center.business;
 
 import java.util.List;
 
+import com.unicom.game.center.model.JsonParent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,17 +41,17 @@ public class LoginInfoBusinessTest {
 	
 	@Test
 	public void testFetchLoginInfoByDate(){
-		List<LoginInfo> loginInfoList = loginInfo.fetchLoginInfoByDate(null);
-		System.out.println((null != loginInfoList) ? loginInfoList.size() : 0);
+        JsonParent loginInfoList = loginInfo.fetchLoginInfoByDate(null);
+		System.out.println((null != loginInfoList) ? 1 : 0);
 		loginInfoList = loginInfo.fetchLoginInfoByDate(18082);
-		System.out.println((null != loginInfoList) ? loginInfoList.size() : 0);
+		System.out.println((null != loginInfoList) ? 1 : 0);
 	}
 
 	@Test
 	public void testFetchLoginInfoByMonth(){
-		List<LoginInfo> loginInfoList = loginInfo.fetchLoginInfoByMonth(null);
-		System.out.println((null != loginInfoList) ? loginInfoList.size() : 0);
+        JsonParent loginInfoList = loginInfo.fetchLoginInfoByMonth(null);
+		System.out.println((null != loginInfoList) ? 1 : 0);
 		loginInfoList = loginInfo.fetchLoginInfoByMonth(18082);
-		System.out.println((null != loginInfoList) ? loginInfoList.size() : 0);
+		System.out.println((null != loginInfoList) ? 1 : 0);
 	}	
 }

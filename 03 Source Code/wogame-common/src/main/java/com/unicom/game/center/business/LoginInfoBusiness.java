@@ -3,6 +3,8 @@ package com.unicom.game.center.business;
 import java.util.Date;
 import java.util.List;
 
+import com.unicom.game.center.model.JsonModel;
+import com.unicom.game.center.model.JsonParent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,9 +52,9 @@ public class LoginInfoBusiness {
 		return count;
 	}
 	
-	public List<LoginInfo> fetchLoginInfoByDate(Integer channelId){
+	public JsonParent fetchLoginInfoByDate(Integer channelId){
 		List<LoginInfo> loginInfoList = null;
-		
+        JsonParent jsonData = null;
 		try{
 			Date today = new Date();
 			Date yesterday = DateUtils.getDayByInterval(today, -1);
@@ -61,16 +63,17 @@ public class LoginInfoBusiness {
 			String startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
 			
 			loginInfoList = userCountDao.fetchLoginInfoByDate(startDate, endDate, channelId);
+            jsonData = getJsonData(loginInfoList);
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchLoginInfoByDate", ex);
 		}
 		
-		return loginInfoList;
+		return jsonData;
 	}
 	
-	public List<LoginInfo> fetchLoginInfoByMonth(Integer channelId){
+	public JsonParent fetchLoginInfoByMonth(Integer channelId){
 		List<LoginInfo> loginInfoList = null;
-		
+        JsonParent jsonData = null;
 		try{
 			Date today = new Date();
 			Date yesterday = DateUtils.getDayByInterval(today, -1);
@@ -78,12 +81,29 @@ public class LoginInfoBusiness {
 			String startDate = DateUtils.getMonthFirstByInterval(today, -11);
 			
 			loginInfoList = userCountDao.fetchLoginInfoByMonth(startDate, endDate, channelId);
-	
+            jsonData = getJsonData(loginInfoList);
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchLoginInfoByMonth", ex);
 		}
 		
-		return loginInfoList;
-	}	
+		return jsonData;
+	}
+
+    public JsonParent getJsonData(List<LoginInfo> loginInfos){
+        JsonParent jsonData = new JsonParent();
+        JsonModel newUser = new JsonModel();
+        newUser.setName("新用户");
+        JsonModel oldUser = new JsonModel();
+        oldUser.setName("老用户");
+        for(LoginInfo loginInfo: loginInfos){
+            newUser.addData(Integer.parseInt(loginInfo.getNewUser()));
+            oldUser.addData(Integer.parseInt(loginInfo.getOldUser()));
+            jsonData.addUnit(loginInfo.getDate());
+        }
+        jsonData.addResult(newUser);
+        jsonData.addResult(oldUser);
+        jsonData.setStatus("success");
+        return jsonData;
+    }
 
 }

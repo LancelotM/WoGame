@@ -30,9 +30,9 @@ public class ChannelInfoBusinessTest {
 	}
 	
 	@Test
-	public void testCheckChannelIsActive(){
-		boolean flag = channel.checkChannelIsActive(18129);
-		System.out.println(flag);
+	public void testFetchChannelInfo(){
+		ChannelInfoDomain channelInfo = channel.fetchChannelInfo(18129);
+		System.out.println((null != channelInfo) ? true : false);
 	}
 	
 	@Test

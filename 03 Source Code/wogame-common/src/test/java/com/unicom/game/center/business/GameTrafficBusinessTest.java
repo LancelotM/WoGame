@@ -2,6 +2,7 @@ package com.unicom.game.center.business;
 
 import java.util.List;
 
+import com.unicom.game.center.model.GameDisplayModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class GameTrafficBusinessTest {
 	
 	@Test
 	public void testFetchBannerInfo(){
-		List<GameInfo>  gameList =game.fetchGameInfoByDate(18082, true);
+        List<GameDisplayModel> gameList =game.fetchGameInfoByDate(18082, true);
 		System.out.println((null != gameList) ? gameList.size() : 0);
 		
 		gameList =game.fetchGameInfoByMonth(18082, true);
@@ -32,7 +33,7 @@ public class GameTrafficBusinessTest {
 	
 	@Test
 	public void testFetchHotListInfo(){
-		List<GameInfo>  gameList =game.fetchGameInfoByDate(18082, false);
+        List<GameDisplayModel>  gameList =game.fetchGameInfoByDate(18082, false);
 		System.out.println((null != gameList) ? gameList.size() : 0);
 		
 		gameList =game.fetchGameInfoByMonth(18082, false);

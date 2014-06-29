@@ -63,20 +63,16 @@ public class ChannelInfoBusiness {
 		return channelInfos;
 	}
 	
-	public boolean checkChannelIsActive(int channelId){
-		boolean flag = false;
+	public ChannelInfoDomain fetchChannelInfo(int channelId){
+		ChannelInfoDomain channel = null;
 		
 		try{
-			ChannelInfoDomain channel = channelInfoDao.getById(channelId);
-			if(null != channel && Constant.ACTIVE_STATUS_ID == channel.getStatus().getStatusId()){
-				flag = true;
-			}
+			channel = channelInfoDao.getById(channelId);
 		}catch(Exception e){
-			Logging.logError("Error occur in checkChannelIsActive", e);
+			Logging.logError("Error occur in fetchChannelInfo", e);
 		}
 		
-		return flag;		
-		
+		return channel;
 	}
 	
 	public ChannelInfoDomain startChannel(int channelId){
