@@ -37,9 +37,13 @@ public class LogController {
     private GameTrafficBusiness gameTrafficService;
 
     @RequestMapping(value = "/getlog", method = {RequestMethod.POST})
-    public ModelAndView userLoginCount(@RequestParam(value="channelId",required = true) int channelID){
+    public ModelAndView getLog(@RequestParam(value="type",required=true) String type,@RequestParam(value="channelId",required = true) int channelID){
         ModelAndView modelView = new ModelAndView();
-        modelView.setViewName("log");
+        if("1".equals(type)){
+            modelView.setViewName("log");
+        }else if("2".equals(type)){
+            modelView.setViewName("monthLog");
+        }
         modelView.addObject("channelId",channelID);
         return modelView;
     }

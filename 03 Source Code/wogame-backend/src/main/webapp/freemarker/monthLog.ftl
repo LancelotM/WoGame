@@ -29,8 +29,8 @@
                 <form action="${basePath}/getLog" method="post" id="dateForm">
                     <div class="select_data">
                         <select id="select">
-                            <option value="1" selected="selected">日数据</option>
-                            <option value="2">月数据</option>
+                            <option value="1">日数据</option>
+                            <option value="2" selected="selected">月数据</option>
                         </select>
                         <input id="channelId" type="hidden" value="${channelId?c}"/>
                     </div>
@@ -47,11 +47,11 @@
                 <table style="width:90px;" class="detail_tb banner_desc_tb left">
                     <tr id="page_banner"><td><p>首页轮播<br/>广告图片</p></td></tr>
                     <tr class="first_tr"><td>日期</td></tr>
-                    <tr><td>昨日</td></tr>
-                    <tr><td>前两天</td></tr>
-                    <tr><td>前三天</td></tr>
-                    <tr><td>前四天</td></tr>
-                    <tr><td>前五天</td></tr>
+                    <tr><td>本月</td></tr>
+                    <tr><td>上月</td></tr>
+                    <tr><td>前两月</td></tr>
+                    <tr><td>前三月</td></tr>
+                    <tr><td>前四月</td></tr>
                 </table>
                 <table id="banner" style="width:877px;"class="detail_tb banner_tb left">
                     <caption class="table_title banner_title">
@@ -77,11 +77,11 @@
                 <table id="top30Game" class="detail_tb">
                     <tr id="gameFirstTd" class="table_title font_color">
                         <td>游戏名称</td>
-                        <td>昨日</td>
-                        <td>前两天</td>
-                        <td>前三天</td>
-                        <td>前四天</td>
-                        <td>前五天</td>
+                        <td>本月</td>
+                        <td>上月</td>
+                        <td>前两月</td>
+                        <td>前三月</td>
+                        <td>前四月</td>
                     </tr>
                 </table>
                 <div id="pages">

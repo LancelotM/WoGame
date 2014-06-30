@@ -33,17 +33,22 @@ function getBasePath(){
 }
 
 function getDetailInfo(id){
-    createForm(getBasePath()+'/getlog',id);
+    createForm(getBasePath()+'/getlog',id,'1');
 }
 
-function createForm(url,value){
+function createForm(url,channel,date){
     var infoForm = document.createElement("form");
     infoForm.method="POST" ;
     infoForm.action = url;
     var channelIdInput = document.createElement("input") ;
     channelIdInput.setAttribute("name", "channelId") ;
-    channelIdInput.setAttribute("value", value);
+    channelIdInput.setAttribute("value", channel);
     infoForm.appendChild(channelIdInput) ;
+
+    var dateInput = document.createElement("input") ;
+    dateInput.setAttribute("name", "type") ;
+    dateInput.setAttribute("value", date);
+    infoForm.appendChild(dateInput) ;
 
     document.body.appendChild(infoForm) ;
     infoForm.submit() ;

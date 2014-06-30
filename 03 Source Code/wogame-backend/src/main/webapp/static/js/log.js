@@ -2,9 +2,10 @@
 $(function(){
     var typeVlaue = $("#select").find("option:selected").val();
     var channelNum = $("#channelId").val();
+    var basePath = getBasePath();
     $.ajax({
         type: "POST",
-        url: "/wogamecenter/userLoginLog",
+        url: basePath+"/userLoginLog",
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
@@ -17,7 +18,7 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: "/wogamecenter/pageTrafficLog",
+        url: basePath+"/pageTrafficLog",
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
@@ -30,15 +31,15 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: "/wogamecenter/firstPageBannerLog",
+        url: basePath+"/firstPageBannerLog",
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
             var html = "";
             $.each(data, function(commentIndex, comment){
                 html += "<tr>";
-                $.each(indata,function(index,obj){
-                    html += '<td>'+obj['clickThrough']+'|'+obj[downloadCount]+'</td>';
+                $.each(comment,function(index,obj){
+                    html += '<td>'+obj['clickThrough']+'|'+obj['downloadCount']+'</td>';
                 });
                 html += "</tr>"
             });
@@ -48,13 +49,13 @@ $(function(){
 
     $.ajax({
         type: "POST",
-        url: "/wogamecenter/topGameLog",
+        url: basePath+"/topGameLog",
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
             var html = "";
             $.each(data, function(commentIndex, comment){
-                html += '<tr><td><img src="${basePath}/static/images/game_img.png"/>'+comment['name']
+                html += '<tr><td><img src="'+basePath+'/static/images/game_img.png"/>'+comment['gameName']
                     +'</td><td>'+comment['thisTimeData']+'</td><td>'+comment['lastTimeData']+
                     '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
                     '</td><td>'+comment['last4TimeData']+'</td></tr>'
@@ -62,4 +63,31 @@ $(function(){
             $('#top30Game').append(html);
         }
     });
+
+    $('#select').change(function(){
+        createForm(getBasePath()+'/getlog',channelNum,typeVlaue);
+    });
 });
+
+function getBasePath(){
+    return $('#basePath').attr('value');
+}
+
+function createForm(url,value,type){
+    var infoForm = document.createElement("form");
+    infoForm.method="POST" ;
+    infoForm.action = url;
+    var channelIdInput = document.createElement("input") ;
+    channelIdInput.setAttribute("name", "channelId") ;
+    channelIdInput.setAttribute("value", value);
+    infoForm.appendChild(channelIdInput) ;
+
+    var dateInput = document.createElement("input") ;
+    dateInput.setAttribute("name", "type") ;
+    dateInput.setAttribute("value", type);
+    infoForm.appendChild(dateInput) ;
+
+    document.body.appendChild(infoForm) ;
+    infoForm.submit() ;
+    document.body.removeChild(infoForm) ;
+}
