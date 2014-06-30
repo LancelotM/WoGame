@@ -1,9 +1,7 @@
 $(function(){
     $('#province_div a').click(function(){
         var basePath = getBasePath();
-        alert('basePath:'+getBasePath());
         $.get(basePath+"/getActiveInfo?channelId="+$(this).attr('name'),function(data,status){
-            alert('data:'+data);
             var returnData = data.toString();
             if(returnData == 'true'){
                 $('launch_img').attr('src',basePath+'/static/images/launched.png');
