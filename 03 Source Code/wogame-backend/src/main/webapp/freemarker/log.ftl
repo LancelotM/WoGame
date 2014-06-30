@@ -35,7 +35,7 @@
                         <input id="channelId" type="hidden" value="${channelId?c}"/>
                     </div>
                 </form>
-                <image src="images/icon_radio.png" class="title_image"/>今日新增用户数<span class="numberal_format">21</span>人，总计用户数<span class="numberal_format">15875</span>人
+                <image src="${basePath}/static/images/icon_radio.png" class="title_image"/>今日新增用户数<span class="numberal_format">21</span>人，总计用户数<span class="numberal_format">15875</span>人
                 <div id="uv" style="width:963px;height:556px;margin-top:20px;margin-bottom:20px;"></div>
                 <div class="log_title" style="margin-top:17px;">
                     <img class="title_image" src="${basePath}/static/images/icon_pv.png" />主要页面流量统计

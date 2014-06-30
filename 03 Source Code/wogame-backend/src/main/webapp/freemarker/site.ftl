@@ -14,7 +14,7 @@
 					<div class="ul_info">
 						<a href="#" class="margin_top45" onclick="show_hidden('first_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png" alt=""/>&nbsp;日志统计信息</a>
 						<ul id="first_ul" class="son_ul" style="display:none">
-							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getlog?channelId=${(channelInfoDomain.channelId)!}">日志总览</a></li>
+							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getlog>日志总览</a></li>
 							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getAllKeyWowrd">搜索日志</a></li>
 						</ul>
 					<a href="#" class="margin_top45" onclick="show_hidden('second_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png" alt=""/>&nbsp;站点管理</a>
@@ -99,12 +99,13 @@
 						</div>
 						<div class="create_detail">
 							<div class="log_title">
-								<img class="title_image" src="${basePath}/static/images/icon_sitelist.png" alt="" />已建站<span class="numberal_format">
-                                <#if channelInfos?exists>
-                                     ${channelInfos?size}
-                                    <#else>
-                                        0
-                                </#if>
+								<img class="title_image" src="${basePath}/static/images/icon_sitelist.png" alt="" />已建站
+                                <span class="numberal_format">
+                                    <#if channelInfos?exists>
+                                         ${channelInfos?size}
+                                        <#else>
+                                            0
+                                    </#if>
                                 </span>个
 							</div>
 							<table class="detail_tb">

@@ -17,7 +17,7 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: "/wogamecenter/userLoginLog",
+        url: "/wogamecenter/pageTrafficLog",
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){

@@ -13,6 +13,7 @@ $(function(){
 
     $('#launch').click(function(){
         var basePath = getBasePath();
+        alert($('#channelId').attr('value'));
         var infoForm = document.createElement("form");
         infoForm.method="POST" ;
         infoForm.action = basePath+"/startSite";
