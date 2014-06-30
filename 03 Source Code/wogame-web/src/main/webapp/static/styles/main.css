@@ -772,6 +772,15 @@ dl.w_dowload dt {
     padding: 3px;
 }
 
+.w_img_bg_large {
+    left: 3px;
+    top: 5px;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    padding: 3px;
+}
+
 .w_img_bg img {
     border-radius: 5px;
     width: 60px;
@@ -895,11 +904,11 @@ dl.w_dowload dt {
 }
 
 .youxi_lr_05 {
-    margin: 10px 6px 6px 6px;
-    /*height: 198px;*/
+    margin: 5px;
+    /*height: 166px;*/
     position: relative;
     overflow-x: scroll;
-    overflow-y: none;
+    overflow-y: hidden;
 }
 
 .youxi_lr_06 {

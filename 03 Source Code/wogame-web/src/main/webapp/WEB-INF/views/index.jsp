@@ -41,7 +41,7 @@
     <div id="pic_div" class="container">
     <div id="slides">
         <c:forEach items="${adList}" var="item">
-            <img src="${item.bannerUrl}"/>
+            <img src="${item.bannerUrl}" onclick="javascript:toDetail('${item.linkId}');"/>
         </c:forEach>
     </div>
 </div>
@@ -186,6 +186,9 @@
         })
     }
 
+    function toDetail(id) {
+        location.href = "${ctx}/gameInfo;jsessionid=${sessionid}?productId=" + id;
+    }
 
 </script>
 
