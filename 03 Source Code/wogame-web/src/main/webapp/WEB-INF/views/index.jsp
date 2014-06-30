@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="sessionid" value="${pageContext.request.requestedSessionId}"/>
 
@@ -52,9 +53,14 @@
         <c:if test="${item.adType == 4}">
             <div class="w_houlist">
                 <div class="w_houlist_l">
-                    <div class="w_img_bg"><a
-                            href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}"><img
-                            width="100" height="100" src="${appItem.iconUrl}"></a></div>
+                    <c:if test="${appItem.recommendType>0}">
+                        <div class="index_xiejiao index_xiejiao_${appItem.recommendType}"></div>
+                    </c:if>
+                    <div class="w_img_bg">
+                        <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">
+                            <img width="60" height="60" src="${appItem.iconUrl}">
+                        </a>
+                    </div>
                     <div class="w_img_count">
                         <h3>
                             <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">${appItem.appName}</a>
@@ -64,16 +70,20 @@
                             <div class="w_start_0${appItem.rate}${appItem.rate}">一星</div>
                             <!--<div class="w_start_022">二星</div><div class="w_start_033">三星</div><div class="w_start_044">四星</div><div class="w_start_055">五星</div>-->
                         </div>
-                        <h5>${appItem.apkSize / 1000}MB</h5>
+                        <h6><fmt:formatNumber value="${appItem.apkSize / 1024}" pattern="0.00"/>MB</h6>
                     </div>
                     <div class="w_img_xz"><a href="javascript:download('${appItem.productId}');">下载</a></div>
                 </div>
                 <c:if test="${idx.index+1 < fn:length(item.apps)}">
                     <div class="w_houlist_r">
-                        <div class="w_img_bg"><a
-                                href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}"><img
-                                width="100" height="100"
-                                src="${item.apps[idx.index+1].iconUrl}"></a></div>
+                        <c:if test="${item.apps[idx.index+1].recommendType>0}">
+                            <div class="index_xiejiao_${item.apps[idx.index+1].recommendType} index_xiejiao"></div>
+                        </c:if>
+                        <div class="w_img_bg">
+                            <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
+                                <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
+                            </a>
+                        </div>
                         <div class="w_img_count">
                             <h3>
                                 <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">${item.apps[idx.index+1].appName}</a>
@@ -84,7 +94,8 @@
                                 </div>
                                 <!--<div class="w_start_011">一星</div><div class="w_start_033">三星</div><div class="w_start_044">四星</div><div class="w_start_055">五星</div>-->
                             </div>
-                            <h5>${item.apps[idx.index+1].apkSize / 1000}MB</h5>
+                            <h6><fmt:formatNumber value="${item.apps[idx.index+1].apkSize / 1024}"
+                                                  pattern="0.00"/>MB</h6>
                         </div>
                         <div class="w_img_xz"><a
                                 href="javascript:download('${item.apps[idx.index+1].productId}');">下载</a></div>
@@ -112,14 +123,14 @@
         <c:if test="${item.adType == 2}">
             <div class="w_houlist">
                 <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">
-                    <img width="100%" height="100" src="${appItem.bannerUrl}">
+                    <img width="100%" height="80" src="${appItem.bannerUrl}">
                 </a>
             </div>
 
             <c:if test="${idx.index+1 < fn:length(item.apps)}">
                 <div class="w_houlist">
                     <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
-                        <img width="100%" height="100" src="${item.apps[idx.index+1].bannerUrl}">
+                        <img width="100%" height="80" src="${item.apps[idx.index+1].bannerUrl}">
                     </a>
                 </div>
             </c:if>
