@@ -51,7 +51,7 @@ public class GameTrafficDao extends HibernateDao{
 		sb.append(" order by temp.sort asc, date desc");
 
 		
-		Query query = getSession().createQuery(sb.toString());
+		Query query = getSession().createSQLQuery(sb.toString());
 		@SuppressWarnings("unchecked")
 		List<Object[]> list = query.list();
 		
@@ -90,7 +90,7 @@ public class GameTrafficDao extends HibernateDao{
 		sb.append(" order by temp.sort asc, date desc");
 
 		
-		Query query = getSession().createQuery(sb.toString());
+		Query query = getSession().createSQLQuery(sb.toString());
 		@SuppressWarnings("unchecked")
 		List<Object[]> list = query.list();
 		
