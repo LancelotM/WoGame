@@ -65,7 +65,7 @@ $(function(){
     });
 
     $('#select').change(function(){
-        createForm(getBasePath()+'/getlog',channelNum,typeVlaue);
+        createForm(getBasePath()+'/getlog',channelNum,$("#select").find("option:selected").val());
     });
 });
 
