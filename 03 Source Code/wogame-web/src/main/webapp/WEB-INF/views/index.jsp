@@ -45,10 +45,10 @@
     </div>
 </div>
 </c:if>
-
-<!--列表-->
-<c:forEach items="${recommendedList}" var="item">
-    <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx">
+<div id="pageContent">
+    <!--列表-->
+    <c:forEach items="${recommendedList}" var="item">
+        <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx" end="${item.adType}">
         <c:if test="${item.adType == 4}">
             <div class="w_houlist">
                 <div class="w_houlist_l">
@@ -100,13 +100,13 @@
                 </a>
             </div>
 
-            <c:if test="${idx.index+1 < fn:length(item.apps)}">
+            <%--<c:if test="${idx.index+1 < fn:length(item.apps)}">
                 <div class="w_houlist_large">
                     <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
                         <img width="100%" height="200" src="${item.apps[idx.index+1].bannerUrl}">
                     </a>
                 </div>
-            </c:if>
+            </c:if>--%>
 
         </c:if>
         <c:if test="${item.adType == 2}">
@@ -127,12 +127,12 @@
         </c:if>
     </c:forEach>
 </c:forEach>
-
+</div>
 
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="${ctx}/static/js/index.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
-
+<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
 
     $(function () {
@@ -146,14 +146,22 @@
             }
         });
 
-        app.initialize();
-        /*$("#w_paihangtitle").bind("swipeleft", function () {
-         location.href = "${ctx}/newGame?pageNum=1";
-        });
-        $("#w_paihangtitle").bind("swiperight", function () {
-            location.href = "${ctx}/category/list";
-         });*/
+//        $('#slides').cycle({
+//                    timeout: 0, fx: 'scrollHorz', next: '#next', prev: '#prev' }
+//        );
 
+
+        $("#pageContent").touchwipe({
+            wipeLeft: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/category/list;jsessionid=${sessionid}";
+            },
+            wipeRight: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1";
+            },
+            preventDefaultEvents: false
+        });
 
     });
 

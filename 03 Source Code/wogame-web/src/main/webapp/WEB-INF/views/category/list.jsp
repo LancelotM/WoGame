@@ -31,11 +31,12 @@
 
     <!--<div class="w_new_077"><a href="#">分类</a></div>-->
 </div>
-<!--列表-->
-<c:forEach items="${list}" var="item">
+<div id="pageContent">
+    <!--列表-->
+    <c:forEach items="${list}" var="item">
 
     <a href="javascript:listDetail('${item.categoryId}','${item.categoryTitle}');">
-    <div class="w_list_fenlei">
+        <div class="w_list_fenlei">
             <div class="w_list_img"><img src="${item.iconUrl}" width="48" height="48"/></div>
             <div class="w_list_title">${item.categoryTitle}</div>
             <div class="w_list_numm">${item.description}</div>
@@ -43,8 +44,25 @@
     </a>
 
 </c:forEach>
-
+</div>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
+    $(function () {
+        $("#pageContent").touchwipe({
+
+            wipeLeft: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1";
+            },
+            wipeRight: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/main;jsessionid=${sessionid}";
+            },
+            preventDefaultEvents: true
+        });
+    })
+    ;
     function listDetail(cid, cname) {
         var url = "${ctx}/category/detail;jsessionid=${sessionid}?categoryId=" + cid + "&categoryName=" + encodeURI(encodeURI(cname));
         location.href = url;

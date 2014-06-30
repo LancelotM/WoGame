@@ -48,6 +48,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
 
     var myScroll,
@@ -113,36 +114,18 @@
 <script type="text/javascript">
 
     $(function () {
-        app.initialize();
-        $("#w_paihangtitle").bind("swipeleft", function () {
-            location.href = "${ctx}/weeklyHot?pageNum=1";
+        $("#wrapper").touchwipe({
+            wipeLeft: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1";
+            },
+            wipeRight: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/category/list;jsessionid=${sessionid}";
+            },
+            preventDefaultEvents: false
+
         });
-
-
-    });
-
-    function download(id) {
-        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
-            if (data.downloadUrl == "") {
-                alert(data.description);
-            } else {
-                download_file(data.downloadUrl);
-            }
-        })
-    }
-</script>
-<script type="text/javascript">
-
-    $(function () {
-        app.initialize();
-        $("#w_paihangtitle").bind("swipeleft", function () {
-            location.href = "${ctx}/category/list";
-        });
-        $("#w_paihangtitle").bind("swiperight", function () {
-            location.href = "${ctx}/newGame?pageNum=1";
-        });
-
-
     });
 
     function download(id) {

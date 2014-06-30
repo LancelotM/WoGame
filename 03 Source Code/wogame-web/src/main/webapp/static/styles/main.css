@@ -897,15 +897,15 @@ dl.w_dowload dt {
 }
 
 .youxi_lr_05 {
-    margin: 10px 6px 76px 6px;
-    height: 198px;
+    margin: 10px 6px 6px 6px;
+    /*height: 198px;*/
     position: relative;
     overflow-x: scroll;
     overflow-y: none;
 }
 
 .youxi_lr_06 {
-    width: 1008px;
+    /*width: 1008px;*/
     height: 180px;
 }
 
