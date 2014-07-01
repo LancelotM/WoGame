@@ -48,6 +48,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
 
     var myScroll,
@@ -79,7 +80,8 @@
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '">' + entry.title + '</a>');
                     stringBuffer.push('</div>');
-                    stringBuffer.push('<div class="w_list_numm">' + ((entry.apk_size) / 1000) + 'MB</div>');
+                    stringBuffer.push('<div class="w_list_numm">' + roundNumber((entry.apk_size) / 1024, 2) + 'MB</div>');
+                    stringBuffer.push('<div class="w_list_category">' + entry.category + '</div>');
                     stringBuffer.push('<div class="w_list_download">');
                     stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
                     stringBuffer.push('</div>');
@@ -113,36 +115,18 @@
 <script type="text/javascript">
 
     $(function () {
-        app.initialize();
-        $("#w_paihangtitle").bind("swipeleft", function () {
-            location.href = "${ctx}/weeklyHot?pageNum=1";
+        $("#wrapper").touchwipe({
+            wipeLeft: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1";
+            },
+            wipeRight: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/category/list;jsessionid=${sessionid}";
+            },
+            preventDefaultEvents: false
+
         });
-
-
-    });
-
-    function download(id) {
-        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
-            if (data.downloadUrl == "") {
-                alert(data.description);
-            } else {
-                download_file(data.downloadUrl);
-            }
-        })
-    }
-</script>
-<script type="text/javascript">
-
-    $(function () {
-        app.initialize();
-        $("#w_paihangtitle").bind("swipeleft", function () {
-            location.href = "${ctx}/category/list";
-        });
-        $("#w_paihangtitle").bind("swiperight", function () {
-            location.href = "${ctx}/newGame?pageNum=1";
-        });
-
-
     });
 
     function download(id) {

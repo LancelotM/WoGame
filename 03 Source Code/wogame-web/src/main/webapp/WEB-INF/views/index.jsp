@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="sessionid" value="${pageContext.request.requestedSessionId}"/>
 
@@ -40,21 +41,28 @@
     <div id="pic_div" class="container">
     <div id="slides">
         <c:forEach items="${adList}" var="item">
-            <img src="${item.bannerUrl}"/>
+            <c:if test="${item.resType == 2}">
+                <img src="${item.bannerUrl}" onclick="javascript:toDetail('${item.linkId}');"/>
+            </c:if>
         </c:forEach>
     </div>
 </div>
 </c:if>
-
-<!--列表-->
-<c:forEach items="${recommendedList}" var="item">
-    <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx">
+<div id="pageContent">
+    <!--列表-->
+    <c:forEach items="${recommendedList}" var="item">
+        <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx" end="${item.adType}">
         <c:if test="${item.adType == 4}">
             <div class="w_houlist">
                 <div class="w_houlist_l">
-                    <div class="w_img_bg"><a
-                            href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}"><img
-                            width="100" height="100" src="${appItem.iconUrl}"></a></div>
+                    <c:if test="${appItem.recommendType>0}">
+                        <div class="index_xiejiao index_xiejiao_${appItem.recommendType}"></div>
+                    </c:if>
+                    <div class="w_img_bg">
+                        <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">
+                            <img width="60" height="60" src="${appItem.iconUrl}">
+                        </a>
+                    </div>
                     <div class="w_img_count">
                         <h3>
                             <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">${appItem.appName}</a>
@@ -64,16 +72,20 @@
                             <div class="w_start_0${appItem.rate}${appItem.rate}">一星</div>
                             <!--<div class="w_start_022">二星</div><div class="w_start_033">三星</div><div class="w_start_044">四星</div><div class="w_start_055">五星</div>-->
                         </div>
-                        <h5>${appItem.apkSize / 1000}MB</h5>
+                        <h6><fmt:formatNumber value="${appItem.apkSize / 1024}" pattern="0.00"/>MB</h6>
                     </div>
                     <div class="w_img_xz"><a href="javascript:download('${appItem.productId}');">下载</a></div>
                 </div>
                 <c:if test="${idx.index+1 < fn:length(item.apps)}">
                     <div class="w_houlist_r">
-                        <div class="w_img_bg"><a
-                                href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}"><img
-                                width="100" height="100"
-                                src="${item.apps[idx.index+1].iconUrl}"></a></div>
+                        <c:if test="${item.apps[idx.index+1].recommendType>0}">
+                            <div class="index_xiejiao_${item.apps[idx.index+1].recommendType} index_xiejiao"></div>
+                        </c:if>
+                        <div class="w_img_bg">
+                            <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
+                                <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
+                            </a>
+                        </div>
                         <div class="w_img_count">
                             <h3>
                                 <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">${item.apps[idx.index+1].appName}</a>
@@ -84,7 +96,8 @@
                                 </div>
                                 <!--<div class="w_start_011">一星</div><div class="w_start_033">三星</div><div class="w_start_044">四星</div><div class="w_start_055">五星</div>-->
                             </div>
-                            <h5>${item.apps[idx.index+1].apkSize / 1000}MB</h5>
+                            <h6><fmt:formatNumber value="${item.apps[idx.index+1].apkSize / 1024}"
+                                                  pattern="0.00"/>MB</h6>
                         </div>
                         <div class="w_img_xz"><a
                                 href="javascript:download('${item.apps[idx.index+1].productId}');">下载</a></div>
@@ -100,26 +113,26 @@
                 </a>
             </div>
 
-            <c:if test="${idx.index+1 < fn:length(item.apps)}">
+            <%--<c:if test="${idx.index+1 < fn:length(item.apps)}">
                 <div class="w_houlist_large">
                     <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
                         <img width="100%" height="200" src="${item.apps[idx.index+1].bannerUrl}">
                     </a>
                 </div>
-            </c:if>
+            </c:if>--%>
 
         </c:if>
         <c:if test="${item.adType == 2}">
             <div class="w_houlist">
                 <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${appItem.productId}">
-                    <img width="100%" height="100" src="${appItem.bannerUrl}">
+                    <img width="100%" height="80" src="${appItem.bannerUrl}">
                 </a>
             </div>
 
             <c:if test="${idx.index+1 < fn:length(item.apps)}">
                 <div class="w_houlist">
                     <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
-                        <img width="100%" height="100" src="${item.apps[idx.index+1].bannerUrl}">
+                        <img width="100%" height="80" src="${item.apps[idx.index+1].bannerUrl}">
                     </a>
                 </div>
             </c:if>
@@ -127,12 +140,12 @@
         </c:if>
     </c:forEach>
 </c:forEach>
-
+</div>
 
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="${ctx}/static/js/index.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
-
+<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
 
     $(function () {
@@ -146,14 +159,22 @@
             }
         });
 
-        app.initialize();
-        /*$("#w_paihangtitle").bind("swipeleft", function () {
-         location.href = "${ctx}/newGame?pageNum=1";
-        });
-        $("#w_paihangtitle").bind("swiperight", function () {
-            location.href = "${ctx}/category/list";
-         });*/
+//        $('#slides').cycle({
+//                    timeout: 0, fx: 'scrollHorz', next: '#next', prev: '#prev' }
+//        );
 
+
+        $("#pageContent").touchwipe({
+            wipeLeft: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/category/list;jsessionid=${sessionid}";
+            },
+            wipeRight: function (e) {
+                e.preventDefault();
+                location.href = "${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1";
+            },
+            preventDefaultEvents: false
+        });
 
     });
 
@@ -167,6 +188,9 @@
         })
     }
 
+    function toDetail(id) {
+        location.href = "${ctx}/gameInfo;jsessionid=${sessionid}?productId=" + id;
+    }
 
 </script>
 

@@ -53,34 +53,34 @@ public class SiteController {
         }
     }
 	
-	@RequestMapping(value = "/startSite", method = {RequestMethod.POST})
-    public ModelAndView startChannel(@RequestParam(value = "channelId", required = true) int channelId){
-		ModelMap model = new ModelMap();
-        ChannelInfoDomain channelInfoDomain = channelService.startChannel(channelId);        
-        if(channelInfoDomain != null){
-        	String wapURL = wapLink + channelInfoDomain.getWapToken();
-        	String logURL = logLink + channelInfoDomain.getLogToken();
-        	channelInfoDomain.setWapToken(wapURL);
-        	channelInfoDomain.setLogToken(logURL);
-        	model.put("channelInfoDomain", channelInfoDomain);
-        }
-
-        List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
-        if(null != channelInfos){
-            model.put("channelInfos", channelInfos);
-        }
-        
-        return new ModelAndView("/site", model);
-    }
-
-    @RequestMapping(value = "/getActiveInfo", method = {RequestMethod.GET})
-    public @ResponseBody String getActiveInfo(@RequestParam(value = "channelId", required = true) int channelId,HttpServletResponse response){
-        ChannelInfoDomain channelInfo = channelService.fetchChannelInfo(channelId);
-        if(null != channelInfo && Constant.ACTIVE_STATUS_ID == channelInfo.getStatus().getStatusId()){
-            return String.valueOf(true);
-        }
-        return String.valueOf(false);
-    }
+//	@RequestMapping(value = "/startSite", method = {RequestMethod.POST})
+//    public ModelAndView startChannel(@RequestParam(value = "channelId", required = true) int channelId){
+//		ModelMap model = new ModelMap();
+//        ChannelInfoDomain channelInfoDomain = channelService.startChannel(channelId);        
+//        if(channelInfoDomain != null){
+//        	String wapURL = wapLink + channelInfoDomain.getWapToken();
+//        	String logURL = logLink + channelInfoDomain.getLogToken();
+//        	channelInfoDomain.setWapToken(wapURL);
+//        	channelInfoDomain.setLogToken(logURL);
+//        	model.put("channelInfoDomain", channelInfoDomain);
+//        }
+//
+//        List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
+//        if(null != channelInfos){
+//            model.put("channelInfos", channelInfos);
+//        }
+//        
+//        return new ModelAndView("/site", model);
+//    }
+//
+//    @RequestMapping(value = "/getActiveInfo", method = {RequestMethod.GET})
+//    public @ResponseBody String getActiveInfo(@RequestParam(value = "channelId", required = true) int channelId,HttpServletResponse response){
+//        ChannelInfoDomain channelInfo = channelService.fetchChannelInfo(channelId);
+//        if(null != channelInfo && Constant.ACTIVE_STATUS_ID == channelInfo.getStatus().getStatusId()){
+//            return String.valueOf(true);
+//        }
+//        return String.valueOf(false);
+//    }
 
     @RequestMapping(value = "/getChannelDetail", method = {RequestMethod.GET})
     public ModelAndView getChanneldetail(@RequestParam(value = "channelId", required = true) int channelId){

@@ -26,13 +26,13 @@ public class ChannelInfoBusinessTest {
 	
 	@Test
 	public void testFetchChannelInfo(){
-		ChannelInfoDomain channelInfo = channel.fetchChannelInfo(18129);
+		ChannelInfo channelInfo = channel.fetchChannelInfoByCode("18129");
 		System.out.println((null != channelInfo) ? true : false);
 	}
 	
 	@Test
 	public void testStartChannel(){
-		ChannelInfoDomain channelInfo = channel.startChannel(18129);
+		ChannelInfoDomain channelInfo = channel.startChannel("18129","浙江联通","qwert");
 		System.out.println(channelInfo);
 	}
 	

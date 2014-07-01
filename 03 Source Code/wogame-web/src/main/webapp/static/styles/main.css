@@ -361,26 +361,23 @@ a.bai14zt:hover {
 
 .w_list_img {
     position: absolute;
-    left: 11px;
-    top: 10px;
-    width: 50px;
-    height: 50px;
-    background-position: -163px -38px;
+    left: 5px;
+    top: 5px;
+    width: 60px;
+    height: 60px;
 }
 
 .w_list_img img {
     border-radius: 5px;
-    width: 46px;
-    height: 46px;
-    padding-top: 2px;
-    padding-left: 2px;
+    width: 60px;
+    height: 60px;
     border: none;
 }
 
 .w_list_title {
     position: absolute;
     left: 70px;
-    top: 8px;
+    top: 5px;
     height: 31px;
     line-height: 31px;
     font-size: 14px;
@@ -391,10 +388,28 @@ a.bai14zt:hover {
     color: #000000;
 }
 
+.w_list_category {
+    position: absolute;
+    left: 70px;
+    top: 28px;
+    height: 20px;
+    line-height: 20px;
+    color: #5A5A5A;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 65%;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
 .w_list_numm {
     position: absolute;
     left: 70px;
-    bottom: 8px;
+    bottom: 5px;
     height: 20px;
     line-height: 20px;
     color: #5A5A5A;
@@ -764,20 +779,27 @@ dl.w_dowload dt {
 }
 
 .w_img_bg {
-    left: 10px;
+    left: 3px;
     top: 8px;
     position: absolute;
-    width: 70px;
-    height: 70px;
-    padding: 5px 5px;
-    background: url(../images/lr_img_bg.png) left top no-repeat;
-    background-size: 80px 80px;
+    width: 60px;
+    height: 60px;
+    padding: 3px;
+}
+
+.w_img_bg_large {
+    left: 3px;
+    top: 5px;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    padding: 3px;
 }
 
 .w_img_bg img {
     border-radius: 5px;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border: none;
 }
 
@@ -897,15 +919,15 @@ dl.w_dowload dt {
 }
 
 .youxi_lr_05 {
-    margin: 10px 6px 76px 6px;
-    height: 198px;
+    margin: 5px;
+    /*height: 166px;*/
     position: relative;
     overflow-x: scroll;
-    overflow-y: none;
+    overflow-y: hidden;
 }
 
 .youxi_lr_06 {
-    width: 1008px;
+    /*width: 1008px;*/
     height: 180px;
 }
 
@@ -962,9 +984,9 @@ dl.w_dowload dt {
 
 /**/
 .w_houlist {
-    margin: 0px 6px 0px 6px;
+    margin: 0px 2px;
     position: relative;
-    height: 100px;
+    height: 80px;
     background: #ffffff;
     border-bottom: #e7e7e7 1px solid;
 }
@@ -980,25 +1002,26 @@ dl.w_dowload dt {
 .w_houlist_l {
     position: absolute;
     left: 0px;
-    width: 48%;
-    height: 100px;
+    width: 50%;
+    height: 80px;
     float: left;
 }
 
 .w_houlist_r {
     position: absolute;
     right: 0px;
-    width: 48%;
-    height: 100px;
+    width: 50%;
+    height: 80px;
     float: left;
+    border-left: #e7e7e7 1px solid;
 }
 
 .w_img_xz {
     position: absolute;
     background: #F09700;
     bottom: 8px;
-    right: 8px;
-    width: 50px;
+    right: 5px;
+    width: 40px;
     height: 23px;
     line-height: 23px;
     text-align: center;
@@ -1014,7 +1037,7 @@ dl.w_dowload dt {
 }
 
 .w_img_count {
-    left: 100px;
+    left: 72px;
     position: absolute;
     top: 10px;
 }
@@ -2002,3 +2025,91 @@ dl.num_r dd {
     width: 26px;
     padding-top: 5px;
 }
+
+/*斜角小图标5.html*/
+.index_xiejiao {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    z-index: 19999;
+}
+
+/*公共*/
+.index_xiejiao_1 {
+    background: url(../images/index_xiejiao_1.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*最新发布*/
+.index_xiejiao_2 {
+    background: url(../images/index_xiejiao_2.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*最热发布*/
+.index_xiejiao_3 {
+    background: url(../images/index_xiejiao_3.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*首发*/
+.index_xiejiao_4 {
+    background: url(../images/index_xiejiao_4.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*活动*/
+.index_xiejiao_5 {
+    background: url(../images/index_xiejiao_5.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*有礼*/
+.index_xiejiao_6 {
+    background: url(../images/index_xiejiao_6.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*新区*/
+.index_xiejiao_7 {
+    background: url(../images/index_xiejiao_7.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*正版*/
+.index_xiejiao_8 {
+    background: url(../images/index_xiejiao_8.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*对战*/
+.index_xiejiao_9 {
+    background: url(../images/index_xiejiao_9.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*热力*/
+.index_xiejiao_10 {
+    background: url(../images/index_xiejiao_10.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*新星*/
+.index_xiejiao_11 {
+    background: url(../images/index_xiejiao_11.png) left top no-repeat;
+    background-size: 40px 40px;
+}
+
+/*奇葩*/
+
+/*斜角小图标2.html*/
+.category_list_xiejiao_2 {
+    width: 52px;
+    height: 52px;
+    background: url(../images/category_list_xiejiao_2.png) left top no-repeat;
+    background-size: 52px 52px;
+    position: absolute;
+    z-index: 19999;
+}
+
+/*首发*/
