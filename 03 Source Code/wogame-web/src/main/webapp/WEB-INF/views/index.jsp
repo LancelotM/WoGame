@@ -41,7 +41,9 @@
     <div id="pic_div" class="container">
     <div id="slides">
         <c:forEach items="${adList}" var="item">
-            <img src="${item.bannerUrl}" onclick="javascript:toDetail('${item.linkId}');"/>
+            <c:if test="${item.resType == 2}">
+                <img src="${item.bannerUrl}" onclick="javascript:toDetail('${item.linkId}');"/>
+            </c:if>
         </c:forEach>
     </div>
 </div>

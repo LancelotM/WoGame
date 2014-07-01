@@ -80,7 +80,8 @@
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '">' + entry.title + '</a>');
                     stringBuffer.push('</div>');
-                    stringBuffer.push('<div class="w_list_numm">' + ((entry.apk_size) / 1000) + 'MB</div>');
+                    stringBuffer.push('<div class="w_list_numm">' + roundNumber((entry.apk_size) / 1024, 2) + 'MB</div>');
+                    stringBuffer.push('<div class="w_list_category">' + entry.category + '</div>');
                     stringBuffer.push('<div class="w_list_download">');
                     stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
                     stringBuffer.push('</div>');

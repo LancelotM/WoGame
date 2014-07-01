@@ -73,7 +73,8 @@
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '">' + entry.app_name + '</a>');
                     stringBuffer.push('</div>');
-                    stringBuffer.push('<div class="w_list_numm">' + entry.description + '</div>');
+                    stringBuffer.push('<div class="w_list_category">' + entry.description + '</div>');
+                    stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.apk_size / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_download">');
                     stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
                     stringBuffer.push('</div>');

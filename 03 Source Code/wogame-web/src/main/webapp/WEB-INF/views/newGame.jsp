@@ -94,7 +94,7 @@
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="' + urlBase + entry.id + '">' + entry.name + '</a>');
                     stringBuffer.push('</div>');
-                    stringBuffer.push('<div class="w_list_numm">' + entry.sizeinfo + '</div>');
+                    stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.size / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_download">');
                     stringBuffer.push('<a href="javascript:download(\'' + entry.id + '\')">下载</a>');
                     stringBuffer.push('</div>');

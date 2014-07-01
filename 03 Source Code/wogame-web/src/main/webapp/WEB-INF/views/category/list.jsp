@@ -37,9 +37,12 @@
 
     <a href="javascript:listDetail('${item.categoryId}','${item.categoryTitle}');">
         <div class="w_list_fenlei">
-            <div class="w_list_img"><img src="${item.iconUrl}" width="48" height="48"/></div>
+            <c:if test="${item.recommendType>0}">
+                <div class="index_xiejiao index_xiejiao_${item.recommendType}"></div>
+            </c:if>
+            <div class="w_list_img"><img src="${item.iconUrl}" width="60" height="60"/></div>
             <div class="w_list_title">${item.categoryTitle}</div>
-            <div class="w_list_numm">${item.description}</div>
+            <div class="w_list_category" style="top:35px;">${item.description}</div>
         </div>
     </a>
 
