@@ -21,7 +21,7 @@ public class AccountBusinessTest {
 	
 	@Test
 	public void testSignUp(){
-		int flag = account.signup("test2", "123");
+		int flag = account.signup("admin", "hello123");
 		System.out.println(flag);
 	}
 	
