@@ -2,27 +2,7 @@
 <@template csses=["index"] jses=["site"]>
 <#assign basePath=attrs.contextPath>
 		<div class="main_block">
-			<div class="header">
-				<img class="logo" src="${basePath}/static/images/logo.png" alt=""/>
-				<div class="info">
-					<span>管理员，你好</span>
-                    <a class="exite_button" href="${basePath}/exit">安全登出</a>
-				</div>
-			</div>
-			<div class="menu_main">
-				<div class="menu">
-					<div class="ul_info">
-						<a href="#" class="margin_top45" onclick="show_hidden('first_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png" alt=""/>&nbsp;日志统计信息</a>
-						<ul id="first_ul" class="son_ul" style="display:none">
-							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getLog">日志总览</a></li>
-							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getAllKeyWowrd">搜索日志</a></li>
-						</ul>
-					<a href="#" class="margin_top45" onclick="show_hidden('second_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png" alt=""/>&nbsp;站点管理</a>
-						<ul id="second_ul" class="son_ul" style="display:none">
-							<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/site">建站管理</a></li>
-						</ul>
-					</div>
-				</div>
+				<#include "/menu.ftl">
 				<div class="main">
 					<div class="main_info">
 						<div class="create_manager">
@@ -84,43 +64,48 @@
                                             </ul>
 										</div>
 									</td>
-									<td><a id="launch" href="javascript:;" style="text-align:right"><img src="${basePath}/static/images/launch.png" alt=""/></a></td>
-                                    <td><input type="hidden" id="channelId" value=""/> </td>
+									<td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="${basePath}/static/images/launch.png" alt=""/></a></td>
+                                    <td><input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/> </td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">站点链接</td>
-									<td id="wapURL" class="link_address" colspan="2"></td>
+									<td id="wapURL" class="link_address" colspan="2">${(channelInfoDomain.wapToken)!}</td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">后台管理链接</td>
-									<td id="logURL" class="link_address" colspan="2" ></td>
+									<td id="logURL" class="link_address" colspan="2" >${(channelInfoDomain.logToken)!}</td>
 								</tr>
 							</table>
 						</div>
 						<div class="create_detail">
 							<div class="log_title">
 								<img class="title_image" src="${basePath}/static/images/icon_sitelist.png" alt="" />已建站
-                                <span class="numberal_format">3</span>个
+                                <span class="numberal_format">
+                                    <#if channelInfos?exists>
+                                         ${channelInfos?size}
+                                        <#else>
+                                            0
+                                    </#if>
+                                </span>个
 							</div>
 							<table class="detail_tb">
 								<caption class="table_title"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>已建站站点详细</span></caption>
 								<tr class="first_tr">
 									<td>渠道名</td>
-									<td>站点链接</td>
-									<td>后台管理链接</td>
+									<td>站点链接令牌</td>
+									<td>后台管理链接令牌</td>
 									<td>建站时间</td>
 									<td class="operate_td">站点操作</td>
 								</tr>
 								<#if channelInfos?exists>
 	                                <#list channelInfos as channelInfo>
 										<tr>
-                                            <input id="channel_id" type="hidden" value="${channelInfo.channelId}"/>
-											<td>${channelInfo.channelName!}</td>
-											<td>${channelInfo.wapURL!}</td>
-											<td>${channelInfo.logURL!}</td>
-											<td>${channelInfo.dateCreated!}</td>
-											<td class="operate_td">
-												<a href="${basePath}/getlog?channelid=${channelInfo.channelId}"><img src="${basePath}/static/images/detail.png" alt="detail"/></a>
+											<td class="width147">${channelInfo.channelName!}</td>
+											<td class="widht262px">${channelInfo.wapToken!}</td>
+											<td class="widht262px">${channelInfo.logToken!}</td>
+											<td class="width147">${channelInfo.date!}</td>
+											<td class="operate_td" class="width147">
+												<a href="javascript:;" onclick="getDetailInfo(${channelInfo.channelId?c})"><img src="${basePath}/static/images/detail.png" alt="detail"/></a>
 											</td>
 										</tr>
 	                                </#list>

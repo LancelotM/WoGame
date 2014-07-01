@@ -3,14 +3,13 @@ package com.unicom.game.center.business;
 import java.util.Date;
 import java.util.List;
 
-import com.unicom.game.center.model.JsonModel;
-import com.unicom.game.center.model.JsonParent;
-import com.unicom.game.center.model.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.PageTrafficDao;
+import com.unicom.game.center.model.JsonModel;
+import com.unicom.game.center.model.JsonParent;
 import com.unicom.game.center.model.PageTrafficInfo;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
@@ -67,7 +66,7 @@ public class PageTrafficBusiness {
     public JsonParent getJsonData(List<PageTrafficInfo> pageTrafficInfos){
         JsonParent jsonData = new JsonParent();
         JsonModel hostPage = new JsonModel();
-        hostPage.setName("首頁");
+        hostPage.setName("首页");
         JsonModel category = new JsonModel();
         category.setName("分类");
         JsonModel hotlist = new JsonModel();
