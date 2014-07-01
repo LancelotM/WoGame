@@ -13,7 +13,6 @@ create table wogamecenter.channel_info(
 	date_created date not null
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.channel_info add constraint Channel_Status_FK foreign key (status_id) references wogamecenter.status_map(status_id);
 alter table wogamecenter.channel_info add unique key (channel_name);
 alter table wogamecenter.channel_info add unique key (channel_code);
 
