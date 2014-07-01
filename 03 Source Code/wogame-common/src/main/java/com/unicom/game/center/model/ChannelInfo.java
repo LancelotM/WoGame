@@ -27,9 +27,20 @@ public class ChannelInfo implements Serializable{
 
 	private String date;
 
-	public int getChannelId() {
+    private boolean flag;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public int getChannelId() {
 		return channelId;
 	}
+
 
 	public void setChannelId(int channelId) {
 		this.channelId = channelId;

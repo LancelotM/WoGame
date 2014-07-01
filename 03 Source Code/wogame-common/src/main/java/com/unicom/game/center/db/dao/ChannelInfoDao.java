@@ -28,7 +28,7 @@ public class ChannelInfoDao extends HibernateDao{
 		StringBuffer sb = new StringBuffer();
 		sb.append("select channel.channelId as channelId, channel.channelName as channelName,");
 		sb.append(" channel.cpId as cpId, channel.channelCode as channelCode,");
-		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken,");		
+		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken, channel.status as flag,");
 		sb.append(" DATE_FORMAT(channel.dateModified, '%Y-%m-%d') as date");
 		sb.append(" from ChannelInfoDomain channel where channel.channelId = ");
 		sb.append(channelId);
@@ -57,7 +57,7 @@ public class ChannelInfoDao extends HibernateDao{
 		StringBuffer sb = new StringBuffer();
 		sb.append("select channel.channelId as channelId, channel.channelName as channelName,");
 		sb.append(" channel.cpId as cpId, channel.channelCode as channelCode,");
-		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken,");
+		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken,channel.status as flag,");
 		sb.append(" DATE_FORMAT(channel.dateModified, '%Y-%m-%d') as date");
 		sb.append(" from ChannelInfoDomain channel where channel.channelCode = '");
 		sb.append(channelCode);
@@ -74,7 +74,7 @@ public class ChannelInfoDao extends HibernateDao{
 		StringBuffer sb = new StringBuffer();
 		sb.append("select channel.channelId as channelId, channel.channelName as channelName,");
 		sb.append(" channel.cpId as cpId, channel.channelCode as channelCode,");
-		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken,");
+		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken,channel.status as flag,");
 		sb.append(" DATE_FORMAT(channel.dateModified, '%Y-%m-%d') as date");
 		sb.append(" from ChannelInfoDomain channel where channel.channelName like '%");
 		sb.append(channelName);
@@ -93,7 +93,7 @@ public class ChannelInfoDao extends HibernateDao{
 		StringBuffer sb = new StringBuffer();
 		sb.append("select channel.channelId as channelId, channel.channelName as channelName,");
 		sb.append(" channel.cpId as cpId, channel.channelCode as channelCode,");
-		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken,");
+		sb.append(" channel.wapToken as wapToken, channel.logToken as logToken,channel.status as flag,");
 		sb.append(" DATE_FORMAT(channel.dateModified, '%Y-%m-%d') as date");
 		sb.append(" from ChannelInfoDomain channel where channel.status = true");
 		

@@ -1,3 +1,4 @@
+var Dialog = {};
 $(function(){
     $('#province_div a').click(function(){
         var basePath = getBasePath();
@@ -56,15 +57,51 @@ function createForm(url,channel,date){
 }
 
 function getUpdateInfo(channelId){
-    var obj = document.getElementById("dialog");
-    var style = obj.style.display;
-    if(obj.style.display=="none"){
-        obj.style.display='block';
-    }
+    mask('#dialog');
+//    var obj = document.getElementById("dialog");
+//    var style = obj.style.display;
+//    if(obj.style.display=="none"){
+//        obj.style.display='block';
+//    }
     $.get(getBasePath()+"/getChannel?channelId="+channelId,function(data,status){
         $('#dialog_chaName').text(data.channelName);
         $('#dialog_chaId').attr('value',data.channelId);
         $('#dialog_cpid').attr('value',data.wapToken);
     });
+}
+
+mask = function(dialogId,absoluteHeight){
+    buildMask();
+
+    var dialog = $(dialogId);
+    var left = ($(window).width() - $(dialog).width())/2 + "px";
+    var top;
+    if(absoluteHeight){
+        top = ($(window).height() - $(dialog).height() - absoluteHeight)/2+'px';
+    }else{
+        top = ($(window).height() - $(dialog).height())/2 + $(document).scrollTop() +'px';
+    }
+    $(dialog).css({'left':left,'top':top});
+    $(dialog).show();
+}
+
+buildMask = function(zIndex){
+    Dialog.maskLayer = document.createElement("div");
+    Dialog.maskLayer.style.position = "absolute";
+    if(zIndex){
+        Dialog.maskLayer.style.zIndex = zIndex;
+    }else{
+        Dialog.maskLayer.style.zIndex = "999999";
+    }
+    var _scrollWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
+    var _scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    Dialog.maskLayer.style.width = _scrollWidth + "px";
+    Dialog.maskLayer.style.height = _scrollHeight + "px";
+    Dialog.maskLayer.style.top = "0px";
+    Dialog.maskLayer.style.left = "0px";
+    Dialog.maskLayer.style.background = "#33393C";
+    Dialog.maskLayer.style.filter = "alpha(opacity=40)";
+    Dialog.maskLayer.style.opacity = "0.40";
+    document.body.appendChild(Dialog.maskLayer);
 }
 
