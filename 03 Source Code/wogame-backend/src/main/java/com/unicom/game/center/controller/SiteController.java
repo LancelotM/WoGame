@@ -82,7 +82,7 @@ public class SiteController {
         return channelService.fetchChannelInfoById(channelId);
     }
 
-    @RequestMapping(value = "/getChaByName", method = {RequestMethod.GET})
+    @RequestMapping(value = "/getChaByName", method = {RequestMethod.POST})
     public @ResponseBody ChannelInfo getChaByName(@RequestParam(value = "channelName", required = true) String channelName,HttpServletResponse response){
         ChannelInfo channelInfo = channelService.fetchChannelInfoByName(channelName);
         if(channelInfo != null){
