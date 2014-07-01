@@ -14,6 +14,7 @@ public class GameTrafficDao extends HibernateDao{
 	
 	public void save(GameTrafficDomain gameTraffic){
 		getSession().save(gameTraffic);
+		getSession().flush();
 	}
 	
 	public void update(GameTrafficDomain gameTraffic){		

@@ -9,6 +9,7 @@ public class ProductDao extends HibernateDao{
 	
 	public void save(ProductDomain product){
 		getSession().save(product);
+		getSession().flush();
 	}
 	
 	public void update(ProductDomain product){

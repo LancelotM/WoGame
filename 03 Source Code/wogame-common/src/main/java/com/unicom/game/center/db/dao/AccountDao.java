@@ -11,6 +11,7 @@ public class AccountDao extends HibernateDao{
 	
 	public void save(AccountDomain account){
 		getSession().save(account);
+		getSession().flush();
 	}
 	
 	public AccountDomain getById(int accountId){

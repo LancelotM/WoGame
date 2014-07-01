@@ -15,6 +15,7 @@ public class UserCountDao extends HibernateDao{
 	
 	public void save(UserCountDomain userCountDomain){
 		getSession().save(userCountDomain);
+		getSession().flush();
 	}
 	
 	public void update(UserCountDomain userCountDomain){

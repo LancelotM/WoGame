@@ -17,6 +17,7 @@ public class ChannelInfoDao extends HibernateDao{
 	
 	public void save(ChannelInfoDomain channelInfo){
 		getSession().save(channelInfo);
+		getSession().flush();
 	}
 	
 	public void update(ChannelInfoDomain channelInfo){		

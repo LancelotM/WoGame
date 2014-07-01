@@ -16,6 +16,7 @@ public class PackageInfoDao extends HibernateDao{
 	
 	public void save(PackageInfoDomain packageInfo){
 		getSession().save(packageInfo);
+		getSession().flush();
 	}
 	
 	public void update(PackageInfoDomain packageInfo){

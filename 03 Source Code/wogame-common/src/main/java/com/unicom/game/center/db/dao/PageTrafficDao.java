@@ -20,6 +20,7 @@ public class PageTrafficDao extends HibernateDao{
 
 	public void save(PageTrafficDomain pageTraffic){
 		getSession().save(pageTraffic);
+		getSession().flush();
 	}
 	
 	public void update(PageTrafficDomain pageTraffic){

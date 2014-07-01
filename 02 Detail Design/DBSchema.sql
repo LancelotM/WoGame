@@ -103,6 +103,8 @@ create table wogamecenter.account(
 
 alter table wogamecenter.account add unique key (account_name);
 
+insert into account(account_name, password, date_modified, date_created) values('admin', 'A5CA78141C08D41452F6A7A2B1752E76', now(), now());
+
 
 --打包信息
 create table wogamecenter.package_info(
