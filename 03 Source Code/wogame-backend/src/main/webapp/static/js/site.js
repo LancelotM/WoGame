@@ -55,3 +55,16 @@ function createForm(url,channel,date){
     document.body.removeChild(infoForm) ;
 }
 
+function getUpdateInfo(channelId){
+    var obj = document.getElementById("dialog");
+    var style = obj.style.display;
+    if(obj.style.display=="none"){
+        obj.style.display='block';
+    }
+    $.get(getBasePath()+"/getChannel?channelId="+channelId,function(data,status){
+        $('#dialog_chaName').text(data.channelName);
+        $('#dialog_chaId').attr('value',data.channelId);
+        $('#dialog_cpid').attr('value',data.wapToken);
+    });
+}
+

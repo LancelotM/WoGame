@@ -64,19 +64,49 @@
                                             </ul>
 										</div>
 									</td>
+                                        <td><input id="channelId_input" type="text" value="channelID"/></td>
+                                        <td><input id="cpid_input" type="text" value="CPID"/></td>
 									<td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="${basePath}/static/images/launch.png" alt=""/></a></td>
-                                    <td><input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/> </td>
+                                    <input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">站点链接</td>
-									<td id="wapURL" class="link_address" colspan="2">${(channelInfoDomain.wapToken)!}</td>
+									<td id="wapURL" class="link_address" colspan="3">${(channelInfoDomain.wapToken)!}</td>
 								</tr>
 								<tr class="first_tr">
 									<td class="link_class">后台管理链接</td>
-									<td id="logURL" class="link_address" colspan="2" >${(channelInfoDomain.logToken)!}</td>
+									<td id="logURL" class="link_address" colspan="3" >${(channelInfoDomain.logToken)!}</td>
 								</tr>
 							</table>
 						</div>
+                        <div id="dialog" style="display:none;">
+                            <div id="dialog_head">
+                                <span id="dialog_titile">修改已建站点信息</span>
+                            </div>
+                            <form action="" method="post">
+                                <table id="dialog_table">
+                                    <tr>
+                                        <td>渠道名：</td>
+                                        <td><span id="dialog_chaName"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ChannelID:</td>
+                                        <td><input id="dialog_chaId" type="text" value=""/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CPID</td>
+                                        <td><input id="dialog_cpid" type="text" value=""/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <a class="left" href="javascript:;"><img src="${basePath}/static/images/confirm_update.png" alt="update" style="margin-right:75px;"/></a>
+                                            <a class="right" onclick="show_hidden('dialog')" href="#"><img src="${basePath}/static/images/cancel.png" alt="cancel"/></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
 						<div class="create_detail">
 							<div class="log_title">
 								<img class="title_image" src="${basePath}/static/images/icon_sitelist.png" alt="" />已建站
@@ -92,10 +122,10 @@
 								<caption class="table_title"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>已建站站点详细</span></caption>
 								<tr class="first_tr">
 									<td>渠道名</td>
-									<td>站点链接令牌</td>
-									<td>后台管理链接令牌</td>
+									<td>channelID</td>
+									<td>CPID</td>
 									<td>建站时间</td>
-									<td class="operate_td">站点操作</td>
+									<td>站点操作</td>
 								</tr>
 								<#if channelInfos?exists>
 	                                <#list channelInfos as channelInfo>
@@ -104,7 +134,8 @@
 											<td class="widht262px">${channelInfo.wapToken!}</td>
 											<td class="widht262px">${channelInfo.logToken!}</td>
 											<td class="width147">${channelInfo.date!}</td>
-											<td class="operate_td" class="width147">
+											<td id="operate_td" class="operate_td">
+                                                <a id="update_info" href="javascript:;" onclick="getUpdateInfo(${channelInfo.channelId?c});"><img src="${basePath}/static/images/update.png" /></a>
 												<a href="javascript:;" onclick="getDetailInfo(${channelInfo.channelId?c})"><img src="${basePath}/static/images/detail.png" alt="detail"/></a>
 											</td>
 										</tr>

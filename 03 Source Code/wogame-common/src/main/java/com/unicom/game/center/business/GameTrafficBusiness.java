@@ -96,10 +96,6 @@ public class GameTrafficBusiness {
         TreeMap<String,List<GameInfo>> map = getBannerDisplayModel(fetchGameInfoByMonth(channelId, true));
         List<List<GameInfo>> gameByDate = new ArrayList<List<GameInfo>>();
         for(String key : map.keySet()){
-            for(int i=1; i<=map.get(key).size();i++){
-
-            }
-            map.get(key);
             gameByDate.add(map.get(key));
         }
         return gameByDate;
@@ -109,9 +105,12 @@ public class GameTrafficBusiness {
         Map<String,List<GameInfo>>  data = new HashMap<String, List<GameInfo>>();
         GameDisplayModel gameDisplayModel = null;
         List<GameDisplayModel> gameDisplayModels = new ArrayList<GameDisplayModel>();
-        for(GameInfo gameInfo : gameInfos){
-            getMap(data,gameInfo.getName(),gameInfo);
+        if(gameInfos != null && gameInfos.size() > 0){
+            for(GameInfo gameInfo : gameInfos){
+                getMap(data,gameInfo.getName(),gameInfo);
+            }
         }
+
         for(String name : data.keySet()){
             gameDisplayModel = new GameDisplayModel();
             gameDisplayModel.setGameName(data.get(name).get(0).getName());
@@ -128,8 +127,10 @@ public class GameTrafficBusiness {
 
     public TreeMap<String,List<GameInfo>> getBannerDisplayModel(List<GameInfo> gameInfos){
         TreeMap<String,List<GameInfo>>  data = new TreeMap<String, List<GameInfo>>();
-        for(GameInfo gameInfo : gameInfos){
-            getMap(data,gameInfo.getDate(),gameInfo);
+        if(gameInfos != null && gameInfos.size() > 0){
+            for(GameInfo gameInfo : gameInfos){
+                getMap(data,gameInfo.getDate(),gameInfo);
+            }
         }
         return data;
     }

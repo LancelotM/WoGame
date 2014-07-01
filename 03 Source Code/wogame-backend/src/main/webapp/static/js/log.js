@@ -3,7 +3,7 @@ $(function(){
     var typeVlaue = $("#dateType").val();
     var channelNum = $("#channelId").val();
     var basePath = getBasePath();
-
+    $("#select option[value='"+typeVlaue+"']").attr("selected","true");
     var dateTableDay = '<tr><td>昨日</td></tr><tr><td>前两天</td></tr><tr><td>前三天</td></tr><tr><td>前四天</td></tr><tr><td>前五天</td></tr>';
     var dateTdDay = ' <td>昨日</td><td>前两天</td><td>前三天</td><td>前四天</td><td>前五天</td>';
     var dateTableMonth = '<tr><td>本月</td></tr><tr><td>上月</td></tr><tr><td>前两月</td></tr><tr><td>前三月</td></tr><tr><td>前四月</td></tr>';
@@ -82,7 +82,6 @@ $(function(){
 
     $('#select').change(function(){
         var type = $("#select").find("option:selected").val();
-        alert(type);
         createForm(getBasePath()+'/getlog',channelNum,$("#select").find("option:selected").val());
     });
 });
