@@ -15,7 +15,11 @@ public class ChannelInfo implements Serializable{
 	
 	private int channelId;
 	
+	private String channelCode;
+	
 	private String channelName;
+	
+	private String cpId;
 	
 	private String wapToken;
 	
@@ -31,12 +35,28 @@ public class ChannelInfo implements Serializable{
 		this.channelId = channelId;
 	}
 
+	public String getChannelCode() {
+		return channelCode;
+	}
+
+	public void setChannelCode(String channelCode) {
+		this.channelCode = channelCode;
+	}
+
 	public String getChannelName() {
 		return channelName;
 	}
 
 	public void setChannelName(String channelName) {
 		this.channelName = channelName;
+	}
+
+	public String getCpId() {
+		return cpId;
+	}
+
+	public void setCpId(String cpId) {
+		this.cpId = cpId;
 	}
 
 	public String getWapToken() {

@@ -6,8 +6,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,10 +15,12 @@ public class ChannelInfoDomain implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private int channelId;
+	private String channelCode;	
 	private String channelName;
+	private String cpId;
 	private String wapToken;
 	private String logToken;
-	private StatusMapDomain status;
+	private boolean status;
 	private Date dateCreated;
 	private Date dateModified;
 	
@@ -35,6 +35,15 @@ public class ChannelInfoDomain implements Serializable{
 		this.channelId = channelId;
 	}
 	
+	@Column(name="channel_code")
+	public String getChannelCode() {
+		return channelCode;
+	}
+
+	public void setChannelCode(String channelCode) {
+		this.channelCode = channelCode;
+	}
+
 	@Column(name="channel_name")
 	public String getChannelName() {
 		return channelName;
@@ -44,6 +53,15 @@ public class ChannelInfoDomain implements Serializable{
 		this.channelName = channelName;
 	}
 	
+	@Column(name="cp_id")
+	public String getCpId() {
+		return cpId;
+	}
+
+	public void setCpId(String cpId) {
+		this.cpId = cpId;
+	}
+
 	@Column(name="wap_token")
 	public String getWapToken() {
 		return wapToken;
@@ -62,22 +80,20 @@ public class ChannelInfoDomain implements Serializable{
 		this.logToken = logToken;
 	}
 
-
-	@ManyToOne
-	@JoinColumn(name = "status_id")
-	public StatusMapDomain getStatus() {
+	@Column(name = "status")
+	public boolean isStatus() {
 		return status;
 	}
 
-	public void setStatus(StatusMapDomain status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
 	@Column(name="date_created")
 	public Date getDateCreated() {
 		return dateCreated;
-	}
-	
+	}	
+
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
