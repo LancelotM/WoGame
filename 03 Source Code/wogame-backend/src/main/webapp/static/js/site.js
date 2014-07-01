@@ -18,6 +18,15 @@ $(function(){
     $('#launch').click(function(){
         $('#launch_form').submit();
     });
+    $('#cancel').click(function(){
+        var obj = document.getElementById("dialog");
+        var style = obj.style.display;
+        if(obj.style.display=="block"){
+            obj.style.display='none';
+        }
+        $('#dialog').hide();
+        document.removeChild(Dialog.maskLayer);
+    });
 });
 
 function getBasePath(){
@@ -56,23 +65,24 @@ function getUpdateInfo(channelId){
 //    }
     $.get(getBasePath()+"/getChannel?channelId="+channelId,function(data,status){
         $('#dialog_chaName').text(data.channelName);
-        $('#dialog_chaId').attr('value',data.channelId);
-        $('#dialog_cpid').attr('value',data.wapToken);
+        $('#dialog_chaId').attr('value',data.channelCode);
+        $('#dialog_cpid').attr('value',data.cpId);
     });
 }
+
 
 mask = function(dialogId,absoluteHeight){
     buildMask();
 
     var dialog = $(dialogId);
-    var left = ($(window).width() - $(dialog).width())/2 + "px";
-    var top;
-    if(absoluteHeight){
-        top = ($(window).height() - $(dialog).height() - absoluteHeight)/2+'px';
-    }else{
-        top = ($(window).height() - $(dialog).height())/2 + $(document).scrollTop() +'px';
-    }
-    $(dialog).css({'left':left,'top':top});
+//    var left = ($(window).width() - $(dialog).width())/2 + "px";
+//    var top;
+//    if(absoluteHeight){
+//        top = ($(window).height() - $(dialog).height() - absoluteHeight)/2+'px';
+//    }else{
+//        top = ($(window).height() - $(dialog).height())/2 + $(document).scrollTop() +'px';
+//    }
+//    $(dialog).css({'left':left,'top':top});
     $(dialog).show();
 }
 

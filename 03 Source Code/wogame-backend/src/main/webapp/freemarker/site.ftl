@@ -66,8 +66,8 @@
                                                 </ul>
                                             </div>
                                         </td>
-                                        <td><input id="channelId_input" type="text" name="channelCode" value=""/></td>
-                                        <td><input id="cpid_input" type="text" name="cpid" value=""/></td>
+                                        <td><input id="channelId_input" type="text" name="channelCode" value="" title="请输入channelID"/></td>
+                                        <td><input id="cpid_input" type="text" name="cpid" value=""  title="请输入CPID"/></td>
                                         <td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="${basePath}/static/images/launch.png" alt=""/></a></td>
                                         <input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/>
                                     </tr>
@@ -104,7 +104,7 @@
                                         <td></td>
                                         <td>
                                             <a class="left" href="javascript:;"><img src="${basePath}/static/images/confirm_update.png" alt="update" style="margin-right:75px;"/></a>
-                                            <a class="right" onclick="show_hidden('dialog')" href="#"><img src="${basePath}/static/images/cancel.png" alt="cancel"/></a>
+                                            <a class="right" id="cancel" href="javascript:;"><img src="${basePath}/static/images/cancel.png" alt="cancel"/></a>
                                         </td>
                                     </tr>
                                 </table>
@@ -128,15 +128,15 @@
 									<td>channelID</td>
 									<td>CPID</td>
 									<td>建站时间</td>
-									<td>站点操作</td>
+									<td class="operate_td">站点操作</td>
 								</tr>
 								<#if channelInfos?exists>
 	                                <#list channelInfos as channelInfo>
 										<tr>
-											<td class="width147">${channelInfo.channelName!}</td>
-											<td class="widht262px">${channelInfo.wapToken!}</td>
-											<td class="widht262px">${channelInfo.logToken!}</td>
-											<td class="width147">${channelInfo.date!}</td>
+											<td>${channelInfo.channelName!}</td>
+											<td>${channelInfo.channelCode!}</td>
+											<td>${channelInfo.cpId!}</td>
+											<td>${channelInfo.date!}</td>
 											<td id="operate_td" class="operate_td">
                                                 <a id="update_info" href="javascript:;" onclick="getUpdateInfo(${channelInfo.channelId?c});"><img src="${basePath}/static/images/update.png" /></a>
 												<a href="javascript:;" onclick="getDetailInfo(${channelInfo.channelId?c})"><img src="${basePath}/static/images/detail.png" alt="detail"/></a>

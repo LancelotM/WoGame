@@ -289,10 +289,10 @@ a{
     vertical-align:middle;
 }
 
-.operate_td a{
-    margin-right:10px;
-    margin-left:0px;
-}
+/*.operate_td a{*/
+    /*margin-right:10px;*/
+    /*margin-left:0px;*/
+/*}*/
 
 .table_title{
 	background:#fff4d3;
