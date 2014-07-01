@@ -2,30 +2,21 @@ var Dialog = {};
 $(function(){
     $('#province_div a').click(function(){
         var basePath = getBasePath();
-        $.get(basePath+"/getActiveInfo?channelId="+$(this).attr('name'),function(data,status){
-            var returnData = data.toString();
-            if(returnData == 'true'){
-                $('launch_img').attr('src',basePath+'/static/images/launched.png');
+        $.post(basePath+"/getChaByName",{channelName:$(this).text()},function(data,status){
+            if(data.flag){
+                alert(data.flag);
+                alert(data.wapToken);
+                $('#launch_img').attr('src',basePath+'/static/images/launched.png');
+                $('#wapURL').text(data.wapToken) ;
+                $('#logURL').text(data.logToken);
             }
         });
         $('#channel').text($(this).text());
-        $('#channelId').attr('value',$(this).attr('name'));
+        $('#channelName').val($(this).text());
     });
 
     $('#launch').click(function(){
-        var basePath = getBasePath();
-        alert($('#channelId').attr('value'));
-        var infoForm = document.createElement("form");
-        infoForm.method="POST" ;
-        infoForm.action = basePath+"/startSite";
-        var channelIdInput = document.createElement("input") ;
-        channelIdInput.setAttribute("name", "channelId") ;
-        channelIdInput.setAttribute("value", $('#channelId').attr('value'));
-        infoForm.appendChild(channelIdInput) ;
-
-        document.body.appendChild(infoForm) ;
-        infoForm.submit() ;
-        document.body.removeChild(infoForm) ;
+        $('#launch_form').submit();
     });
 });
 

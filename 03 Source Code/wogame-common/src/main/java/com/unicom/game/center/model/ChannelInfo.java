@@ -29,6 +29,8 @@ public class ChannelInfo implements Serializable{
 
     private boolean flag;
 
+
+
     public boolean isFlag() {
         return flag;
     }

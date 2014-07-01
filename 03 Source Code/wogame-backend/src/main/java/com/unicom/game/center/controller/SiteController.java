@@ -82,6 +82,18 @@ public class SiteController {
         return channelService.fetchChannelInfoById(channelId);
     }
 
+    @RequestMapping(value = "/getChaByName", method = {RequestMethod.GET})
+    public @ResponseBody ChannelInfo getChaByName(@RequestParam(value = "channelName", required = true) String channelName,HttpServletResponse response){
+        ChannelInfo channelInfo = channelService.fetchChannelInfoByName(channelName);
+        if(channelInfo != null){
+            String wapURL = wapLink + channelInfo.getWapToken();
+            String logURL = logLink + channelInfo.getLogToken();
+            channelInfo.setWapToken(wapURL);
+            channelInfo.setLogToken(logURL);
+        }
+        return channelInfo;
+    }
+
     @RequestMapping(value = "/getChannelDetail", method = {RequestMethod.GET})
     public ModelAndView getChanneldetail(@RequestParam(value = "channelId", required = true) int channelId){
         ModelAndView modelView = new ModelAndView();

@@ -35,7 +35,6 @@ public class ChannelInfoBusiness {
 	
 	public List<ChannelInfo> fetchActiveChannelInfos(){
 		List<ChannelInfo> channelInfos = null;
-		
 		try{
 			channelInfos = channelInfoDao.fetchActiveChannels();
 		}catch(Exception e){
