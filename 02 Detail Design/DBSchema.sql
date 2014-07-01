@@ -127,3 +127,6 @@ create table wogamecenter.package_info(
 	primary key(channel_id,app_id)	
 )engine=innodb default charset=utf8;
 
+
+CREATE USER 'package'@'%' IDENTIFIED BY 'Pass4package';
+GRANT SELECT ON wogamecenter.channel_info TO 'package'@'%';
