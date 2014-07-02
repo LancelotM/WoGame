@@ -23,7 +23,6 @@ function switch_className(id){
 }
 $(function(){
     $('#exit_id').click(function(){
-        alert("click");
         delCookie("login_code");
         delCookie("pwd");
         window.location.href = getBasePath()+"/exit";
@@ -47,10 +46,7 @@ function setCookie(c_name,value,expiredays)
 }
 
 function delCookie(name){
-    var exp = new Date();
-    exp.setTime(exp.getTime() - 1);
-    var cval=getCookie(name);
-    if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString()+";path=/";
+	setCookie(name,"",0) 
 }
 
 

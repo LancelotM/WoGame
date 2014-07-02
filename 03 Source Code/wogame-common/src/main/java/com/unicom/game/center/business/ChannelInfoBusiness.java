@@ -87,10 +87,6 @@ public class ChannelInfoBusiness {
 			ChannelInfoDomain channel = channelInfoDao.getById(channelId);
 			if(null != channel){
 				channel.setStatus(true);
-				String siteToken = AESEncryptionHelper.encrypt(channelCode, siteKey);
-				String backendToken = AESEncryptionHelper.encrypt(channelCode, backendKey);
-				channel.setWapToken(siteToken);
-				channel.setLogToken(backendToken);
 				channel.setDateModified(new Date());
 				channel.setCpId(cpId);
 				channel.setChannelCode(channelCode);
@@ -112,10 +108,6 @@ public class ChannelInfoBusiness {
 			if(null != channel){
 				if(!channel.isStatus()){
 					channel.setStatus(true);
-					String siteToken = AESEncryptionHelper.encrypt(channelCode, siteKey);
-					String backendToken = AESEncryptionHelper.encrypt(channelCode, backendKey);
-					channel.setWapToken(siteToken);
-					channel.setLogToken(backendToken);
 					channel.setDateModified(date);
 					channel.setDateCreated(date);
 					channel.setChannelName(channelName);
@@ -126,16 +118,20 @@ public class ChannelInfoBusiness {
 			}else{
 				channel = new ChannelInfoDomain();
 				channel.setStatus(true);
-				String siteToken = AESEncryptionHelper.encrypt(channelCode, siteKey);
-				String backendToken = AESEncryptionHelper.encrypt(channelCode, backendKey);
-				channel.setWapToken(siteToken);
-				channel.setLogToken(backendToken);
+
 				channel.setDateModified(date);
 				channel.setDateCreated(date);
 				channel.setChannelName(channelName);
 				channel.setCpId(cpId);
 				channel.setChannelCode(channelCode);
-				channelInfoDao.save(channel);					
+				channelInfoDao.save(channel);
+				
+				channel = channelInfoDao.fetchChannelByCode(channelCode);
+				String siteToken = AESEncryptionHelper.encrypt(String.valueOf(channel.getChannelId()), siteKey);
+				String backendToken = AESEncryptionHelper.encrypt(String.valueOf(channel.getChannelId()), backendKey);
+				channel.setWapToken(siteToken);
+				channel.setLogToken(backendToken);
+				channelInfoDao.update(channel);
 			}
 		}catch(Exception e){
 			Logging.logError("Error occur in startChannel", e);
