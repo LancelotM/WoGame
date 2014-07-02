@@ -23,39 +23,5 @@ function switch_className(id){
 
 }
 
-function inputFocus(id){
-    var obj = document.getElementById(id);
-    var objValue = obj.
-    $('#create_manager_tb input').focus(function(){
-        if($('#channelId_input').val() == "channelID"){
-            $('#channelId_input').val('');
-        }
-        if($('#cpid_input').val() == "CPID"){
-            $('#cpid_input').val('');
-        }
-    });
-}
 
-$(function(){
-    $('#create_manager_tb input').focus(function(){
-        if($('#channelId_input').val() == "channelID"){
-            $('#channelId_input').val('');
-        }
-        if($('#cpid_input').val() == "CPID"){
-            $('#cpid_input').val('');
-        }
-    });
 
-    $('#create_manager_tb input').blur(function(){
-        if($('#channelId_input').val() == ""){
-            $('#channelId_input').val('channelID');
-        }
-        if($('#cpid_input').val() == ""){
-            $('#cpid_input').val('CPID');
-        }
-    });
-});
-
-function  setIptDefaultVal(id){
-
-}

@@ -66,8 +66,8 @@
                                                 </ul>
                                             </div>
                                         </td>
-                                        <td><input id="channelId_input" type="text" name="channelCode" onfocus="" onblur="" value="" title="请输入channelID"/></td>
-                                        <td><input id="cpid_input" type="text" name="cpid" value=""  onfocus="" onblur="" title="请输入CPID"/></td>
+                                        <td><input id="channelId_input" type="text" name="channelCode" value="channelID" title="请输入channelID"/></td>
+                                        <td><input id="cpid_input" type="text" name="cpid" value="CPID"  title="请输入CPID"/></td>
                                         <td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="${basePath}/static/images/launch.png" alt=""/></a></td>
                                         <input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/>
                                     </tr>

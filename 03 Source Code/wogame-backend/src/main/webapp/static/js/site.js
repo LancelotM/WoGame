@@ -1,15 +1,18 @@
 var Dialog = {};
+var submitFlag = true;
 $(function(){
     $('#province_div a').click(function(){
         var basePath = getBasePath();
         $.post(basePath+"/getChaByName",{channelName:$(this).text()},function(data,status){
             if(data.flag){
+                submitFlag = false;
                 $('#launch_img').attr('src',basePath+'/static/images/launched.png');
                 $('#channelId_input').val(data.channelCode);
                 $('#cpid_input').val(data.cpId);
                 $('#wapURL').text(data.wapToken) ;
                 $('#logURL').text(data.logToken);
             }else{
+                submitFlag = true;
                 $('#launch_img').attr('src',basePath+'/static/images/launch.png');
                 $('#channelId_input').val("");
                 $('#cpid_input').val("");
@@ -26,7 +29,9 @@ $(function(){
     });
 
     $('#launch').click(function(){
-        $('#launch_form').submit();
+        if(submitFlag){
+            $('#launch_form').submit();
+        }
     });
     $('#cancel').click(function(){
         document.body.removeChild(Dialog.maskLayer);
@@ -35,7 +40,9 @@ $(function(){
     $('#update_submit').click(function(){
         $('#update_form').submit();
     });
-    update_submit
+    $("#launch_form input").each(function(){
+        $(this).setDefauleValue();
+    });
 });
 
 function getBasePath(){
@@ -102,11 +109,21 @@ buildMask = function(zIndex){
     document.body.appendChild(Dialog.maskLayer);
 }
 
-function iptBulur(){
+//设置input,textarea默认值
+$.fn.setDefauleValue = function() {
+    var defauleValue = $(this).val();
+    $(this).val(defauleValue).css("color","#999");
 
-}
-
-function iptFocus(){
-
+    return this.each(function() {
+        $(this).focus(function() {
+            if ($(this).val() == defauleValue) {
+                $(this).val("").css("color","#000000");//输入值的颜色
+            }
+        }).blur(function() {
+                if ($(this).val() == "") {
+                    $(this).val(defauleValue).css("color","#999");//默认值的颜色
+                }
+            });
+    });
 }
 
