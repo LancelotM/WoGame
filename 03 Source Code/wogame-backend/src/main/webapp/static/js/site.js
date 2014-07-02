@@ -3,21 +3,26 @@ var submitFlag = true;
 $(function(){
     $('#province_div a').click(function(){
         var basePath = getBasePath();
-        $.post(basePath+"/getChaByName",{channelName:$(this).text()},function(data,status){
-            if(data.flag){
-                submitFlag = false;
-                $('#launch_img').attr('src',basePath+'/static/images/launched.png');
-                $('#channelId_input').val(data.channelCode);
-                $('#cpid_input').val(data.cpId);
-                $('#wapURL').text(data.wapToken) ;
-                $('#logURL').text(data.logToken);
-            }else{
-                submitFlag = true;
-                $('#launch_img').attr('src',basePath+'/static/images/launch.png');
-                $('#channelId_input').val("");
-                $('#cpid_input').val("");
-                $('#wapURL').text("") ;
-                $('#logURL').text("");
+        $.ajax({
+            url:basePath+"/getChaByName",
+            data:{channelName:$(this).text()},
+            async:false,
+            success:function(data,status){
+                if(data.flag){
+                    submitFlag = false;
+                    $('#launch_img').attr('src',basePath+'/static/images/launched.png');
+                    $('#channelId_input').val(data.channelCode);
+                    $('#cpid_input').val(data.cpId);
+                    $('#wapURL').text(data.wapToken) ;
+                    $('#logURL').text(data.logToken);
+                }else{
+                    submitFlag = true;
+                    $('#launch_img').attr('src',basePath+'/static/images/launch.png');
+                    $('#channelId_input').val("");
+                    $('#cpid_input').val("");
+                    $('#wapURL').text("") ;
+                    $('#logURL').text("");
+                }
             }
         });
         var dispayVal = $('#province_div').css('display');
