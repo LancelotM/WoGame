@@ -19,13 +19,13 @@ $(function(){
         $('#launch_form').submit();
     });
     $('#cancel').click(function(){
-        var obj = document.getElementById("dialog");
-        var style = obj.style.display;
-        if(obj.style.display=="block"){
-            obj.style.display='none';
-        }
+//        var obj = document.getElementById("dialog");
+//        var style = obj.style.display;
+//        if(obj.style.display=="block"){
+//            obj.style.display='none';
+//        }
+        document.body.removeChild(Dialog.maskLayer);
         $('#dialog').hide();
-        document.removeChild(Dialog.maskLayer);
     });
 });
 
