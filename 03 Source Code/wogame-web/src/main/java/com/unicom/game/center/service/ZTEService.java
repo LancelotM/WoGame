@@ -1,11 +1,10 @@
 package com.unicom.game.center.service;
 
+import com.google.common.collect.Lists;
 import com.unicom.game.center.util.UniData;
 import com.unicom.game.center.util.UniDataUtil;
-import com.unicom.game.center.vo.GameDownloadVo;
-import com.unicom.game.center.vo.GameInfoVo;
-import com.unicom.game.center.vo.SearchResultItemVo;
-import com.unicom.game.center.vo.SearchResultVo;
+import com.unicom.game.center.vo.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -33,10 +32,18 @@ public class ZTEService {
     private static final String SEARCH_RESULT_TABLE_NAME = "search";
     private static final String SEARCH_RESULT_LIST_TABLE_NAME = "searchlist";
     private static final String DOWNLOAD_RESULT_TABLE_NAME = "order";
+    private static final String SEARCH_KEYWORD_TABLE_NAME = "getkeywords";
+    private static final String SEARCH_KEYWORD_RESULT_SPLIT_CHAR = "|";
+
+    private static final String URL_PRODUCT_DETAIL = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid={serviceid}&productid={productid}&state={state}";
+    private static final String URL_SEARCH_GAME = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=searchallgameapp&keyword={keyword}&pagenum={pageNum}&tablename=search&count=20";
+    private static final String URL_PRODUCT_DOWNLOAD = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=order&productid={productid}&ordertype=4" +
+            "&accountingtype=0&recuserid=&update=0&packageid=&downchannel=8";
+    private static final String URL_SEARCH_ALL_KEYWORDS = "http://wogame.wostore.cn:8080/gameservice/hotwordsList.do";
+    private static final String URL_SEARCH_KEYWORDS = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=getkeywords&keyword={keyword}";
 
     public GameInfoVo readProductDetail(String productId) {
 
-        String url = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid={serviceid}&productid={productid}&state={state}";
         Map<String, Object> urlVariables = new HashMap<String, Object>();
 
         urlVariables.put("serviceid", GAME_DETAIL_TABLE_NAME);
@@ -50,7 +57,7 @@ public class ZTEService {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class, urlVariables);
+        ResponseEntity<byte[]> response = restTemplate.exchange(URL_PRODUCT_DETAIL, HttpMethod.GET, entity, byte[].class, urlVariables);
 
         return parseGameInfo(response.getBody());
     }
@@ -122,7 +129,6 @@ public class ZTEService {
 
     public SearchResultVo readSearchResult(String keyword, int pageNum) {
 //        http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=searchallgameapp&keyword=萝卜&pagenum=1&tablename=search&count=20
-        String url = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=searchallgameapp&keyword={keyword}&pagenum={pageNum}&tablename=search&count=20";
         Map<String, Object> urlVariables = new HashMap<String, Object>();
 
 //        urlVariables.put("serviceid", "searchallgameapp");
@@ -138,7 +144,7 @@ public class ZTEService {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class, urlVariables);
+        ResponseEntity<byte[]> response = restTemplate.exchange(URL_SEARCH_GAME, HttpMethod.GET, entity, byte[].class, urlVariables);
 
         return parseSearchResult(response.getBody());
     }
@@ -233,8 +239,6 @@ public class ZTEService {
 
     public GameDownloadVo readProductDownloadUrl(String productId) {
 
-        String url = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=order&productid={productid}&ordertype=4" +
-                "&accountingtype=0&recuserid=&update=0&packageid=&downchannel=8";
         Map<String, Object> urlVariables = new HashMap<String, Object>();
 
         urlVariables.put("productid", productId);
@@ -246,7 +250,7 @@ public class ZTEService {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(url, HttpMethod.GET, entity, byte[].class, urlVariables);
+        ResponseEntity<byte[]> response = restTemplate.exchange(URL_PRODUCT_DOWNLOAD, HttpMethod.GET, entity, byte[].class, urlVariables);
 
         return parseGameDownloadInfo(response.getBody());
     }
@@ -274,4 +278,72 @@ public class ZTEService {
             return null;
         }
     }
+
+    public SearchKeywordsVo readSearchAllKeywords() {
+        try {
+            RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
+            SearchKeywordsVo response = restTemplate.getForObject(URL_SEARCH_ALL_KEYWORDS, SearchKeywordsVo.class);
+
+            return response;
+        } catch (Exception e) {
+            logger.error("解析数据错误。", e);
+            return null;
+        }
+    }
+
+    public SearchKeywordsVo readSearchKeywords(String keyword) {
+        try {
+            Map<String, Object> urlVariables = new HashMap<String, Object>();
+            urlVariables.put("keyword", keyword);
+
+            HttpHeaders headers = getHttpHeaders();
+            HttpEntity<String> entity = new HttpEntity<String>("", headers);
+            RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
+
+            ResponseEntity<byte[]> response = restTemplate.exchange(URL_SEARCH_KEYWORDS, HttpMethod.GET, entity, byte[].class, urlVariables);
+
+            return parseSearchKeywords(response.getBody());
+        } catch (Exception e) {
+            logger.error("解析数据错误。", e);
+            return null;
+        }
+    }
+
+    private SearchKeywordsVo parseSearchKeywords(byte[] searchResultData) {
+        try {
+            UniData uniData = UniDataUtil.fromBytes(searchResultData);
+            UniData.TableData tableData = uniData.getTable(SEARCH_KEYWORD_TABLE_NAME);
+            if (tableData == null) {
+                return null;
+            }
+            UniData.RowData rowData = tableData.getRowData(0);
+            String keywords = rowData.getColumnData("keywords").getValue();
+
+            String[] keywordList = StringUtils.split(keywords, SEARCH_KEYWORD_RESULT_SPLIT_CHAR);
+
+            if (keywordList == null) {
+                return null;
+            }
+
+            SearchKeywordsVo result = new SearchKeywordsVo();
+            List<SearchKeywordItemVo> items = Lists.newArrayList();
+
+            for (String key : keywordList) {
+                SearchKeywordItemVo item = new SearchKeywordItemVo();
+
+                item.setHotWord(key);
+
+                items.add(item);
+            }
+
+            result.setResult(0);
+
+            return result;
+
+        } catch (Exception e) {
+            logger.error("解析数据错误。", e);
+            return null;
+        }
+    }
+
 }

@@ -103,4 +103,20 @@ function loaded() {
     }, 800);
 }
 
-
+var storage = window.localStorage;
+var oldUserFlag = storage.getItem("unicom.game.user.anonymous");
+var logUsageUrl = "/logUsage";
+if (oldUserFlag && oldUserFlag == "TRUE") {
+    window.sessionStorage.setItem("oldUserFlag", "TRUE");
+} else {
+    setUsageFlag();
+}
+function setUsageFlag() {
+    storage.setItem("unicom.game.user.anonymous", "TRUE");
+}
+function isOldUser() {
+    return window.sessionStorage.getItem("oldUserFlag") == "TRUE";
+}
+function logUsage(rootUrl, data) {
+    $.getJSON(rootUrl + logUsageUrl, {"data": JSON.stringify(data)});
+}

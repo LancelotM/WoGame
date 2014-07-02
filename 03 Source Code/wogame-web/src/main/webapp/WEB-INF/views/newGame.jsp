@@ -45,7 +45,7 @@
 </div>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
 
@@ -96,10 +96,10 @@
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.size / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_download">');
-                    stringBuffer.push('<a href="javascript:download(\'' + entry.id + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_download_txt">');
-                    stringBuffer.push('<a href="javascript:download(\'' + entry.id + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
                     stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
@@ -141,8 +141,11 @@
 
     });
 
-    function download(id) {
-        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+    function download(pData) {
+        var pDataJson = JSON.parse(pData);
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}",
+                {"productId": dataJson.id, "productName": dataJson.name, "productIcon": dataJson.icon},
+                function (data) {
             if (data.downloadUrl == "") {
                 alert(data.description);
             } else {
@@ -151,6 +154,12 @@
         })
     }
 </script>
-
+<script type="text/javascript">
+    logUsage("${ctx}", {
+        "pageTraffic": {
+            "pgeId": "4"		//页面编号1：首页 2：分类 3：一周热榜 4：最新
+        }
+    })
+</script>
 </body>
 </html>

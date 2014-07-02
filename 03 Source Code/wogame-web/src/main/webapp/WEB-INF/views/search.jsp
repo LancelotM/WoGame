@@ -25,7 +25,7 @@
 <!--分类筛选-->
 <div class="w_search_box">
     <div class="w_inputbox">
-        <div class="w_in_01"><a href="#">关闭</a></div>
+        <div class="w_in_01"><a href="javascript:clearText();">关闭</a></div>
         <div class="w_in_02"></div>
         <input name="txtSearch" id="txtSearch" type="text" data-role="none" class="w_input"/>
     </div>
@@ -38,7 +38,11 @@
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
         </div>
         <div id="list">
-
+            <c:forEach items="${list}" var="item">
+                <a href="javascript:doSearch('${item.hotWord}');">
+                    <div class="w_list_youxi">${item.hotWord}</div>
+                </a>
+            </c:forEach>
         </div>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
@@ -47,9 +51,9 @@
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
 <script type="text/javascript">
 
     var myScroll,
@@ -60,7 +64,7 @@
     pageNum = 1;
     var urlBase = '${ctx}/gameInfo;jsessionid=${sessionid}?productId=';
     var el = $('#list');
-    el.empty();
+    //    el.empty();
 
     function ajaxGetData(pPageNum, callback) {
 
@@ -85,7 +89,7 @@
                 $.each(data, function (index, entry) {
                     var stringBuffer = [];
 
-                    stringBuffer.push('<a href="' + urlBase + entry.id + '">');
+                    stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\'">');
                     stringBuffer.push('<div class="w_list_youxi">' + entry.name + '</div>');
                     stringBuffer.push('</a>');
 
@@ -105,6 +109,32 @@
 
     }
 
+    function ajaxSearchKeywords(keyword) {
+        $.getJSON("${ctx}/search/keyword;jsessionid=${sessionid}", {"keyword": keyword}, function (data) {
+
+            if (data.length != 0) {
+
+                $.each(data, function (index, entry) {
+                    var stringBuffer = [];
+
+                    stringBuffer.push('<a href="javascript:doSearch(\'' + entry.hot_word + '\');">');
+                    stringBuffer.push('<div class="w_list_youxi">' + entry.hot_word + '</div>');
+                    stringBuffer.push('</a>');
+
+                    el.append(stringBuffer.join(""));
+                });
+
+            } else {
+                $('#pullDown, #pullUp').hide();
+            }
+            if (callback) {
+                callback();
+            } else {
+                myScroll.refresh();
+            }
+        });
+    }
+
     document.addEventListener('touchmove', function (e) {
         e.preventDefault();
     }, false);
@@ -113,12 +143,28 @@
         setTimeout(loaded, 200);
     }, false);
 
-    ajaxGetData(1);
 </script>
 
 <script type="text/javascript">
     function search() {
         ajaxGetData(1);
+    }
+
+    function doSearch(keyword) {
+        $('#txtSearch').val(keyword);
+        search();
+    }
+
+    $('#txtSearch').change(function () {
+        ajaxSearchKeywords($(this).val());
+    });
+
+    function clearText() {
+        $('#txtSearch').val('');
+    }
+
+    function toDetail(id) {
+        location.href = urlBase + id;
     }
 </script>
 

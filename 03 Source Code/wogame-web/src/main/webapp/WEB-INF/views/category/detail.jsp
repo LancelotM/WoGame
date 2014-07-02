@@ -41,7 +41,7 @@
 </div>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
 
 <script type="text/javascript">
 
@@ -76,10 +76,10 @@
                     stringBuffer.push('<div class="w_list_category">' + entry.description + '</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.apk_size / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_download">');
-                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_download_txt">');
-                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
                     stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
@@ -100,8 +100,10 @@
         setTimeout(loaded, 200);
     }, false);
 
-    function download(id) {
-        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+    function download(pData) {
+        var dataJson = JSON.parse(pData);
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}",
+                {"productId": dataJson.product_id, "productName": dataJson.app_name, "productIcon": dataJson.icon_url}, function (data) {
             if (data.downloadUrl == "") {
                 alert(data.description);
             } else {

@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <script src="${ctx}/static/js/index.js"></script>
+    <script src="${ctx}/static/js/utils.js"></script>
+
 </head>
 
 <body class="ibody_bg">
@@ -26,7 +27,7 @@
 <div data-role="header" data-position="fixed" data-theme="a" class="w-header" style="background:#404040;">
     <div class="w-sousuo_icon"><a data-rel="back">后退</a></div>
     <div class="w-sousuo"><a data-rel="back" style="color:#FF9C00;text-shadow: none;">${info.name}</a></div>
-    <div class="w_search2"><a data-role="none" href="javascript:toSearch();">搜索</a></div>
+    <div class="w_search2"><a href="javascript:toSearch();" onclick="toSearch();">搜索</a></div>
 
 </div>
 <!--分类筛选-->
@@ -38,7 +39,7 @@
     <%--<div class="w_new_022"><a href="#">玩家评论</a></div>--%>
 </div>
 <c:if test="${error == '1'}">
-    服务器出故障啦。
+    服务器出错啦...
 </c:if>
 <c:if test="${error == ''}">
     <!--列表-->
@@ -74,8 +75,8 @@
     <!--列表-->
     <div class="w_footer_dow" data-role="footer" data-position="fixed">
     <dl class="w_dowload" data-role="none">
-            <a href="javascript:download('${info.productId}')" data-role="none">
-                <dt>下载</dt>
+        <a href="javascript:download('${info.productId}','${info.name}','${info.iconUrl}')" data-role="none">
+        <dt>下载</dt>
             </a>
         </dl>
     </div>
@@ -85,7 +86,7 @@
             <img src="${screenshot}" onclick="javascript:$('#popdiv${index.index}').hide();"/>
         </div>
     </c:forEach>
-
+</c:if>
     <script type="text/javascript">
         function popup(id) {
             $('#' + id).show();
@@ -106,8 +107,10 @@
 
         }
 
-        function download(id) {
-            $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+        function download(id, name, url) {
+            $.getJSON("${ctx}/download;jsessionid=${sessionid}",
+                    {"productId": id, "productName": name, "productIcon": url},
+                    function (data) {
                 if (data.downloadUrl == "") {
                     alert(data.description);
                 } else {
@@ -120,6 +123,6 @@
             location.href = "${ctx}/search/init;jsessionid=${sessionid}";
         }
     </script>
-</c:if>
+
 </body>
 </html>

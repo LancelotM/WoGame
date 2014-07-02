@@ -47,7 +47,7 @@
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
 
@@ -75,18 +75,24 @@
 
                     stringBuffer.push('<div class="w_list">');
                     stringBuffer.push('<div class="w_list_img">');
-                    stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
+                    stringBuffer.push('<a href="' + urlBase + entry.product_id + '"');
+                    stringBuffer.push(' onclick="logdata(\'' + entry.product_id + '\',\''
+                            + entry.title + '\',\'' + entry.icon_url + '\',\'' + index + '\')"');
+                    stringBuffer.push('>');
                     stringBuffer.push('<img src="' + entry.icon_url + '" width="48" height="48"/></a></div>');
                     stringBuffer.push('<div class="w_list_title">');
-                    stringBuffer.push('<a href="' + urlBase + entry.product_id + '">' + entry.title + '</a>');
+                    stringBuffer.push('<a href="' + urlBase + entry.product_id + '"');
+                    stringBuffer.push(' onclick="logdata(\'' + entry.product_id + '\',\''
+                            + entry.title + '\',\'' + entry.icon_url + '\',\'' + index + '\')"');
+                    stringBuffer.push('>' + entry.title + '</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber((entry.apk_size) / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_category">' + entry.category + '</div>');
                     stringBuffer.push('<div class="w_list_download">');
-                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_download_txt">');
-                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
                     stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
@@ -97,7 +103,6 @@
                 callback();
             }
         });
-
 
     }
 
@@ -130,7 +135,9 @@
     });
 
     function download(id) {
-        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}",
+                {"productId": dataJson.product_id, "productName": dataJson.title, "productIcon": dataJson.icon_url},
+                function (data) {
             if (data.downloadUrl == "") {
                 alert(data.description);
             } else {
@@ -139,6 +146,25 @@
         })
     }
 </script>
+<script type="text/javascript">
+    logUsage("${ctx}", {
+        "pageTraffic": {
+            "pgeId": "3"		//页面编号1：首页 2：分类 3：一周热榜 4：最新
+        }
+    });
 
+    //4.前30游戏点击次数统计
+    function logdata(id, name, url, sort) {
+        logUsage("${ctx}", {
+            "hotGameTraffic": {
+                "productId": id,	//游戏的id
+                "productName": name,	//游戏名字
+                "productIcon": url,	//游戏图标地址
+                /*"channelId": "",	//渠道信息*/
+                "sort": sort			//前30游戏的排位顺序
+            }
+        });
+    }
+</script>
 </body>
 </html>

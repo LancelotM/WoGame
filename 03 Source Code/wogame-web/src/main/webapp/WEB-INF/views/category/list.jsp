@@ -35,21 +35,22 @@
     <!--列表-->
     <c:forEach items="${list}" var="item">
 
-    <a href="javascript:listDetail('${item.categoryId}','${item.categoryTitle}');">
-        <div class="w_list_fenlei">
-            <c:if test="${item.recommendType>0}">
-                <div class="index_xiejiao index_xiejiao_${item.recommendType}"></div>
-            </c:if>
-            <div class="w_list_img"><img src="${item.iconUrl}" width="60" height="60"/></div>
-            <div class="w_list_title">${item.categoryTitle}</div>
-            <div class="w_list_category" style="top:35px;">${item.description}</div>
-        </div>
-    </a>
+        <a href="javascript:listDetail('${item.categoryId}','${item.categoryTitle}');">
+            <div class="w_list_fenlei">
+                <c:if test="${item.recommendType>0}">
+                    <div class="index_xiejiao index_xiejiao_${item.recommendType}"></div>
+                </c:if>
+                <div class="w_list_img"><img src="${item.iconUrl}" width="60" height="60"/></div>
+                <div class="w_list_title">${item.categoryTitle}</div>
+                <div class="w_list_category" style="top:35px;">${item.description}</div>
+            </div>
+        </a>
 
-</c:forEach>
+    </c:forEach>
 </div>
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
 <script type="text/javascript">
     $(function () {
         $("#pageContent").touchwipe({
@@ -71,6 +72,12 @@
         location.href = url;
     }
 </script>
-
+<script type="text/javascript">
+    logUsage("${ctx}", {
+        "pageTraffic": {
+            "pgeId": "2"		//页面编号1：首页 2：分类 3：一周热榜 4：最新
+        }
+    })
+</script>
 </body>
 </html>

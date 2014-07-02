@@ -25,4 +25,9 @@ public class StatisticsLogger {
         String json = (data != null ? jsonMapper.toJson(loggerData) : "{}");
         businessLogger.info("{}", json);
     }
+
+    public void log(Map data) {
+        String json = (data != null ? jsonMapper.toJson(data) : "{}");
+        businessLogger.info("{}", json);
+    }
 }

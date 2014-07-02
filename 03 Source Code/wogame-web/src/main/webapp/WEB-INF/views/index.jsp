@@ -74,7 +74,9 @@
                         </div>
                         <h6><fmt:formatNumber value="${appItem.apkSize / 1024}" pattern="0.00"/>MB</h6>
                     </div>
-                    <div class="w_img_xz"><a href="javascript:download('${appItem.productId}');">下载</a></div>
+                    <div class="w_img_xz"><a
+                            href="javascript:download('${appItem.productId}','${appItem.appName}','${appItem.iconUrl}');">下载</a>
+                    </div>
                 </div>
                 <c:if test="${idx.index+1 < fn:length(item.apps)}">
                     <div class="w_houlist_r">
@@ -100,7 +102,8 @@
                                                   pattern="0.00"/>MB</h6>
                         </div>
                         <div class="w_img_xz"><a
-                                href="javascript:download('${item.apps[idx.index+1].productId}');">下载</a></div>
+                                href="javascript:download('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}','${item.apps[idx.index+1].iconUrl}');">下载</a>
+                        </div>
 
                     </div>
                 </c:if>
@@ -142,8 +145,8 @@
 </c:forEach>
 </div>
 
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="${ctx}/static/js/index.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/utils.js?11"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
@@ -178,8 +181,10 @@
 
     });
 
-    function download(id) {
-        $.getJSON("${ctx}/download;jsessionid=${sessionid}?productId=" + id, function (data) {
+    function download(id, name, url) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}",
+                {"productId": id, "productName": name, "productIcon": url},
+                function (data) {
             if (data.downloadUrl == "") {
                 alert(data.description);
             } else {
@@ -189,10 +194,29 @@
     }
 
     function toDetail(id) {
+        logUsage("${ctx}", {
+            "bannerTraffic": {
+                "productId": id
+            }
+        });
         location.href = "${ctx}/gameInfo;jsessionid=${sessionid}?productId=" + id;
     }
 
 </script>
+<script type="text/javascript">
+    <c:if test="${isIndex == true}">
+    logUsage("${ctx}", {
+        "userCount": {
+            "cookie": isOldUser()
+        }
+    });
+    </c:if>
 
+    logUsage("${ctx}", {
+        "pageTraffic": {
+            "pgeId": "1"		//页面编号1：首页 2：分类 3：一周热榜 4：最新
+        }
+    })
+</script>
 </body>
 </html>
