@@ -101,13 +101,17 @@ public class SiteController {
         return modelView;
     }
 
-    @RequestMapping(value = "/updateSit", method = {RequestMethod.GET})
+    @RequestMapping(value = "/updateSit", method = {RequestMethod.POST})
     public ModelAndView updateSite(@RequestParam(value = "channelId", required = true) int channelId,
                                    @RequestParam(value = "channelCode", required = true) String channelCode,
                                    @RequestParam(value = "cpid", required = true) String cpId){
         ModelMap modelMap = new ModelMap();
         boolean flag = channelService.updateChannel(channelId,channelCode,cpId);
         modelMap.put("updateFlag",flag);
+        List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
+        if(null != channelInfos){
+            modelMap.put("channelInfos", channelInfos);
+        }
         return new ModelAndView("/site",modelMap);
     }
 

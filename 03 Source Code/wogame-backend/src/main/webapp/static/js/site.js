@@ -4,13 +4,23 @@ $(function(){
         var basePath = getBasePath();
         $.post(basePath+"/getChaByName",{channelName:$(this).text()},function(data,status){
             if(data.flag){
-                alert(data.flag);
-                alert(data.wapToken);
                 $('#launch_img').attr('src',basePath+'/static/images/launched.png');
+                $('#channelId_input').val(data.channelCode);
+                $('#cpid_input').val(data.cpId);
                 $('#wapURL').text(data.wapToken) ;
                 $('#logURL').text(data.logToken);
+            }else{
+                $('#launch_img').attr('src',basePath+'/static/images/launch.png');
+                $('#channelId_input').val("");
+                $('#cpid_input').val("");
+                $('#wapURL').text("") ;
+                $('#logURL').text("");
             }
         });
+        var dispayVal = $('#province_div').css('display');
+        if(dispayVal=="block"){
+            $('#province_div').css('display','none');
+        }
         $('#channel').text($(this).text());
         $('#channelName').val($(this).text());
     });
@@ -19,14 +29,13 @@ $(function(){
         $('#launch_form').submit();
     });
     $('#cancel').click(function(){
-//        var obj = document.getElementById("dialog");
-//        var style = obj.style.display;
-//        if(obj.style.display=="block"){
-//            obj.style.display='none';
-//        }
         document.body.removeChild(Dialog.maskLayer);
         $('#dialog').hide();
     });
+    $('#update_submit').click(function(){
+        $('#update_form').submit();
+    });
+    update_submit
 });
 
 function getBasePath(){
@@ -58,12 +67,8 @@ function createForm(url,channel,date){
 
 function getUpdateInfo(channelId){
     mask('#dialog');
-//    var obj = document.getElementById("dialog");
-//    var style = obj.style.display;
-//    if(obj.style.display=="none"){
-//        obj.style.display='block';
-//    }
     $.get(getBasePath()+"/getChannel?channelId="+channelId,function(data,status){
+        $('#chaId').attr('value',data.channelId);
         $('#dialog_chaName').text(data.channelName);
         $('#dialog_chaId').attr('value',data.channelCode);
         $('#dialog_cpid').attr('value',data.cpId);
@@ -73,16 +78,7 @@ function getUpdateInfo(channelId){
 
 mask = function(dialogId,absoluteHeight){
     buildMask();
-
     var dialog = $(dialogId);
-//    var left = ($(window).width() - $(dialog).width())/2 + "px";
-//    var top;
-//    if(absoluteHeight){
-//        top = ($(window).height() - $(dialog).height() - absoluteHeight)/2+'px';
-//    }else{
-//        top = ($(window).height() - $(dialog).height())/2 + $(document).scrollTop() +'px';
-//    }
-//    $(dialog).css({'left':left,'top':top});
     $(dialog).show();
 }
 
@@ -104,5 +100,13 @@ buildMask = function(zIndex){
     Dialog.maskLayer.style.filter = "alpha(opacity=40)";
     Dialog.maskLayer.style.opacity = "0.40";
     document.body.appendChild(Dialog.maskLayer);
+}
+
+function iptBulur(){
+
+}
+
+function iptFocus(){
+
 }
 

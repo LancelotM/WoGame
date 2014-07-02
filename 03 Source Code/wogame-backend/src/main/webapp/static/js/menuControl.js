@@ -55,3 +55,7 @@ $(function(){
         }
     });
 });
+
+function  setIptDefaultVal(id){
+
+}

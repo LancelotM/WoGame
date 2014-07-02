@@ -66,8 +66,8 @@
                                                 </ul>
                                             </div>
                                         </td>
-                                        <td><input id="channelId_input" type="text" name="channelCode" value="" title="请输入channelID"/></td>
-                                        <td><input id="cpid_input" type="text" name="cpid" value=""  title="请输入CPID"/></td>
+                                        <td><input id="channelId_input" type="text" name="channelCode" onfocus="" onblur="" value="" title="请输入channelID"/></td>
+                                        <td><input id="cpid_input" type="text" name="cpid" value=""  onfocus="" onblur="" title="请输入CPID"/></td>
                                         <td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="${basePath}/static/images/launch.png" alt=""/></a></td>
                                         <input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/>
                                     </tr>
@@ -86,24 +86,27 @@
                             <div id="dialog_head">
                                 <span id="dialog_titile">修改已建站点信息</span>
                             </div>
-                            <form action="" method="post">
+                            <form id="update_form" action="${basePath}/updateSit" method="post">
                                 <table id="dialog_table">
                                     <tr>
                                         <td>渠道名：</td>
                                         <td><span id="dialog_chaName"></span></td>
+                                        <input id="chaId" name="channelId" type="hidden" value=""/>
                                     </tr>
                                     <tr>
                                         <td>ChannelID:</td>
-                                        <td><input id="dialog_chaId" type="text" value=""/></td>
+                                        <td><input id="dialog_chaId" name="channelCode" type="text" value=""/></td>
                                     </tr>
                                     <tr>
                                         <td>CPID</td>
-                                        <td><input id="dialog_cpid" type="text" value=""/></td>
+                                        <td><input id="dialog_cpid" name="cpid" type="text" value=""/></td>
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <a class="left" href="javascript:;"><img src="${basePath}/static/images/confirm_update.png" alt="update" style="margin-right:75px;"/></a>
+                                            <a class="left" id="update_submit" href="javascript:;">
+                                                <img src="${basePath}/static/images/confirm_update.png" alt="update" style="margin-right:75px;"/>
+                                            </a>
                                             <a class="right" id="cancel" href="javascript:;"><img src="${basePath}/static/images/cancel.png" alt="cancel"/></a>
                                         </td>
                                     </tr>
