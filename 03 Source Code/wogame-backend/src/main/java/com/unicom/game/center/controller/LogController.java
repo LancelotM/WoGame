@@ -55,6 +55,7 @@ public class LogController {
     	if(!Utility.isEmpty(token)){
     		try {
 				channelId = AESEncryptionHelper.decrypt(token, backendKey);
+				session.setAttribute("admin", false);
 				session.setAttribute("developer_channel", channelId);
 			} catch (Exception e) {
 				e.printStackTrace();
