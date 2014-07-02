@@ -14,6 +14,9 @@ function checkForm(){
         if(isCheck == 'inline'){
             setCookie("login_code",username,30);
             setCookie("pwd",password,30)
+        }else if(isCheck == 'none'){
+            delCookie("login_code");
+            delCookie("pwd");
         }
         $('#form').submit();
     }
@@ -38,21 +41,11 @@ $(function(){
     if(pwd != null && pwd != ""){
         $("#password").val(pwd);
     }
+
+    if(loginCode != null && loginCode != "" && pwd != null && pwd != ""){
+        $('#submit').click();
+    }
 });
 
-function getCookie(objName){
-    var arrStr = document.cookie.split("; ");
-        for(var i = 0;i < arrStr.length;i ++){
-              var temp = arrStr[i].split("=");
-              if(temp[0] == objName) return unescape(temp[1]);
-           }
 
-}
-function setCookie(c_name,value,expiredays)
-{
-    var exdate=new Date();
-    exdate.setDate(exdate.getDate()+expiredays);
-    document.cookie=c_name+ "=" +escape(value)+
-    ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
-}
 

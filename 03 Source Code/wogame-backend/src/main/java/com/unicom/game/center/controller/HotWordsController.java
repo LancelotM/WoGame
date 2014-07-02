@@ -33,11 +33,9 @@ public class HotWordsController {
 
 
     @RequestMapping(value = "/getAllKeyWowrd", method = {RequestMethod.GET})
-    public ModelAndView getAllKeyWowrd(@RequestParam(value="channelId",required = true) Integer channelID){
+    public ModelAndView getAllKeyWowrd(){
     	ModelMap model = new ModelMap();
         List<KeywordInfo> keywords = keywordService.fetchTopSearchKeyword();
-        ChannelInfo channelInfoDomain = channelService.fetchChannelInfoById(channelID);
-        model.put("channelInfoDomain",channelInfoDomain);
         model.put("keywords",keywords);
         return new ModelAndView("/keyword", model); 
     }

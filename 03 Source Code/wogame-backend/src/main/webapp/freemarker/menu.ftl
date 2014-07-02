@@ -1,8 +1,13 @@
 			<div class="header">
 				<img class="logo" src="${basePath}/static/images/logo.png" alt=""/>
 				<div class="info">
-					<span>${(channelInfoDomain.channelName)!'管理员'}，你好</span>
-                    <a class="exite_button" href="${basePath}/exit">安全登出</a>
+                    <#if ChannelName?exists>
+                        <span>${(ChannelName)!}，你好</span>
+                    <#else>
+                         <span>管理员，你好</span>
+                         <a id="exit_id" class="exite_button" href="javascript:;">安全登出</a>
+                    </#if>
+
 				</div>
 			</div>
 			<div class="menu_main">

@@ -61,6 +61,10 @@ public class LogController {
     	if(!Utility.isEmpty(token)){
     		try {
 				channelId = AESEncryptionHelper.decrypt(token, backendKey);
+                ChannelInfo channelInfo = channelService.fetchChannelInfoById(Integer.parseInt(channelId));
+                if(null != channelInfo){
+                    session.setAttribute("ChannelName", channelInfo.getChannelName());
+                }
 				session.setAttribute("admin", false);
 				session.setAttribute("developer_channel", channelId);
 			} catch (Exception e) {
@@ -88,8 +92,6 @@ public class LogController {
     	ModelMap model = new ModelMap();    	
         model.put("channelId",channelID);
         model.put("type",(null != type) ? type : "1");
-        ChannelInfo channelInfoDomain = channelService.fetchChannelInfoById(channelID);
-        model.put("channelInfoDomain",channelInfoDomain);
         long newUserCount = logInfoService.fetchNewUserCount(channelID);
         long totalUserCount = logInfoService.fetchTotalUserCount(channelID);
         model.put("newUserCount",newUserCount);

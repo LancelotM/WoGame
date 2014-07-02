@@ -7,6 +7,7 @@ $(function(){
             url:basePath+"/getChaByName",
             data:{channelName:$(this).text()},
             async:false,
+            type:"POST",
             success:function(data,status){
                 if(data.flag){
                     submitFlag = false;

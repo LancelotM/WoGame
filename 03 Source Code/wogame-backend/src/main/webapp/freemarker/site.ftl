@@ -13,7 +13,7 @@
                                 <table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
                                     <tr class="first_tr">
                                         <td style="color:#ed6d02">
-                                            <span id="channel">${(channelInfoDomain.cpId)!'北京联通'}</span>
+                                            <span id="channel">${(channelInfoDomain.channelName)!'北京联通'}</span>
                                             <input id="channelName" type="hidden" value="北京联通" name="channelName"/>
                                             <a href="javascript:void(0)" class="cityTab" onmouseover="show_hidden('province_div');">
                                                 [ <b></b>切换地区<label>▼</label>]
