@@ -284,9 +284,15 @@ a{
 }
 
 .operate_td{
-	padding:0px;
-	text-align:center;
+    padding:0px;
+    text-align:center;
+    vertical-align:middle;
 }
+
+/*.operate_td a{*/
+    /*margin-right:10px;*/
+    /*margin-left:0px;*/
+/*}*/
 
 .table_title{
 	background:#fff4d3;
@@ -478,6 +484,43 @@ a{
 {
     background: #ed6e02;
     color: #ffffff;
+}
+#dialog{
+    height:288px;
+    width:718px;
+    border:1px solid #626262;
+    background-color:#ffffff;
+    position:absolute;
+    left:92px;
+    right:197px;
+    border-radius:2px;
+    z-index: 10000010012;
+}
+#dialog_head{
+    width:698px;
+    height:37px;
+    background-color:#626262;
+    line-height:37px;
+    padding-left:20px;
+    overflow:hidden;
+}
+#dialog_titile{
+    color:#ffffff;
+    font-size:18px;
+}
+#dialog_table{
+    height:200px;
+    width:613px;
+    margin:20px auto;
+}
+#dialog_table td{
+    text-align:left;
+}
+#dialog_table input{
+    width:505px;
+    height:26px;
+    border:1px solid #e3e3e3;
+    border-radius:4px;
 }
 
 

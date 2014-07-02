@@ -20,7 +20,7 @@
 							<td></td>
 							<td class="check_box">
 								<div class="login_checkbox" style="background-image:url(${basePath}/static/images/check_back.png);" onclick="switch_className('checkbox_img')";>
-                                    <img id="checkbox_img" src="${basePath}/static/images/check_in.png" class="checked"/>
+                                    <img id="checkbox_img" src="${basePath}/static/images/check_in.png" class="checked" style="display: none"/>
                                 </div>&nbsp;
 								<label class="label_info">记住我的登录账号</label>
 							</td>

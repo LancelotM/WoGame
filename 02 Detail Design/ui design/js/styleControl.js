@@ -13,3 +13,25 @@ function show_hidden(id){
         obj.style.display='block';
     }
 }
+$(function(){
+	alert("pageloadfinish!");
+	$('#create_manager_tb input').focus(function(){
+		if($('#channelId_input').val() == "channelID"){
+			$('#channelId_input').val('');
+		}
+		if($('#cpid_input').val() == "CPID"){
+			$('#cpid_input').val('');
+		}
+	});
+	
+	$('#create_manager_tb input').blur(function(){
+		if($('#channelId_input').val() == ""){
+			$('#channelId_input').val('channelID');
+		}
+		if($('#cpid_input').val() == ""){
+			$('#cpid_input').val('CPID');
+		}
+	});
+	
+	
+});

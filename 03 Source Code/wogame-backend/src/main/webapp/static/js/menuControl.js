@@ -20,5 +20,34 @@ function switch_className(id){
     }else{
         obj.style.display='inline';
     }
+}
+$(function(){
+    $('#exit_id').click(function(){
+        delCookie("login_code");
+        delCookie("pwd");
+        window.location.href = getBasePath()+"/exit";
+    });
+});
+
+function getCookie(objName){
+    var arrStr = document.cookie.split("; ");
+    for(var i = 0;i < arrStr.length;i ++){
+        var temp = arrStr[i].split("=");
+        if(temp[0] == objName) return unescape(temp[1]);
+    }
 
 }
+function setCookie(c_name,value,expiredays)
+{
+    var exdate=new Date();
+    exdate.setDate(exdate.getDate()+expiredays);
+    document.cookie=c_name+ "=" +escape(value)+
+        ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+}
+
+function delCookie(name){
+	setCookie(name,"",0) 
+}
+
+
+

@@ -2,11 +2,14 @@ package com.unicom.game.center.controller;
 
 import java.util.List;
 
+import com.unicom.game.center.business.ChannelInfoBusiness;
+import com.unicom.game.center.model.ChannelInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unicom.game.center.business.KeywordBusiness;
@@ -21,6 +24,9 @@ import com.unicom.game.center.model.KeywordInfo;
  */
 @Controller
 public class HotWordsController {
+
+    @Autowired
+    private ChannelInfoBusiness channelService;
 
     @Autowired
     private KeywordBusiness keywordService;

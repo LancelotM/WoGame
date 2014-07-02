@@ -11,6 +11,7 @@ public class DownloadInfoDao extends HibernateDao{
 	
 	public void save(DownloadInfoDomain downloadInfo){
 		getSession().save(downloadInfo);
+		getSession().flush();
 	}
 
 	public void update(DownloadInfoDomain downloadInfo){

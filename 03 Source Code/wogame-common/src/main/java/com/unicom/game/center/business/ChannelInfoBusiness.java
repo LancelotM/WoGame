@@ -10,10 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
-import com.unicom.game.center.db.domain.StatusMapDomain;
 import com.unicom.game.center.model.ChannelInfo;
 import com.unicom.game.center.utils.AESEncryptionHelper;
-import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.Logging;
 
 /**
@@ -37,7 +35,6 @@ public class ChannelInfoBusiness {
 	
 	public List<ChannelInfo> fetchActiveChannelInfos(){
 		List<ChannelInfo> channelInfos = null;
-		
 		try{
 			channelInfos = channelInfoDao.fetchActiveChannels();
 		}catch(Exception e){
@@ -47,32 +44,93 @@ public class ChannelInfoBusiness {
 		return channelInfos;
 	}
 	
-	public ChannelInfoDomain fetchChannelInfo(int channelId){
-		ChannelInfoDomain channel = null;
+	public ChannelInfo fetchChannelInfoById(int channelId){
+		ChannelInfo channel = null;
 		
 		try{
-			channel = channelInfoDao.getById(channelId);
+			channel = channelInfoDao.fetchChannelById(channelId);
 		}catch(Exception e){
-			Logging.logError("Error occur in fetchChannelInfo", e);
+			Logging.logError("Error occur in fetchChannelInfoById", e);
+		}
+		
+		return channel;
+	}
+		
+	public ChannelInfo fetchChannelInfoByName(String channelName){
+		ChannelInfo channel = null;
+		
+		try{
+			channel = channelInfoDao.fetchChannelByName(channelName);
+		}catch(Exception e){
+			Logging.logError("Error occur in fetchChannelInfoByName", e);
 		}
 		
 		return channel;
 	}
 	
-	public ChannelInfoDomain startChannel(int channelId){
+	public ChannelInfo fetchChannelInfoByCode(String channelCode){
+		ChannelInfo channel = null;
+		
+		try{
+			channel = channelInfoDao.fetchChannelInfoByCode(channelCode);
+		}catch(Exception e){
+			Logging.logError("Error occur in fetchChannelInfoByCode", e);
+		}
+		
+		return channel;
+	}
+	
+	public boolean updateChannel(int channelId, String channelCode, String cpId){
+		boolean flag = false;
+		
+		try{
+			ChannelInfoDomain channel = channelInfoDao.getById(channelId);
+			if(null != channel){
+				channel.setStatus(true);
+				channel.setDateModified(new Date());
+				channel.setCpId(cpId);
+				channel.setChannelCode(channelCode);
+				channelInfoDao.update(channel);					
+			}
+		}catch(Exception ex){
+			Logging.logError("Error occur in update channel", ex);
+		}
+		
+		return flag;
+	}
+	
+	public ChannelInfoDomain startChannel(String channelCode, String channelName, String cpId){
 		ChannelInfoDomain channel = null;
 		
 		try{
-			channel = channelInfoDao.getById(channelId);
-			if(null != channel && Constant.ACTIVE_STATUS_ID != channel.getStatus().getStatusId()){
-				StatusMapDomain status = new StatusMapDomain();
-				status.setStatusId(Constant.ACTIVE_STATUS_ID);
-				channel.setStatus(status);
-				String siteToken = AESEncryptionHelper.encrypt(String.valueOf(channelId), siteKey);
-				String backendToken = AESEncryptionHelper.encrypt(String.valueOf(channelId), backendKey);
+			Date date = new Date();
+			channel = channelInfoDao.fetchChannelByCode(channelCode);
+			if(null != channel){
+				if(!channel.isStatus()){
+					channel.setStatus(true);
+					channel.setDateModified(date);
+					channel.setDateCreated(date);
+					channel.setChannelName(channelName);
+					channel.setCpId(cpId);
+					channel.setChannelCode(channelCode);
+					channelInfoDao.update(channel);					
+				}
+			}else{
+				channel = new ChannelInfoDomain();
+				channel.setStatus(true);
+
+				channel.setDateModified(date);
+				channel.setDateCreated(date);
+				channel.setChannelName(channelName);
+				channel.setCpId(cpId);
+				channel.setChannelCode(channelCode);
+				channelInfoDao.save(channel);
+				
+				channel = channelInfoDao.fetchChannelByCode(channelCode);
+				String siteToken = AESEncryptionHelper.encrypt(String.valueOf(channel.getChannelId()), siteKey);
+				String backendToken = AESEncryptionHelper.encrypt(String.valueOf(channel.getChannelId()), backendKey);
 				channel.setWapToken(siteToken);
 				channel.setLogToken(backendToken);
-				channel.setDateModified(new Date());
 				channelInfoDao.update(channel);
 			}
 		}catch(Exception e){

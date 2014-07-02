@@ -18,6 +18,7 @@ public class KeywordDao extends HibernateDao{
 	
 	public void save(KeywordDomain keyWord){
 		getSession().save(keyWord);
+		getSession().flush();
 	}
 	
 	public void update(KeywordDomain keyWord){

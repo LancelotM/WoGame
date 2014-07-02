@@ -45,6 +45,14 @@ public class GameTrafficBusiness {
 			Date previousDate = DateUtils.getDayByInterval(today, -5);
 			String startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
 			gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, bannerFlag, channelId);
+			if(null != gameList && !gameList.isEmpty()){
+				//avoid analyze log job not running, user can't check the log
+				yesterday = DateUtils.getDayByInterval(today, -2);
+				endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
+				previousDate = DateUtils.getDayByInterval(today, -6);
+				startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
+				gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, bannerFlag, channelId);				
+			}
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchGameInfoByDate.", ex);
 		}
@@ -67,9 +75,16 @@ public class GameTrafficBusiness {
 			String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
 			String startDate = DateUtils.getMonthFirstByInterval(today, -5);
 			gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);
+			if(null != gameList && !gameList.isEmpty()){
+				//avoid analyze log job not running, user can't check the log
+				Date beforeYesterday = DateUtils.getDayByInterval(today, -2);
+				endDate = DateUtils.formatDateToString(beforeYesterday, "yyyy-MM-dd");
+				startDate = DateUtils.getMonthFirstByInterval(yesterday, -5);
+				gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);			
+			}
             return gameList;
 		}catch(Exception ex){
-			Logging.logError("Error occur in fetchBannerInfoByMonth.", ex);
+			Logging.logError("Error occur in fetchGameInfoByMonth.", ex);
 		}
 		
 		return null;
@@ -96,10 +111,6 @@ public class GameTrafficBusiness {
         TreeMap<String,List<GameInfo>> map = getBannerDisplayModel(fetchGameInfoByMonth(channelId, true));
         List<List<GameInfo>> gameByDate = new ArrayList<List<GameInfo>>();
         for(String key : map.keySet()){
-            for(int i=1; i<=map.get(key).size();i++){
-
-            }
-            map.get(key);
             gameByDate.add(map.get(key));
         }
         return gameByDate;
@@ -109,9 +120,12 @@ public class GameTrafficBusiness {
         Map<String,List<GameInfo>>  data = new HashMap<String, List<GameInfo>>();
         GameDisplayModel gameDisplayModel = null;
         List<GameDisplayModel> gameDisplayModels = new ArrayList<GameDisplayModel>();
-        for(GameInfo gameInfo : gameInfos){
-            getMap(data,gameInfo.getName(),gameInfo);
+        if(gameInfos != null && gameInfos.size() > 0){
+            for(GameInfo gameInfo : gameInfos){
+                getMap(data,gameInfo.getName(),gameInfo);
+            }
         }
+
         for(String name : data.keySet()){
             gameDisplayModel = new GameDisplayModel();
             gameDisplayModel.setGameName(data.get(name).get(0).getName());
@@ -128,8 +142,10 @@ public class GameTrafficBusiness {
 
     public TreeMap<String,List<GameInfo>> getBannerDisplayModel(List<GameInfo> gameInfos){
         TreeMap<String,List<GameInfo>>  data = new TreeMap<String, List<GameInfo>>();
-        for(GameInfo gameInfo : gameInfos){
-            getMap(data,gameInfo.getDate(),gameInfo);
+        if(gameInfos != null && gameInfos.size() > 0){
+            for(GameInfo gameInfo : gameInfos){
+                getMap(data,gameInfo.getDate(),gameInfo);
+            }
         }
         return data;
     }

@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.unicom.game.center.business.ChannelInfoBusiness;
+import com.unicom.game.center.db.domain.ChannelInfoDomain;
+import com.unicom.game.center.model.ChannelInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,6 +37,9 @@ import com.unicom.game.center.utils.Utility;
 public class LogController {
 
     @Autowired
+    private ChannelInfoBusiness channelService;
+
+    @Autowired
     private LoginInfoBusiness logInfoService;
 
     @Autowired
@@ -43,8 +49,8 @@ public class LogController {
     private GameTrafficBusiness gameTrafficService;
     
 	@Value("#{properties['backend.secret.key']}")
-	private String backendKey;    
-    
+	private String backendKey;
+
     @RequestMapping(value = "/log", method = {RequestMethod.GET})
     public ModelAndView ShowLogInfo(@RequestParam(value="token",required = false) String token,
     		@RequestParam(value="type",required=false) String type,
@@ -55,6 +61,11 @@ public class LogController {
     	if(!Utility.isEmpty(token)){
     		try {
 				channelId = AESEncryptionHelper.decrypt(token, backendKey);
+                ChannelInfo channelInfo = channelService.fetchChannelInfoById(Integer.parseInt(channelId));
+                if(null != channelInfo){
+                    session.setAttribute("ChannelName", channelInfo.getChannelName());
+                }
+				session.setAttribute("admin", false);
 				session.setAttribute("developer_channel", channelId);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -81,6 +92,10 @@ public class LogController {
     	ModelMap model = new ModelMap();    	
         model.put("channelId",channelID);
         model.put("type",(null != type) ? type : "1");
+        long newUserCount = logInfoService.fetchNewUserCount(channelID);
+        long totalUserCount = logInfoService.fetchTotalUserCount(channelID);
+        model.put("newUserCount",newUserCount);
+        model.put("totalUserCount",totalUserCount);
         return new ModelAndView("/log", model); 
     }
 

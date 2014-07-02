@@ -20,6 +20,7 @@ public class PageTrafficDao extends HibernateDao{
 
 	public void save(PageTrafficDomain pageTraffic){
 		getSession().save(pageTraffic);
+		getSession().flush();
 	}
 	
 	public void update(PageTrafficDomain pageTraffic){
@@ -88,7 +89,7 @@ public class PageTrafficDao extends HibernateDao{
 			
 		return trafficInfoList;
 	}
-	
+
 	private List<PageTrafficInfo> convertToPageTrafficInfo(List<Object[]> list){
 		List<PageTrafficInfo> trafficInfoList = null;
 		if(null != list && list.size() > 0){
@@ -106,6 +107,8 @@ public class PageTrafficDao extends HibernateDao{
 		
 		return trafficInfoList;
 	}
+
+
 
 
 }
