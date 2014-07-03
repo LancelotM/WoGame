@@ -1,3 +1,16 @@
+$(function(){
+
+    $('#submit').click(function(){
+
+    });
+    $('#submit').click(function(){
+
+    });
+    $('#submit').click(function(){
+
+    });
+});
+
 function checkBlank(id,checkInfo){
      var value = document.getElementById(id).value;
      if(value == "" || value == null){
@@ -7,20 +20,35 @@ function checkBlank(id,checkInfo){
      }
 }
 function checkForm(){
+    var basePath = getBasePath();
     var username = $('#username').val();
     var password = $('#password').val();
     if(username != "" && username != null && password != "" && password != null){
-        var isCheck = document.getElementById("checkbox_img").style.display;
-        if(isCheck == 'inline'){
-            setCookie("login_code",username,30);
-            setCookie("pwd",password,30)
-        }else if(isCheck == 'none'){
-            delCookie("login_code");
-            delCookie("pwd");
-        }
-        $('#form').submit();
+        $.ajax({
+            url:basePath+"/checkNamePwd",
+            data:"username="+username+"&password="+password,
+            type:"POST",
+            success:function(data,status){
+                if(data == 0){
+                    var isCheck = document.getElementById("checkbox_img").style.display;
+                    if(isCheck == 'inline'){
+                        setCookie("login_code",username,30);
+                        setCookie("pwd",password,30)
+                    }else if(isCheck == 'none'){
+                        delCookie("login_code");
+                        delCookie("pwd");
+                    }
+                    $('#form').submit();
+                }else if(data == 1){
+                    $('#check_username').text("用户不存在！");
+                }else if(data == 2){
+                    $('#check_password').text("密码错误！");
+                }else{
+                    $('#check_username').text("登录失败！");
+                }
+            }
+        });
     }
-
 }
 
 $(window).keydown(function(event){

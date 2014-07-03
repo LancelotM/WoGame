@@ -45,8 +45,32 @@ function setCookie(c_name,value,expiredays)
         ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
 }
 
-function delCookie(name){
-	setCookie(name,"",0) 
+function delCookie(name)
+{
+    var exp = new Date();
+    exp.setTime (exp.getTime() - 1);
+    var cval = getCookie (name);
+    document.cookie = name + "=" + cval + "; expires="+ exp.toGMTString()+";path=/";
+}
+
+function getBasePath(){
+    return $('#basePath').attr('value');
+}
+
+function createForms(url,values){
+    var infoForm = document.createElement("form");
+    infoForm.method="POST" ;
+    infoForm.action = url;
+    for(var i = 0;i<values.length;i++){
+        var inputObj = document.createElement("input") ;
+        inputObj.setAttribute("name", values[i].toString()) ;
+        inputObj.setAttribute("value", values[i]);
+        infoForm.appendChild(inputObj) ;
+    }
+
+    document.body.appendChild(infoForm) ;
+    infoForm.submit() ;
+    document.body.removeChild(infoForm) ;
 }
 
 

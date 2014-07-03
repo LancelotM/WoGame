@@ -16,6 +16,15 @@ public class GameDisplayModel {
     private String last2TimeData;
     private String last3TimeData;
     private String last4TimeData;
+    private int totalRows;
+
+    public int getTotalRows() {
+        return totalRows;
+    }
+
+    public void setTotalRows(int totalRows) {
+        this.totalRows = totalRows;
+    }
 
     public String getIcon() {
         return icon;

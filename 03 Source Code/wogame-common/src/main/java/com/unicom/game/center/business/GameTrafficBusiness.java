@@ -51,7 +51,7 @@ public class GameTrafficBusiness {
 				endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
 				previousDate = DateUtils.getDayByInterval(today, -6);
 				startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
-				gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, bannerFlag, channelId);				
+				gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, bannerFlag, channelId);
 			}
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchGameInfoByDate.", ex);
@@ -90,12 +90,26 @@ public class GameTrafficBusiness {
 		return null;
 	}
 
-    public List<GameDisplayModel> getGameMonthModel(Integer channelId){
-        return getGameDisplayModel(fetchGameInfoByMonth(channelId,false));
+    public List<GameDisplayModel> getGameMonthModel(Integer channelId,int page){
+        List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(fetchGameInfoByMonth(channelId,false));
+        int rowPerPages = 2;
+        int start = (page - 1) * rowPerPages;
+        int end = start + rowPerPages - 1;
+        if(end > gameDisplayModelList.size()){
+            end = gameDisplayModelList.size();
+        }
+        return gameDisplayModelList.subList(start,end);
     }
 
-    public List<GameDisplayModel> getGameDayModel(Integer channelId){
-        return getGameDisplayModel(fetchGameInfoByDate(channelId, false));
+    public List<GameDisplayModel> getGameDayModel(Integer channelId,int page){
+        List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(fetchGameInfoByDate(channelId, false));
+        int rowPerPages = 2;
+        int start = (page - 1) * rowPerPages;
+        int end = start + rowPerPages - 1;
+        if(end > gameDisplayModelList.size()){
+            end = gameDisplayModelList.size();
+        }
+        return gameDisplayModelList.subList(start,end);
     }
 
     public List<List<GameInfo>> getBannerDateModel(Integer channelId){

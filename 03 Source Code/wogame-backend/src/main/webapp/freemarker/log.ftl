@@ -56,9 +56,9 @@
                     </tr>
                 </table>
                 <div id="pages">
-                    <a href="#" class="current_page">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
+                    <a href="javascript:;" class="current_page">1</a>
+                    <a href="javascript:;">2</a>
+                    <a href="javascript:;">3</a>
                 </div>
             </div>
         </div>
