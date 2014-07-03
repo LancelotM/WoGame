@@ -1,5 +1,6 @@
 package com.unicom.game.center.utils;
 
+import com.jcraft.jsch.ChannelSftp;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -140,15 +141,17 @@ public class UtilsTest {
 
     @Test
     public void sftpReadRemoteFile() throws Throwable{
+        ChannelSftp sftp = sftpHelper.connectServer();
 
         try{
-            List<String> list = sftpHelper.readRemoteFileByRow("/wostore/wostorechannelapk/response/all/", "/wostore/wostorechannelapk/response/all/");
+            List<String> list = sftpHelper.readRemoteFileByRow("/wostore/wostorechannelapk/response/all/", "/wostore/wostorechannelapk/response/all/", sftp);
             for (String content : list) {
                 System.out.println(content);
             }
         }catch(Exception e){
             throw e;
         }finally{
+            sftpHelper.closeChannel(sftp.getSession(), sftp);
         }
     }
 

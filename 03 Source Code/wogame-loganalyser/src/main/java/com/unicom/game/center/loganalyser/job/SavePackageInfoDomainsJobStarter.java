@@ -4,8 +4,6 @@ import com.unicom.game.center.loganalyser.imp.LogAnalyser;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.IOException;
-
 /**
  * Created with IntelliJ IDEA.
  * User: steve_shao
@@ -15,7 +13,7 @@ import java.io.IOException;
  */
 public class SavePackageInfoDomainsJobStarter {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         String[] configLocations = {"classpath:applicationContext_LogAnalyser_bean.xml",
 				"classpath:applicationContext_dao.xml"};
            ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);

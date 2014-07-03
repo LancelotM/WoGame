@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -95,13 +94,32 @@ public class SFTPHelper {
 				} catch (Exception e) {
 					Logging.logError("FTP Disconnect Error: ",e);
 				}
-			}			
+			}
 		}
-		
+
 		return null;
 	}
 
-    public List<String> readRemoteFileByRow(String path, String filename) throws IOException {
+    public InputStream downloadFile(String path, String filename, ChannelSftp sftp) {
+   		if(null != sftp){
+   			try {
+   				sftp.cd(path);
+   				return sftp.get(filename);
+   			} catch (Exception e) {
+                   Logging.logError("Error occur in downloadFile.",e);
+   			}finally {
+   				try {
+   //					closeChannel(sftp.getSession(), sftp);
+   				} catch (Exception e) {
+   					Logging.logError("FTP Disconnect Error: ",e);
+   				}
+   			}
+   		}
+
+   		return null;
+   	}
+
+    public List<String> readRemoteFileByRow(String path, String filename, ChannelSftp sftp) throws Exception {
 
         InputStream response = null;
         InputStreamReader reader = null;
@@ -111,7 +129,7 @@ public class SFTPHelper {
         try {
             String str = null;
 
-            response = downloadFile(path, filename);
+            response = downloadFile(path, filename, sftp);
 
             reader = new InputStreamReader(response, "utf-8");
 
@@ -156,7 +174,7 @@ public class SFTPHelper {
                    Logging.logError("Error occur in downloadFile.",e);
    			}finally {
    				try {
-   //					closeChannel(sftp.getSession(), sftp);
+   					closeChannel(sftp.getSession(), sftp);
    				} catch (Exception e) {
    					Logging.logError("FTP Disconnect Error: ",e);
    				}
