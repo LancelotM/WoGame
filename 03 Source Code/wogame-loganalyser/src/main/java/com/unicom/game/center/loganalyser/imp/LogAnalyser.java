@@ -1,8 +1,11 @@
 package com.unicom.game.center.loganalyser.imp;
 
+import org.springframework.stereotype.Component;
+
 import com.unicom.game.center.loganalyser.ILogAnalyser;
 import com.unicom.game.center.utils.Logging;
 
+@Component
 public class LogAnalyser implements ILogAnalyser {
 
 	@Override
