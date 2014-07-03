@@ -17,6 +17,19 @@ public class LogAnalyser implements ILogAnalyser {
 		}
 		Logging.logDebug("----- doLogAnaylyse end -----");
 	}
-	
+
+
+    @Override
+  	public void doPackageInfoDomainsSave(){
+  		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+  		try {
+
+
+
+  		} catch(Exception e){
+  			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
+  		}
+  		Logging.logDebug("----- doPackageInfoDomainsSave end -----");
+  	}
 
 }

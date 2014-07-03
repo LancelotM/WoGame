@@ -1,5 +1,9 @@
 package com.unicom.game.center.utils;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * @author Alex Yin
  * 
@@ -14,5 +18,22 @@ public class Utility {
 			return false;
 		return true;
 	}
+
+    /**
+     * sort String list
+     *
+     * @param list
+     * @return
+     */
+    public static List<String> sortStringList(List<String> list)
+   	{
+        Collections.sort(list, new Comparator<String>() {
+            public int compare(String obj1, String obj2) {
+                return obj1.compareToIgnoreCase(obj2);
+            }
+        });
+
+        return list;
+   	}
 	
 }

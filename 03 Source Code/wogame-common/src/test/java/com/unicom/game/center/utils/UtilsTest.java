@@ -1,10 +1,5 @@
 package com.unicom.game.center.utils;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Date;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Alex Yin
@@ -55,17 +57,17 @@ public class UtilsTest {
 		System.out.println(nextDate);
 	}
 	
-	@Test
-	@Ignore
-	public void encryptionUtilsTest() throws Throwable{
-		String channelId = "18150";
-		String encyption = AESEncryptionHelper.encrypt(channelId, secretKey);
-		System.out.println(encyption);
-		
-		String decryption = AESEncryptionHelper.decrypt(encyption, secretKey);
-		System.out.println(decryption);
-	}
-	
+    @Test
+  	@Ignore
+  	public void encryptionUtilsTest() throws Throwable{
+  		String channelId = "18150";
+  		String encyption = AESEncryptionHelper.encrypt(channelId, secretKey);
+  		System.out.println(encyption);
+
+  		String decryption = AESEncryptionHelper.decrypt(encyption, secretKey);
+  		System.out.println(decryption);
+  	}
+
 	@Test
 	@Ignore
 	public void ftpDownloadTest() throws Throwable{
@@ -120,5 +122,19 @@ public class UtilsTest {
         	if(null != breader)
         		breader.close();
         }        
-	}	
+	}
+
+    @Test
+    public void sortListTest() throws Throwable {
+        List<String> test = new ArrayList<String>();
+        test.add("wostorechannelapk_2014070315000001.tttt");
+        test.add("wostorechannelapk_2014070314000002.tttt");
+        test.add("wostorechannelapk_2014070315001001.tttt");
+        test.add("wostorechannelapk_2014070316000001.tttt");
+        test.add("wostorechannelapk_2014070315100001.tttt");
+
+        for (String filename : Utility.sortStringList(test)) {
+            System.out.println(filename);
+        }
+    }
 }
