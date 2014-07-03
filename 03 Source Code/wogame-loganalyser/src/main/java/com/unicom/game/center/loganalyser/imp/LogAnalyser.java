@@ -70,9 +70,10 @@ public class LogAnalyser implements ILogAnalyser {
                 packageInfoBusiness.savePackageInfoList(packageInfoDomains, flushNum);
                 currentFileName = fileName;
             }
-  		} catch(Exception e){
-            FileUtils.writeFileOverWrite(recordPath, currentFileName);
+  		} catch(Exception e){           
   			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
+  		}finally{
+  			 FileUtils.writeFileOverWrite(recordPath, currentFileName);
   		}
   		Logging.logDebug("----- doPackageInfoDomainsSave end -----");
   	}

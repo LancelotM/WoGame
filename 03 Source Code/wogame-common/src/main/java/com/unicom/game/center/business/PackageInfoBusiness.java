@@ -99,6 +99,9 @@ public class PackageInfoBusiness {
    		try {
             key.setAppId(contentArr[3]);
             key.setChannelId(contentArr[8]);
+            Date date = new Date();
+            domain.setDateModified(date);
+            domain.setDateCreated(date);
             domain.setKey(key);
             domain.setCpId(contentArr[2]);
             domain.setAppName(contentArr[4]);
@@ -114,8 +117,6 @@ public class PackageInfoBusiness {
             domain.setReserve3(contentArr[14]);
             domain.setReserve4(contentArr[15]);
             domain.setReserve5(contentArr[16]);
-            domain.setDateModified(new Date());
-            domain.setDateCreated(new Date());
         } catch (Exception ex) {
    			Logging.logError("Error occur in convertPackageInfoFromFile.", ex);
    		}
