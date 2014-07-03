@@ -68,6 +68,7 @@ public class PackageInfoDao extends HibernateDao{
                         session.clear();
                     }
                 }
+                session.flush();
             } catch (Exception e) {
                 e.printStackTrace();
             }
