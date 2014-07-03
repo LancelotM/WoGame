@@ -183,4 +183,11 @@ public class UtilsTest {
             System.out.println(filename);
         }
     }
+
+    @Test
+    public void testSplit() throws Throwable {
+        String a = "1,2,3,,4,,5,,,,";
+        String[] s = Utility.splitString(a, ",");
+        System.out.print(s);
+    }
 }

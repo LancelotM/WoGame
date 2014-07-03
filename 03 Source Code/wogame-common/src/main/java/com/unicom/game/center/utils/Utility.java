@@ -1,5 +1,6 @@
 package com.unicom.game.center.utils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -52,6 +53,32 @@ public class Utility {
         }
 
         return list.subList(index+1, list.size());
+    }
+
+    public static String[] splitString (String str, String regex) {
+
+        List<String> result = new ArrayList<String>();
+        StringBuffer sb = new StringBuffer();
+
+        for (char c :str.toCharArray()) {
+            if (regex.equals(String.valueOf(c))) {
+                if (sb.length() == 0) {
+                    result.add("");
+                } else {
+                    result.add(sb.toString());
+                    sb = new StringBuffer();
+                }
+            } else {
+                sb.append(c);
+            }
+        }
+        if (sb.length() == 0) {
+            result.add("");
+        } else {
+            result.add(sb.toString());
+        }
+
+        return (String[])result.toArray(new String[result.size()]);
     }
 	
 }

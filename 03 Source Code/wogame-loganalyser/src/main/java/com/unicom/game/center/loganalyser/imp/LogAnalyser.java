@@ -62,7 +62,7 @@ public class LogAnalyser implements ILogAnalyser {
                 List<String> contentList = sftpHelper.readRemoteFileByRow(path, fileName);
 
                 for (String content : contentList) {
-                    String[] contentArr = content.split(separate);
+                    String[] contentArr = Utility.splitString(content, separate);
                     PackageInfoDomain domain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
                     packageInfoDomains.add(domain);
                 }
