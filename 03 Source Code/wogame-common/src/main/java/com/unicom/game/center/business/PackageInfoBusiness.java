@@ -1,16 +1,16 @@
 package com.unicom.game.center.business;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.unicom.game.center.db.dao.PackageInfoDao;
+import com.unicom.game.center.db.domain.PackageInfoDomain;
 import com.unicom.game.center.model.PackageInfo;
 import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author Alex Yin
@@ -64,4 +64,17 @@ public class PackageInfoBusiness {
 			Logging.logError("Error occur in savePackageInfo.", ex);
 		}
 	}
+
+    /**
+     *
+     * @param list
+     * @param num
+     */
+   	public void savePackageInfoList(List<PackageInfoDomain> list, int num){
+   		try{
+   			packageInfoDao.savePackageInfoDomainList(list, num);
+   		}catch(Exception ex){
+   			Logging.logError("Error occur in savePackageInfoList.", ex);
+   		}
+   	}
 }
