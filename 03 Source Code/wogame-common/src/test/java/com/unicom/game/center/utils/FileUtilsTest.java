@@ -20,7 +20,7 @@ public class FileUtilsTest {
 
     @Test
    	public void getFileListTest() throws Throwable{
-   		String path = "d:\\PingAn_soft";
+   		String path = "d:\\PingAn_soft\\";
         List<String> list = FileUtils.getFileList(path);
 
         for (String fileName : list) {

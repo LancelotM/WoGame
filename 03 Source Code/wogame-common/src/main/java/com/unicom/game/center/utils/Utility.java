@@ -35,5 +35,23 @@ public class Utility {
 
         return list;
    	}
+
+    /**
+     * get rest of list by index
+     *
+     * @param list
+     * @param indexFile
+     * @return
+     */
+    public static List<String> getSubStringList (List<String> list, String indexFile) {
+        list = sortStringList(list);
+        int index = list.indexOf(indexFile);
+
+        if (index == -1) {
+            return list;
+        }
+
+        return list.subList(index+1, list.size());
+    }
 	
 }

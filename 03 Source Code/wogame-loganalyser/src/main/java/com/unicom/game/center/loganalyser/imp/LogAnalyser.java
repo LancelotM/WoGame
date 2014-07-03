@@ -1,9 +1,25 @@
 package com.unicom.game.center.loganalyser.imp;
 
+import com.unicom.game.center.business.PackageInfoBusiness;
+import com.unicom.game.center.db.domain.PackageInfoDomain;
 import com.unicom.game.center.loganalyser.ILogAnalyser;
+import com.unicom.game.center.utils.FileUtils;
 import com.unicom.game.center.utils.Logging;
+import com.unicom.game.center.utils.SFTPHelper;
+import com.unicom.game.center.utils.Utility;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LogAnalyser implements ILogAnalyser {
+
+    @Autowired
+    private PackageInfoBusiness packageInfoBusiness;
+
+    @Autowired
+   	private SFTPHelper sftpHelper;
 
 	@Override
 	public void doLogAnaylyse(){
@@ -20,13 +36,40 @@ public class LogAnalyser implements ILogAnalyser {
 
 
     @Override
-  	public void doPackageInfoDomainsSave(){
+  	public void doPackageInfoDomainsSave() throws IOException {
   		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+
+        String recordPath = "D:\\demo\\demo.txt";
+        String path = "D:\\PingAn_soft\\";
+        String separate = "|";
+        int flushNum = 20;
+
+        String currentFileName = "";
+
   		try {
+            List<String> currentFileNameList = FileUtils.getFileList(recordPath);
+            if (currentFileNameList.size() > 0) {
+                currentFileName = currentFileNameList.get(0);
+            }
 
+            List<String> fileList = sftpHelper.getFileList(path);
+            fileList = Utility.getSubStringList(fileList, currentFileName);
 
+            for (String fileName : fileList) {
+                List<PackageInfoDomain> packageInfoDomains = new ArrayList<PackageInfoDomain>();
+                List<String> contentList = sftpHelper.readRemoteFileByRow(path, fileName);
 
+                for (String content : contentList) {
+                    String[] contentArr = content.split(separate);
+                    PackageInfoDomain domain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
+                    packageInfoDomains.add(domain);
+                }
+
+                packageInfoBusiness.savePackageInfoList(packageInfoDomains, flushNum);
+                currentFileName = fileName;
+            }
   		} catch(Exception e){
+            FileUtils.writeFileOverWrite(recordPath, currentFileName);
   			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
   		}
   		Logging.logDebug("----- doPackageInfoDomainsSave end -----");

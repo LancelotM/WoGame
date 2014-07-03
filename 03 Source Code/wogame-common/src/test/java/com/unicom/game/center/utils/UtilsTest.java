@@ -125,6 +125,34 @@ public class UtilsTest {
 	}
 
     @Test
+    public void sftpGetFileListTest() throws Throwable{
+
+        try{
+            List<String> list = sftpHelper.getFileList("/wostore/wostorechannelapk/response/all/");
+            for (String filename : list) {
+                System.out.println(filename);
+            }
+        }catch(Exception e){
+            throw e;
+        }finally{
+        }
+    }
+
+    @Test
+    public void sftpReadRemoteFile() throws Throwable{
+
+        try{
+            List<String> list = sftpHelper.readRemoteFileByRow("/wostore/wostorechannelapk/response/all/", "/wostore/wostorechannelapk/response/all/");
+            for (String content : list) {
+                System.out.println(content);
+            }
+        }catch(Exception e){
+            throw e;
+        }finally{
+        }
+    }
+
+    @Test
     public void sortListTest() throws Throwable {
         List<String> test = new ArrayList<String>();
         test.add("wostorechannelapk_2014070315000001.tttt");
@@ -134,6 +162,24 @@ public class UtilsTest {
         test.add("wostorechannelapk_2014070315100001.tttt");
 
         for (String filename : Utility.sortStringList(test)) {
+            System.out.println(filename);
+        }
+    }
+
+    @Test
+    public void getSubStringListTest() throws Throwable {
+        List<String> test = new ArrayList<String>();
+        test.add("wostorechannelapk_2014070315000001.tttt");
+        test.add("wostorechannelapk_2014070314000002.tttt");
+        test.add("wostorechannelapk_2014070315001001.tttt");
+        test.add("wostorechannelapk_2014070316000001.tttt");
+        test.add("wostorechannelapk_2014070315100001.tttt");
+
+//        for (String filename : Utility.sortStringList(test)) {
+//            System.out.println(filename);
+//        }
+
+        for (String filename : Utility.getSubStringList(test, "wostorechannelapk_2014070315001001.tttt")) {
             System.out.println(filename);
         }
     }

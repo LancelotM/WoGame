@@ -2,6 +2,7 @@ package com.unicom.game.center.business;
 
 import com.unicom.game.center.db.dao.PackageInfoDao;
 import com.unicom.game.center.db.domain.PackageInfoDomain;
+import com.unicom.game.center.db.domain.PackageInfoKey;
 import com.unicom.game.center.model.PackageInfo;
 import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,5 +78,38 @@ public class PackageInfoBusiness {
    		}catch(Exception ex){
    			Logging.logError("Error occur in savePackageInfoList.", ex);
    		}
+   	}
+
+    /**
+     *
+     * @param contentArr
+     */
+   	public PackageInfoDomain convertPackageInfoFromFile(String[] contentArr){
+        PackageInfoDomain domain = new PackageInfoDomain();
+        PackageInfoKey key = new PackageInfoKey();
+   		try {
+            key.setAppId(contentArr[3]);
+            key.setChannelId(contentArr[8]);
+            domain.setKey(key);
+            domain.setCpId(contentArr[2]);
+            domain.setAppName(contentArr[4]);
+            domain.setUpdateType(Integer.parseInt(contentArr[1]));
+            domain.setSoftId(contentArr[5]);
+            domain.setOnlinetime(contentArr[6]);
+            domain.setOriginalFilePath(contentArr[7]);
+            domain.setApkFilePath(contentArr[9]);
+            domain.setApkOnlineTime(contentArr[10]);
+            domain.setStatus(contentArr[11]);
+            domain.setReserve1(contentArr[12]);
+            domain.setReserve2(contentArr[13]);
+            domain.setReserve3(contentArr[14]);
+            domain.setReserve4(contentArr[15]);
+            domain.setReserve5(contentArr[16]);
+            domain.setDateModified(new Date());
+            domain.setDateCreated(new Date());
+        } catch (Exception ex) {
+   			Logging.logError("Error occur in convertPackageInfoFromFile.", ex);
+   		}
+        return domain;
    	}
 }
