@@ -49,7 +49,7 @@ public class LogAnalyser implements ILogAnalyser {
         String currentFileName = "";
 
   		try {
-            List<String> currentFileNameList = FileUtils.getFileList(recordPath);
+            List<String> currentFileNameList = FileUtils.readFileByRow(recordPath);
             if (currentFileNameList.size() > 0) {
                 currentFileName = currentFileNameList.get(0);
             }
