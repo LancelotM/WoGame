@@ -8,11 +8,13 @@ import com.unicom.game.center.utils.Logging;
 import com.unicom.game.center.utils.SFTPHelper;
 import com.unicom.game.center.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class LogAnalyser implements ILogAnalyser {
 
     @Autowired
@@ -40,7 +42,7 @@ public class LogAnalyser implements ILogAnalyser {
   		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
 
         String recordPath = "D:\\demo\\demo.txt";
-        String path = "D:\\PingAn_soft\\";
+        String path = "/wostore/wostorechannelapk/response/all/";
         String separate = "|";
         int flushNum = 20;
 
