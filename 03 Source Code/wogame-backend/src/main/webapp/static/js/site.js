@@ -49,11 +49,18 @@ $(function(){
     $("#launch_form input").each(function(){
         $(this).setDefauleValue();
     });
-});
+    $('#switch_region').mouseenter(function(){
+        if($('#province_div').css('display')=="none"){
+            $('#province_div').css('display','block');
+        }
+    });
 
-function getBasePath(){
-    return $('#basePath').attr('value');
-}
+    $('#switch_region').mouseleave(function(){
+        if($('#province_div').css('display')=="block"){
+            $('#province_div').css('display','none');
+        }
+    });
+});
 
 function getDetailInfo(id){
     createForm(getBasePath()+'/getlog',id,'1');

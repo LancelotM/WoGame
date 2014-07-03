@@ -12,10 +12,10 @@
                             <form id="launch_form" action="${basePath}/startSite" method="post">
                                 <table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
                                     <tr class="first_tr">
-                                        <td style="color:#ed6d02">
+                                        <td id="switch_region" style="color:#ed6d02">
                                             <span id="channel">${(channelInfoDomain.channelName)!'北京联通'}</span>
                                             <input id="channelName" type="hidden" value="北京联通" name="channelName"/>
-                                            <a href="javascript:void(0)" class="cityTab" onmouseover="show_hidden('province_div');">
+                                            <a href="javascript:void(0)" class="cityTab">
                                                 [ <b></b>切换地区<label>▼</label>]
                                             </a>
                                             <div id="province_div" class="myCity" style="display:none">
