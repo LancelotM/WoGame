@@ -85,7 +85,7 @@ $(function(){
         createForm(getBasePath()+'/getlog',channelNum,$("#select").find("option:selected").val());
     });
 
-    $('#pages').click(function(){
+    $('#pages a').click(function(){
         var curPage = $(this).text();
         $.ajax({
             type: "POST",
