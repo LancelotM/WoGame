@@ -87,11 +87,24 @@
                 }
 
                 $.each(data, function (index, entry) {
+
                     var stringBuffer = [];
 
-                    stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\'">');
-                    stringBuffer.push('<div class="w_list_youxi">' + entry.name + '</div>');
-                    stringBuffer.push('</a>');
+                    stringBuffer.push('<div class="w_list">');
+                    stringBuffer.push('<div class="w_list_img">');
+                    stringBuffer.push('<a href="' + urlBase + entry.id + '">');
+                    stringBuffer.push('<img src="' + entry.icon + '" width="48" height="48"/></a></div>');
+                    stringBuffer.push('<div class="w_list_title">');
+                    stringBuffer.push('<a href="' + urlBase + entry.id + '">' + entry.name + '</a>');
+                    stringBuffer.push('</div>');
+                    stringBuffer.push('<div class="w_list_category">' + entry.catagory + '</div>');
+                    stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.size / 1024, 2) + 'MB</div>');
+                    stringBuffer.push('<div class="w_list_download">');
+                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('</div>');
+                    stringBuffer.push('<div class="w_list_download_txt">');
+                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
                 });
@@ -127,11 +140,9 @@
             } else {
                 $('#pullDown, #pullUp').hide();
             }
-            if (callback) {
-                callback();
-            } else {
-                myScroll.refresh();
-            }
+
+            myScroll.refresh();
+
         });
     }
 
@@ -155,7 +166,7 @@
         search();
     }
 
-    $('#txtSearch').change(function () {
+    $('#txtSearch').bind("change", function () {
         ajaxSearchKeywords($(this).val());
     });
 

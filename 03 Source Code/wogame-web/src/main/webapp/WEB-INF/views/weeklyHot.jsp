@@ -76,14 +76,14 @@
                     stringBuffer.push('<div class="w_list">');
                     stringBuffer.push('<div class="w_list_img">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '"');
-                    stringBuffer.push(' onclick="logdata(\'' + entry.product_id + '\',\''
-                            + entry.title + '\',\'' + entry.icon_url + '\',\'' + index + '\')"');
+//                    stringBuffer.push(' onclick="logdata(\'' + entry.product_id + '\',\''
+//                            + entry.title + '\',\'' + entry.icon_url + '\',\'' + index + '\')"');
                     stringBuffer.push('>');
                     stringBuffer.push('<img src="' + entry.icon_url + '" width="48" height="48"/></a></div>');
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '"');
-                    stringBuffer.push(' onclick="logdata(\'' + entry.product_id + '\',\''
-                            + entry.title + '\',\'' + entry.icon_url + '\',\'' + index + '\')"');
+//                    stringBuffer.push(' onclick="logdata(\'' + entry.product_id + '\',\''
+//                            + entry.title + '\',\'' + entry.icon_url + '\',\'' + index + '\')"');
                     stringBuffer.push('>' + entry.title + '</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber((entry.apk_size) / 1024, 2) + 'MB</div>');
@@ -153,18 +153,6 @@
         }
     });
 
-    //4.前30游戏点击次数统计
-    function logdata(id, name, url, sort) {
-        logUsage("${ctx}", {
-            "hotGameTraffic": {
-                "productId": id,	//游戏的id
-                "productName": name,	//游戏名字
-                "productIcon": url,	//游戏图标地址
-                /*"channelId": "",	//渠道信息*/
-                "sort": sort			//前30游戏的排位顺序
-            }
-        });
-    }
 </script>
 </body>
 </html>

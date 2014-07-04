@@ -117,6 +117,10 @@ function setUsageFlag() {
 function isOldUser() {
     return window.sessionStorage.getItem("oldUserFlag") == "TRUE";
 }
-function logUsage(rootUrl, data) {
-    $.getJSON(rootUrl + logUsageUrl, {"data": JSON.stringify(data)});
+function logUsage(rootUrl, data, callback) {
+    $.getJSON(rootUrl + logUsageUrl, {"data": encodeURI(JSON.stringify(data))}, function (result) {
+        if (callback) {
+            callback();
+        }
+    });
 }

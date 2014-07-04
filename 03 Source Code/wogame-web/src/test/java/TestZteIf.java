@@ -3,6 +3,7 @@ import com.unicom.game.center.service.ZTEService;
 import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.vo.GameDownloadVo;
 import com.unicom.game.center.vo.GameInfoVo;
+import com.unicom.game.center.vo.SearchKeywordsVo;
 import com.unicom.game.center.vo.SearchResultVo;
 import org.apache.http.NameValuePair;
 import org.junit.Test;
@@ -163,5 +164,19 @@ public class TestZteIf extends AbstractJUnit4SpringContextTests {
 
         System.out.println("-----" + new String(response.getBody()));
 
+    }
+
+    @Test
+    public void testSearchAllKeywords() {
+        SearchKeywordsVo vo = zteService.readSearchAllKeywords();
+
+        System.out.println(vo);
+    }
+
+    @Test
+    public void testSearchKeywords() {
+        SearchKeywordsVo vo = zteService.readSearchKeywords("星星");
+
+        System.out.println(vo);
     }
 }
