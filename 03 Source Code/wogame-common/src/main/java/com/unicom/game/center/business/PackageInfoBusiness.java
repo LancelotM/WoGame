@@ -6,12 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.dao.PackageInfoDao;
+import com.unicom.game.center.db.domain.ChannelInfoDomain;
+import com.unicom.game.center.db.domain.PackageInfoDomain;
+import com.unicom.game.center.db.domain.PackageInfoKey;
 import com.unicom.game.center.model.PackageInfo;
 import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 
+import java.util.Date;
 /**
  * @author Alex Yin
  * 
@@ -22,6 +27,9 @@ import com.unicom.game.center.utils.Logging;
 public class PackageInfoBusiness {
 	@Autowired
 	private PackageInfoDao packageInfoDao;
+	
+	@Autowired
+	private ChannelInfoDao channelInfoDao;
 
 	/**
 	 * 
@@ -34,18 +42,21 @@ public class PackageInfoBusiness {
 		String channelCode = null;
 		
 		try{
-			List<PackageInfo> packageInfoList = packageInfoDao.getDLPackageInfo(channelId, productId);
-			if(null != packageInfoList && !packageInfoList.isEmpty()){
-				for(PackageInfo packageInfo : packageInfoList){
-					if((packageInfo.getChannelCode().equals(channelId)) &&
-						(DateUtils.compareDate(packageInfo.getApkOnlineTime(),onlinetime) >= 0)){
-						channelCode = channelId;
-						break;
-					}else if((packageInfo.getChannelCode().equals(Constant.WOGAME_CHANNEL_CODE)) &&
-						(DateUtils.compareDate(packageInfo.getApkOnlineTime(),onlinetime) >= 0)){
-						channelCode = Constant.WOGAME_CHANNEL_CODE;
+			ChannelInfoDomain channelInfo = channelInfoDao.getById(Integer.parseInt(channelId));
+			if(null != channelInfo){
+				List<PackageInfo> packageInfoList = packageInfoDao.getDLPackageInfo(channelInfo.getChannelCode(), productId);
+				if(null != packageInfoList && !packageInfoList.isEmpty()){
+					for(PackageInfo packageInfo : packageInfoList){
+						if((packageInfo.getChannelCode().equals(channelInfo.getChannelCode())) &&
+							(DateUtils.compareDate(packageInfo.getApkOnlineTime(),onlinetime) >= 0)){
+							channelCode = channelInfo.getChannelCode();
+							break;
+						}else if((packageInfo.getChannelCode().equals(Constant.WOGAME_CHANNEL_CODE)) &&
+							(DateUtils.compareDate(packageInfo.getApkOnlineTime(),onlinetime) >= 0)){
+							channelCode = Constant.WOGAME_CHANNEL_CODE;
+						}
 					}
-				}
+				}				
 			}
 		}catch(Exception ex){
 			Logging.logError("Error occur in checkPackageExist", ex);
@@ -64,4 +75,51 @@ public class PackageInfoBusiness {
 			Logging.logError("Error occur in savePackageInfo.", ex);
 		}
 	}
+
+    /**
+     *
+     * @param list
+     * @param num
+     */
+   	public void savePackageInfoList(List<PackageInfoDomain> list, int num){
+   		try{
+   			packageInfoDao.savePackageInfoDomainList(list, num);
+   		}catch(Exception ex){
+   			Logging.logError("Error occur in savePackageInfoList.", ex);
+   		}
+   	}
+
+    /**
+     *
+     * @param contentArr
+     */
+   	public PackageInfoDomain convertPackageInfoFromFile(String[] contentArr){
+        PackageInfoDomain domain = new PackageInfoDomain();
+        PackageInfoKey key = new PackageInfoKey();
+   		try {
+            key.setAppId(contentArr[3]);
+            key.setChannelId(contentArr[8]);
+            Date date = new Date();
+            domain.setDateModified(date);
+            domain.setDateCreated(date);
+            domain.setKey(key);
+            domain.setCpId(contentArr[2]);
+            domain.setAppName(contentArr[4]);
+            domain.setUpdateType(Integer.parseInt(contentArr[1]));
+            domain.setSoftId(contentArr[5]);
+            domain.setOnlinetime(contentArr[6]);
+            domain.setOriginalFilePath(contentArr[7]);
+            domain.setApkFilePath(contentArr[9]);
+            domain.setApkOnlineTime(contentArr[10]);
+            domain.setStatus(contentArr[11]);
+            domain.setReserve1(contentArr[12]);
+            domain.setReserve2(contentArr[13]);
+            domain.setReserve3(contentArr[14]);
+            domain.setReserve4(contentArr[15]);
+            domain.setReserve5(contentArr[16]);
+        } catch (Exception ex) {
+   			Logging.logError("Error occur in convertPackageInfoFromFile.", ex);
+   		}
+        return domain;
+   	}
 }

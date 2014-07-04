@@ -16,6 +16,7 @@
            
     <context:annotation-config/>   
    
+	<context:component-scan base-package="com.unicom" />
 
    	<bean id="placeholderConfig"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

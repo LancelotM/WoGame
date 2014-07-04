@@ -8,7 +8,8 @@ import com.unicom.game.center.loganalyser.imp.LogAnalyser;
 public class LogAnalyserJobStarter {
 
 	public static void main(String[] args) {
-        String[] configLocations = {"classpath:applicationContext_LogAnalyser_bean.xml"};
+        String[] configLocations = {"classpath:applicationContext_LogAnalyser_bean.xml",
+				"classpath:applicationContext_dao.xml"};
         ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
         
         LogAnalyser logAnalyser = (LogAnalyser) ctx.getBean("logAnalyser");

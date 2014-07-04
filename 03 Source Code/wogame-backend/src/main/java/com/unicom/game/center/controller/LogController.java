@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.unicom.game.center.business.ChannelInfoBusiness;
-import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.model.ChannelInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -153,17 +152,16 @@ public class LogController {
 
     @RequestMapping(value = "/topGameLog", method = {RequestMethod.POST})
     public @ResponseBody List<GameDisplayModel>  topGameLog(@RequestParam(value="type",required=false) String type,
-    		@RequestParam(value="channelId",required = true) Integer channelID){
+    		@RequestParam(value="channelId",required = true) Integer channelID,@RequestParam(value="channelId",required = true) int page){
     	if(Utility.isEmpty(type)){
     		type = "1";
     	}
-    	
         int dateType = Integer.parseInt(type);
-        List<GameDisplayModel>  gameInfos = null;
+        List<GameDisplayModel> gameInfos = null;
         if(dateType == 1){
-            gameInfos = gameTrafficService.getGameDayModel(channelID);
+            gameInfos = gameTrafficService.getGameDayModel(channelID,page);
         }else if(dateType == 2){
-            gameInfos = gameTrafficService.getGameMonthModel(channelID);
+            gameInfos = gameTrafficService.getGameMonthModel(channelID,page);
         }
         return gameInfos;
     }

@@ -1,17 +1,21 @@
 package com.unicom.game.center.utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.Properties;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Vector;
 
 /**
  * @author Alex Yin
@@ -90,11 +94,95 @@ public class SFTPHelper {
 				} catch (Exception e) {
 					Logging.logError("FTP Disconnect Error: ",e);
 				}
-			}			
+			}
 		}
-		
+
 		return null;
-	}	
+	}
+
+    public InputStream downloadFile(String path, String filename, ChannelSftp sftp) {
+   		if(null != sftp){
+   			try {
+   				sftp.cd(path);
+   				return sftp.get(filename);
+   			} catch (Exception e) {
+                   Logging.logError("Error occur in downloadFile.",e);
+   			}finally {
+   				try {
+   //					closeChannel(sftp.getSession(), sftp);
+   				} catch (Exception e) {
+   					Logging.logError("FTP Disconnect Error: ",e);
+   				}
+   			}
+   		}
+
+   		return null;
+   	}
+
+    public List<String> readRemoteFileByRow(String path, String filename, ChannelSftp sftp) throws Exception {
+
+        InputStream response = null;
+        InputStreamReader reader = null;
+        BufferedReader breader = null;
+
+        List<String> list = new ArrayList<String>();
+        try {
+            String str = null;
+
+            response = downloadFile(path, filename, sftp);
+
+            reader = new InputStreamReader(response, "utf-8");
+
+            breader = new BufferedReader(reader);
+
+            while ((str = breader.readLine()) != null) {
+                list.add(str);
+            }
+
+            return list;
+        } catch (Exception e) {
+            Logging.logError("Error occur in downloadFile.", e);
+        } finally {
+            if(null != response)
+           		response.close();
+           	if(null != reader)
+           		reader.close();
+           	if(null != breader)
+           		breader.close();
+        }
+
+        return null;
+    }
+
+    public List<String> getFileList(String path) {
+   		ChannelSftp sftp = connectServer();
+        List<String> list = new ArrayList<String>();
+   		if(null != sftp){
+   			try {
+   				sftp.cd(path);
+
+                Vector vector = sftp.ls(path);
+                for (int i = 0;i < vector.size();i++) {
+                    ChannelSftp.LsEntry f = (ChannelSftp.LsEntry)vector.get(i);
+                    String name = f.getFilename();
+                    if (!name.equals(".") && !name.equals("..")) {
+                        list.add(f.getFilename());
+                    }
+                }
+   				return list;
+   			} catch (Exception e) {
+                   Logging.logError("Error occur in downloadFile.",e);
+   			}finally {
+   				try {
+   					closeChannel(sftp.getSession(), sftp);
+   				} catch (Exception e) {
+   					Logging.logError("FTP Disconnect Error: ",e);
+   				}
+   			}
+   		}
+
+   		return null;
+   	}
 	
 	public void delete(String directory, String deleteFile, ChannelSftp sftp) {
 		try {

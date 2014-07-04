@@ -1,9 +1,27 @@
 package com.unicom.game.center.loganalyser.imp;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.unicom.game.center.business.PackageInfoBusiness;
+import com.unicom.game.center.db.domain.PackageInfoDomain;
 import com.unicom.game.center.loganalyser.ILogAnalyser;
+import com.unicom.game.center.utils.FileUtils;
 import com.unicom.game.center.utils.Logging;
+import com.unicom.game.center.utils.SFTPHelper;
+import com.unicom.game.center.utils.Utility;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
 public class LogAnalyser implements ILogAnalyser {
+
+    @Autowired
+    private PackageInfoBusiness packageInfoBusiness;
+
+    @Autowired
+   	private SFTPHelper sftpHelper;
 
 	@Override
 	public void doLogAnaylyse(){
@@ -17,6 +35,51 @@ public class LogAnalyser implements ILogAnalyser {
 		}
 		Logging.logDebug("----- doLogAnaylyse end -----");
 	}
-	
+
+
+    @Override
+  	public void doPackageInfoDomainsSave() throws Exception {
+  		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+
+        String recordPath = "D:\\demo\\demo.txt";
+        String path = "/wostore/wostorechannelapk/response/all/";
+        String separate = "|";
+        int flushNum = 20;
+
+        String currentFileName = "";
+        ChannelSftp sftp = null;
+  		try {
+            List<String> currentFileNameList = FileUtils.readFileByRow(recordPath);
+            if (currentFileNameList.size() > 0) {
+                currentFileName = currentFileNameList.get(0);
+            }
+
+            List<String> fileList = sftpHelper.getFileList(path);
+            fileList = Utility.getSubStringList(fileList, currentFileName);
+
+            sftp = sftpHelper.connectServer();
+            for (String fileName : fileList) {
+                List<PackageInfoDomain> packageInfoDomains = new ArrayList<PackageInfoDomain>();
+                List<String> contentList = sftpHelper.readRemoteFileByRow(path, fileName, sftp);
+
+                for (String content : contentList) {
+                    String[] contentArr = Utility.splitString(content, separate);
+                    PackageInfoDomain domain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
+                    packageInfoDomains.add(domain);
+                }
+
+                packageInfoBusiness.savePackageInfoList(packageInfoDomains, flushNum);
+                currentFileName = fileName;
+            }
+  		} catch(Exception e){           
+  			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
+  		} finally{
+  			 FileUtils.writeFileOverWrite(recordPath, currentFileName);
+            if (sftp != null) {
+                sftpHelper.closeChannel(sftp.getSession(), sftp);
+            }
+  		}
+  		Logging.logDebug("----- doPackageInfoDomainsSave end -----");
+  	}
 
 }
