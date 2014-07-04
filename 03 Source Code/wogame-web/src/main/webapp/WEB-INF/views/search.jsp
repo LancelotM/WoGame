@@ -92,12 +92,12 @@
 
                     stringBuffer.push('<div class="w_list">');
                     stringBuffer.push('<div class="w_list_img">');
-                    stringBuffer.push('<a href="' + urlBase + entry.id + '">');
+                    stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\'">');
                     stringBuffer.push('<img src="' + entry.icon + '" width="48" height="48"/></a></div>');
                     stringBuffer.push('<div class="w_list_title">');
-                    stringBuffer.push('<a href="' + urlBase + entry.id + '">' + entry.name + '</a>');
+                    stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\'">' + entry.name + '</a>');
                     stringBuffer.push('</div>');
-                    stringBuffer.push('<div class="w_list_category">' + entry.catagory + '</div>');
+                    stringBuffer.push('<div class="w_list_category">' + entry.category + '</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.size / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_download">');
                     stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
@@ -124,7 +124,7 @@
 
     function ajaxSearchKeywords(keyword) {
         $.getJSON("${ctx}/search/keyword;jsessionid=${sessionid}", {"keyword": keyword}, function (data) {
-
+            el.empty();
             if (data.length != 0) {
 
                 $.each(data, function (index, entry) {

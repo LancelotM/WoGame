@@ -337,6 +337,7 @@ public class ZTEService {
             }
 
             result.setResult(0);
+            result.setHotwordList(items);
 
             return result;
 
