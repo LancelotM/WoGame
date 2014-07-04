@@ -152,7 +152,7 @@ public class LogController {
 
     @RequestMapping(value = "/topGameLog", method = {RequestMethod.POST})
     public @ResponseBody List<GameDisplayModel>  topGameLog(@RequestParam(value="type",required=false) String type,
-    		@RequestParam(value="channelId",required = true) Integer channelID,@RequestParam(value="channelId",required = true) int page){
+    		@RequestParam(value="channelId",required = true) Integer channelID,@RequestParam(value="page",required = true) int page){
     	if(Utility.isEmpty(type)){
     		type = "1";
     	}
