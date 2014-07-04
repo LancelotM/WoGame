@@ -37,6 +37,7 @@ public class PackageInfoDao extends HibernateDao{
 		sb.append(" from PackageInfoDomain p");
 		sb.append(" where p.key.appId=:productId");
 		sb.append(" and p.key.channelId in :channelIds");
+		sb.append(" and p.status = '0'");
 		
 		List<String> channelIds = new ArrayList<String>();
 		channelIds.add(channelId);

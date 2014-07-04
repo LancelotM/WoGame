@@ -17,20 +17,11 @@
     <context:annotation-config/>   
    
 	<context:component-scan base-package="com.unicom" />
+	
+	<context:property-placeholder
+		location="file:/unicom/conf/wogamecenter.properties" />
 
-   	<bean id="placeholderConfig"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreResourceNotFound" value="true"/>
-        <property name="ignoreUnresolvablePlaceholders" value="true"/>
-		
-		<property name="locations">
-			<list>		
-		    	<value>classpath:wogamecenter.properties</value>				
-				<value>file:/unicom/conf/wogamecenter.properties</value>
-				<value>classpath:com/unicom/LogAnalyser.properties</value>
-				<value>file:/unicom/conf/LogAnalyser.properties</value>				
-			</list>
-		</property>
-	</bean>
+	<util:properties id="properties"
+		location="file:/unicom/conf/wogamecenter.properties" />
     	
 </beans>
