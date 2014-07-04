@@ -50,7 +50,7 @@
 <script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
-
+    $('#pullDown, #pullUp').hide();
     var myScroll,
             pullDownEl, pullDownOffset,
             pullUpEl, pullUpOffset,

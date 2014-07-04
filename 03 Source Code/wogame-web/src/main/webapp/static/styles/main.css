@@ -768,6 +768,32 @@ dl.w_dowload dt {
     background-size: 21px 24px;
 }
 
+dl.w_retry {
+    height: 30px;
+    width: 80%;
+    margin: 3px auto;
+    background: -moz-linear-gradient(top, #FFC60A, #FDB002 43%, #FA9E00 78%);
+    background: -webkit-gradient(linear, 0 0, 0 78%, from(#FFC60A), to(#FA9E00));
+    border-radius: 5px;
+    text-align: center;
+    line-height: 33px;
+    color: #FFFFFF;
+    -moz-box-shadow: 0px 1px 1px 0px #FFD84A inset;
+    -webkit-box-shadow: 0px 1px 1px 0px #FFD84A inset;
+    box-shadow: 0px 1px 1px 0px #FFD84A inset;
+    border: #D78800 1px solid;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+dl.w_retry dt {
+    line-height: 30px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
 .youxi_lr_01 {
     margin: 6px 6px 0px 6px;
     position: relative;

@@ -1,3 +1,19 @@
+/**
+ * 画面点击出现等待效果
+ */
+$.fn.extend({
+    waiting: function (msg) {
+        var msgText = msg ? msg : "处理中，请等待...";
+        //小圈子下面加上文字
+        $(this).bind('tap', function () {
+            $.mobile.loadingMessageTextVisible = true;
+            $.mobile.showPageLoadingMsg('a', msgText);
+        });
+    }
+
+});
+
+
 /*Javascript设置要保留的小数位数，四舍五入。
  *ForDight(Dight,How):数值格式化函数，Dight要格式化的 数字，How要保留的小数位数。
  *这里的方法是先乘以10的倍数，然后去掉小数，最后再除以10的倍数。

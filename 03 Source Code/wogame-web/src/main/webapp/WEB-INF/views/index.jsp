@@ -17,7 +17,7 @@
 
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
-
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
@@ -41,7 +41,7 @@
 //        );
 
 
-            $("#pageContent").touchwipe({
+            $("#wrapper").touchwipe({
                 wipeLeft: function (e) {
                     e.preventDefault();
                     location.href = "${ctx}/category/list;jsessionid=${sessionid}";
@@ -82,6 +82,7 @@
         }
 
         function toAppDetail(id, name, url, sort) {
+            $(document).waiting();
             logdata(id, name, url, sort, function () {
                 location.href = "${ctx}/gameInfo;jsessionid=${sessionid}?productId=" + id;
             });
@@ -125,8 +126,8 @@
     <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <!--分类筛选-->
-<div class="w_paihangtitle" id="w_paihangtitle" data-role="none">
-    <!--选中状态-->
+<div class="w_paihangtitle" id="w_paihangtitle">
+<!--选中状态-->
     <div class="w_new_01">首页</div>
     <!--没有选中-->
     <div class="w_new_022" data-role="none"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
@@ -147,8 +148,13 @@
     </div>
 </div>
 </c:if>
-<div id="pageContent">
-    <!--列表-->
+<div id="wrapper" style="top:250px;">
+    <div id="scroller">
+        <div id="pullDown">
+            <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
+        </div>
+        <div id="list">
+        <!--列表-->
     <c:set var="appIndex" value="0"/>
     <c:forEach items="${recommendedList}" var="item" varStatus="outerIdx">
         <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx" end="${item.adType}">
@@ -248,7 +254,29 @@
         </c:if>
     </c:forEach>
 </c:forEach>
+        </div>
+        <div id="pullUp">
+            <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
+        </div>
+    </div>
 </div>
+<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+<script type="text/javascript">
+    $('#pullDown, #pullUp').hide();
+    var myScroll,
+            pullDownEl, pullDownOffset,
+            pullUpEl, pullUpOffset,
+            generatedCount = 0;
+    pageNum = 1;
 
+    document.addEventListener('touchmove', function (e) {
+        e.preventDefault();
+    }, false);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(loaded, 200);
+    }, false);
+
+</script>
 </body>
 </html>

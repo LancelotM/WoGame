@@ -55,7 +55,7 @@
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
 <script type="text/javascript">
-
+    $('#pullDown, #pullUp').hide();
     var myScroll,
             pullDownEl, pullDownOffset,
             pullUpEl, pullUpOffset,
@@ -123,6 +123,7 @@
     }
 
     function ajaxSearchKeywords(keyword) {
+        $('#pullDown, #pullUp').hide();
         $.getJSON("${ctx}/search/keyword;jsessionid=${sessionid}", {"keyword": keyword}, function (data) {
             el.empty();
             if (data.length != 0) {
