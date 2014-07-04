@@ -4,11 +4,13 @@ import com.jcraft.jsch.ChannelSftp;
 import com.unicom.game.center.business.PackageInfoBusiness;
 import com.unicom.game.center.db.domain.PackageInfoDomain;
 import com.unicom.game.center.loganalyser.ILogAnalyser;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.FileUtils;
 import com.unicom.game.center.utils.Logging;
 import com.unicom.game.center.utils.SFTPHelper;
 import com.unicom.game.center.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,6 +24,12 @@ public class LogAnalyser implements ILogAnalyser {
 
     @Autowired
    	private SFTPHelper sftpHelper;
+    
+	@Value("#{properties['response.file.path']}")
+	private String responseFilePath;
+	
+	@Value("#{properties['latest.handdle.file']}")
+	private String latestHanddleFile;
 
 	@Override
 	public void doLogAnaylyse(){
@@ -41,40 +49,35 @@ public class LogAnalyser implements ILogAnalyser {
   	public void doPackageInfoDomainsSave() throws Exception {
   		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
 
-        String recordPath = "D:\\demo\\demo.txt";
-        String path = "/wostore/wostorechannelapk/response/all/";
-        String separate = "|";
-        int flushNum = 20;
-
         String currentFileName = "";
         ChannelSftp sftp = null;
   		try {
-            List<String> currentFileNameList = FileUtils.readFileByRow(recordPath);
+            List<String> currentFileNameList = FileUtils.readFileByRow(latestHanddleFile);
             if (currentFileNameList.size() > 0) {
                 currentFileName = currentFileNameList.get(0);
             }
 
-            List<String> fileList = sftpHelper.getFileList(path);
+            List<String> fileList = sftpHelper.getFileList(responseFilePath);
             fileList = Utility.getSubStringList(fileList, currentFileName);
 
             sftp = sftpHelper.connectServer();
             for (String fileName : fileList) {
                 List<PackageInfoDomain> packageInfoDomains = new ArrayList<PackageInfoDomain>();
-                List<String> contentList = sftpHelper.readRemoteFileByRow(path, fileName, sftp);
+                List<String> contentList = sftpHelper.readRemoteFileByRow(responseFilePath, fileName, sftp);
 
                 for (String content : contentList) {
-                    String[] contentArr = Utility.splitString(content, separate);
+                    String[] contentArr = Utility.splitString(content, Constant.RESPONSE_FIEL_SEPARATOR);
                     PackageInfoDomain domain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
                     packageInfoDomains.add(domain);
                 }
 
-                packageInfoBusiness.savePackageInfoList(packageInfoDomains, flushNum);
+                packageInfoBusiness.savePackageInfoList(packageInfoDomains, Constant.HIBERNATE_FLUSH_NUM);
                 currentFileName = fileName;
             }
   		} catch(Exception e){           
   			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
   		} finally{
-  			 FileUtils.writeFileOverWrite(recordPath, currentFileName);
+  			 FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
             if (sftp != null) {
                 sftpHelper.closeChannel(sftp.getSession(), sftp);
             }

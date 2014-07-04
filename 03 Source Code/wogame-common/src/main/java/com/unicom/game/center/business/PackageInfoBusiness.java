@@ -99,9 +99,7 @@ public class PackageInfoBusiness {
    		try {
             key.setAppId(contentArr[3]);
             key.setChannelId(contentArr[8]);
-            Date date = new Date();
-            domain.setDateModified(date);
-            domain.setDateCreated(date);
+            domain.setDateModified(new Date());
             domain.setKey(key);
             domain.setCpId(contentArr[2]);
             domain.setAppName(contentArr[4]);
