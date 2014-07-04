@@ -92,7 +92,7 @@ public class GameTrafficBusiness {
 
     public List<GameDisplayModel> getGameMonthModel(Integer channelId,int page){
         List<GameInfo> gameInfos = fetchGameInfoByMonth(channelId,false);
-        List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(gameInfos);
+        List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(gameInfos,"month");
         int rowPerPages = 2;
         int start = (page - 1) * rowPerPages;
         int end = start + rowPerPages;
@@ -103,7 +103,7 @@ public class GameTrafficBusiness {
     }
 
     public List<GameDisplayModel> getGameDayModel(Integer channelId,int page){
-        List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(fetchGameInfoByDate(channelId, false));
+        List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(fetchGameInfoByDate(channelId, false),"day");
         int rowPerPages = 2;
         int start = (page - 1) * rowPerPages;
         int end = start + rowPerPages;
@@ -131,7 +131,7 @@ public class GameTrafficBusiness {
         return gameByDate;
     }
 
-    public List<GameDisplayModel> getGameDisplayModel(List<GameInfo> gameInfos){
+    public List<GameDisplayModel> getGameDisplayModel(List<GameInfo> gameInfos,String dateType){
         Map<String,List<GameInfo>>  data = new HashMap<String, List<GameInfo>>();
         GameDisplayModel gameDisplayModel = null;
         List<GameDisplayModel> gameDisplayModels = new ArrayList<GameDisplayModel>();
@@ -140,7 +140,28 @@ public class GameTrafficBusiness {
                 getMap(data,gameInfo.getName(),gameInfo);
             }
         }
+        for(int i = 0;i< 5;i++){
+            for(String name : data.keySet()){
+                for(GameInfo hotGame : data.get(name)){
+                    if("month".equals(dateType)){
+                        if(DateUtils.intervalDays(hotGame.getDate(),DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -1),"yyyy-MM-dd"),1) != i){
+                            GameInfo gameInfo = new GameInfo();
+                            gameInfo.setClickThrough("0");
+                            gameInfo.setDownloadCount("0");
+                            data.get(name).add(gameInfo);
+                        }
+                    }else if("day".equals(dateType)){
+                        if(DateUtils.intervalDays(hotGame.getDate(),DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -1),"yyyy-MM-dd"),0) != i){
+                            GameInfo gameInfo = new GameInfo();
+                            gameInfo.setClickThrough("0");
+                            gameInfo.setDownloadCount("0");
+                            data.get(name).add(gameInfo);
+                        }
+                    }
 
+                }
+            }
+        }
         for(String name : data.keySet()){
             gameDisplayModel = new GameDisplayModel();
             gameDisplayModel.setGameName(data.get(name).get(0).getName());

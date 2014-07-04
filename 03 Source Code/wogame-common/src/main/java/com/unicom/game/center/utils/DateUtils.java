@@ -141,4 +141,54 @@ public class DateUtils {
         }
         return 0;    	
     }
+
+    /**
+     *
+     * @param startDay
+     * @param endDay
+     * @param stype
+     *  0为多少天,1为多少个月,2为多少年
+     * @return
+     */
+    public static int intervalDays(String startDay,String endDay,int stype){
+        int n = 0;
+        String[] u = {"天","月","年"};
+        String formatStyle = stype==1?"yyyy-MM":"MM-dd";
+
+        endDay = endDay==null?getCurrentDate("yyyy-MM-dd"):endDay;
+
+        DateFormat df = new SimpleDateFormat(formatStyle);
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        try {
+            c1.setTime(df.parse(startDay));
+            c2.setTime(df.parse(endDay));
+        } catch (Exception e3) {
+            System.out.println("wrong occured");
+        }
+        //List list = new ArrayList();
+        while (!c1.after(c2)) {                   // 循环对比，直到相等，n 就是所要的结果
+            //list.add(df.format(c1.getTime()));    // 这里可以把间隔的日期存到数组中 打印出来
+            n++;
+            if(stype==1){
+                c1.add(Calendar.MONTH, 1);          // 比较月份，月份+1
+            }
+            else{
+                c1.add(Calendar.DATE, 1);           // 比较天数，日期+1
+            }
+        }
+        n = n-1;
+        if(stype==2){
+            n = (int)n/365;
+        }
+        return n;
+    }
+
+    public static String getCurrentDate(String format){
+        Calendar day=Calendar.getInstance();
+        day.add(Calendar.DATE,0);
+        SimpleDateFormat sdf=new SimpleDateFormat(format);//"yyyy-MM-dd"
+        String date = sdf.format(day.getTime());
+        return date;
+    }
 }

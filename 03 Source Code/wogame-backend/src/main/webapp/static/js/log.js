@@ -17,7 +17,7 @@ $(function(){
     }
     $('#select').change(function(){
         var type = $("#select").find("option:selected").val();
-        createForm(getBasePath()+'/getlog',channelNum,$("#select").find("option:selected").val());
+        createForm(getBasePath()+'/getlog',channelNum,type);
     });
     $.ajax({
         type: "POST",
@@ -63,23 +63,6 @@ $(function(){
         }
     });
 
-//    $.ajax({
-//        type: "POST",
-//        url: basePath+"/topGameLog",
-//        data: {type:typeVlaue, channelId:channelNum,page:1},
-//        dataType: "json",
-//        success: function(data){
-//            var html = "";
-//            $.each(data, function(commentIndex, comment){
-//                html += '<tr class="append_tr"><td><img src="'+basePath+'/static/images/game_img.png"/>'+comment['gameName']
-//                    +'</td><td>'+comment['thisTimeData']+'</td><td>'+comment['lastTimeData']+
-//                    '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
-//                    '</td><td>'+comment['last4TimeData']+'</td></tr>'
-//            });
-//            $('#top30Game').append(html);
-//            $().addClass('current_page')
-//        }
-//    });
     $('#pages a').click(function(){
         var curPage = $(this).text();
         $.ajax({
@@ -103,16 +86,7 @@ $(function(){
         $(this).addClass('current_page');
     });
     $('#pages a').first().trigger('click');
-
-    $('#select').change(function(){
-        var type = $("#select").find("option:selected").val();
-        createForm(getBasePath()+'/getlog',channelNum,$("#select").find("option:selected").val());
-    });
 });
-
-function getBasePath(){
-    return $('#basePath').attr('value');
-}
 
 function createForm(url,value,type){
     var infoForm = document.createElement("form");
@@ -132,4 +106,6 @@ function createForm(url,value,type){
     infoForm.submit() ;
     document.body.removeChild(infoForm) ;
 }
+
+
 
