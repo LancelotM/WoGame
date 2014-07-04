@@ -125,9 +125,14 @@ create table wogamecenter.package_info(
 	reserve4 varchar(200),
 	reserve5 varchar(200),
 	date_modified date not null,
-	date_created date not null,
+	date_created date,
 	primary key(channel_id,app_id)	
 )engine=innodb default charset=utf8;
+
+CREATE TRIGGER defaulttime
+BEFORE INSERT ON wogamecenter.package_info
+FOR EACH ROW
+	SET new.date_created=now();
 
 
 CREATE USER 'package'@'%' IDENTIFIED BY 'Pass4package';

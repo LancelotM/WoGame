@@ -39,7 +39,26 @@
     <%--<div class="w_new_022"><a href="#">玩家评论</a></div>--%>
 </div>
 <c:if test="${error == '1'}">
-    服务器出错啦...
+    <div id="error-container" style="text-align:center;background-color: white;width:200px;height:150px;">
+        <div style="height:40px;line-height: 40px;">温馨提示</div>
+        <div style="height:4px;background-color: orange;"></div>
+        <div style="height:60px;line-height: 60px;">网络连接失败</div>
+        <dl class="w_retry" data-role="none">
+            <a href="javascript:window.location.reload();" data-role="none">
+                <dt>重试</dt>
+            </a>
+        </dl>
+    </div>
+    <script type="text/javascript">
+        $(window).resize(function () {
+            $('#error-container').css({
+                position: 'fixed',
+                left: ($(window).width() - $('#error-container').outerWidth()) / 2,
+                top: ($(window).height() - $('#error-container').outerHeight()) / 2 + $(document).scrollTop()
+            });
+        });
+        $(window).resize();
+    </script>
 </c:if>
 <c:if test="${error == ''}">
     <!--列表-->

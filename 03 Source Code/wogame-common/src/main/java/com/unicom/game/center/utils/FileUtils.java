@@ -47,7 +47,7 @@ public class FileUtils {
      * @param path
      * @return
      */
-    public static List<String> readFileByRow(String path) throws IOException {
+    public static List<String> readFileByRow(String path) throws Exception {
         try {
             File file = new File(path);
             List<String> list = new ArrayList<String>();
@@ -71,6 +71,8 @@ public class FileUtils {
             throw e;
         } catch (IOException e) {
             throw e;
+        } catch (Exception e){
+        	throw e;
         }
     }
 
@@ -85,7 +87,6 @@ public class FileUtils {
     public static boolean writeFileOverWrite(String path, String filename) throws IOException {
         try {
             File file = new File(path);
-            List<String> list = new ArrayList<String>();
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -99,11 +100,14 @@ public class FileUtils {
 
             return true;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logging.logError("FileNotFoundException occur in writeFileOverWrite", e);
             return false;
         } catch (IOException e) {
-            e.printStackTrace();
+        	Logging.logError("IOException occur in writeFileOverWrite", e);
             return false;
+        }catch (Exception e){
+        	Logging.logError("Error occur in writeFileOverWrite", e);
+        	return false;
         }
     }
 }
