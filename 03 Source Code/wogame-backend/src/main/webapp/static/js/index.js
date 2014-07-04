@@ -1,15 +1,3 @@
-$(function(){
-
-    $('#submit').click(function(){
-
-    });
-    $('#submit').click(function(){
-
-    });
-    $('#submit').click(function(){
-
-    });
-});
 
 function checkBlank(id,checkInfo){
      var value = document.getElementById(id).value;
@@ -32,11 +20,9 @@ function checkForm(){
                 if(data == 0){
                     var isCheck = document.getElementById("checkbox_img").style.display;
                     if(isCheck == 'inline'){
-                        setCookie("login_code",username,30);
-                        setCookie("pwd",password,30)
-                    }else if(isCheck == 'none'){
-                        delCookie("login_code");
-                        delCookie("pwd");
+                        $('#remember').val("1");
+                    }else{
+                        $('#remember').val("0");
                     }
                     $('#form').submit();
                 }else if(data == 1){
