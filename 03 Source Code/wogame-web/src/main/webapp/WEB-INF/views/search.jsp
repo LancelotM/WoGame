@@ -92,10 +92,10 @@
 
                     stringBuffer.push('<div class="w_list">');
                     stringBuffer.push('<div class="w_list_img">');
-                    stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\'">');
+                    stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\')">');
                     stringBuffer.push('<img src="' + entry.icon + '" width="48" height="48"/></a></div>');
                     stringBuffer.push('<div class="w_list_title">');
-                    stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\'">' + entry.name + '</a>');
+                    stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\')">' + entry.name + '</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_category">' + entry.category + '</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.size / 1024, 2) + 'MB</div>');
