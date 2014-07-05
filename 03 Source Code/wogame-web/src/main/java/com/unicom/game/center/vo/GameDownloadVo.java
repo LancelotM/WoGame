@@ -9,6 +9,7 @@ public class GameDownloadVo {
     private String description;
     private String downloadUrl;
     private String isFitApp;
+    private String onlineTime;
 
     public String getId() {
         return id;
@@ -48,5 +49,13 @@ public class GameDownloadVo {
 
     public void setIsFitApp(String isFitApp) {
         this.isFitApp = isFitApp;
+    }
+
+    public String getOnlineTime() {
+        return onlineTime;
+    }
+
+    public void setOnlineTime(String onlineTime) {
+        this.onlineTime = onlineTime;
     }
 }

@@ -41,6 +41,7 @@ public class ZTEService {
             "&accountingtype=0&recuserid=&update=0&packageid=&downchannel=8";
     private static final String URL_SEARCH_ALL_KEYWORDS = "http://wogame.wostore.cn:8080/gameservice/hotwordsList.do";
     private static final String URL_SEARCH_KEYWORDS = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=getkeywords&keyword={keyword}";
+    private static final String DATE_FORMAT_ONLINE_TIME = "yyyyMMddHHmmss";
 
     public GameInfoVo readProductDetail(String productId) {
 
@@ -270,12 +271,22 @@ public class ZTEService {
             downloadVo.setDescription(rowData.getColumnData("desc").getValue());
             downloadVo.setDownloadUrl(rowData.getColumnData("downurl").getValue());
             downloadVo.setIsFitApp(rowData.getColumnData("isFitApp").getValue());
+            downloadVo.setOnlineTime(parseOnlineTimeFromDownloadUrl(downloadVo.getDownloadUrl()));
 
             return downloadVo;
 
         } catch (Exception e) {
             logger.error("解析数据错误。", e);
             return null;
+        }
+    }
+
+    private String parseOnlineTimeFromDownloadUrl(String downloadUrl) {
+        if (downloadUrl == null) {
+            return "";
+        } else {
+            int index = StringUtils.ordinalIndexOf(downloadUrl, "/", 4) + 1;
+            return StringUtils.substring(downloadUrl, index, index + DATE_FORMAT_ONLINE_TIME.length());
         }
     }
 

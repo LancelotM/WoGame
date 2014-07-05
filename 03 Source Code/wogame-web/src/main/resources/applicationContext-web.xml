@@ -6,5 +6,5 @@
 
 	<!-- required -->
     <import resource="applicationContext.xml" />
-
+    <import resource="applicationContext_dao.xml"/>
 </beans>
