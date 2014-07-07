@@ -56,15 +56,19 @@
             pullUpEl, pullUpOffset,
             generatedCount = 0;
     var categoryId = $("#categoryId").val();
+    var isSearching = false;
     pageNum = 1;
     var urlBase = '${ctx}/gameInfo;jsessionid=${sessionid}?productId=';
     var el = $('#list');
 
     function ajaxGetData(pPageNum, callback) {
-
+        if (isSearching) {
+            return;
+        }
+        isSearching = true;
 
         $.getJSON("${ctx}/weeklyHot/ajaxList", {"pageNum": pPageNum}, function (data) {
-
+            isSearching = false;
             if (data.length != 0) {
 
                 if (pPageNum <= 1) {
@@ -89,10 +93,16 @@
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber((entry.apk_size) / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_category">' + entry.category + '</div>');
                     stringBuffer.push('<div class="w_list_download">');
-                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
+                            + '\',\'' + entry.title
+                            + '\',\'' + entry.icon_url
+                            + '\')">下载</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_download_txt">');
-                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
+                            + '\',\'' + entry.title
+                            + '\',\'' + entry.icon_url
+                            + '\')">下载</a>');
                     stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
@@ -134,9 +144,9 @@
         });
     });
 
-    function download(id) {
+    function download(id, name, url) {
         $.getJSON("${ctx}/download;jsessionid=${sessionid}",
-                {"productId": dataJson.product_id, "productName": dataJson.title, "productIcon": dataJson.icon_url},
+                {"productId": id, "productName": name, "productIcon": url},
                 function (data) {
             if (data.downloadUrl == "") {
                 alert(data.description);

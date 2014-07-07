@@ -7,14 +7,15 @@ import com.unicom.game.center.vo.SearchKeywordItemVo;
 import com.unicom.game.center.vo.SearchKeywordsVo;
 import com.unicom.game.center.vo.SearchResultItemVo;
 import com.unicom.game.center.vo.SearchResultVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class GameSearchController {
 
     @Autowired
     private StatisticsLogger statisticsLogger;
-
+    private Logger logger = LoggerFactory.getLogger(GameSearchController.class);
     @Autowired
     private ZTEService zteService;
 
@@ -43,8 +44,8 @@ public class GameSearchController {
 
     @RequestMapping(value = "/keyword", method = RequestMethod.GET)
     @ResponseBody
-    public List<SearchKeywordItemVo> search(@RequestParam("keyword") String keyword) {
-        SearchKeywordsVo vo = zteService.readSearchKeywords(keyword);
+    public List<SearchKeywordItemVo> search(@RequestParam("keyword") String keyword) throws Exception {
+        SearchKeywordsVo vo = zteService.readSearchKeywords(URLDecoder.decode(URLDecoder.decode(keyword, "UTF-8"), "UTF-8"));
 
         return vo == null ? new ArrayList<SearchKeywordItemVo>() : vo.getHotwordList();
     }
@@ -52,16 +53,30 @@ public class GameSearchController {
     @RequestMapping(value = "/ajaxSearch", method = RequestMethod.GET)
     @ResponseBody
     public List<SearchResultItemVo> ajaxSearch(@RequestParam("keyword") String keyword,
-                                               @RequestParam("pageNum") Integer pageNum) {
+                                               @RequestParam("pageNum") Integer pageNum) throws Exception {
+
+        String utf8Keyword = URLDecoder.decode(URLDecoder.decode(keyword, "UTF-8"), "UTF-8");
 
         // 记录Log
         Map<String, String> logData = Maps.newHashMap();
-        logData.put("keyword", keyword);
+        logData.put("keyword", utf8Keyword);
         statisticsLogger.log("keyword", logData);
 
         //根据搜索字搜索游戏
-        SearchResultVo vo = zteService.readSearchResult(keyword, pageNum);
+        SearchResultVo vo = zteService.readSearchResult(utf8Keyword, pageNum);
 
         return vo.getSearchList();
+    }
+
+    @ExceptionHandler({Exception.class})
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
+    public Map<String, String> handleException(Exception e) {
+        logger.error("解码Keyword出错", e);
+
+        Map<String, String> error = Maps.newHashMap();
+        error.put("status", "-99");
+
+        return error;
     }
 }

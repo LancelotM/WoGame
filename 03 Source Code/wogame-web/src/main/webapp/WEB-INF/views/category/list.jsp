@@ -34,7 +34,7 @@
 <div id="pageContent">
     <!--列表-->
     <c:forEach items="${list}" var="item">
-
+        <c:if test="${item.source == 'UUC'}">
         <a href="javascript:listDetail('${item.categoryId}','${item.categoryTitle}');">
             <div class="w_list_fenlei">
                 <c:if test="${item.recommendType>0}">
@@ -45,7 +45,7 @@
                 <div class="w_list_category" style="top:35px;">${item.description}</div>
             </div>
         </a>
-
+        </c:if>
     </c:forEach>
 </div>
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>

@@ -31,7 +31,16 @@
     </div>
     <input name="" type="button" class="w_buttion" value="搜索" data-role="none" onclick="search()"/>
 </div>
-
+<div id="error-container" style="display:none;text-align:center;background-color: white;width:200px;height:150px;">
+    <div style="height:40px;line-height: 40px;">温馨提示</div>
+    <div style="height:4px;background-color: orange;"></div>
+    <div style="height:60px;line-height: 60px;">网络连接失败</div>
+    <dl class="w_retry" data-role="none">
+        <a href="javascript:search();" data-role="none">
+            <dt>重试</dt>
+        </a>
+    </dl>
+</div>
 <div id="wrapper">
     <div id="scroller">
         <div id="pullDown">
@@ -61,14 +70,25 @@
             pullUpEl, pullUpOffset,
             generatedCount = 0;
     var categoryId = $("#categoryId").val();
+    var isSearching = false;
     pageNum = 1;
     var urlBase = '${ctx}/gameInfo;jsessionid=${sessionid}?productId=';
     var el = $('#list');
     //    el.empty();
 
     function ajaxGetData(pPageNum, callback) {
+        if (isSearching) {
+            return;
+        }
 
         var keyword = $("#txtSearch").val();
+
+        if (keyword == "") {
+            alert("请输入关键字。");
+            return;
+        }
+
+        isSearching = true;
 
 //        if (keyword == "") {
 //            $('#pullDown, #pullUp').hide();
@@ -78,7 +98,19 @@
 //
 //        $('#pullDown, #pullUp').show();
 
-        $.getJSON("${ctx}/search/ajaxSearch;jsessionid=${sessionid}", {"pageNum": pPageNum, "keyword": keyword}, function (data) {
+        $.getJSON("${ctx}/search/ajaxSearch;jsessionid=${sessionid}", {"pageNum": pPageNum, "keyword": encodeURI(encodeURI(keyword))}, function (data) {
+            isSearching = false;
+
+            $("#error-container").hide();
+
+            if (data.status && data.status == -99) {
+                $("#error-container").show();
+                $("#wrapper").hide();
+                return;
+            } else {
+                $("#error-container").hide();
+                $("#wrapper").show();
+            }
 
             if (data.length != 0) {
 
@@ -100,10 +132,16 @@
                     stringBuffer.push('<div class="w_list_category">' + entry.category + '</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.size / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_download">');
-                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.id
+                            + '\',\'' + entry.name
+                            + '\',\'' + entry.icon
+                            + '\')">下载</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_download_txt">');
-                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.id
+                            + '\',\'' + entry.name
+                            + '\',\'' + entry.icon
+                            + '\')">下载</a>');
                     stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
@@ -123,9 +161,33 @@
     }
 
     function ajaxSearchKeywords(keyword) {
+        if (isSearching) {
+            return;
+        }
+
+        if (keyword == "") {
+            return;
+        }
+
+        isSearching = true;
+
         $('#pullDown, #pullUp').hide();
-        $.getJSON("${ctx}/search/keyword;jsessionid=${sessionid}", {"keyword": keyword}, function (data) {
+        $.getJSON("${ctx}/search/keyword;jsessionid=${sessionid}", {"keyword": encodeURI(encodeURI(keyword))}, function (data) {
             el.empty();
+
+            isSearching = false;
+
+            $("#error-container").hide();
+
+            if (data.status && data.status == -99) {
+                $("#error-container").show();
+                $("#wrapper").hide();
+                return;
+            } else {
+                $("#error-container").hide();
+                $("#wrapper").show();
+            }
+
             if (data.length != 0) {
 
                 $.each(data, function (index, entry) {
@@ -167,7 +229,7 @@
         search();
     }
 
-    $('#txtSearch').bind("change", function () {
+    $('#txtSearch').bind("keyup", function () {
         ajaxSearchKeywords($(this).val());
     });
 
@@ -178,7 +240,28 @@
     function toDetail(id) {
         location.href = urlBase + id;
     }
-</script>
 
+    function download(id, name, icon) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}",
+                {"productId": id, "productName": name, "productIcon": icon},
+                function (data) {
+                    if (data.downloadUrl == "") {
+                        alert(data.description);
+                    } else {
+                        download_file(data.downloadUrl);
+                    }
+                })
+    }
+</script>
+<script type="text/javascript">
+    $(window).resize(function () {
+        $('#error-container').css({
+            position: 'fixed',
+            left: ($(window).width() - $('#error-container').outerWidth()) / 2,
+            top: ($(window).height() - $('#error-container').outerHeight()) / 2 + $(document).scrollTop()
+        });
+    });
+    $(window).resize();
+</script>
 </body>
 </html>

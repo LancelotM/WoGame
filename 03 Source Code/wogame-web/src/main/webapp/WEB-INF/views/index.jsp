@@ -41,7 +41,7 @@
 //        );
 
 
-            $("#wrapper").touchwipe({
+            $("#pageContent").touchwipe({
                 wipeLeft: function (e) {
                     e.preventDefault();
                     location.href = "${ctx}/category/list;jsessionid=${sessionid}";
@@ -148,13 +148,8 @@
     </div>
 </div>
 </c:if>
-<div id="wrapper" style="top:250px;">
-    <div id="scroller">
-        <div id="pullDown">
-            <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
-        </div>
-        <div id="list">
-        <!--列表-->
+<div id="pageContent">
+    <!--列表-->
     <c:set var="appIndex" value="0"/>
     <c:forEach items="${recommendedList}" var="item" varStatus="outerIdx">
         <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx" end="${item.adType}">
@@ -254,29 +249,7 @@
         </c:if>
     </c:forEach>
 </c:forEach>
-        </div>
-        <div id="pullUp">
-            <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
-        </div>
-    </div>
 </div>
-<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript">
-    $('#pullDown, #pullUp').hide();
-    var myScroll,
-            pullDownEl, pullDownOffset,
-            pullUpEl, pullUpOffset,
-            generatedCount = 0;
-    pageNum = 1;
 
-    document.addEventListener('touchmove', function (e) {
-        e.preventDefault();
-    }, false);
-
-    document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(loaded, 200);
-    }, false);
-
-</script>
 </body>
 </html>

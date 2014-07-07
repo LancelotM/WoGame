@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.MySQLDialect
+        </property>
+
+        <property name="hibernate.show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <mapping class="com.unicom.game.center.db.domain.PageTrafficDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.AccountDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.ChannelInfoDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.DownloadInfoDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.GameTrafficDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.KeywordDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.PackageInfoDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.PackageInfoKey"/>
+        <mapping class="com.unicom.game.center.db.domain.ProductDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.UserCountDomain"/>
+
+    </session-factory>
+</hibernate-configuration>

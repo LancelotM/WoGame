@@ -63,7 +63,7 @@
 <c:if test="${error == ''}">
     <!--列表-->
     <div class="youxi_lr_01">
-        <div class="w_img_bg_large"><a href="#"><img src="${info.iconUrl}" width="80" height="80"/></a></div>
+        <div class="w_img_bg_large"><img src="${info.iconUrl}" width="80" height="80"/></div>
         <div class="w_start_0${info.rate}"></div>
         <div class="w_img_txt">
             <ul>
