@@ -161,9 +161,33 @@
     }
 
     function ajaxSearchKeywords(keyword) {
+        if (isSearching) {
+            return;
+        }
+
+        if (keyword == "") {
+            return;
+        }
+
+        isSearching = true;
+
         $('#pullDown, #pullUp').hide();
         $.getJSON("${ctx}/search/keyword;jsessionid=${sessionid}", {"keyword": encodeURI(encodeURI(keyword))}, function (data) {
             el.empty();
+
+            isSearching = false;
+
+            $("#error-container").hide();
+
+            if (data.status && data.status == -99) {
+                $("#error-container").show();
+                $("#wrapper").hide();
+                return;
+            } else {
+                $("#error-container").hide();
+                $("#wrapper").show();
+            }
+
             if (data.length != 0) {
 
                 $.each(data, function (index, entry) {
@@ -205,7 +229,7 @@
         search();
     }
 
-    $('#txtSearch').bind("change", function () {
+    $('#txtSearch').bind("keyup", function () {
         ajaxSearchKeywords($(this).val());
     });
 
