@@ -61,13 +61,17 @@
             pullUpEl, pullUpOffset,
             generatedCount = 0;
     var categoryId = $("#categoryId").val();
+    var isSearching = false;
     pageNum = 1;
     var urlBase = '${ctx}/gameInfo;jsessionid=${sessionid}?productId=';
     var el = $('#list');
     //    el.empty();
 
     function ajaxGetData(pPageNum, callback) {
-
+        if (isSearching) {
+            return;
+        }
+        isSearching = true;
         var keyword = $("#txtSearch").val();
 
 //        if (keyword == "") {
@@ -78,8 +82,8 @@
 //
 //        $('#pullDown, #pullUp').show();
 
-        $.getJSON("${ctx}/search/ajaxSearch;jsessionid=${sessionid}", {"pageNum": pPageNum, "keyword": keyword}, function (data) {
-
+        $.getJSON("${ctx}/search/ajaxSearch;jsessionid=${sessionid}", {"pageNum": pPageNum, "keyword": encodeURI(encodeURI(keyword))}, function (data) {
+            isSearching = false;
             if (data.length != 0) {
 
                 if (pPageNum <= 1) {
@@ -130,7 +134,7 @@
 
     function ajaxSearchKeywords(keyword) {
         $('#pullDown, #pullUp').hide();
-        $.getJSON("${ctx}/search/keyword;jsessionid=${sessionid}", {"keyword": keyword}, function (data) {
+        $.getJSON("${ctx}/search/keyword;jsessionid=${sessionid}", {"keyword": encodeURI(encodeURI(keyword))}, function (data) {
             el.empty();
             if (data.length != 0) {
 
