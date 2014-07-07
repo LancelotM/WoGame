@@ -60,6 +60,7 @@ a{
 	height:40px;
 	width:250px;
 	border:0.5px solid #ffc821;
+    line-height: 40px;
 	border-radius:10px;
 }
 .login_checkbox{
@@ -254,7 +255,8 @@ a{
 	padding-left:20px;
 	border:1px solid #e3e3e3;
 	height:28px;
-	width:273px;
+	width:250px;
+    line-height: 28px;
 	border-radius:5px;
 }
 
@@ -269,6 +271,11 @@ a{
 .link_address{
     font-size:15px;
     border-bottom:1px solid #ffc821;
+}
+
+#province_div a:hover{
+    color:#ed6d02;
+    text-decoration: underline;
 }
 
 .detail_tb tr{
@@ -384,7 +391,7 @@ a{
 	color:#ec6e07;
 }
 .add_backround{
-	background:url(${basePath}/static/images/leftmenu_select.png) no-repeat scroll 0 center;
+	background:url(../images/leftmenu_select.png) no-repeat scroll 0 center;
 }
 .margin_top45{
 	display:block;
@@ -521,6 +528,7 @@ a{
     height:26px;
     border:1px solid #e3e3e3;
     border-radius:4px;
+    line-height: 26px;
 }
 
 

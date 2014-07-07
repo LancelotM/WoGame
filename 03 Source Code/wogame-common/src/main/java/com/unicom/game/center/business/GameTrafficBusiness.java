@@ -1,11 +1,6 @@
 package com.unicom.game.center.business;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -134,44 +129,58 @@ public class GameTrafficBusiness {
     public List<GameDisplayModel> getGameDisplayModel(List<GameInfo> gameInfos,String dateType){
         Map<String,List<GameInfo>>  data = new HashMap<String, List<GameInfo>>();
         GameDisplayModel gameDisplayModel = null;
+        List<String> dateList = new ArrayList<String>();
+        for(int i = 0;i<5;i++){
+            if("month".equals(dateType)){
+                dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -(i + 1)), "yy-MM"));
+            }else if("day".equals(dateType)){
+                dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"MM-dd"));
+            }
+        }
         List<GameDisplayModel> gameDisplayModels = new ArrayList<GameDisplayModel>();
         if(gameInfos != null && gameInfos.size() > 0){
             for(GameInfo gameInfo : gameInfos){
                 getMap(data,gameInfo.getName(),gameInfo);
             }
         }
-        for(int i = 0;i< 5;i++){
-            for(String name : data.keySet()){
-                for(GameInfo hotGame : data.get(name)){
-                    if("month".equals(dateType)){
-                        if(DateUtils.intervalDays(hotGame.getDate(),DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -1),"yyyy-MM-dd"),1) != i){
-                            GameInfo gameInfo = new GameInfo();
-                            gameInfo.setClickThrough("0");
-                            gameInfo.setDownloadCount("0");
-                            data.get(name).add(gameInfo);
-                        }
-                    }else if("day".equals(dateType)){
-                        if(DateUtils.intervalDays(hotGame.getDate(),DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -1),"yyyy-MM-dd"),0) != i){
-                            GameInfo gameInfo = new GameInfo();
-                            gameInfo.setClickThrough("0");
-                            gameInfo.setDownloadCount("0");
-                            data.get(name).add(gameInfo);
-                        }
-                    }
-
+        List<List<GameInfo>> dataList = new ArrayList<List<GameInfo>>();
+        for(String name : data.keySet()){
+            List<GameInfo> list = new ArrayList<GameInfo>();
+            if(data.get(name) != null && data.get(name).size()>0){
+                for(GameInfo gameInfo : data.get(name)){
+                    list.add(gameInfo);
                 }
             }
+            Map<String,List<GameInfo>> dateKeyGameinfo = new HashMap<String, List<GameInfo>>();
+            for(GameInfo game : data.get(name)){
+                getMap(dateKeyGameinfo,game.getDate(),game);
+            }
+            for(String dateStr : dateList){
+                if(!dateKeyGameinfo.keySet().contains(dateStr)){
+                    GameInfo gameModel = new GameInfo();
+                    gameModel.setDownloadCount("0");
+                    gameModel.setClickThrough("0");
+                    gameModel.setName(name);
+                    gameModel.setDate(dateStr);
+                    gameModel.setIcon("");
+                    list.add(gameModel);
+                }
+            }
+            sortList(list);
+            dataList.add(list);
         }
-        for(String name : data.keySet()){
+
+        for(List<GameInfo> games : dataList){
             gameDisplayModel = new GameDisplayModel();
-            gameDisplayModel.setGameName(data.get(name).get(0).getName());
-            gameDisplayModel.setIcon(data.get(name).get(0).getIcon());
-            gameDisplayModel.setThisTimeData(data.get(name).get(0).getClickThrough()+"|"+data.get(name).get(0).getDownloadCount());
-            gameDisplayModel.setLastTimeData(data.get(name).get(1).getClickThrough()+"|"+data.get(name).get(1).getDownloadCount());
-            gameDisplayModel.setLast2TimeData(data.get(name).get(2).getClickThrough()+"|"+data.get(name).get(2).getDownloadCount());
-            gameDisplayModel.setLast3TimeData(data.get(name).get(3).getClickThrough()+"|"+data.get(name).get(3).getDownloadCount());
-            gameDisplayModel.setLast4TimeData(data.get(name).get(4).getClickThrough()+"|"+data.get(name).get(4).getDownloadCount());
+            gameDisplayModel.setGameName(games.get(0).getName());
+            gameDisplayModel.setIcon(games.get(0).getIcon());
+            gameDisplayModel.setThisTimeData(games.get(0).getClickThrough()+"|"+games.get(0).getDownloadCount());
+            gameDisplayModel.setLastTimeData(games.get(1).getClickThrough()+"|"+games.get(1).getDownloadCount());
+            gameDisplayModel.setLast2TimeData(games.get(2).getClickThrough()+"|"+games.get(2).getDownloadCount());
+            gameDisplayModel.setLast3TimeData(games.get(3).getClickThrough()+"|"+games.get(3).getDownloadCount());
+            gameDisplayModel.setLast4TimeData(games.get(4).getClickThrough()+"|"+games.get(4).getDownloadCount());
             gameDisplayModels.add(gameDisplayModel);
+
         }
         return gameDisplayModels;
     }
@@ -197,5 +206,20 @@ public class GameTrafficBusiness {
         gameInfos.add(value);
         map.put(key,gameInfos);
     }
+
+    private void sortList(List<GameInfo> list){
+        if(list != null && list.size() >0){
+            Collections.sort(list,new Comparator<GameInfo>() {
+                @Override
+                public int compare(GameInfo obj1, GameInfo obj2) {
+                    return obj2.getDate().compareTo(obj1.getDate());  //To change body of implemented methods use File | Settings | File Templates.
+                }
+            });
+        }
+    }
+
+
+
+
 	
 }

@@ -1,8 +1,11 @@
 package com.unicom.game.center.business;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.unicom.game.center.model.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +40,7 @@ public class PageTrafficBusiness {
 			String startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
 			
 			loginInfoList = pageTrafficDao.fetchTrafficInfoByDate(startDate, endDate, channelId);
-            jsonModel = getJsonData(loginInfoList);
+            jsonModel = getJsonData(loginInfoList,"day");
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchTrafficInfoByDate", ex);
 		}
@@ -55,7 +58,7 @@ public class PageTrafficBusiness {
 			String startDate = DateUtils.getMonthFirstByInterval(today, -11);
 			
 			loginInfoList = pageTrafficDao.fetchTrafficInfoByMonth(startDate, endDate, channelId);
-            jsonModel = getJsonData(loginInfoList);
+            jsonModel = getJsonData(loginInfoList,"month");
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchTrafficInfoByMonth", ex);
 		}
@@ -63,7 +66,7 @@ public class PageTrafficBusiness {
 		return jsonModel;
 	}
 
-    public JsonParent getJsonData(List<PageTrafficInfo> pageTrafficInfos){
+    public JsonParent getJsonData(List<PageTrafficInfo> pageTrafficInfos,String dateType){
         JsonParent jsonData = new JsonParent();
         JsonModel hostPage = new JsonModel();
         hostPage.setName("首页");
@@ -73,13 +76,39 @@ public class PageTrafficBusiness {
         hotlist.setName("一周热榜");
         JsonModel latest = new JsonModel();
         latest.setName("最新");
-        for(PageTrafficInfo pageTrafficInfo: pageTrafficInfos){
-            hostPage.addData(Integer.parseInt(pageTrafficInfo.getHomepage()));
-            category.addData(Integer.parseInt(pageTrafficInfo.getCategory()));
-            hotlist.addData(Integer.parseInt(pageTrafficInfo.getHotlist()));
-            latest.addData(Integer.parseInt(pageTrafficInfo.getLatest()));
-            jsonData.addUnit(pageTrafficInfo.getDate());
+
+        if(pageTrafficInfos == null){
+            List<String> units = new ArrayList<String>();
+            if("day".equals(dateType)){
+                for(int i = 0;i<30;i++){
+                    hostPage.addData(0);
+                    category.addData(0);
+                    hotlist.addData(0);
+                    latest.addData(0);
+                    units.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"MM-dd"));
+                    Collections.reverse(units);
+                }
+            }else if("month".equals(dateType)){
+                for(int i = 0;i<12;i++){
+                    hostPage.addData(0);
+                    category.addData(0);
+                    hotlist.addData(0);
+                    latest.addData(0);
+                    units.add(DateUtils.formatDateToString(DateUtils.stringToDate(DateUtils.getMonthFirstByInterval(new Date(),-(i)),"yyyy-MM-dd"),"yyyy-MM"));
+                    Collections.reverse(units);
+                }
+            }
+            jsonData.setUnit(units);
+        }else {
+            for(PageTrafficInfo pageTrafficInfo: pageTrafficInfos){
+                hostPage.addData(Integer.parseInt(pageTrafficInfo.getHomepage()));
+                category.addData(Integer.parseInt(pageTrafficInfo.getCategory()));
+                hotlist.addData(Integer.parseInt(pageTrafficInfo.getHotlist()));
+                latest.addData(Integer.parseInt(pageTrafficInfo.getLatest()));
+                jsonData.addUnit(pageTrafficInfo.getDate());
+            }
         }
+
         jsonData.addResult(hostPage);
         jsonData.addResult(category);
         jsonData.addResult(hotlist);

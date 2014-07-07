@@ -193,4 +193,11 @@ public class UtilsTest {
         String[] s = Utility.splitString(a, ",");
         System.out.print(s);
     }
+
+    @Test
+    public void testInterval() throws Throwable {
+        String a = "1,2,3,,4,,5,,,,";
+        String[] s = Utility.splitString(a, ",");
+        System.out.print(s);
+    }
 }

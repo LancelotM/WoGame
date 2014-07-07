@@ -1,5 +1,7 @@
 package com.unicom.game.center.business;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -63,7 +65,7 @@ public class LoginInfoBusiness {
 			String startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
 			
 			loginInfoList = userCountDao.fetchLoginInfoByDate(startDate, endDate, channelId);
-            jsonData = getJsonData(loginInfoList);
+            jsonData = getJsonData(loginInfoList,"day");
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchLoginInfoByDate", ex);
 		}
@@ -81,7 +83,7 @@ public class LoginInfoBusiness {
 			String startDate = DateUtils.getMonthFirstByInterval(today, -11);
 			
 			loginInfoList = userCountDao.fetchLoginInfoByMonth(startDate, endDate, channelId);
-            jsonData = getJsonData(loginInfoList);
+            jsonData = getJsonData(loginInfoList,"month");
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchLoginInfoByMonth", ex);
 		}
@@ -89,17 +91,42 @@ public class LoginInfoBusiness {
 		return jsonData;
 	}
 
-    public JsonParent getJsonData(List<LoginInfo> loginInfos){
+    public JsonParent getJsonData(List<LoginInfo> loginInfos,String dateType){
         JsonParent jsonData = new JsonParent();
         JsonModel newUser = new JsonModel();
         newUser.setName("新用户");
         JsonModel oldUser = new JsonModel();
         oldUser.setName("老用户");
-        for(LoginInfo loginInfo: loginInfos){
-            newUser.addData(Integer.parseInt(loginInfo.getNewUser()));
-            oldUser.addData(Integer.parseInt(loginInfo.getOldUser()));
-            jsonData.addUnit(loginInfo.getDate());
+        if(loginInfos == null){
+            List<String> units = new ArrayList<String>();
+            if("day".equals(dateType)){
+                for(int i = 0;i<30;i++){
+                    newUser.addData(0);
+                    oldUser.addData(0);
+                    units.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"MM-dd"));
+                    Collections.reverse(units);
+                }
+
+            }else if("month".equals(dateType)){
+                for(int i = 0;i<12;i++){
+                    newUser.addData(0);
+                    oldUser.addData(0);
+                    units.add(DateUtils.formatDateToString(DateUtils.stringToDate(DateUtils.getMonthFirstByInterval(new Date(),-(i)),"yyyy-MM-dd"),"yyyy-MM"));
+                    Collections.reverse(units);
+                }
+            }
+            jsonData.setUnit(units);
+        }else {
+            for(LoginInfo loginInfo: loginInfos){
+                newUser.addData(Integer.parseInt(loginInfo.getNewUser()));
+                oldUser.addData(Integer.parseInt(loginInfo.getOldUser()));
+                jsonData.addUnit(loginInfo.getDate());
+            }
         }
+
+
+
+
         jsonData.addResult(newUser);
         jsonData.addResult(oldUser);
         jsonData.setStatus("success");
