@@ -69,13 +69,20 @@
             pullUpEl, pullUpOffset,
             generatedCount = 0;
     var categoryId = $("#categoryId").val();
+    var isSearching = false;
     pageNum = 1;
     var urlBase = '${ctx}/gameInfo;jsessionid=${sessionid}?productId=';
     var el = $('#list');
     el.empty();
 
     function ajaxGetData(pPageNum, callback) {
+        if (isSearching) {
+            return;
+        }
+        isSearching = true;
+
         $.getJSON("${ctx}/newGame/ajaxList", {"pageNum": pPageNum}, function (data) {
+            isSearching = false;
             if (data.length != 0) {
 
                 if (pPageNum <= 1) {

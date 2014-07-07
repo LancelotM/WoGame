@@ -31,7 +31,16 @@
     </div>
     <input name="" type="button" class="w_buttion" value="搜索" data-role="none" onclick="search()"/>
 </div>
-
+<div id="error-container" style="display:none;text-align:center;background-color: white;width:200px;height:150px;">
+    <div style="height:40px;line-height: 40px;">温馨提示</div>
+    <div style="height:4px;background-color: orange;"></div>
+    <div style="height:60px;line-height: 60px;">网络连接失败</div>
+    <dl class="w_retry" data-role="none">
+        <a href="javascript:search();" data-role="none">
+            <dt>重试</dt>
+        </a>
+    </dl>
+</div>
 <div id="wrapper">
     <div id="scroller">
         <div id="pullDown">
@@ -71,8 +80,15 @@
         if (isSearching) {
             return;
         }
-        isSearching = true;
+
         var keyword = $("#txtSearch").val();
+
+        if (keyword == "") {
+            alert("请输入关键字。");
+            return;
+        }
+
+        isSearching = true;
 
 //        if (keyword == "") {
 //            $('#pullDown, #pullUp').hide();
@@ -84,6 +100,18 @@
 
         $.getJSON("${ctx}/search/ajaxSearch;jsessionid=${sessionid}", {"pageNum": pPageNum, "keyword": encodeURI(encodeURI(keyword))}, function (data) {
             isSearching = false;
+
+            $("#error-container").hide();
+
+            if (data.status && data.status == -99) {
+                $("#error-container").show();
+                $("#wrapper").hide();
+                return;
+            } else {
+                $("#error-container").hide();
+                $("#wrapper").show();
+            }
+
             if (data.length != 0) {
 
                 if (pPageNum <= 1) {
@@ -201,6 +229,15 @@
                 })
     }
 </script>
-
+<script type="text/javascript">
+    $(window).resize(function () {
+        $('#error-container').css({
+            position: 'fixed',
+            left: ($(window).width() - $('#error-container').outerWidth()) / 2,
+            top: ($(window).height() - $('#error-container').outerHeight()) / 2 + $(document).scrollTop()
+        });
+    });
+    $(window).resize();
+</script>
 </body>
 </html>
