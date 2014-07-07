@@ -19,7 +19,7 @@
     <appender name="statisticsFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>../logs/wogamecenter_info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>../logs/wogamecenter_info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>../logs/wogamecenter_info.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
