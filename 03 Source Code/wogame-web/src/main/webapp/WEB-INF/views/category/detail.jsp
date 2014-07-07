@@ -76,10 +76,16 @@
                     stringBuffer.push('<div class="w_list_category">' + entry.description + '</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.apk_size / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_download">');
-                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
+                            + '\',\'' + entry.app_name
+                            + '\',\'' + entry.icon_url
+                            + '\')">下载</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_download_txt">');
-                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
+                            + '\',\'' + entry.app_name
+                            + '\',\'' + entry.icon_url
+                            + '\')">下载</a>');
                     stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
@@ -100,10 +106,9 @@
         setTimeout(loaded, 200);
     }, false);
 
-    function download(pData) {
-        var dataJson = JSON.parse(pData);
+    function download(id, name, url) {
         $.getJSON("${ctx}/download;jsessionid=${sessionid}",
-                {"productId": dataJson.product_id, "productName": dataJson.app_name, "productIcon": dataJson.icon_url}, function (data) {
+                {"productId": id, "productName": name, "productIcon": url}, function (data) {
             if (data.downloadUrl == "") {
                 alert(data.description);
             } else {

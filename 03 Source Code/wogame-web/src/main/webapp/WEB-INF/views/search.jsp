@@ -100,10 +100,16 @@
                     stringBuffer.push('<div class="w_list_category">' + entry.category + '</div>');
                     stringBuffer.push('<div class="w_list_numm">' + roundNumber(entry.size / 1024, 2) + 'MB</div>');
                     stringBuffer.push('<div class="w_list_download">');
-                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.id
+                            + '\',\'' + entry.name
+                            + '\',\'' + entry.icon
+                            + '\')">下载</a>');
                     stringBuffer.push('</div>');
                     stringBuffer.push('<div class="w_list_download_txt">');
-                    stringBuffer.push('<a href="javascript:download(\'' + JSON.stringify(entry) + '\')">下载</a>');
+                    stringBuffer.push('<a href="javascript:download(\'' + entry.id
+                            + '\',\'' + entry.name
+                            + '\',\'' + entry.icon
+                            + '\')">下载</a>');
                     stringBuffer.push('</div>');
 
                     el.append(stringBuffer.join(""));
@@ -177,6 +183,18 @@
 
     function toDetail(id) {
         location.href = urlBase + id;
+    }
+
+    function download(id, name, icon) {
+        $.getJSON("${ctx}/download;jsessionid=${sessionid}",
+                {"productId": id, "productName": name, "productIcon": icon},
+                function (data) {
+                    if (data.downloadUrl == "") {
+                        alert(data.description);
+                    } else {
+                        download_file(data.downloadUrl);
+                    }
+                })
     }
 </script>
 
