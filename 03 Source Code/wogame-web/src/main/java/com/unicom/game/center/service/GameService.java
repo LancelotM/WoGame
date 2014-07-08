@@ -3,6 +3,7 @@ package com.unicom.game.center.service;
 import com.google.common.collect.Maps;
 import com.unicom.game.center.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -19,26 +20,41 @@ public class GameService {
 
     @Autowired
     private ZTEService zteService;
-
-    private static final String URL_ROLLING_AD_LIST = "http://wogame.wostore.cn:8080/gameservice/rollingAdList.do?jsondata={jsondata}";
-    private static final String URL_RECOMMENDED_LIST = "http://wogame.wostore.cn:8080/gameservice/recommendedList.do?jsondata={jsondata}";
-    private static final String URL_WEEK_HOT_DOWNLOAD_LIST = "http://wogame.wostore.cn:8080/gameservice/weekHotDownloadList.do?jsondata={jsondata}";
-    private static final String URL_NEW_LIST = "http://wogame.wostore.cn:8080/gameservice/newList.do?jsondata={jsondata}";
-    private static final String URL_CATEGORY_LIST = "http://wogame.wostore.cn:8080/gameservice/categoryList.do";
-    private static final String URL_SHOW_CATEGORY = "http://wogame.wostore.cn:8080/gameservice/showCategory.do?jsondata={jsondata}";
+    
+	
+	@Value("#{properties['wogame.service.host']}")
+	private String wogameHost;
+	
+	@Value("#{properties['wogame.service.banner']}")
+	private String wogameBanner;
+	
+	@Value("#{properties['wogame.service.recommended']}")
+	private String wogameRecommended;
+	
+	@Value("#{properties['wogame.service.week.hotlist']}")
+	private String wogameHotList;
+	
+	@Value("#{properties['wogame.service.new']}")
+	private String wogameNew;
+	
+	@Value("#{properties['wogame.service.category']}")
+	private String wogameCategory;
+	
+	@Value("#{properties['wogame.service.category.show']}")
+	private String wogameCategoryShow;
 
     public RollingAdListVo readRollingAdList() {
         Map<String, Object> urlVariables = new HashMap<String, Object>();
         urlVariables.put("jsondata", "{\"navigation\":\"001001\"}");
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-        return restTemplate.getForObject(URL_ROLLING_AD_LIST, RollingAdListVo.class, urlVariables);
+        return restTemplate.getForObject((wogameHost + wogameBanner), RollingAdListVo.class, urlVariables);
     }
 
     public RecommendedListVo readRecommendedList() {
         Map<String, Object> urlVariables = new HashMap<String, Object>();
         urlVariables.put("jsondata", "{\"page_num\":\"1\"}");
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-        String responseDataString = (restTemplate.getForObject(URL_RECOMMENDED_LIST, String.class, urlVariables));
+        String responseDataString = (restTemplate.getForObject((wogameHost + wogameRecommended), String.class, urlVariables));
         return JsonMapper.nonDefaultMapper().fromJson(responseDataString, RecommendedListVo.class);
     }
 
@@ -52,7 +68,7 @@ public class GameService {
         urlVariables.put("jsondata", JsonMapper.nonDefaultMapper().toJson(params));
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-        return restTemplate.getForObject(URL_WEEK_HOT_DOWNLOAD_LIST, WeekHotVo.class, urlVariables);
+        return restTemplate.getForObject((wogameHost + wogameHotList), WeekHotVo.class, urlVariables);
     }
 
     public NewListVo readNewList(int pageNum, int pageSize) {
@@ -65,12 +81,12 @@ public class GameService {
         urlVariables.put("jsondata", JsonMapper.nonDefaultMapper().toJson(params));
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-        return restTemplate.getForObject(URL_NEW_LIST, NewListVo.class, urlVariables);
+        return restTemplate.getForObject((wogameHost + wogameNew), NewListVo.class, urlVariables);
     }
 
     public CategoryListVo readCategoryList() {
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-        return restTemplate.getForObject(URL_CATEGORY_LIST, CategoryListVo.class, "");
+        return restTemplate.getForObject((wogameHost + wogameCategory), CategoryListVo.class, "");
     }
 
     public ShowCategoryVo readShowCategory(int categoryId, int pageNum, int pageSize) {
@@ -85,7 +101,7 @@ public class GameService {
         urlVariables.put("jsondata", JsonMapper.nonDefaultMapper().toJson(params));
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-        return restTemplate.getForObject(URL_SHOW_CATEGORY, ShowCategoryVo.class, urlVariables);
+        return restTemplate.getForObject((wogameHost + wogameCategoryShow), ShowCategoryVo.class, urlVariables);
     }
 
     public GameInfoVo readGameInfo(String productId) {

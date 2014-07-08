@@ -23,8 +23,6 @@ function switch_className(id){
 }
 $(function(){
     $('#exit_id').click(function(){
-        delCookie("login_code");
-        delCookie("pwd");
         window.location.href = getBasePath()+"/exit";
     });
 });

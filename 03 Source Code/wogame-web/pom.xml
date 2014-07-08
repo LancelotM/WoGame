@@ -369,6 +369,7 @@
     </dependencyManagement>
 
     <build>
+    	<finalName>wogamewap</finalName>
         <plugins>
             <!-- compiler插件, 设定JDK版本 -->
             <plugin>
@@ -388,7 +389,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <warName>${project.artifactId}</warName>
+                    <warName>wogamewap</warName>
                 </configuration>
             </plugin>
 

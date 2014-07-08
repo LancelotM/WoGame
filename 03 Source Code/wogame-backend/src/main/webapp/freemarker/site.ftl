@@ -13,7 +13,7 @@
                                 <table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
                                     <tr class="first_tr">
                                         <td id="switch_region" style="color:#ed6d02">
-                                            <span id="channel">${(channelInfoDomain.channelName)!'北京联通'}</span>
+                                            <span id="channel">${(channelInfoDomain.channelName)!'点击选择'}</span>
                                             <input id="channelName" type="hidden" value="北京联通" name="channelName"/>
                                             <a href="javascript:void(0)" class="cityTab">
                                                 [ <b></b>切换地区<label>▼</label>]
@@ -68,7 +68,7 @@
                                         </td>
                                         <td><input id="channelId_input" type="text" name="channelCode" value="${(channelInfoDomain.channelCode)!'channelID'}" title="请输入channelID"/></td>
                                         <td><input id="cpid_input" type="text" name="cpid" value="${(channelInfoDomain.cpId)!'CPID'}"  title="请输入CPID"/></td>
-                                        <td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="${basePath}/static/images/launch.png" alt=""/></a></td>
+                                        <td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="" alt=""/></a></td>
                                         <input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/>
                                     </tr>
                                     <tr class="first_tr">

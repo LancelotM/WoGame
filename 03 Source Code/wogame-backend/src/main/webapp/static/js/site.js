@@ -24,6 +24,8 @@ $(function(){
                     $('#wapURL').text("") ;
                     $('#logURL').text("");
                 }
+                $('#launch_form input').trigger('focus');
+                $('#launch_form input').trigger('blur');
             }
         });
         var dispayVal = $('#province_div').css('display');
