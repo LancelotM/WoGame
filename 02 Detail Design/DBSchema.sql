@@ -134,6 +134,12 @@ BEFORE INSERT ON wogamecenter.package_info
 FOR EACH ROW
 	SET new.date_created=now();
 
+grant all privileges on wogamecenter.* to 'front_user'@'%' identified by 'Pass4front' with grant option;
 
 CREATE USER 'package'@'%' IDENTIFIED BY 'Pass4package';
 GRANT SELECT ON wogamecenter.channel_info TO 'package'@'%';
+
+flush privileges;
+
+外网IP: 123.125.219.110
+内网IP: 172.16.13.198
