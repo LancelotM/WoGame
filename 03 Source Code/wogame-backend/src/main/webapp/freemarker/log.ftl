@@ -30,13 +30,13 @@
                     <tr class="first_tr"><td>日期</td></tr>
                 </table>
                 <table id="banner" style="width:877px;"class="detail_tb banner_tb left">
-                    <caption class="table_title banner_title">
-                        <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
-                        <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
-                        <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
-                        <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
-                        <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
-                        <img class="banner_img left" src="${basePath}/static/images/img_example.png"/>
+                    <caption id="banner_caption" class="table_title banner_title">
+                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
+                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
+                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
+                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
+                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
+                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
                     </caption>
                     <tr class="first_tr">
                         <td>广告图片1</td>

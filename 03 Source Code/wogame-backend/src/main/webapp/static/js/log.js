@@ -52,13 +52,20 @@ $(function(){
         dataType: "json",
         success: function(data){
             var html = "";
+            var imgSrc = "";
             $.each(data, function(commentIndex, comment){
+                if(commentIndex == 1){
+                    $.each(comment, function(varindex, game){
+                        imgSrc += '<img src="'+game['icon']+'" alt=""/>';
+                    });
+                }
                 html += "<tr>";
                 $.each(comment,function(index,obj){
                     html += '<td>'+obj['clickThrough']+'|'+obj['downloadCount']+'</td>';
                 });
                 html += "</tr>"
             });
+            $("#banner_caption").append(imgSrc);
             $('#banner').append(html);
         }
     });
@@ -73,7 +80,7 @@ $(function(){
             success: function(data){
                 var html = "";
                 $.each(data, function(commentIndex, comment){
-                    html += '<tr class="append_tr"><td><img src="'+basePath+'/static/images/game_img.png"/>'+comment['gameName']
+                    html += '<tr class="append_tr"><td><img src="'+comment['icon']+'"/>'+comment['gameName']
                         +'</td><td>'+comment['thisTimeData']+'</td><td>'+comment['lastTimeData']+
                         '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
                         '</td><td>'+comment['last4TimeData']+'</td></tr>'

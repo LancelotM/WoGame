@@ -88,7 +88,7 @@ public class GameTrafficBusiness {
     public List<GameDisplayModel> getGameMonthModel(Integer channelId,int page){
         List<GameInfo> gameInfos = fetchGameInfoByMonth(channelId,false);
         List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(gameInfos,"month");
-        int rowPerPages = 2;
+        int rowPerPages = 10;
         int start = (page - 1) * rowPerPages;
         int end = start + rowPerPages;
         if(end > gameDisplayModelList.size()){
@@ -99,7 +99,7 @@ public class GameTrafficBusiness {
 
     public List<GameDisplayModel> getGameDayModel(Integer channelId,int page){
         List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(fetchGameInfoByDate(channelId, false),"day");
-        int rowPerPages = 2;
+        int rowPerPages = 10;
         int start = (page - 1) * rowPerPages;
         int end = start + rowPerPages;
         if(end >= gameDisplayModelList.size()){
@@ -162,7 +162,7 @@ public class GameTrafficBusiness {
                     gameModel.setClickThrough("0");
                     gameModel.setName(name);
                     gameModel.setDate(dateStr);
-                    gameModel.setIcon("");
+                    gameModel.setIcon(data.get(name).get(0).getIcon());
                     list.add(gameModel);
                 }
             }
