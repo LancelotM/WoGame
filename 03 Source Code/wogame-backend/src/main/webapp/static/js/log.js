@@ -56,7 +56,7 @@ $(function(){
             $.each(data, function(commentIndex, comment){
                 if(commentIndex == 1){
                     $.each(comment, function(varindex, game){
-                        imgSrc += '<img src="'+game['icon']+'" alt=""/>';
+                        imgSrc += '<img src="'+basePath+"/"+game['icon']+'" alt=""/>';
                     });
                 }
                 html += "<tr>";
@@ -80,7 +80,7 @@ $(function(){
             success: function(data){
                 var html = "";
                 $.each(data, function(commentIndex, comment){
-                    html += '<tr class="append_tr"><td><img src="'+comment['icon']+'"/>'+comment['gameName']
+                    html += '<tr class="append_tr"><td><img id="game_tip" src="'+basePath+"/"+comment['icon']+'" />'+comment['gameName']
                         +'</td><td>'+comment['thisTimeData']+'</td><td>'+comment['lastTimeData']+
                         '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
                         '</td><td>'+comment['last4TimeData']+'</td></tr>'

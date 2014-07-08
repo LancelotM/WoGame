@@ -39,7 +39,7 @@ function checkForm(){
 
 $(window).keydown(function(event){
     if(event.keyCode == 13){
-        $('#submit').click();
+        $('#submit').trigger('click');
     }
 });
 
@@ -57,7 +57,7 @@ $(function(){
     }
 
     if(loginCode != null && loginCode != "" && pwd != null && pwd != ""){
-        $('#submit').click();
+        $('#submit').trigger('click');
     }
 });
 
