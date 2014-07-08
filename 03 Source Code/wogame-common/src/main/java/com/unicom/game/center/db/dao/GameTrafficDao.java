@@ -10,7 +10,7 @@ import com.unicom.game.center.db.domain.GameTrafficDomain;
 import com.unicom.game.center.model.GameInfo;
 
 @Component
-public class GameTrafficDao extends HibernateDao{
+public class GameTrafficDao extends HibernateDao<GameTrafficDomain>{
 	
 	public void save(GameTrafficDomain gameTraffic){
 		getSession().save(gameTraffic);
@@ -118,5 +118,8 @@ public class GameTrafficDao extends HibernateDao{
 		return gameInfoList;
 	}
 
+	public void saveGameTrafficDomainList(List<GameTrafficDomain> list, int num) {
+		saveDomainList(list, num);
+	}
 	
 }

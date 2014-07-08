@@ -13,7 +13,7 @@ public class LogAnalyserJobStarter {
         ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
         
         LogAnalyser logAnalyser = (LogAnalyser) ctx.getBean("logAnalyser");
-        logAnalyser.doLogAnaylyse();
+        logAnalyser.doLogAnalyse();
 	}
 
 }

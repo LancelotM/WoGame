@@ -11,7 +11,7 @@ import com.unicom.game.center.db.domain.UserCountDomain;
 import com.unicom.game.center.model.LoginInfo;
 
 @Component
-public class UserCountDao extends HibernateDao{
+public class UserCountDao extends HibernateDao<UserCountDomain>{
 	
 	public void save(UserCountDomain userCountDomain){
 		getSession().save(userCountDomain);
@@ -116,5 +116,9 @@ public class UserCountDao extends HibernateDao{
 		
 		return loginInfoList;
 	}
+	
+	public void saveUserCountDomainList(List<UserCountDomain> list, int num) {
+		saveDomainList(list, num);
+	}	
 	
 }

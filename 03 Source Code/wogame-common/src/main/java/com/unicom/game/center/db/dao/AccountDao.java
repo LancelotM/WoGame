@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.unicom.game.center.db.domain.AccountDomain;
 
 @Component
-public class AccountDao extends HibernateDao{
+public class AccountDao extends HibernateDao<AccountDomain>{
 	
 	public void save(AccountDomain account){
 		getSession().save(account);

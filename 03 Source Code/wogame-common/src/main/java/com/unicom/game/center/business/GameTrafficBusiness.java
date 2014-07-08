@@ -1,12 +1,23 @@
 package com.unicom.game.center.business;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.GameTrafficDao;
+import com.unicom.game.center.db.domain.GameTrafficDomain;
+import com.unicom.game.center.db.domain.ProductDomain;
+import com.unicom.game.center.log.model.GameTraffic;
 import com.unicom.game.center.model.GameDisplayModel;
 import com.unicom.game.center.model.GameInfo;
 import com.unicom.game.center.utils.DateUtils;
@@ -218,7 +229,29 @@ public class GameTrafficBusiness {
         }
     }
 
-
+    public void typeConversion(HashMap<Integer,GameTraffic> gameTrafficHashMap){
+        List<GameTrafficDomain> list = new ArrayList<GameTrafficDomain>();
+        Iterator iterator = gameTrafficHashMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            ProductDomain productDomain = new ProductDomain();
+            GameTrafficDomain gameTrafficDomain = new GameTrafficDomain();
+            Map.Entry<Integer, GameTraffic> entry = (Map.Entry)iterator.next();
+            GameTraffic gameTraffic = entry.getValue();
+            productDomain.setProductId(gameTraffic.getProduct().getProduct_id());
+            productDomain.setProductIcon(gameTraffic.getProduct().getProduct_icon());
+            productDomain.setProductName(gameTraffic.getProduct().getProduct_name());
+            productDomain.setDateCreated(gameTraffic.getProduct().getDateCreated());
+            gameTrafficDomain.setSort(gameTraffic.getSort());
+            gameTrafficDomain.setClickThrough(gameTraffic.getClick_through());
+            gameTrafficDomain.setDownloadCount(gameTraffic.getDownload_count());
+            gameTrafficDomain.setDateCreated(gameTraffic.getDateCreated());
+            gameTrafficDomain.setFlag(gameTraffic.isBanner_flag());
+            gameTrafficDomain.setChannelId(gameTraffic.getChannel_id());
+            gameTrafficDomain.setProduct(productDomain);
+            list.add(gameTrafficDomain);
+        }
+        gameTrafficDao.saveGameTrafficDomainList(list,100);
+    }
 
 
 	

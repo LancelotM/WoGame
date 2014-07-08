@@ -3,14 +3,18 @@ package com.unicom.game.center.business;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import com.unicom.game.center.model.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.PageTrafficDao;
+import com.unicom.game.center.db.domain.PageTrafficDomain;
+import com.unicom.game.center.log.model.PageTraffic;
 import com.unicom.game.center.model.JsonModel;
 import com.unicom.game.center.model.JsonParent;
 import com.unicom.game.center.model.PageTrafficInfo;
@@ -116,4 +120,22 @@ public class PageTrafficBusiness {
         jsonData.setStatus("success");
         return jsonData;
     }
+    
+    public void typeConversion(HashMap<Integer,PageTraffic> pageTrafficHashMap){
+        List<PageTrafficDomain> list = new ArrayList<PageTrafficDomain>();
+        Iterator iterator = pageTrafficHashMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            PageTrafficDomain pageTrafficDomain = new PageTrafficDomain();
+            Map.Entry<Integer, PageTraffic> entry = (Map.Entry)iterator.next();
+            PageTraffic pageTraffic = entry.getValue();
+            pageTrafficDomain.setHomepage(pageTraffic.getHomepage());
+            pageTrafficDomain.setCategory(pageTraffic.getCategory());
+            pageTrafficDomain.setHotlist(pageTraffic.getHotlist());
+            pageTrafficDomain.setLatest(pageTraffic.getLatest());
+            pageTrafficDomain.setChannelId(pageTraffic.getChannelId());
+            pageTrafficDomain.setDateCreated(pageTraffic.getDateCreated());
+            list.add(pageTrafficDomain);
+        }
+        pageTrafficDao.savePageTrafficDomainList(list,100);
+    }    
 }

@@ -1,18 +1,18 @@
 package com.unicom.game.center.db.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.transform.Transformers;
+import org.springframework.stereotype.Component;
+
 import com.unicom.game.center.db.domain.PackageInfoDomain;
 import com.unicom.game.center.db.domain.PackageInfoKey;
 import com.unicom.game.center.model.PackageInfo;
 import com.unicom.game.center.utils.Constant;
-import org.hibernate.Session;
-import org.hibernate.transform.Transformers;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
-public class PackageInfoDao extends HibernateDao{
+public class PackageInfoDao extends HibernateDao<PackageInfoDomain>{
 	
 	public void save(PackageInfoDomain packageInfo){
 		getSession().save(packageInfo);
@@ -55,24 +55,27 @@ public class PackageInfoDao extends HibernateDao{
 	}
 
     public void savePackageInfoDomainList(List<PackageInfoDomain> list, int num) {
-        Session session = null;
-        if (list != null && list.size() > 0) {
-            try {
-                session = getSession();
-                PackageInfoDomain domain = null;
-
-                for (int i = 0; i < list.size(); i++) {
-                    domain = list.get(i);
-                    session.saveOrUpdate(domain);
-                    if (i % num == 0) {
-                        session.flush();
-                        session.clear();
-                    }
-                }
-                session.flush();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+//        Session session = null;
+//        if (list != null && list.size() > 0) {
+//            try {
+//                session = getSession();
+//                PackageInfoDomain domain = null;
+//
+//                for (int i = 0; i < list.size(); i++) {
+//                    domain = list.get(i);
+//                    session.saveOrUpdate(domain);
+//                    if (i % num == 0) {
+//                        session.flush();
+//                        session.clear();
+//                    }
+//                }
+//                session.flush();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+    	saveDomainList(list, num);
     }
+    	
+    	
 }

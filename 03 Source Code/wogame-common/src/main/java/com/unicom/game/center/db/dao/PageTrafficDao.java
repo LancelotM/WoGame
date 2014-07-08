@@ -16,7 +16,7 @@ import com.unicom.game.center.model.PageTrafficInfo;
  */
 
 @Component
-public class PageTrafficDao extends HibernateDao{
+public class PageTrafficDao extends HibernateDao<PageTrafficDomain>{
 
 	public void save(PageTrafficDomain pageTraffic){
 		getSession().save(pageTraffic);
@@ -108,7 +108,8 @@ public class PageTrafficDao extends HibernateDao{
 		return trafficInfoList;
 	}
 
-
-
+	public void savePageTrafficDomainList(List<PageTrafficDomain> list, int num) {
+		saveDomainList(list, num);
+	}
 
 }
