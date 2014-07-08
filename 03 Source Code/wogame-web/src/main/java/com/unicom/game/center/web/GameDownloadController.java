@@ -62,13 +62,13 @@ public class GameDownloadController {
 
     private String wrapDownloadUrl(String productId, String downloadUrl, String onlineTime, HttpSession session) {
         // 处理下载
-        String channelId = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
-        String channelCode = packageInfoBusiness.checkPackageExist(channelId, productId, onlineTime);
-
-        if (channelCode == null) {
+//        String channelId = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+//        String channelCode = packageInfoBusiness.checkPackageExist(channelId, productId, onlineTime);
+//
+//        if (channelCode == null) {
             return downloadUrl;
-        }
-        return StringUtils.left(downloadUrl, downloadUrl.length() - 4) + "_" + channelCode + StringUtils.right(downloadUrl, 4);
+//        }
+//        return StringUtils.left(downloadUrl, downloadUrl.length() - 4) + "_" + channelCode + StringUtils.right(downloadUrl, 4);
 
     }
 
