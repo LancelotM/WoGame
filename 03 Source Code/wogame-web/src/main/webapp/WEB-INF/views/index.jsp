@@ -55,16 +55,8 @@
 
         });
 
-        function download(id, name, url) {
-            $.getJSON("${ctx}/download;jsessionid=${sessionid}",
-                    {"productId": id, "productName": name, "productIcon": url},
-                    function (data) {
-                        if (data.downloadUrl == "") {
-                            alert(data.description);
-                        } else {
-                            download_file(data.downloadUrl);
-                        }
-                    })
+        function download(id, name, icon) {
+            doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
         }
 
         function toAdDetail(id, name, url, sort) {
@@ -127,7 +119,7 @@
 </div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
-<!--选中状态-->
+    <!--选中状态-->
     <div class="w_new_01">首页</div>
     <!--没有选中-->
     <div class="w_new_022" data-role="none"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
@@ -138,15 +130,15 @@
 <!--大图-->
 <c:if test="${fn:length(adList) > 0}">
     <div id="pic_div" class="container">
-    <div id="slides">
-        <c:forEach items="${adList}" var="item" varStatus="adIdx">
-            <c:if test="${item.resType == 2}">
-                <img src="${item.bannerUrl}"
-                     onclick="javascript:toAdDetail('${item.linkId}','${item.title}', '${item.bannerUrl}', '${adIdx.index}');"/>
-            </c:if>
-        </c:forEach>
+        <div id="slides">
+            <c:forEach items="${adList}" var="item" varStatus="adIdx">
+                <c:if test="${item.resType == 2}">
+                    <img src="${item.bannerUrl}"
+                         onclick="javascript:toAdDetail('${item.linkId}','${item.title}', '${item.bannerUrl}', '${adIdx.index}');"/>
+                </c:if>
+            </c:forEach>
+        </div>
     </div>
-</div>
 </c:if>
 <div id="pageContent">
     <!--列表-->
@@ -155,100 +147,101 @@
         <c:forEach items="${item.apps}" var="appItem" step="2" varStatus="idx" end="${item.adType}">
             <c:if test="${item.adType == 4 && idx.index < 4}">
                 <c:set var="appIndex" value="${appIndex+1}"/>
-            <div class="w_houlist">
-                <div class="w_houlist_l">
-                    <c:if test="${appItem.recommendType>0}">
-                        <div class="index_xiejiao index_xiejiao_${appItem.recommendType}"></div>
-                    </c:if>
-                    <div class="w_img_bg">
-                        <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
-                        <img width="60" height="60" src="${appItem.iconUrl}">
-                        </a>
-                    </div>
-                    <div class="w_img_count">
-                        <h3>
-                            <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">${appItem.appName}</a>
-                        </h3>
-
-                        <div class="isio">
-                            <div class="w_start_0${appItem.rate}${appItem.rate}">一星</div>
-                            <!--<div class="w_start_022">二星</div><div class="w_start_033">三星</div><div class="w_start_044">四星</div><div class="w_start_055">五星</div>-->
-                        </div>
-                        <h6><fmt:formatNumber value="${appItem.apkSize / 1024}" pattern="0.00"/>MB</h6>
-                    </div>
-                    <div class="w_img_xz"><a
-                            href="javascript:download('${appItem.productId}','${appItem.appName}','${appItem.iconUrl}');">下载</a>
-                    </div>
-                </div>
-                <c:if test="${idx.index+1 < fn:length(item.apps)}">
-                    <c:set var="appIndex" value="${appIndex+1}"/>
-                    <div class="w_houlist_r">
-                        <c:if test="${item.apps[idx.index+1].recommendType>0}">
-                            <div class="index_xiejiao_${item.apps[idx.index+1].recommendType} index_xiejiao"></div>
+                <div class="w_houlist">
+                    <div class="w_houlist_l">
+                        <c:if test="${appItem.recommendType>0}">
+                            <div class="index_xiejiao index_xiejiao_${appItem.recommendType}"></div>
                         </c:if>
                         <div class="w_img_bg">
-                            <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">
-                            <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
+                            <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
+                                <img width="60" height="60" src="${appItem.iconUrl}">
                             </a>
                         </div>
                         <div class="w_img_count">
                             <h3>
-                                <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">${item.apps[idx.index+1].appName}</a>
+                                <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">${appItem.appName}</a>
                             </h3>
 
                             <div class="isio">
-                                <div class="w_start_0${item.apps[idx.index+1].rate}${item.apps[idx.index+1].rate}">二星
-                                </div>
-                                <!--<div class="w_start_011">一星</div><div class="w_start_033">三星</div><div class="w_start_044">四星</div><div class="w_start_055">五星</div>-->
+                                <div class="w_start_0${appItem.rate}${appItem.rate}">一星</div>
+                                <!--<div class="w_start_022">二星</div><div class="w_start_033">三星</div><div class="w_start_044">四星</div><div class="w_start_055">五星</div>-->
                             </div>
-                            <h6><fmt:formatNumber value="${item.apps[idx.index+1].apkSize / 1024}"
-                                                  pattern="0.00"/>MB</h6>
+                            <h6><fmt:formatNumber value="${appItem.apkSize / 1024}" pattern="0.00"/>MB</h6>
                         </div>
                         <div class="w_img_xz"><a
-                                href="javascript:download('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}','${item.apps[idx.index+1].iconUrl}');">下载</a>
+                                href="javascript:download('${appItem.productId}','${appItem.appName}','${appItem.iconUrl}');">下载</a>
                         </div>
-
                     </div>
-                </c:if>
-            </div>
-        </c:if>
-            <c:if test="${item.adType == 1 && idx.index < 1}">
-                <c:set var="appIndex" value="${appIndex+1}"/>
-            <div class="w_houlist_large">
-                <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
-                <img width="100%" height="200" src="${appItem.bannerUrl}">
-                </a>
-            </div>
+                    <c:if test="${idx.index+1 < fn:length(item.apps)}">
+                        <c:set var="appIndex" value="${appIndex+1}"/>
+                        <div class="w_houlist_r">
+                            <c:if test="${item.apps[idx.index+1].recommendType>0}">
+                                <div class="index_xiejiao_${item.apps[idx.index+1].recommendType} index_xiejiao"></div>
+                            </c:if>
+                            <div class="w_img_bg">
+                                <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">
+                                    <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
+                                </a>
+                            </div>
+                            <div class="w_img_count">
+                                <h3>
+                                    <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">${item.apps[idx.index+1].appName}</a>
+                                </h3>
 
-            <%--<c:if test="${idx.index+1 < fn:length(item.apps)}">
-                <div class="w_houlist_large">
-                    <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
-                        <img width="100%" height="200" src="${item.apps[idx.index+1].bannerUrl}">
-                    </a>
-                </div>
-            </c:if>--%>
+                                <div class="isio">
+                                    <div class="w_start_0${item.apps[idx.index+1].rate}${item.apps[idx.index+1].rate}">
+                                        二星
+                                    </div>
+                                    <!--<div class="w_start_011">一星</div><div class="w_start_033">三星</div><div class="w_start_044">四星</div><div class="w_start_055">五星</div>-->
+                                </div>
+                                <h6><fmt:formatNumber value="${item.apps[idx.index+1].apkSize / 1024}"
+                                                      pattern="0.00"/>MB</h6>
+                            </div>
+                            <div class="w_img_xz"><a
+                                    href="javascript:download('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}','${item.apps[idx.index+1].iconUrl}');">下载</a>
+                            </div>
 
-        </c:if>
-            <c:if test="${item.adType == 2 && idx.index < 2}">
-                <c:set var="appIndex" value="${appIndex+1}"/>
-            <div class="w_houlist">
-                <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
-                <img width="100%" height="80" src="${appItem.bannerUrl}">
-                </a>
-            </div>
-
-            <c:if test="${idx.index+1 < fn:length(item.apps)}">
-                <c:set var="appIndex" value="${appIndex+1}"/>
-                <div class="w_houlist">
-                    <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">
-                    <img width="100%" height="80" src="${item.apps[idx.index+1].bannerUrl}">
-                    </a>
+                        </div>
+                    </c:if>
                 </div>
             </c:if>
+            <c:if test="${item.adType == 1 && idx.index < 1}">
+                <c:set var="appIndex" value="${appIndex+1}"/>
+                <div class="w_houlist_large">
+                    <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
+                        <img width="100%" height="200" src="${appItem.bannerUrl}">
+                    </a>
+                </div>
 
-        </c:if>
+                <%--<c:if test="${idx.index+1 < fn:length(item.apps)}">
+                    <div class="w_houlist_large">
+                        <a href="${ctx}/gameInfo;jsessionid=${sessionid}?productId=${item.apps[idx.index+1].productId}">
+                            <img width="100%" height="200" src="${item.apps[idx.index+1].bannerUrl}">
+                        </a>
+                    </div>
+                </c:if>--%>
+
+            </c:if>
+            <c:if test="${item.adType == 2 && idx.index < 2}">
+                <c:set var="appIndex" value="${appIndex+1}"/>
+                <div class="w_houlist">
+                    <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
+                        <img width="100%" height="80" src="${appItem.bannerUrl}">
+                    </a>
+                </div>
+
+                <c:if test="${idx.index+1 < fn:length(item.apps)}">
+                    <c:set var="appIndex" value="${appIndex+1}"/>
+                    <div class="w_houlist">
+                        <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">
+                            <img width="100%" height="80" src="${item.apps[idx.index+1].bannerUrl}">
+                        </a>
+                    </div>
+                </c:if>
+
+            </c:if>
+        </c:forEach>
     </c:forEach>
-</c:forEach>
 </div>
 
 </body>

@@ -7,6 +7,7 @@ import com.unicom.game.center.vo.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,12 @@ import java.util.Map;
  */
 @Component
 public class ZTEService {
+	
+	@Value("#{properties['wogame.service.host']}")
+	private String wogameHost;
+	
+	@Value("#{properties['wogame.service.hotwords']}")
+	private String wogameHotwords;	
 
     private Logger logger = LoggerFactory.getLogger(ZTEService.class);
 
@@ -39,7 +46,6 @@ public class ZTEService {
     private static final String URL_SEARCH_GAME = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=searchallgameapp&keyword={keyword}&pagenum={pageNum}&tablename=search&count=20";
     private static final String URL_PRODUCT_DOWNLOAD = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=order&productid={productid}&ordertype=4" +
             "&accountingtype=0&recuserid=&update=0&packageid=&downchannel=8";
-    private static final String URL_SEARCH_ALL_KEYWORDS = "http://wogame.wostore.cn:8080/gameservice/hotwordsList.do";
     private static final String URL_SEARCH_KEYWORDS = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=getkeywords&keyword={keyword}";
     private static final String DATE_FORMAT_ONLINE_TIME = "yyyyMMddHHmmss";
 
@@ -293,7 +299,7 @@ public class ZTEService {
     public SearchKeywordsVo readSearchAllKeywords() {
         try {
             RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-            SearchKeywordsVo response = restTemplate.getForObject(URL_SEARCH_ALL_KEYWORDS, SearchKeywordsVo.class);
+            SearchKeywordsVo response = restTemplate.getForObject((wogameHost + wogameHotwords), SearchKeywordsVo.class);
 
             return response;
         } catch (Exception e) {

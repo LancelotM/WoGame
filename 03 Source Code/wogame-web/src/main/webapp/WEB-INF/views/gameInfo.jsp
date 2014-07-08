@@ -84,7 +84,7 @@
     <div class="youxi_lr_04 youxi_lr_04_bottom"><a href="javascript:void(0);" onclick="toggleShowDesc();">更多</a></div>
     <div class="youxi_lr_05">
         <div class="youxi_lr_06" style="width:${fn:length(info.screenshots) * 120}px">
-        <c:forEach var="screenshot" items="${info.screenshots}" varStatus="index">
+            <c:forEach var="screenshot" items="${info.screenshots}" varStatus="index">
                 <a href="javascript:popup('popdiv${index.index}')">
                     <img src="${screenshot}" width="108" height="156"/>
                 </a>
@@ -93,9 +93,9 @@
     </div>
     <!--列表-->
     <div class="w_footer_dow" data-role="footer" data-position="fixed">
-    <dl class="w_dowload" data-role="none">
-        <a href="javascript:download('${info.productId}','${info.name}','${info.iconUrl}')" data-role="none">
-        <dt>下载</dt>
+        <dl class="w_dowload" data-role="none">
+            <a href="javascript:download('${info.productId}','${info.name}','${info.iconUrl}')" data-role="none">
+                <dt>下载</dt>
             </a>
         </dl>
     </div>
@@ -106,42 +106,34 @@
         </div>
     </c:forEach>
 </c:if>
-    <script type="text/javascript">
-        function popup(id) {
-            $('#' + id).show();
+<script type="text/javascript">
+    function popup(id) {
+        $('#' + id).show();
+    }
+
+
+    var descEle = $(".youxi_lr_03");
+    var descImg = $(".youxi_lr_04");
+    function toggleShowDesc() {
+
+        if (descEle.hasClass("youxi_desc_height_min")) {
+            descEle.removeClass("youxi_desc_height_min");
+            descImg.removeClass("youxi_lr_04_bottom").addClass("youxi_lr_04_up");
+        } else {
+            descEle.addClass("youxi_desc_height_min");
+            descImg.removeClass("youxi_lr_04_up").addClass("youxi_lr_04_bottom");
         }
 
+    }
 
-        var descEle = $(".youxi_lr_03");
-        var descImg = $(".youxi_lr_04");
-        function toggleShowDesc() {
+    function download(id, name, icon) {
+        doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
+    }
 
-            if (descEle.hasClass("youxi_desc_height_min")) {
-                descEle.removeClass("youxi_desc_height_min");
-                descImg.removeClass("youxi_lr_04_bottom").addClass("youxi_lr_04_up");
-            } else {
-                descEle.addClass("youxi_desc_height_min");
-                descImg.removeClass("youxi_lr_04_up").addClass("youxi_lr_04_bottom");
-            }
-
-        }
-
-        function download(id, name, url) {
-            $.getJSON("${ctx}/download;jsessionid=${sessionid}",
-                    {"productId": id, "productName": name, "productIcon": url},
-                    function (data) {
-                if (data.downloadUrl == "") {
-                    alert(data.description);
-                } else {
-                    download_file(data.downloadUrl);
-                }
-            })
-        }
-
-        function toSearch() {
-            location.href = "${ctx}/search/init;jsessionid=${sessionid}";
-        }
-    </script>
+    function toSearch() {
+        location.href = "${ctx}/search/init;jsessionid=${sessionid}";
+    }
+</script>
 
 </body>
 </html>

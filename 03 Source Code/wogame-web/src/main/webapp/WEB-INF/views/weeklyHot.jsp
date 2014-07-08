@@ -144,16 +144,8 @@
         });
     });
 
-    function download(id, name, url) {
-        $.getJSON("${ctx}/download;jsessionid=${sessionid}",
-                {"productId": id, "productName": name, "productIcon": url},
-                function (data) {
-            if (data.downloadUrl == "") {
-                alert(data.description);
-            } else {
-                download_file(data.downloadUrl);
-            }
-        })
+    function download(id, name, icon) {
+        doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
     }
 </script>
 <script type="text/javascript">

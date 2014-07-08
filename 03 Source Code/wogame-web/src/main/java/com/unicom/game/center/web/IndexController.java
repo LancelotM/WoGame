@@ -2,9 +2,11 @@ package com.unicom.game.center.web;
 
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.utils.AESEncryptionHelper;
 import com.unicom.game.center.vo.RecommendedListVo;
 import com.unicom.game.center.vo.RollingAdListVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +26,19 @@ public class IndexController {
     @Autowired
     private GameService gameService;
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String list(@RequestParam("channel") String channel, Model model, HttpSession session) {
+	@Value("#{properties['site.secret.key']}")
+	private String siteKey;    
 
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String list(@RequestParam("token") String token, Model model, HttpSession session) {
+
+    	String channel = com.unicom.game.center.utils.Constant.WOGAME_CHANNEL_CODE;
+    	try {
+    		channel = AESEncryptionHelper.decrypt(token, siteKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
 
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
