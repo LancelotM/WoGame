@@ -146,7 +146,7 @@
 
     function download(id, name, url) {
         $.getJSON("${ctx}/download;jsessionid=${sessionid}",
-                {"productId": id, "productName": name, "productIcon": url},
+                {"productId": id, "productName": encodeURI(encodeURI(name)), "productIcon": url},
                 function (data) {
             if (data.downloadUrl == "") {
                 alert(data.description);

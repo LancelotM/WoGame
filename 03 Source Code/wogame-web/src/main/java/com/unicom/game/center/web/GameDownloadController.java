@@ -7,15 +7,17 @@ import com.unicom.game.center.service.ZTEService;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.vo.GameDownloadVo;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Map;
 
 /**
@@ -26,6 +28,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/download")
 public class GameDownloadController {
+
+    private Logger logger = LoggerFactory.getLogger(GameDownloadController.class);
 
     @Autowired
     private StatisticsLogger statisticsLogger;
@@ -41,12 +45,15 @@ public class GameDownloadController {
     public GameDownloadVo info(@RequestParam("productId") String productId,
                                @RequestParam("productName") String productName,
                                @RequestParam("productIcon") String productIcon,
-                               HttpSession session) {
+                               HttpSession session) throws UnsupportedEncodingException {
+
+        String utf8ProductName = URLDecoder.decode(URLDecoder.decode(productName, "UTF-8"), "UTF-8");
+
         // 记录Log
         String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
         Map<String, String> logData = Maps.newLinkedHashMap();
         logData.put("productId", productId);
-        logData.put("productName", productName);
+        logData.put("productName", utf8ProductName);
         logData.put("productIcon", productIcon);
         logData.put("channelId", channel);
         statisticsLogger.log("downloadInfo", logData);
@@ -66,10 +73,22 @@ public class GameDownloadController {
 //        String channelCode = packageInfoBusiness.checkPackageExist(channelId, productId, onlineTime);
 //
 //        if (channelCode == null) {
-            return downloadUrl;
+        return downloadUrl;
 //        }
 //        return StringUtils.left(downloadUrl, downloadUrl.length() - 4) + "_" + channelCode + StringUtils.right(downloadUrl, 4);
 
+    }
+
+    @ExceptionHandler({Exception.class})
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
+    public Map<String, String> handleException(Exception e) {
+        logger.error("解码Keyword出错", e);
+
+        Map<String, String> error = Maps.newHashMap();
+        error.put("status", "-99");
+
+        return error;
     }
 
 }
