@@ -242,15 +242,7 @@
     }
 
     function download(id, name, icon) {
-        $.getJSON("${ctx}/download;jsessionid=${sessionid}",
-                {"productId": id, "productName": encodeURI(encodeURI(name)), "productIcon": icon},
-                function (data) {
-                    if (data.downloadUrl == "") {
-                        alert(data.description);
-                    } else {
-                        download_file(data.downloadUrl);
-                    }
-                })
+        doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
     }
 </script>
 <script type="text/javascript">

@@ -22,7 +22,21 @@ function roundNumber(Dight, How) {
     Dight = Math.round(Dight * Math.pow(10, How)) / Math.pow(10, How);
     return Dight;
 }
-
+function doDownload(url, id, name, icon) {
+    $.getJSON(url,
+        {"productId": id, "productName": encodeURI(encodeURI(name)), "productIcon": icon},
+        function (data) {
+            if (data.downloadUrl) {
+                if (data.downloadUrl == "") {
+                    alert(data.description);
+                } else {
+                    download_file(data.downloadUrl);
+                }
+            } else {
+                alert("服务器错误。");
+            }
+        })
+}
 function download_file(url) {
 
     var form = $("#downloadForm");
