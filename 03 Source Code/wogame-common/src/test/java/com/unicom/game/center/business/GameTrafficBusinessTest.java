@@ -55,7 +55,7 @@ public class GameTrafficBusinessTest {
         ProductDomain product = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Random r = new Random();
-        for(int i = 1;i<=36;i++){
+        for(int i = 31;i<=36;i++){
             product = new ProductDomain();
             if(i<10){
                 product.setProductId("00"+i);
@@ -70,7 +70,7 @@ public class GameTrafficBusinessTest {
             } catch (ParseException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-            gameTraffic.setFlag(false);
+            gameTraffic.setFlag(true);
             gameTraffic.setDownloadCount(r.nextInt(500));
             gameTraffic.setClickThrough(r.nextInt(500));
             gameTrafficDao.save(gameTraffic);
