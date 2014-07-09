@@ -31,20 +31,8 @@
                 </table>
                 <table id="banner" style="width:877px;"class="detail_tb banner_tb left">
                     <caption id="banner_caption" class="table_title banner_title">
-                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
-                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
-                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
-                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
-                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
-                        <#--<img class="banner_img left" src="${basePath}/static/images/img_example.png"/>-->
                     </caption>
-                    <tr class="first_tr">
-                        <td>广告图片1</td>
-                        <td>广告图片2</td>
-                        <td>广告图片3</td>
-                        <td>广告图片4</td>
-                        <td>广告图片5</td>
-                        <td>广告图片6</td>
+                    <tr id="bannerImg_dec" class="first_tr">
                     </tr>
                 </table>
                 <div class="log_title" style="margin-top:17;px;margin-top:17px;clear:both;">

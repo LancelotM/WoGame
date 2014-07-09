@@ -79,13 +79,13 @@ public class GameTrafficBusiness {
 			Date today = new Date();
 			Date yesterday = DateUtils.getDayByInterval(today, -1);
 			String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
-			String startDate = DateUtils.getMonthFirstByInterval(today, -5);
+			String startDate = DateUtils.getMonthFirstByInterval(today, -4);
 			gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);
 			if(null != gameList && !gameList.isEmpty()){
 				//avoid analyze log job not running, user can't check the log
 				Date beforeYesterday = DateUtils.getDayByInterval(today, -2);
 				endDate = DateUtils.formatDateToString(beforeYesterday, "yyyy-MM-dd");
-				startDate = DateUtils.getMonthFirstByInterval(yesterday, -5);
+				startDate = DateUtils.getMonthFirstByInterval(yesterday, -4);
 				gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);			
 			}
             return gameList;

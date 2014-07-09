@@ -53,10 +53,12 @@ $(function(){
         success: function(data){
             var html = "";
             var imgSrc = "";
+            var bannerImgDesc = "";
             $.each(data, function(commentIndex, comment){
                 if(commentIndex == 1){
                     $.each(comment, function(varindex, game){
                         imgSrc += '<img src="'+basePath+"/"+game['icon']+'" alt=""/>';
+                        bannerImgDesc += '<td>广告图片'+(varindex+1)+'</td>';
                     });
                 }
                 html += "<tr>";
@@ -67,6 +69,7 @@ $(function(){
             });
             $("#banner_caption").append(imgSrc);
             $('#banner').append(html);
+            $('#bannerImg_dec').append(bannerImgDesc);
         }
     });
 
