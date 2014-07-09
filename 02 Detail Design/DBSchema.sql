@@ -129,6 +129,30 @@ create table wogamecenter.package_info(
 	primary key(channel_id,app_id)	
 )engine=innodb default charset=utf8;
 
+
+create table wogamecenter.package_report(
+	id int(20) primary key auto_increment,
+	appid varchar(30) not null,
+	appname varchar(30) not null,
+	channel_id int(20) not null,
+	package_status int(20) not null,
+	receipt_status int(20) not null,
+	date_created date not null;
+)engine=innodb default charset=utf8;
+
+alter table wogamecenter.package_info add constraint package_info_chnanel_fk foreign key (channel_id) references wogamecenter.channel_info(channel_id);
+
+create table wogamecenter.ZTE_report(
+	id int(20) primary key auto_increment,
+	appid varchar(30) not null,
+	appname varchar(30) not null,
+	channel_id int(20) not null,
+	operate_result varchar(50) not null,
+	date_created date not null
+)engine=innodb default charset=utf8;
+
+alter table wogamecenter.take_package add constraint take_package_channel_fk foreign key (channel_id) references wogamecenter.channel_info(channel_id);
+
 CREATE TRIGGER defaulttime
 BEFORE INSERT ON wogamecenter.package_info
 FOR EACH ROW
