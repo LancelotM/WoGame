@@ -36,11 +36,11 @@ public class ZTEReportDao extends HibernateDao{
         if(isSuccess){
             hql.append(" and zteReport.operateResult = 1");
         }
-        List<Object[]> list = getSession().createQuery(hql.toString()).list();
+        List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();
         String result = null;
-        for(Object[] obj : list){
-            result = String.valueOf(obj[0]);
+        for(Object obj : list){
+            result = String.valueOf(obj);
         }
 
         return Integer.parseInt(result);
