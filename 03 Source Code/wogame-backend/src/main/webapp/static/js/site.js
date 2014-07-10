@@ -4,7 +4,7 @@ $(function(){
     $('#province_div a').click(function(){
         var basePath = getBasePath();
         $.ajax({
-            url:basePath+"/getChaByName",
+            url:basePath+"/getChaByName?"+Math.random(),
             data:{channelName:$(this).text()},
             async:false,
             type:"POST",

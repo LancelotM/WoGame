@@ -21,7 +21,7 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: basePath+"/userLoginLog",
+        url: basePath+"/userLoginLog?"+Math.random(),
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
@@ -34,7 +34,7 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: basePath+"/pageTrafficLog",
+        url: basePath+"/pageTrafficLog?"+Math.random(),
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
@@ -47,7 +47,7 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: basePath+"/firstPageBannerLog",
+        url: basePath+"/firstPageBannerLog?"+Math.random(),
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
@@ -77,7 +77,7 @@ $(function(){
         var curPage = $(this).text();
         $.ajax({
             type: "POST",
-            url: basePath+"/topGameLog",
+            url: basePath+"/topGameLog?"+Math.random(),
             data: {type:typeVlaue, channelId:channelNum,page:curPage},
             dataType: "json",
             success: function(data){
