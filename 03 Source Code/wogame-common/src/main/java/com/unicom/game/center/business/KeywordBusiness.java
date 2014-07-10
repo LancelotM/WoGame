@@ -38,13 +38,30 @@ public class KeywordBusiness {
 		return keywords;
 	}
 
-    public void typeConversion(HashMap<String,KeyWord> keyWordHashMap){
+    public void typeConversionSave(HashMap<String,KeyWord> keyWordHashMap){
         List<KeywordDomain> list = new ArrayList<KeywordDomain>();
         Iterator iterator = keyWordHashMap.entrySet().iterator();
         while (iterator.hasNext()){
             KeywordDomain keywordDomain = new KeywordDomain();
             Map.Entry<Integer, KeyWord> entry = (Map.Entry)iterator.next();
             KeyWord keyWord = entry.getValue();
+            keywordDomain.setKeyword(keyWord.getKeyword());
+            keywordDomain.setCount(keyWord.getCount());
+            keywordDomain.setDateCreated(keyWord.getDateCreated());
+            keywordDomain.setDateModified(keyWord.getDateModified());
+            list.add(keywordDomain);
+        }
+        keywordDao.saveKeywordDomainList(list,100);
+    }
+
+    public void typeConversionUpdate(HashMap<String,KeyWord> keyWordHashMap){
+        List<KeywordDomain> list = new ArrayList<KeywordDomain>();
+        Iterator iterator = keyWordHashMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            KeywordDomain keywordDomain = new KeywordDomain();
+            Map.Entry<Integer, KeyWord> entry = (Map.Entry)iterator.next();
+            KeyWord keyWord = entry.getValue();
+            keywordDomain.setId(keyWord.getId());
             keywordDomain.setKeyword(keyWord.getKeyword());
             keywordDomain.setCount(keyWord.getCount());
             keywordDomain.setDateCreated(keyWord.getDateCreated());
