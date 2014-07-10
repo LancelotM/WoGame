@@ -15,7 +15,7 @@
 		<mapping class="com.unicom.game.center.db.domain.AccountDomain"/>
 		<mapping class="com.unicom.game.center.db.domain.ChannelInfoDomain" />
 		<mapping class="com.unicom.game.center.db.domain.DownloadInfoDomain"/>
-		<mapping class="com.unicom.game.center.db.domain.GameTrafficDomain" />
+		<mapping class="com.unicom.game.center.db.domain.AdTrafficDomain" />
 		<mapping class="com.unicom.game.center.db.domain.KeywordDomain"/>
 		<mapping class="com.unicom.game.center.db.domain.PackageInfoDomain" />
 		<mapping class="com.unicom.game.center.db.domain.PackageInfoKey"/>

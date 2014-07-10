@@ -63,7 +63,7 @@ create table wogamecenter.ad_traffic(
 	date_created date not null
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.game_traffic add constraint Game_Traffic_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
+alter table wogamecenter.ad_traffic add constraint Game_Traffic_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
 
 
 --热词
@@ -136,24 +136,24 @@ create table wogamecenter.package_report(
 	id int(20) primary key auto_increment,
 	appid varchar(30) not null,
 	appname varchar(30) not null,
-	channel_code int(20) not null,
+	channel_code varchar(40) not null,
 	package_status int(20) not null,
 	receipt_status int(20) not null,
-	date_created date not null;
+	date_created date not null
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.package_info add constraint package_report_chnanel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
+alter table wogamecenter.package_report add constraint package_report_chnanel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
 
-create table wogamecenter.ZTE_report(
+create table wogamecenter.zte_report(
 	id int(20) primary key auto_increment,
 	appid varchar(30) not null,
 	appname varchar(30) not null,
-	channel_code int(20) not null,
+	channel_code varchar(40) not null,
 	operate_result varchar(50) not null,
 	date_created date not null
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.take_package add constraint zte_report_channel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
+alter table wogamecenter.zte_report add constraint zte_report_channel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
 
 
 grant all privileges on wogamecenter.* to 'front_user'@'%' identified by 'Pass4front' with grant option;
