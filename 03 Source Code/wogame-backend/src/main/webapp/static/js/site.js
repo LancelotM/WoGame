@@ -38,6 +38,16 @@ $(function(){
 
     $('#launch').click(function(){
         if(submitFlag){
+            var flag = true;
+            var chaId = $('#channelId_input').val().trim();
+            var cpid = $('#cpid_input').val().trim();
+            if(chaId == 'channelID' || chaId == "" || chaId == null){
+                alert("channelID不能为空！");
+                return;
+            }else if(cpid == 'CPID' || cpid == "" || cpid == null){
+                alert("CPID不能为空！");
+                return;
+            }
             $('#launch_form').submit();
         }
     });
@@ -141,4 +151,5 @@ $.fn.setDefauleValue = function() {
             });
     });
 }
+
 

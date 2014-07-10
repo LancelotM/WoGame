@@ -140,7 +140,7 @@ create table wogamecenter.package_report(
 	date_created date not null;
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.package_info add constraint package_info_chnanel_fk foreign key (channel_id) references wogamecenter.channel_info(channel_code);
+alter table wogamecenter.package_report add constraint package_report_chnanel_fk foreign key (channel_id) references wogamecenter.channel_info(channel_code);
 
 create table wogamecenter.ZTE_report(
 	id int(20) primary key auto_increment,
@@ -151,7 +151,7 @@ create table wogamecenter.ZTE_report(
 	date_created date not null
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.take_package add constraint take_package_channel_fk foreign key (channel_id) references wogamecenter.channel_info(channel_code);
+alter table wogamecenter.ZTE_report add constraint ZTE_report_channel_fk foreign key (channel_id) references wogamecenter.channel_info(channel_code);
 
 CREATE TRIGGER defaulttime
 BEFORE INSERT ON wogamecenter.package_info
