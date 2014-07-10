@@ -109,17 +109,16 @@ public class LoginInfoBusiness {
                     newUser.addData(0);
                     oldUser.addData(0);
                     units.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"MM-dd"));
-                    Collections.reverse(units);
                 }
-
             }else if("month".equals(dateType)){
                 for(int i = 0;i<12;i++){
                     newUser.addData(0);
                     oldUser.addData(0);
                     units.add(DateUtils.formatDateToString(DateUtils.stringToDate(DateUtils.getMonthFirstByInterval(new Date(),-(i)),"yyyy-MM-dd"),"yyyy-MM"));
-                    Collections.reverse(units);
                 }
+
             }
+            Collections.reverse(units);
             jsonData.setUnit(units);
         }else {
             for(LoginInfo loginInfo: loginInfos){

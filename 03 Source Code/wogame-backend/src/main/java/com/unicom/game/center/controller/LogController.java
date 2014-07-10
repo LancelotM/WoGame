@@ -141,12 +141,8 @@ public class LogController {
     	}
     	
         int dateType = Integer.parseInt(type);
-        List<List<GameInfo>>  gameInfos = null;
-        if(dateType == 1){
-            gameInfos = gameTrafficService.getBannerDateModel(channelID);
-        }else if(dateType == 2){
-            gameInfos = gameTrafficService.getBannerMothModel(channelID);
-        }
+        List<List<GameInfo>>  gameInfos = gameTrafficService.getBannerDateModel(channelID,dateType);;
+
         return gameInfos;
     }
 

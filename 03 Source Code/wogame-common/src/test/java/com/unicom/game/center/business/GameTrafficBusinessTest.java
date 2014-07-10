@@ -66,7 +66,7 @@ public class GameTrafficBusinessTest {
             gameTraffic.setChannelId(1);
             gameTraffic.setProduct(product);
             try {
-                gameTraffic.setDateCreated(sdf.parse("2014-01-07"));
+                gameTraffic.setDateCreated(sdf.parse("2014-07-08"));
             } catch (ParseException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }

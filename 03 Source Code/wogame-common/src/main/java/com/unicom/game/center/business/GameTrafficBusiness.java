@@ -1,5 +1,7 @@
 package com.unicom.game.center.business;
 
+import java.text.CollationKey;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,7 +53,7 @@ public class GameTrafficBusiness {
 			Date previousDate = DateUtils.getDayByInterval(today, -5);
 			String startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
 			gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, bannerFlag, channelId);
-			if(null != gameList && !gameList.isEmpty()){
+			if(null == gameList || gameList.isEmpty()){
 				//avoid analyze log job not running, user can't check the log
 				yesterday = DateUtils.getDayByInterval(today, -2);
 				endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
@@ -79,13 +81,13 @@ public class GameTrafficBusiness {
 			Date today = new Date();
 			Date yesterday = DateUtils.getDayByInterval(today, -1);
 			String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
-			String startDate = DateUtils.getMonthFirstByInterval(today, -5);
+			String startDate = DateUtils.getMonthFirstByInterval(today, -4);
 			gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);
-			if(null != gameList && !gameList.isEmpty()){
+			if(null == gameList || gameList.isEmpty()){
 				//avoid analyze log job not running, user can't check the log
 				Date beforeYesterday = DateUtils.getDayByInterval(today, -2);
 				endDate = DateUtils.formatDateToString(beforeYesterday, "yyyy-MM-dd");
-				startDate = DateUtils.getMonthFirstByInterval(yesterday, -5);
+				startDate = DateUtils.getMonthFirstByInterval(yesterday, -4);
 				gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);			
 			}
             return gameList;
@@ -119,20 +121,24 @@ public class GameTrafficBusiness {
         return gameDisplayModelList.subList(start,end);
     }
 
-    public List<List<GameInfo>> getBannerDateModel(Integer channelId){
-        Map<String,List<GameInfo>> map = getBannerDisplayModel(fetchGameInfoByDate(channelId,true));
-        List<List<GameInfo>> gameByDate = new ArrayList<List<GameInfo>>();
-        for(String key : map.keySet()){
-            gameByDate.add(map.get(key));
+    public List<List<GameInfo>> getBannerDateModel(Integer channelId,int type){
+        TreeMap<String,List<GameInfo>> map = null;
+        if(type == 1){
+            map = getBannerDisplayModel(fetchGameInfoByDate(channelId,true));
+        }else if(type == 2){
+            map = getBannerDisplayModel(fetchGameInfoByMonth(channelId, true));
         }
-        return gameByDate;
-    }
-
-    public List<List<GameInfo>> getBannerMothModel(Integer channelId){
-        TreeMap<String,List<GameInfo>> map = getBannerDisplayModel(fetchGameInfoByMonth(channelId, true));
         List<List<GameInfo>> gameByDate = new ArrayList<List<GameInfo>>();
+        List<GameInfo> games = null;
         for(String key : map.keySet()){
-            gameByDate.add(map.get(key));
+            games = map.get(key);
+            Collections.sort(games,new Comparator<GameInfo>() {
+                @Override
+                public int compare(GameInfo obj1, GameInfo obj2) {
+                    return obj2.getName().compareTo(obj1.getName());  //To change body of implemented methods use File | Settings | File Templates.
+                }
+            });
+            gameByDate.add(games);
         }
         return gameByDate;
     }
@@ -197,7 +203,18 @@ public class GameTrafficBusiness {
     }
 
     public TreeMap<String,List<GameInfo>> getBannerDisplayModel(List<GameInfo> gameInfos){
-        TreeMap<String,List<GameInfo>>  data = new TreeMap<String, List<GameInfo>>();
+        TreeMap<String,List<GameInfo>>  data = new TreeMap<String, List<GameInfo>>(new Comparator() {
+            Collator collator = Collator.getInstance();
+
+            public int compare(Object o1, Object o2) {
+                //如果有空值，直接返回0
+                if (o1 == null || o2 == null)
+                    return 0;
+                CollationKey key1 = collator.getCollationKey(o1.toString());
+                CollationKey key2 = collator.getCollationKey(o2.toString());
+                return String.valueOf(o2).compareTo(String.valueOf(o1));
+            }
+        });
         if(gameInfos != null && gameInfos.size() > 0){
             for(GameInfo gameInfo : gameInfos){
                 getMap(data,gameInfo.getDate(),gameInfo);
