@@ -1,72 +1,68 @@
-采用log4j记录日志信息，日志名称为wogamecenter_info.log
+采用logback记录3类日志信息
 
-log4j配置信息：
-log4j.logger.information=WARN, information
-log4j.appender.information=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.information.DatePattern='.'yyyy-MM-dd
-log4j.appender.information.File=/unicom/logs/wogamecenter_info.log
-log4j.appender.information.threshold=info
-log4j.appender.information.layout=org.apache.log4j.PatternLayout
-log4j.appender.information.layout.ConversionPattern=%d{dd MMM yyyy HH:mm:ss} %-5p %c{2}:%L - %m%n
+1.编码日志（wogamecenter_info_number.log）
+-- 新旧用户登录统计(是否包含cookie信息判断新老用户)
+新用户 ： 80+109+channelId
+老用户 ： 81+109+channelId
 
-日志的格式定义如下
--- 1.新旧用户统计
-{ 
-    "userCount": {
-        "cookie": true,		//是否包含cookie信息
-        "channelId": ""		//渠道信息
-    }
-}
+例 channelId为5时
+新用户 ： 801095
+老用户 ： 811095
 
--- 2.页面流量统计
-{
-    "pageTraffic": {
-        "pgeId": "",		//页面编号1：首页 2：分类 3：一周热榜 4：最新
-        "channelId": ""		//渠道信息
-    }
-}
+-- 页面流量统计
+首页 ：61+109+channelId
+分类 ：62+109+channelId 
+一周热榜 ：63+109+channelId 
+最新 ：64+109+channelId
 
--- 3.首页广告的浏览统计
-{
-    "bannerTraffic": {
-        "productId": "",	//游戏的id
-		"productName": "",	//游戏名字
-        "productIcon": "",	//游戏图标地址
-		"channelId": "",	//渠道信息
-		"sort":""			//广告的排位顺序
-    }
-}
+例 channelId为31时
+首页 ：6110931
+分类 ：6210931
+一周热榜 ：6310931 
+最新 ：6410931
 
--- 4.前30游戏点击次数统计
-{
-    "hotGameTraffic": {
-        "productId": "",	//游戏的id
-		"productName": "",	//游戏名字
-        "productIcon": "",	//游戏图标地址
-		"channelId": "",	//渠道信息
-		"sort":""			//前30游戏的排位顺序		
-    }
-}
+-- 推荐页广告位和Banner点击次数统计
+广告位 ：50+109+ad_id+ad_type+sort+109+channelId  
+Banner ：51+109+sort+109+channelId
 
--- 5.搜索关键词
-{
-    "keyword": {
-        "keyword": ""		//关键词
-    }
-}
-
--- 6.下载游戏请求统计
-
-{
-    "downloadInfo": {
-        "productId": "",	//游戏的id
-		"productName": "",	//游戏名字
-        "productIcon": "",	//游戏图标地址
-		"channelId": ""		//渠道信息
-    }
-}
-
-
-样例：
+2.Json日志（wogamecenter_info.log）
 -- 搜索关键词
-2014-06-10 00:00:00 INFO  XXXXXXXXXX:26 - {"keyword": {"keyword": "捕鱼达人"}}
+{
+    "keyword": ""		//关键词
+}
+样例：
+{"keyword": "捕鱼达人"}
+
+-- 下载游戏请求统计
+{
+	"productId": "",	//游戏的id
+	"productName": "",	//游戏名字
+	"productIcon": "",	//游戏图标地址
+	"channelId": ""		//渠道信息
+}
+
+3.获取下载链接日志（wogamecenter_dl.log）
+ 成功获取下载地址URL日志（共计18个字段，用|线分隔）：
+		dlIndex
+		userCode
+		IMSI
+		IMEI
+		version
+		preassemble
+		clientVersion
+		accessType				（沃游戏中心 ：81）
+		productIndex			（游戏的productId）
+		positionClient（客户侧真实排序号）
+		positionindex（服务器侧排序号)
+		spID
+		updated
+		channel					(沃商店：0 沃游戏：00018589)
+		referer
+		status
+		server_time
+		IP
+
+例下载URL为：http:// dlshost: port /packageid/onlinetime/dlchar/DlIndex/Ptype/SEC/17wo.APK
+DlIndex|||||||81|productId|||||channel||||
+
+
