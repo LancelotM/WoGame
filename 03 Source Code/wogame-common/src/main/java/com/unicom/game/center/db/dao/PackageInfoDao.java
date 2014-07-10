@@ -35,7 +35,7 @@ public class PackageInfoDao extends HibernateDao<PackageInfoDomain>{
 		StringBuffer sb = new StringBuffer();
 		sb.append("select p.key.appId as appId, p.key.channelId as channelCode, p.apkOnlineTime as apkOnlineTime");
 		sb.append(" from PackageInfoDomain p");
-		sb.append(" where p.key.appId=:productId");
+		sb.append(" where p.productIndex=:productId");
 		sb.append(" and p.key.channelId in :channelIds");
 		sb.append(" and p.status = '0'");
 		
@@ -55,25 +55,6 @@ public class PackageInfoDao extends HibernateDao<PackageInfoDomain>{
 	}
 
     public void savePackageInfoDomainList(List<PackageInfoDomain> list, int num) {
-//        Session session = null;
-//        if (list != null && list.size() > 0) {
-//            try {
-//                session = getSession();
-//                PackageInfoDomain domain = null;
-//
-//                for (int i = 0; i < list.size(); i++) {
-//                    domain = list.get(i);
-//                    session.saveOrUpdate(domain);
-//                    if (i % num == 0) {
-//                        session.flush();
-//                        session.clear();
-//                    }
-//                }
-//                session.flush();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
     	saveDomainList(list, num);
     }
     	

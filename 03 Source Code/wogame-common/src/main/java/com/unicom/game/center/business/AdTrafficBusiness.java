@@ -21,7 +21,7 @@ import com.unicom.game.center.db.domain.AdTrafficDomain;
 import com.unicom.game.center.db.domain.ProductDomain;
 import com.unicom.game.center.log.model.GameTraffic;
 import com.unicom.game.center.model.GameDisplayModel;
-import com.unicom.game.center.model.GameInfo;
+import com.unicom.game.center.model.AdInfo;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 
@@ -43,8 +43,8 @@ public class AdTrafficBusiness {
 	 * @param bannerFlag
 	 * @return
 	 */
-	public List<GameInfo> fetchGameInfoByDate(Integer channelId, boolean bannerFlag){
-		List<GameInfo>  gameList = null;
+	public List<AdInfo> fetchGameInfoByDate(Integer channelId, boolean bannerFlag){
+		List<AdInfo>  gameList = null;
 		
 		try{
 			Date today = new Date();
@@ -52,15 +52,12 @@ public class AdTrafficBusiness {
 			String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
 			Date previousDate = DateUtils.getDayByInterval(today, -5);
 			String startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
-			gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, bannerFlag, channelId);
-			if(null == gameList || gameList.isEmpty()){
-				//avoid analyze log job not running, user can't check the log
-				yesterday = DateUtils.getDayByInterval(today, -2);
-				endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
-				previousDate = DateUtils.getDayByInterval(today, -6);
-				startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
-				gameList = gameTrafficDao.fetchGameInfoByDate(startDate, endDate, bannerFlag, channelId);
+			if(bannerFlag){
+				gameList = gameTrafficDao.fetchAdInfoByDate(startDate, endDate, channelId);
+			}else{
+				gameList = gameTrafficDao.fetchBannerInfoByDate(startDate, endDate, channelId);
 			}
+
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchGameInfoByDate.", ex);
 		}
@@ -74,21 +71,18 @@ public class AdTrafficBusiness {
 	 * @param bannerFlag
 	 * @return
 	 */
-	public List<GameInfo> fetchGameInfoByMonth(Integer channelId, boolean bannerFlag){
-		List<GameInfo>  gameList = null;
+	public List<AdInfo> fetchGameInfoByMonth(Integer channelId, boolean bannerFlag){
+		List<AdInfo>  gameList = null;
 		
 		try{
 			Date today = new Date();
 			Date yesterday = DateUtils.getDayByInterval(today, -1);
 			String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
 			String startDate = DateUtils.getMonthFirstByInterval(today, -4);
-			gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);
-			if(null == gameList || gameList.isEmpty()){
-				//avoid analyze log job not running, user can't check the log
-				Date beforeYesterday = DateUtils.getDayByInterval(today, -2);
-				endDate = DateUtils.formatDateToString(beforeYesterday, "yyyy-MM-dd");
-				startDate = DateUtils.getMonthFirstByInterval(yesterday, -4);
-				gameList = gameTrafficDao.fetchGameInfoByMonth(startDate, endDate, bannerFlag, channelId);			
+			if(bannerFlag){
+				gameList = gameTrafficDao.fetchAdInfoByMonth(startDate, endDate, channelId);
+			}else{
+				gameList = gameTrafficDao.fetchBannerInfoByMonth(startDate, endDate, channelId);
 			}
             return gameList;
 		}catch(Exception ex){
@@ -99,7 +93,7 @@ public class AdTrafficBusiness {
 	}
 
     public List<GameDisplayModel> getGameMonthModel(Integer channelId,int page){
-        List<GameInfo> gameInfos = fetchGameInfoByMonth(channelId,false);
+        List<AdInfo> gameInfos = fetchGameInfoByMonth(channelId,false);
         List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(gameInfos,"month");
         int rowPerPages = 10;
         int start = (page - 1) * rowPerPages;
@@ -121,21 +115,21 @@ public class AdTrafficBusiness {
         return gameDisplayModelList.subList(start,end);
     }
 
-    public List<List<GameInfo>> getBannerDateModel(Integer channelId,int type){
-        TreeMap<String,List<GameInfo>> map = null;
+    public List<List<AdInfo>> getBannerDateModel(Integer channelId,int type){
+        TreeMap<String,List<AdInfo>> map = null;
         if(type == 1){
             map = getBannerDisplayModel(fetchGameInfoByDate(channelId,true));
         }else if(type == 2){
             map = getBannerDisplayModel(fetchGameInfoByMonth(channelId, true));
         }
-        List<List<GameInfo>> gameByDate = new ArrayList<List<GameInfo>>();
-        List<GameInfo> games = null;
+        List<List<AdInfo>> gameByDate = new ArrayList<List<AdInfo>>();
+        List<AdInfo> games = null;
         for(String key : map.keySet()){
             games = map.get(key);
-            Collections.sort(games,new Comparator<GameInfo>() {
+            Collections.sort(games,new Comparator<AdInfo>() {
                 @Override
-                public int compare(GameInfo obj1, GameInfo obj2) {
-                    return obj2.getName().compareTo(obj1.getName());  //To change body of implemented methods use File | Settings | File Templates.
+                public int compare(AdInfo obj1, AdInfo obj2) {
+                    return obj2.getAdId().compareTo(obj1.getAdId()); 
                 }
             });
             gameByDate.add(games);
@@ -143,8 +137,8 @@ public class AdTrafficBusiness {
         return gameByDate;
     }
 
-    public List<GameDisplayModel> getGameDisplayModel(List<GameInfo> gameInfos,String dateType){
-        Map<String,List<GameInfo>>  data = new HashMap<String, List<GameInfo>>();
+    public List<GameDisplayModel> getGameDisplayModel(List<AdInfo> gameInfos,String dateType){
+        Map<String,List<AdInfo>>  data = new HashMap<String, List<AdInfo>>();
         GameDisplayModel gameDisplayModel = null;
         List<String> dateList = new ArrayList<String>();
         for(int i = 0;i<5;i++){
@@ -156,30 +150,28 @@ public class AdTrafficBusiness {
         }
         List<GameDisplayModel> gameDisplayModels = new ArrayList<GameDisplayModel>();
         if(gameInfos != null && gameInfos.size() > 0){
-            for(GameInfo gameInfo : gameInfos){
-                getMap(data,gameInfo.getName(),gameInfo);
+            for(AdInfo gameInfo : gameInfos){
+                getMap(data,gameInfo.getAdId(),gameInfo);
             }
         }
-        List<List<GameInfo>> dataList = new ArrayList<List<GameInfo>>();
+        List<List<AdInfo>> dataList = new ArrayList<List<AdInfo>>();
         for(String name : data.keySet()){
-            List<GameInfo> list = new ArrayList<GameInfo>();
+            List<AdInfo> list = new ArrayList<AdInfo>();
             if(data.get(name) != null && data.get(name).size()>0){
-                for(GameInfo gameInfo : data.get(name)){
+                for(AdInfo gameInfo : data.get(name)){
                     list.add(gameInfo);
                 }
             }
-            Map<String,List<GameInfo>> dateKeyGameinfo = new HashMap<String, List<GameInfo>>();
-            for(GameInfo game : data.get(name)){
+            Map<String,List<AdInfo>> dateKeyGameinfo = new HashMap<String, List<AdInfo>>();
+            for(AdInfo game : data.get(name)){
                 getMap(dateKeyGameinfo,game.getDate(),game);
             }
             for(String dateStr : dateList){
                 if(!dateKeyGameinfo.keySet().contains(dateStr)){
-                    GameInfo gameModel = new GameInfo();
-                    gameModel.setDownloadCount("0");
+                    AdInfo gameModel = new AdInfo();
                     gameModel.setClickThrough("0");
-                    gameModel.setName(name);
+                    gameModel.setAdId(name);
                     gameModel.setDate(dateStr);
-                    gameModel.setIcon(data.get(name).get(0).getIcon());
                     list.add(gameModel);
                 }
             }
@@ -187,23 +179,22 @@ public class AdTrafficBusiness {
             dataList.add(list);
         }
 
-        for(List<GameInfo> games : dataList){
+        for(List<AdInfo> games : dataList){
             gameDisplayModel = new GameDisplayModel();
-            gameDisplayModel.setGameName(games.get(0).getName());
-            gameDisplayModel.setIcon(games.get(0).getIcon());
-            gameDisplayModel.setThisTimeData(games.get(0).getClickThrough()+"|"+games.get(0).getDownloadCount());
-            gameDisplayModel.setLastTimeData(games.get(1).getClickThrough()+"|"+games.get(1).getDownloadCount());
-            gameDisplayModel.setLast2TimeData(games.get(2).getClickThrough()+"|"+games.get(2).getDownloadCount());
-            gameDisplayModel.setLast3TimeData(games.get(3).getClickThrough()+"|"+games.get(3).getDownloadCount());
-            gameDisplayModel.setLast4TimeData(games.get(4).getClickThrough()+"|"+games.get(4).getDownloadCount());
+            gameDisplayModel.setGameName(games.get(0).getAdId());
+            gameDisplayModel.setThisTimeData(games.get(0).getClickThrough());
+            gameDisplayModel.setLastTimeData(games.get(1).getClickThrough());
+            gameDisplayModel.setLast2TimeData(games.get(2).getClickThrough());
+            gameDisplayModel.setLast3TimeData(games.get(3).getClickThrough());
+            gameDisplayModel.setLast4TimeData(games.get(4).getClickThrough());
             gameDisplayModels.add(gameDisplayModel);
 
         }
         return gameDisplayModels;
     }
 
-    public TreeMap<String,List<GameInfo>> getBannerDisplayModel(List<GameInfo> gameInfos){
-        TreeMap<String,List<GameInfo>>  data = new TreeMap<String, List<GameInfo>>(new Comparator() {
+    public TreeMap<String,List<AdInfo>> getBannerDisplayModel(List<AdInfo> gameInfos){
+        TreeMap<String,List<AdInfo>>  data = new TreeMap<String, List<AdInfo>>(new Comparator() {
             Collator collator = Collator.getInstance();
 
             public int compare(Object o1, Object o2) {
@@ -216,30 +207,30 @@ public class AdTrafficBusiness {
             }
         });
         if(gameInfos != null && gameInfos.size() > 0){
-            for(GameInfo gameInfo : gameInfos){
+            for(AdInfo gameInfo : gameInfos){
                 getMap(data,gameInfo.getDate(),gameInfo);
             }
         }
         return data;
     }
 
-    public void getMap(Map<String,List<GameInfo>> map,String key,GameInfo value){
+    public void getMap(Map<String,List<AdInfo>> map,String key,AdInfo value){
         for(String name : map.keySet()){
             if(key.equals(name)){
                map.get(name).add(value);
                 return;
             }
         }
-        List<GameInfo> gameInfos = new ArrayList<GameInfo>();
+        List<AdInfo> gameInfos = new ArrayList<AdInfo>();
         gameInfos.add(value);
         map.put(key,gameInfos);
     }
 
-    private void sortList(List<GameInfo> list){
+    private void sortList(List<AdInfo> list){
         if(list != null && list.size() >0){
-            Collections.sort(list,new Comparator<GameInfo>() {
+            Collections.sort(list,new Comparator<AdInfo>() {
                 @Override
-                public int compare(GameInfo obj1, GameInfo obj2) {
+                public int compare(AdInfo obj1, AdInfo obj2) {
                     return obj2.getDate().compareTo(obj1.getDate());  //To change body of implemented methods use File | Settings | File Templates.
                 }
             });
@@ -267,7 +258,7 @@ public class AdTrafficBusiness {
 //            gameTrafficDomain.setProduct(productDomain);
             list.add(gameTrafficDomain);
         }
-        gameTrafficDao.saveGameTrafficDomainList(list,100);
+        gameTrafficDao.saveAdTrafficDomainList(list,100);
     }
 
 

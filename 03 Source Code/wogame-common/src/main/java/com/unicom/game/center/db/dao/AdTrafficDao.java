@@ -7,7 +7,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.AdTrafficDomain;
-import com.unicom.game.center.model.GameInfo;
+import com.unicom.game.center.model.AdInfo;
 
 @Component
 public class AdTrafficDao extends HibernateDao<AdTrafficDomain>{
@@ -22,103 +22,138 @@ public class AdTrafficDao extends HibernateDao<AdTrafficDomain>{
 		getSession().flush();
 	}
 	
-	public List<GameInfo> fetchGameInfoByDate(String startDate, String endDate, boolean bannerFlag, Integer channelId){	
+	public List<AdInfo> fetchAdInfoByDate(String startDate, String endDate, Integer channelId){	
 		StringBuffer sb = new StringBuffer();
-		sb.append("select temp.name as name, temp.icon as icon, sum(traffic.click_through) as clickThrough,");
-		sb.append(" sum(traffic.download_count) as downloadCount, DATE_FORMAT(traffic.date_created, '%m-%d') as date");
-		sb.append(" from game_traffic traffic");
-		sb.append(" inner join");
-		sb.append(" (select p.product_id as productId, p.product_name as name, p.product_icon as icon, gt.sort as sort");
-		sb.append(" from game_traffic gt");
-		sb.append(" inner join product p");
-		sb.append(" on gt.product_id = p.product_id");
-		sb.append(" where gt.date_created = '");
-		sb.append(endDate);
-		sb.append("' group by gt.product_id) as temp");
-		sb.append(" on traffic.product_id = temp.productId");
+		sb.append("select traffic.ad_id as adId, sum(traffic.click_through) as clickThrough,");
+		sb.append(" DATE_FORMAT(traffic.date_created, '%m-%d') as date");
+		sb.append(" from ad_traffic traffic");
 		sb.append(" where traffic.date_created >= '");
 		sb.append(startDate);
 		sb.append("' and traffic.date_created <= '");
 		sb.append(endDate);
-		sb.append("' and traffic.banner_flag = ");
-		sb.append(bannerFlag);
+		sb.append("' and traffic.ad_id != 0");		
 		
 		if(null != channelId && 0 != channelId.intValue()){
 			sb.append(" and traffic.channel_id = ");
 			sb.append(channelId);
 		}
 		
-		sb.append(" group by date, traffic.product_id");
-		sb.append(" order by temp.sort asc, date desc");
+		sb.append(" group by date, traffic.ad_id");
+		sb.append(" order by date desc, adId asc");
 
 		
 		Query query = getSession().createSQLQuery(sb.toString());
 		@SuppressWarnings("unchecked")
 		List<Object[]> list = query.list();
 		
-		List<GameInfo> gameList= convertToGameInfo(list);		
+		List<AdInfo> gameList= convertToGameInfo(list);		
 		return gameList;
 	}
 
 	
-	public List<GameInfo> fetchGameInfoByMonth(String startDate, String endDate, boolean bannerFlag, Integer channelId){	
+	public List<AdInfo> fetchAdInfoByMonth(String startDate, String endDate, Integer channelId){	
 		StringBuffer sb = new StringBuffer();
-		sb.append("select temp.name as name, temp.icon as icon, sum(traffic.click_through) as clickThrough,");
-		sb.append(" sum(traffic.download_count) as downloadCount, DATE_FORMAT(traffic.date_created, '%Y-%m') as date");
+		sb.append("select traffic.ad_id as adId, sum(traffic.click_through) as clickThrough,");
+		sb.append(" DATE_FORMAT(traffic.date_created, '%Y-%m') as date");
 		sb.append(" from game_traffic traffic");
-		sb.append(" inner join");
-		sb.append(" (select p.product_id as productId, p.product_name as name, p.product_icon as icon, gt.sort as sort");
-		sb.append(" from game_traffic gt");
-		sb.append(" inner join product p");
-		sb.append(" on gt.product_id = p.product_id");
-		sb.append(" where gt.date_created = '");
-		sb.append(endDate);
-		sb.append("' group by gt.product_id) as temp");
-		sb.append(" on traffic.product_id = temp.productId");
 		sb.append(" where traffic.date_created >= '");
 		sb.append(startDate);
 		sb.append("' and traffic.date_created <= '");
 		sb.append(endDate);
-		sb.append("' and traffic.banner_flag = ");
-		sb.append(bannerFlag);
+		sb.append("' and traffic.ad_id != 0");
 		
 		if(null != channelId && 0 != channelId.intValue()){
 			sb.append(" and traffic.channel_id = ");
 			sb.append(channelId);
 		}
 		
-		sb.append(" group by date, traffic.product_id");
-		sb.append(" order by temp.sort asc, date desc");
+		sb.append(" group by date, traffic.ad_id");
+		sb.append(" order by date desc, adId asc");
 
 		
 		Query query = getSession().createSQLQuery(sb.toString());
 		@SuppressWarnings("unchecked")
 		List<Object[]> list = query.list();
 		
-		List<GameInfo> gameList= convertToGameInfo(list);		
+		List<AdInfo> gameList= convertToGameInfo(list);		
 		return gameList;
 	}
 	
+	public List<AdInfo> fetchBannerInfoByDate(String startDate, String endDate, Integer channelId){	
+		StringBuffer sb = new StringBuffer();
+		sb.append("select traffic.sort as adId, sum(traffic.click_through) as clickThrough,");
+		sb.append(" DATE_FORMAT(traffic.date_created, '%m-%d') as date");
+		sb.append(" from ad_traffic traffic");
+		sb.append(" where traffic.date_created >= '");
+		sb.append(startDate);
+		sb.append("' and traffic.date_created <= '");
+		sb.append(endDate);
+		sb.append("' and traffic.ad_id = 0");		
+		
+		if(null != channelId && 0 != channelId.intValue()){
+			sb.append(" and traffic.channel_id = ");
+			sb.append(channelId);
+		}
+		
+		sb.append(" group by date, traffic.sort");
+		sb.append(" order by date desc, adId asc");
+
+		
+		Query query = getSession().createSQLQuery(sb.toString());
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = query.list();
+		
+		List<AdInfo> gameList= convertToGameInfo(list);		
+		return gameList;
+	}
+
 	
-	private List<GameInfo> convertToGameInfo(List<Object[]> list){
-		List<GameInfo> gameInfoList = null;
+	public List<AdInfo> fetchBannerInfoByMonth(String startDate, String endDate, Integer channelId){	
+		StringBuffer sb = new StringBuffer();
+		sb.append("select traffic.sort as adId, sum(traffic.click_through) as clickThrough,");
+		sb.append(" DATE_FORMAT(traffic.date_created, '%Y-%m') as date");
+		sb.append(" from game_traffic traffic");
+		sb.append(" where traffic.date_created >= '");
+		sb.append(startDate);
+		sb.append("' and traffic.date_created <= '");
+		sb.append(endDate);
+		sb.append("' and traffic.ad_id = 0");
+		
+		if(null != channelId && 0 != channelId.intValue()){
+			sb.append(" and traffic.channel_id = ");
+			sb.append(channelId);
+		}
+		
+		sb.append(" group by date, traffic.ad_id");
+		sb.append(" order by date desc, adId asc");
+
+		
+		Query query = getSession().createSQLQuery(sb.toString());
+		@SuppressWarnings("unchecked")
+		List<Object[]> list = query.list();
+		
+		List<AdInfo> gameList= convertToGameInfo(list);		
+		return gameList;
+	}	
+	
+	
+	private List<AdInfo> convertToGameInfo(List<Object[]> list){
+		List<AdInfo> adInfoList = null;
 		if(null != list && list.size() > 0){
-			gameInfoList = new ArrayList<GameInfo>();
+			adInfoList = new ArrayList<AdInfo>();
 			for(Object[] object : list){
-				GameInfo info = new GameInfo();
-				info.setName(String.valueOf(object[0]));
-				info.setIcon(String.valueOf(object[1]));
-				info.setClickThrough(String.valueOf(object[2]));
-				info.setDownloadCount(String.valueOf(object[3]));
-				info.setDate(String.valueOf(object[4]));				
-				gameInfoList.add(info);
+				AdInfo info = new AdInfo();
+				info.setAdId(String.valueOf(object[0]));
+				info.setClickThrough(String.valueOf(object[1]));
+				info.setDate(String.valueOf(object[2]));				
+				adInfoList.add(info);
 			}
 		}
 		
-		return gameInfoList;
+		return adInfoList;
 	}
 
-	public void saveGameTrafficDomainList(List<AdTrafficDomain> list, int num) {
+	public void saveAdTrafficDomainList(List<AdTrafficDomain> list, int num) {
 		saveDomainList(list, num);
 	}
 	

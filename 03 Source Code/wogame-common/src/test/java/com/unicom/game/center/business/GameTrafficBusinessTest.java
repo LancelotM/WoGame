@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.unicom.game.center.db.dao.AdTrafficDao;
-import com.unicom.game.center.model.GameInfo;
+import com.unicom.game.center.model.AdInfo;
 
 /**
  * @author Alex Yin
@@ -27,7 +27,7 @@ public class GameTrafficBusinessTest {
 	
 	@Test
 	public void testFetchBannerInfo(){
-        List<GameInfo> gameList =game.fetchGameInfoByDate(18082, true);
+        List<AdInfo> gameList =game.fetchGameInfoByDate(18082, true);
 		System.out.println((null != gameList) ? gameList.size() : 0);
 		
 		gameList =game.fetchGameInfoByMonth(18082, true);
@@ -36,7 +36,7 @@ public class GameTrafficBusinessTest {
 	
 	@Test
 	public void testFetchHotListInfo(){
-        List<GameInfo>  gameList =game.fetchGameInfoByDate(18082, false);
+        List<AdInfo>  gameList =game.fetchGameInfoByDate(18082, false);
 		System.out.println((null != gameList) ? gameList.size() : 0);
 		
 		gameList =game.fetchGameInfoByMonth(18082, false);
