@@ -52,7 +52,7 @@ public class ZTEReportDomain implements Serializable{
         this.appname = appname;
     }
 
-    @Column(name="channel_id")
+    @Column(name="channel_code")
     public String getChannelId() {
         return channelId;
     }

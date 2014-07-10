@@ -44,7 +44,8 @@ public class PackageReportTest {
 
     @Test
     public void testfetch(){
-        ReportInfo info = service.fetchPackageReport("1325", "2014-07-10", "2014-07-10");
+        //ReportInfo info = service.fetchPackageReport("12432", "2014-07-10", "2014-07-10");
+        ReportInfo info = service.fetchReceiptInfo("12432", "2014-07-10", "2014-07-10");
         System.out.println(info.getFailSum()+""+info.getPackageSum()+""+info.getSucessSum());
     }
 

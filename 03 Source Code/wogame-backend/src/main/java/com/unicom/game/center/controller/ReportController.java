@@ -38,8 +38,10 @@ public class ReportController {
                                          @RequestParam(value="endDate",required = true) String endDate){
         ModelMap map = new ModelMap();
         ReportInfo packageReportInfo = packageReport.fetchPackageReport(channelId, startDate, endDate);
+        ReportInfo receiptReportInfo = packageReport.fetchReceiptInfo(channelId, startDate, endDate);
         ReportInfo zteReportInfo = zteReport.fetchZTEInfo(channelId,startDate,endDate);
         map.put("packageReportInfo",packageReportInfo);
+        map.put("receiptReportInfo",receiptReportInfo);
         map.put("zteReportInfo",zteReportInfo);
         return new ModelAndView("/report");
     }

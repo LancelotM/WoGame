@@ -24,8 +24,8 @@ public class ZTEReportBusiness {
     }
 
     public ReportInfo fetchZTEInfo(String channelId,String start,String end){
-        int successPackage = dao.getReportInfo(channelId,start,end,true);
-        int packageSum = dao.getReportInfo(channelId,start,end,false);
+        int successPackage = dao.getReportInfo(channelId,start,end,0);
+        int packageSum = dao.getReportInfo(channelId,start,end,null);
         ReportInfo reportInfo = new ReportInfo();
         reportInfo.setFailSum(packageSum - successPackage);
         reportInfo.setPackageSum(packageSum);

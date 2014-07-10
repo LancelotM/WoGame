@@ -38,9 +38,9 @@
                         <td>失败个数</td>
                     </tr>
                     <tr>
-                        <td>700</td>
-                        <td>500</td>
-                        <td>200</td>
+                        <td>${(receiptReportInfo.packageSum)!'0'}</td>
+                        <td>${(receiptReportInfo.sucessSum)!'0'}</td>
+                        <td>${(receiptReportInfo.failSum)!'0'}</td>
                     </tr>
                 </table>
                 <table class="detail_tb">
