@@ -63,7 +63,7 @@ $(function(){
                 }
                 html += "<tr>";
                 $.each(comment,function(index,obj){
-                    html += '<td>'+obj['clickThrough']+'|'+obj['downloadCount']+'</td>';
+                    html += '<td>'+obj['clickThrough']+'</td>';
                 });
                 html += "</tr>"
             });

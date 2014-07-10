@@ -2,7 +2,7 @@
 <@template csses=["index"] jses=["log"]>
     <#assign basePath=attrs.contextPath>
 <div class="main_block">
-<#include "/menu.ftl">
+        <#include "/menu.ftl">
         <div class="main">
             <div class="main_info">
                 <form action="${basePath}/getLog" method="post" id="dateForm">
