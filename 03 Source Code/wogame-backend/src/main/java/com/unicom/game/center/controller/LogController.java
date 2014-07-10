@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.unicom.game.center.business.GameTrafficBusiness;
+import com.unicom.game.center.business.AdTrafficBusiness;
 import com.unicom.game.center.business.LoginInfoBusiness;
 import com.unicom.game.center.business.PageTrafficBusiness;
 import com.unicom.game.center.model.GameDisplayModel;
@@ -45,7 +45,7 @@ public class LogController {
     private PageTrafficBusiness pageTrafficService;
 
     @Autowired
-    private GameTrafficBusiness gameTrafficService;
+    private AdTrafficBusiness gameTrafficService;
     
 	@Value("#{properties['backend.secret.key']}")
 	private String backendKey;

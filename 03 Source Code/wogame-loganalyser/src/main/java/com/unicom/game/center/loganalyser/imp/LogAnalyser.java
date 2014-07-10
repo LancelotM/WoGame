@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.unicom.game.center.business.DownLoadInfoBusiness;
-import com.unicom.game.center.business.GameTrafficBusiness;
+import com.unicom.game.center.business.AdTrafficBusiness;
 import com.unicom.game.center.business.KeywordBusiness;
 import com.unicom.game.center.business.LoginInfoBusiness;
 import com.unicom.game.center.business.PackageInfoBusiness;
@@ -49,7 +49,7 @@ public class LogAnalyser implements ILogAnalyser {
     @Autowired
     private PageTrafficBusiness pageTrafficBusiness;
     @Autowired
-    private GameTrafficBusiness gameTrafficBusiness;
+    private AdTrafficBusiness gameTrafficBusiness;
     @Autowired
     private KeywordBusiness keywordBusiness;
     @Autowired

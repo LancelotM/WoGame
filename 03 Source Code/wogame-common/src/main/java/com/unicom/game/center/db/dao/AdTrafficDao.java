@@ -6,18 +6,18 @@ import java.util.List;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
-import com.unicom.game.center.db.domain.GameTrafficDomain;
+import com.unicom.game.center.db.domain.AdTrafficDomain;
 import com.unicom.game.center.model.GameInfo;
 
 @Component
-public class GameTrafficDao extends HibernateDao<GameTrafficDomain>{
+public class AdTrafficDao extends HibernateDao<AdTrafficDomain>{
 	
-	public void save(GameTrafficDomain gameTraffic){
+	public void save(AdTrafficDomain gameTraffic){
 		getSession().save(gameTraffic);
 		getSession().flush();
 	}
 	
-	public void update(GameTrafficDomain gameTraffic){		
+	public void update(AdTrafficDomain gameTraffic){		
 		getSession().update(gameTraffic);
 		getSession().flush();
 	}
@@ -118,7 +118,7 @@ public class GameTrafficDao extends HibernateDao<GameTrafficDomain>{
 		return gameInfoList;
 	}
 
-	public void saveGameTrafficDomainList(List<GameTrafficDomain> list, int num) {
+	public void saveGameTrafficDomainList(List<AdTrafficDomain> list, int num) {
 		saveDomainList(list, num);
 	}
 	

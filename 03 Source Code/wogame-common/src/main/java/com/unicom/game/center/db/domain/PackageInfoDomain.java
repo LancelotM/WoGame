@@ -50,8 +50,8 @@ public class PackageInfoDomain implements Serializable{
 	@Column(name="status")
 	private String status;
 	
-	@Column(name="reserve1")
-	private String reserve1;
+	@Column(name="productIndex")
+	private String productIndex;
 	
 	@Column(name="reserve2")
 	private String reserve2;
@@ -151,12 +151,12 @@ public class PackageInfoDomain implements Serializable{
 		this.status = status;
 	}
 
-	public String getReserve1() {
-		return reserve1;
+	public String getProductIndex() {
+		return productIndex;
 	}
 
-	public void setReserve1(String reserve1) {
-		this.reserve1 = reserve1;
+	public void setProductIndex(String productIndex) {
+		this.productIndex = productIndex;
 	}
 
 	public String getReserve2() {
