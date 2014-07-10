@@ -23,9 +23,9 @@
 							<ul id="second_ul" class="son_ul" style="display:none">
 								<li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)"><a href="${basePath}/site">建站管理</a></li>
 							</ul>
-                            <a href="#" class="margin_top45" onclick="show_hidden('report_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png"/>&nbsp;报表搜索</a>
+                            <a href="#" class="margin_top45" onclick="show_hidden('report_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png"/>&nbsp;报表</a>
                             <ul id="report_ul" class="son_ul" style="display:none">
-                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getReport">报表查看</a></li>
+                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getReport">报表详情</a></li>
                             </ul>
                         </div>
 						</#if>
