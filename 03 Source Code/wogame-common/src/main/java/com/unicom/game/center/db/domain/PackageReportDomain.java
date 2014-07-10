@@ -76,7 +76,7 @@ public class PackageReportDomain implements Serializable{
         this.receiptStatus = receiptStatus;
     }
 
-    @Column(name="channel_id")
+    @Column(name="channel_code")
     public String getChannelId() {
         return channelId;
     }

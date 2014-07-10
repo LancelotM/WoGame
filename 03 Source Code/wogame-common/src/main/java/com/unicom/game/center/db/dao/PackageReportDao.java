@@ -21,19 +21,26 @@ public class PackageReportDao extends HibernateDao{
         getSession().flush();
     }
 
-    public int getPackageInfo(String channelID,String startDate,String endDate,boolean flag){
+    public int getPackageInfo(String channelID,String startDate,String endDate,Integer packageCode,Integer receiptCode){
         StringBuilder hql = new StringBuilder();
         hql.append("select count(*) from PackageReportDomain package where package.channelId = '");
         hql.append(channelID);
-        hql.append("' and package.dateCreated >= '");
-        hql.append(startDate);
+
         if(!startDate.equals(endDate)){
-            hql.append("' and package.dateCreate < '");
+            hql.append("' and package.dateCreated >= '");
+            hql.append(startDate);
+            hql.append("' and package.dateCreate <= '");
             hql.append(endDate);
+        }else {
+            hql.append("' and package.dateCreated = '");
+            hql.append(startDate);
+            hql.append("'");
         }
-        hql.append("'");
-        if(flag){
-            hql.append(" and package.packageStatus = 1");
+        if(packageCode != null){
+            hql.append(" and package.packageStatus = "+packageCode);
+        }
+        if(receiptCode != null){
+            hql.append(" and package.receiptStatus = "+receiptCode);
         }
         List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();

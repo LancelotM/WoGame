@@ -57,8 +57,8 @@ $(function(){
             $.each(data, function(commentIndex, comment){
                 if(commentIndex == 1){
                     $.each(comment, function(varindex, game){
-                        imgSrc += '<img src="'+basePath+"/"+game['icon']+'" alt=""/>';
-                        bannerImgDesc += '<td>广告图片'+(varindex+1)+'</td>';
+//                        imgSrc += '<img src="'+basePath+"/"+game['icon']+'" alt=""/>';
+                        bannerImgDesc += '<td>广告位'+(varindex+1)+'</td>';
                     });
                 }
                 html += "<tr>";
@@ -67,7 +67,7 @@ $(function(){
                 });
                 html += "</tr>"
             });
-            $("#banner_caption").append(imgSrc);
+//            $("#banner_caption").append(imgSrc);
             $('#banner').append(html);
             $('#bannerImg_dec').append(bannerImgDesc);
         }
@@ -83,17 +83,17 @@ $(function(){
             success: function(data){
                 var html = "";
                 $.each(data, function(commentIndex, comment){
-                    html += '<tr class="append_tr"><td><img id="game_tip" src="'+basePath+"/"+comment['icon']+'" />'+comment['gameName']
+                    html += '<tr class="append_tr"><td>'+comment['gameName']
                         +'</td><td>'+comment['thisTimeData']+'</td><td>'+comment['lastTimeData']+
                         '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
                         '</td><td>'+comment['last4TimeData']+'</td></tr>'
                 });
-                $("tr[class='append_tr']").remove();
+//                $("tr[class='append_tr']").remove();
                 $('#top30Game').append(html);
             }
         });
-        $("a[class='current_page']").removeClass();
-        $(this).addClass('current_page');
+//        $("a[class='current_page']").removeClass();
+//        $(this).addClass('current_page');
     });
     $('#pages a').first().trigger('click');
 });

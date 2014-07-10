@@ -22,19 +22,22 @@ public class ZTEReportDao extends HibernateDao{
         getSession().flush();
     }
 
-    public int getReportInfo(String channelId,String startDate,String endDate,boolean isSuccess){
+    public int getReportInfo(String channelId,String startDate,String endDate,Integer isSuccess){
         StringBuilder hql = new StringBuilder();
         hql.append("select count(*) from ZTEReportDomain zteReport where zteReport.channelId = '");
         hql.append(channelId);
-        hql.append("' and zteReport.dateCreate >= '");
-        hql.append(startDate);
         if(!startDate.equals(endDate)){
+            hql.append("' and zteReport.dateCreate >= '");
+            hql.append(startDate);
             hql.append("' and zteReport.dateCreate < '");
             hql.append(endDate);
+        }else {
+            hql.append("' and zteReport.dateCreate = '");
+            hql.append(startDate);
+            hql.append("'");
         }
-        hql.append("'");
-        if(isSuccess){
-            hql.append(" and zteReport.operateResult = 1");
+        if(isSuccess != null){
+            hql.append(" and zteReport.operateResult = "+isSuccess);
         }
         List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();
