@@ -159,11 +159,7 @@
     }
 </script>
 <script type="text/javascript">
-    logUsage("${ctx}", {
-        "pageTraffic": {
-            "pgeId": "4"		//页面编号1：首页 2：分类 3：一周热榜 4：最新
-        }
-    })
+    logNumber("${ctx}", ['64']);
 </script>
 </body>
 </html>

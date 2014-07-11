@@ -13,6 +13,39 @@ $.fn.extend({
 
 });
 
+String.prototype.PadLeft = function (totalWidth, paddingChar) {
+    if (paddingChar != null) {
+        return this.PadHelper(totalWidth, paddingChar, false);
+    } else {
+        return this.PadHelper(totalWidth, ' ', false);
+    }
+}
+String.prototype.PadRight = function (totalWidth, paddingChar) {
+    if (paddingChar != null) {
+        return this.PadHelper(totalWidth, paddingChar, true);
+    } else {
+        return this.PadHelper(totalWidth, ' ', true);
+    }
+
+}
+String.prototype.PadHelper = function (totalWidth, paddingChar, isRightPadded) {
+
+    if (this.length < totalWidth) {
+        var paddingString = new String();
+        for (i = 1; i <= (totalWidth - this.length); i++) {
+            paddingString += paddingChar;
+        }
+
+        if (isRightPadded) {
+            return (this + paddingString);
+        } else {
+            return (paddingString + this);
+        }
+    } else {
+        return this;
+    }
+}
+
 
 /*Javascript设置要保留的小数位数，四舍五入。
  *ForDight(Dight,How):数值格式化函数，Dight要格式化的 数字，How要保留的小数位数。
@@ -135,7 +168,9 @@ function loaded() {
 
 var storage = window.localStorage;
 var oldUserFlag = storage.getItem("unicom.game.user.anonymous");
-var logUsageUrl = "/logUsage";
+var URL_BUSINESS_LOG = "/businessLog";
+var URL_NUMBER_LOG = "/numberLog";
+
 if (oldUserFlag && oldUserFlag == "TRUE") {
     window.sessionStorage.setItem("oldUserFlag", "TRUE");
 } else {
@@ -147,10 +182,18 @@ function setUsageFlag() {
 function isOldUser() {
     return window.sessionStorage.getItem("oldUserFlag") == "TRUE";
 }
-function logUsage(rootUrl, data, callback) {
-    $.getJSON(rootUrl + logUsageUrl, {"data": encodeURI(JSON.stringify(data))}, function (result) {
+function logBusiness(rootUrl, data, callback) {
+    $.getJSON(rootUrl + URL_BUSINESS_LOG, {"data": encodeURI(JSON.stringify(data))}, function (result) {
         if (callback) {
             callback();
         }
     });
 }
+function logNumber(rootUrl, data, callback) {
+    $.getJSON(rootUrl + URL_NUMBER_LOG, {"data": data.join('')}, function (result) {
+        if (callback) {
+            callback();
+        }
+    });
+}
+

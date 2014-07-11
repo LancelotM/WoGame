@@ -1,12 +1,9 @@
 package com.unicom.game.center.service;
 
-import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springside.modules.mapper.JsonMapper;
-
-import java.util.Map;
 
 /**
  * Created by jession on 14-6-11.
@@ -14,20 +11,25 @@ import java.util.Map;
 @Component
 public class StatisticsLogger {
 
-    public static final String STATISTICS_LOGGER_NAME = "business";
+    public static final String BUSINESS_LOGGER_NAME = "business";
+    public static final String DOWNLOAD_LOGGER_NAME = "download";
+    public static final String NUMBER_LOGGER_NAME = "number";
 
-    private Logger businessLogger = LoggerFactory.getLogger(STATISTICS_LOGGER_NAME);
+    private Logger businessLogger = LoggerFactory.getLogger(BUSINESS_LOGGER_NAME);
+    private Logger downloadLogger = LoggerFactory.getLogger(DOWNLOAD_LOGGER_NAME);
+    private Logger numberLogger = LoggerFactory.getLogger(NUMBER_LOGGER_NAME);
+
     private JsonMapper jsonMapper = new JsonMapper();
 
-    public void log(String categoryName, Map data) {
-        Map<String, Object> loggerData = Maps.newHashMap();
-        loggerData.put(categoryName, data);
-        String json = (data != null ? jsonMapper.toJson(loggerData) : "{}");
-        businessLogger.info("{}", json);
+    public void info(String data) {
+        businessLogger.info("{}", data);
     }
 
-    public void log(Map data) {
-        String json = (data != null ? jsonMapper.toJson(data) : "{}");
-        businessLogger.info("{}", json);
+    public void download(String data) {
+        downloadLogger.info("{}", data);
+    }
+
+    public void number(String data) {
+        numberLogger.info("{}", data);
     }
 }
