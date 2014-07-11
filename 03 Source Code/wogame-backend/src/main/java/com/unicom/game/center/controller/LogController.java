@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.unicom.game.center.business.GameTrafficBusiness;
+import com.unicom.game.center.business.AdTrafficBusiness;
 import com.unicom.game.center.business.LoginInfoBusiness;
 import com.unicom.game.center.business.PageTrafficBusiness;
 import com.unicom.game.center.model.GameDisplayModel;
-import com.unicom.game.center.model.GameInfo;
+import com.unicom.game.center.model.AdInfo;
 import com.unicom.game.center.model.JsonParent;
 import com.unicom.game.center.utils.AESEncryptionHelper;
 import com.unicom.game.center.utils.Utility;
@@ -45,7 +45,7 @@ public class LogController {
     private PageTrafficBusiness pageTrafficService;
 
     @Autowired
-    private GameTrafficBusiness gameTrafficService;
+    private AdTrafficBusiness gameTrafficService;
     
 	@Value("#{properties['backend.secret.key']}")
 	private String backendKey;
@@ -134,14 +134,14 @@ public class LogController {
     }
 
     @RequestMapping(value = "/firstPageBannerLog", method = {RequestMethod.POST})
-    public @ResponseBody List<List<GameInfo>>  firstPageBannerLog(@RequestParam(value="type",required=false) String type,
+    public @ResponseBody List<List<AdInfo>>  firstPageBannerLog(@RequestParam(value="type",required=false) String type,
     		@RequestParam(value="channelId",required = true) Integer channelID){
     	if(Utility.isEmpty(type)){
     		type = "1";
     	}
     	
         int dateType = Integer.parseInt(type);
-        List<List<GameInfo>>  gameInfos = gameTrafficService.getBannerDateModel(channelID,dateType);;
+        List<List<AdInfo>>  gameInfos = gameTrafficService.getBannerDateModel(channelID,dateType);;
 
         return gameInfos;
     }

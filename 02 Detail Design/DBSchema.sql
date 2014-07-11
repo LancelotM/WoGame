@@ -52,20 +52,18 @@ create table wogamecenter.page_traffic(
 alter table wogamecenter.page_traffic add constraint Page_Traffic_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
 
 
---前30游戏和Banner点击次数统计
-create table wogamecenter.game_traffic(
+--推荐页广告位和Banner点击次数统计
+create table wogamecenter.ad_traffic(
 	id int(20) primary key auto_increment,
 	channel_id int(20) not null,
-	product_id varchar(40) not null,
-	sort int(20) not null default 0,
+	ad_id int(8) not null,
+	ad_type int(8) not null,
+	sort int(8) not null,
 	click_through int(20) not null default 0,
-	download_count int(20) not null default 0,
-	date_created date not null,
-	banner_flag boolean not null default false
+	date_created date not null
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.game_traffic add constraint Game_Traffic_Product_FK foreign key (product_id) references  wogamecenter.product(product_id);
-alter table wogamecenter.game_traffic add constraint Game_Traffic_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
+alter table wogamecenter.ad_traffic add constraint Ad_Traffic_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
 
 
 --热词
@@ -105,7 +103,6 @@ alter table wogamecenter.account add unique key (account_name);
 
 insert into account(account_name, password, date_modified, date_created) values('admin', 'A5CA78141C08D41452F6A7A2B1752E76', now(), now());
 
-
 --打包信息
 create table wogamecenter.package_info(
 	channel_id varchar(40) not null,
@@ -130,33 +127,34 @@ create table wogamecenter.package_info(
 )engine=innodb default charset=utf8;
 
 
-create table wogamecenter.package_report(
-	id int(20) primary key auto_increment,
-	appid varchar(30) not null,
-	appname varchar(30) not null,
-	channel_id int(20) not null,
-	package_status int(20) not null,
-	receipt_status int(20) not null,
-	date_created date not null;
-)engine=innodb default charset=utf8;
-
-alter table wogamecenter.package_info add constraint package_info_chnanel_fk foreign key (channel_id) references wogamecenter.channel_info(channel_code);
-
-create table wogamecenter.ZTE_report(
-	id int(20) primary key auto_increment,
-	appid varchar(30) not null,
-	appname varchar(30) not null,
-	channel_id int(20) not null,
-	operate_result varchar(50) not null,
-	date_created date not null
-)engine=innodb default charset=utf8;
-
-alter table wogamecenter.take_package add constraint take_package_channel_fk foreign key (channel_id) references wogamecenter.channel_info(channel_code);
-
 CREATE TRIGGER defaulttime
 BEFORE INSERT ON wogamecenter.package_info
 FOR EACH ROW
 	SET new.date_created=now();
+
+create table wogamecenter.package_report(
+	id int(20) primary key auto_increment,
+	appid varchar(30) not null,
+	appname varchar(30) not null,
+	channel_code varchar(40) not null,
+	package_status int(20) not null,
+	receipt_status int(20) not null,
+	date_created date not null
+)engine=innodb default charset=utf8;
+
+alter table wogamecenter.package_report add constraint package_report_chnanel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
+
+create table wogamecenter.zte_report(
+	id int(20) primary key auto_increment,
+	appid varchar(30) not null,
+	appname varchar(30) not null,
+	channel_code varchar(40) not null,
+	operate_result int(8) not null,
+	date_created date not null
+)engine=innodb default charset=utf8;
+
+alter table wogamecenter.zte_report add constraint zte_report_channel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
+
 
 grant all privileges on wogamecenter.* to 'front_user'@'%' identified by 'Pass4front' with grant option;
 

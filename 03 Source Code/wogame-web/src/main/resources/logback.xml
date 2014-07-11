@@ -18,15 +18,37 @@
     </appender>
 
     <appender name="statisticsFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>../logs/wogamecenter_info.log</file>
+        <file>/unicom/logs/wogamecenter_info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>../logs/wogamecenter_info.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+            <fileNamePattern>/unicom/logs/wogamecenter_info.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <Encoding>UTF-8</Encoding>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%msg%n</pattern>
         </encoder>
     </appender>
+    
+    <appender name="downloadFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/unicom/logs/wogamecenter_dl.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/unicom/logs/wogamecenter_dl.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <Encoding>UTF-8</Encoding>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender> 
+    
+    <appender name="numberFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/unicom/logs/wogamecenter_info_number.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/unicom/logs/wogamecenter_info_number.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <Encoding>UTF-8</Encoding>
+        <encoder>
+            <pattern>%msg  </pattern>
+        </encoder>
+    </appender>       
 
     <!-- project default level -->
     <logger name="com.unicom.wogame" level="INFO"/>
@@ -35,6 +57,14 @@
     <logger name="business" level="INFO" additivity="false">
         <appender-ref ref="statisticsFile" />
     </logger>
+    
+    <logger name="download" level="INFO" additivity="false">
+        <appender-ref ref="downloadFile" />
+    </logger>
+    
+    <logger name="number" level="INFO" additivity="false">
+        <appender-ref ref="numberFile" />
+    </logger>        
 
     <root level="WARN">
         <appender-ref ref="console"/>
