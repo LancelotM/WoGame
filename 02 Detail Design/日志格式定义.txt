@@ -21,25 +21,18 @@
 一周热榜 ：6310931 
 最新 ：6410931
 
--- 推荐页广告位和Banner点击次数统计
+-- 推荐页广告位和Banner点击次数统计（附ad_id为1～20，ad_type和sort为1～4）
 广告位 ：50+109+ad_id+ad_type+sort+109+channelId  
 Banner ：51+109+sort+109+channelId
 
-2.Json日志（wogamecenter_info.log）
+2.搜索下载日志（wogamecenter_info.log）
 -- 搜索关键词
-{
-    "keyword": ""		//关键词
-}
+40109|keyword
 样例：
-{"keyword": "捕鱼达人"}
+40109|捕鱼达人
 
 -- 下载游戏请求统计
-{
-	"productId": "",	//游戏的id
-	"productName": "",	//游戏名字
-	"productIcon": "",	//游戏图标地址
-	"channelId": ""		//渠道信息
-}
+30109|productId|productName|productIcon|channelId
 
 3.获取下载链接日志（wogamecenter_dl.log）
  成功获取下载地址URL日志（共计18个字段，用|线分隔）：
