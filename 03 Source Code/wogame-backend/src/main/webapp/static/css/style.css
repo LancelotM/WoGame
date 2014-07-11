@@ -377,14 +377,19 @@ a{
     background-color:#f7f7f7;
     font-weight:bold;
     width:965px;
+    height: 350px;
 }
-.keyword span{
-    display:block;
+#keyword_span {
     float:left;
     width:173px;
     height:34px;
     line-height:34px;
     padding-left: 20px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.keyword span{
+
 }
 .numberal_format{
 	font-size:26px;

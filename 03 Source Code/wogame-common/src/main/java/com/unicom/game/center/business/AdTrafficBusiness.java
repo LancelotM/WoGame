@@ -53,9 +53,9 @@ public class AdTrafficBusiness {
 			Date previousDate = DateUtils.getDayByInterval(today, -5);
 			String startDate = DateUtils.formatDateToString(previousDate, "yyyy-MM-dd");
 			if(bannerFlag){
-				gameList = gameTrafficDao.fetchAdInfoByDate(startDate, endDate, channelId);
+                gameList = gameTrafficDao.fetchBannerInfoByDate(startDate, endDate, channelId);
 			}else{
-				gameList = gameTrafficDao.fetchBannerInfoByDate(startDate, endDate, channelId);
+                gameList = gameTrafficDao.fetchAdInfoByDate(startDate, endDate, channelId);
 			}
 
 		}catch(Exception ex){
@@ -80,9 +80,10 @@ public class AdTrafficBusiness {
 			String endDate = DateUtils.formatDateToString(yesterday, "yyyy-MM-dd");
 			String startDate = DateUtils.getMonthFirstByInterval(today, -4);
 			if(bannerFlag){
-				gameList = gameTrafficDao.fetchAdInfoByMonth(startDate, endDate, channelId);
+                gameList = gameTrafficDao.fetchBannerInfoByMonth(startDate, endDate, channelId);
 			}else{
-				gameList = gameTrafficDao.fetchBannerInfoByMonth(startDate, endDate, channelId);
+                gameList = gameTrafficDao.fetchAdInfoByMonth(startDate, endDate, channelId);
+
 			}
             return gameList;
 		}catch(Exception ex){
@@ -92,27 +93,15 @@ public class AdTrafficBusiness {
 		return null;
 	}
 
-    public List<GameDisplayModel> getGameMonthModel(Integer channelId,int page){
+    public List<GameDisplayModel> getGameMonthModel(Integer channelId){
         List<AdInfo> gameInfos = fetchGameInfoByMonth(channelId,false);
         List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(gameInfos,"month");
-        int rowPerPages = 10;
-        int start = (page - 1) * rowPerPages;
-        int end = start + rowPerPages;
-        if(end > gameDisplayModelList.size()){
-            end = gameDisplayModelList.size();
-        }
-        return gameDisplayModelList.subList(start,end);
+        return gameDisplayModelList;
     }
 
-    public List<GameDisplayModel> getGameDayModel(Integer channelId,int page){
+    public List<GameDisplayModel> getGameDayModel(Integer channelId){
         List<GameDisplayModel> gameDisplayModelList = getGameDisplayModel(fetchGameInfoByDate(channelId, false),"day");
-        int rowPerPages = 10;
-        int start = (page - 1) * rowPerPages;
-        int end = start + rowPerPages;
-        if(end >= gameDisplayModelList.size()){
-            end = gameDisplayModelList.size();
-        }
-        return gameDisplayModelList.subList(start,end);
+        return gameDisplayModelList;
     }
 
     public List<List<AdInfo>> getBannerDateModel(Integer channelId,int type){
@@ -126,12 +115,6 @@ public class AdTrafficBusiness {
         List<AdInfo> games = null;
         for(String key : map.keySet()){
             games = map.get(key);
-            Collections.sort(games,new Comparator<AdInfo>() {
-                @Override
-                public int compare(AdInfo obj1, AdInfo obj2) {
-                    return obj2.getAdId().compareTo(obj1.getAdId()); 
-                }
-            });
             gameByDate.add(games);
         }
         return gameByDate;

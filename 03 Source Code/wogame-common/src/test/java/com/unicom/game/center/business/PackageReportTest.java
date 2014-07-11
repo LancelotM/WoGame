@@ -5,6 +5,7 @@ import com.unicom.game.center.db.dao.ZTEReportDao;
 import com.unicom.game.center.db.domain.PackageReportDomain;
 import com.unicom.game.center.db.domain.ZTEReportDomain;
 import com.unicom.game.center.model.ReportInfo;
+import com.unicom.game.center.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,21 +33,31 @@ public class PackageReportTest {
 
     @Test
     public void testsava(){
-        PackageReportDomain domain = new PackageReportDomain();
-        domain.setAppid("01");
-        domain.setAppname("天天跑酷");
-        domain.setChannelId("1325");
-        domain.setPackageStatus(1);
-        domain.setReceiptStatus(0);
-        domain.setDateCreated(new Date());
-        dao.save(domain);
+        Random r = new Random();
+        for(int i = 0;i< 10;i++){
+            PackageReportDomain domain = new PackageReportDomain();
+            domain.setAppid("\""+i+"\"");
+            domain.setAppname("天天跑酷");
+            domain.setChannelId("1325");
+            domain.setPackageStatus(r.nextInt(2));
+            domain.setReceiptStatus(r.nextInt(2));
+            domain.setDateCreated(DateUtils.stringToDate("2014-07-10","yyyy-MM-dd"));
+            dao.save(domain);
+        }
+
 
     }
 
     @Test
     public void testfetch(){
-        //ReportInfo info = service.fetchPackageReport("12432", "2014-07-10", "2014-07-10");
-        ReportInfo info = service.fetchReceiptInfo("12432", "2014-07-10", "2014-07-10");
+        ReportInfo info = service.fetchPackageReport("1325", "2014-07-10", "2014-07-10");
+//        ReportInfo info = service.fetchReceiptInfo("1325", "2014-07-10", "2014-07-10");
+        System.out.println(info.getFailSum()+""+info.getPackageSum()+""+info.getSucessSum());
+    }
+
+    @Test
+    public void testFetchReceipt(){
+        ReportInfo info = service.fetchReceiptInfo("1325", "2014-07-10", "2014-07-10");
         System.out.println(info.getFailSum()+""+info.getPackageSum()+""+info.getSucessSum());
     }
 

@@ -3,6 +3,7 @@ package com.unicom.game.center.business;
 import com.unicom.game.center.db.dao.ZTEReportDao;
 import com.unicom.game.center.db.domain.ZTEReportDomain;
 import com.unicom.game.center.model.ReportInfo;
+import com.unicom.game.center.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +32,18 @@ public class ZTEReportBusinessTest {
     @Test
     public void testsava(){
         ZTEReportDomain domain = new ZTEReportDomain();
-        domain.setAppid("01");
-        domain.setAppname("保卫萝卜");
+        domain.setAppid("04");
+        domain.setAppname("天天跑酷");
         domain.setChannelId("1325");
-        domain.setDateCreate(new Date());
-        domain.setOperateResult("0");
+        domain.setDateCreate(DateUtils.stringToDate("2014-07-09", "yyyy-MM-dd"));
+        domain.setOperateResult(0);
         dao.save(domain);
 
     }
 
     @Test
     public void testfetch(){
-        ReportInfo info = service.fetchZTEInfo("12432", "2014-07-10", "2014-07-10");
+        ReportInfo info = service.fetchZTEInfo("1325", "2014-07-10", "2014-07-10");
         System.out.println(info.getFailSum()+""+info.getPackageSum()+""+info.getSucessSum());
     }
 }

@@ -12,7 +12,7 @@
                 <div class="keyword">
                     <#if keywords?exists>
                         <#list keywords as hotword>
-                            <span>${hotword.keyword!}(${hotword.count!})</span>
+                            <div id="keyword_span">${hotword.keyword!}(${hotword.count!})</div>
                         </#list>
                     </#if>
                 </div>
