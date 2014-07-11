@@ -1,12 +1,18 @@
 package com.unicom.game.center.business;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.KeywordDao;
+import com.unicom.game.center.db.domain.KeywordDomain;
+import com.unicom.game.center.log.model.KeyWord;
 import com.unicom.game.center.model.KeywordInfo;
 import com.unicom.game.center.utils.Logging;
 
@@ -32,4 +38,24 @@ public class KeywordBusiness {
 		return keywords;
 	}
 
+    public void typeConversion(HashMap<String,KeyWord> keyWordHashMap){
+        List<KeywordDomain> list = new ArrayList<KeywordDomain>();
+        Iterator iterator = keyWordHashMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            KeywordDomain keywordDomain = new KeywordDomain();
+            Map.Entry<Integer, KeyWord> entry = (Map.Entry)iterator.next();
+            KeyWord keyWord = entry.getValue();
+            keywordDomain.setKeyword(keyWord.getKeyword());
+            keywordDomain.setCount(keyWord.getCount());
+            keywordDomain.setDateCreated(keyWord.getDateCreated());
+            keywordDomain.setDateModified(keyWord.getDateModified());
+            list.add(keywordDomain);
+        }
+        keywordDao.saveKeywordDomainList(list,100);
+    }
+    
+    public KeywordDomain getKeyWord(String keyword){
+      KeywordDomain keywordDomain = keywordDao.getByKeyWord(keyword);
+      return keywordDomain;
+  }    
 }

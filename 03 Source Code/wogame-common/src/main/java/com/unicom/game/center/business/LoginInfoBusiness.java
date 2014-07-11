@@ -3,15 +3,20 @@ package com.unicom.game.center.business;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import com.unicom.game.center.model.JsonModel;
-import com.unicom.game.center.model.JsonParent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.UserCountDao;
+import com.unicom.game.center.db.domain.UserCountDomain;
+import com.unicom.game.center.log.model.UserCount;
+import com.unicom.game.center.model.JsonModel;
+import com.unicom.game.center.model.JsonParent;
 import com.unicom.game.center.model.LoginInfo;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
@@ -104,17 +109,16 @@ public class LoginInfoBusiness {
                     newUser.addData(0);
                     oldUser.addData(0);
                     units.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"MM-dd"));
-                    Collections.reverse(units);
                 }
-
             }else if("month".equals(dateType)){
                 for(int i = 0;i<12;i++){
                     newUser.addData(0);
                     oldUser.addData(0);
                     units.add(DateUtils.formatDateToString(DateUtils.stringToDate(DateUtils.getMonthFirstByInterval(new Date(),-(i)),"yyyy-MM-dd"),"yyyy-MM"));
-                    Collections.reverse(units);
                 }
+
             }
+            Collections.reverse(units);
             jsonData.setUnit(units);
         }else {
             for(LoginInfo loginInfo: loginInfos){
@@ -132,5 +136,21 @@ public class LoginInfoBusiness {
         jsonData.setStatus("success");
         return jsonData;
     }
+    
+    public void typeConversion(HashMap<Integer,UserCount> userCountHashMap){
+        List<UserCountDomain> list = new ArrayList<UserCountDomain>();
+        Iterator iterator = userCountHashMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            UserCountDomain userCountDomain = new UserCountDomain();
+            Map.Entry<Integer, UserCount> entry = (Map.Entry)iterator.next();
+            UserCount userCount = entry.getValue();
+            userCountDomain.setNewUserCount(userCount.getNew_user_count());
+            userCountDomain.setOldUserCount(userCount.getOld_user_count());
+            userCountDomain.setChannelId(userCount.getChannelId());
+            userCountDomain.setDateCreated(userCount.getDateCreated());
+            list.add(userCountDomain);
+        }
+        userCountDao.saveUserCountDomainList(list,100);
+    }    
 
 }

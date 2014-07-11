@@ -9,10 +9,10 @@ import com.unicom.game.center.db.domain.KeywordDomain;
 import com.unicom.game.center.model.KeywordInfo;
 
 @Component
-public class KeywordDao extends HibernateDao{
+public class KeywordDao extends HibernateDao<KeywordDomain>{
 	
 	public KeywordDomain getByKeyWord(String keyword){
-		String hql = "from KeyWordDomain where keyword = '" +keyword+"'";
+		String hql = "from KeywordDomain where keyword = '" +keyword+"'";
 		return (KeywordDomain)getSession().createQuery(hql).uniqueResult();
 	}
 	
@@ -40,5 +40,9 @@ public class KeywordDao extends HibernateDao{
 										.list();		
 		return keywords;
 	}
+	
+	public void saveKeywordDomainList(List<KeywordDomain> list, int num) {
+		saveDomainList(list, num);
+	}	
 
 }

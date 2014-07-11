@@ -21,7 +21,7 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: basePath+"/userLoginLog",
+        url: basePath+"/userLoginLog?"+Math.random(),
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
@@ -34,7 +34,7 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: basePath+"/pageTrafficLog",
+        url: basePath+"/pageTrafficLog?"+Math.random(),
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
@@ -47,19 +47,29 @@ $(function(){
     });
     $.ajax({
         type: "POST",
-        url: basePath+"/firstPageBannerLog",
+        url: basePath+"/firstPageBannerLog?"+Math.random(),
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
             var html = "";
+            var imgSrc = "";
+            var bannerImgDesc = "";
             $.each(data, function(commentIndex, comment){
+                if(commentIndex == 1){
+                    $.each(comment, function(varindex, game){
+//                        imgSrc += '<img src="'+basePath+"/"+game['icon']+'" alt=""/>';
+                        bannerImgDesc += '<td>广告位'+(varindex+1)+'</td>';
+                    });
+                }
                 html += "<tr>";
                 $.each(comment,function(index,obj){
-                    html += '<td>'+obj['clickThrough']+'|'+obj['downloadCount']+'</td>';
+                    html += '<td>'+obj['clickThrough']+'</td>';
                 });
                 html += "</tr>"
             });
+//            $("#banner_caption").append(imgSrc);
             $('#banner').append(html);
+            $('#bannerImg_dec').append(bannerImgDesc);
         }
     });
 
@@ -67,23 +77,23 @@ $(function(){
         var curPage = $(this).text();
         $.ajax({
             type: "POST",
-            url: basePath+"/topGameLog",
+            url: basePath+"/topGameLog?"+Math.random(),
             data: {type:typeVlaue, channelId:channelNum,page:curPage},
             dataType: "json",
             success: function(data){
                 var html = "";
                 $.each(data, function(commentIndex, comment){
-                    html += '<tr class="append_tr"><td><img src="'+basePath+'/static/images/game_img.png"/>'+comment['gameName']
+                    html += '<tr class="append_tr"><td>'+comment['gameName']
                         +'</td><td>'+comment['thisTimeData']+'</td><td>'+comment['lastTimeData']+
                         '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
                         '</td><td>'+comment['last4TimeData']+'</td></tr>'
                 });
-                $("tr[class='append_tr']").remove();
+//                $("tr[class='append_tr']").remove();
                 $('#top30Game').append(html);
             }
         });
-        $("a[class='current_page']").removeClass();
-        $(this).addClass('current_page');
+//        $("a[class='current_page']").removeClass();
+//        $(this).addClass('current_page');
     });
     $('#pages a').first().trigger('click');
 });

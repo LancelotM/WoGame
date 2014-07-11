@@ -2,14 +2,14 @@ package com.unicom.game.center.business;
 
 import java.util.List;
 
-import com.unicom.game.center.model.GameDisplayModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.unicom.game.center.model.GameInfo;
+import com.unicom.game.center.db.dao.AdTrafficDao;
+import com.unicom.game.center.model.AdInfo;
 
 /**
  * @author Alex Yin
@@ -20,11 +20,14 @@ import com.unicom.game.center.model.GameInfo;
 @RunWith(SpringJUnit4ClassRunner.class) 
 public class GameTrafficBusinessTest {
 	@Autowired
-	private GameTrafficBusiness game;
+	private AdTrafficBusiness game;
+
+    @Autowired
+    private AdTrafficDao gameTrafficDao;
 	
 	@Test
 	public void testFetchBannerInfo(){
-        List<GameInfo> gameList =game.fetchGameInfoByDate(18082, true);
+        List<AdInfo> gameList =game.fetchGameInfoByDate(18082, true);
 		System.out.println((null != gameList) ? gameList.size() : 0);
 		
 		gameList =game.fetchGameInfoByMonth(18082, true);
@@ -33,11 +36,11 @@ public class GameTrafficBusinessTest {
 	
 	@Test
 	public void testFetchHotListInfo(){
-        List<GameInfo>  gameList =game.fetchGameInfoByDate(18082, false);
+        List<AdInfo>  gameList =game.fetchGameInfoByDate(18082, false);
 		System.out.println((null != gameList) ? gameList.size() : 0);
 		
 		gameList =game.fetchGameInfoByMonth(18082, false);
 		System.out.println((null != gameList) ? gameList.size() : 0);			
-	}	
-	
+	}
+
 }

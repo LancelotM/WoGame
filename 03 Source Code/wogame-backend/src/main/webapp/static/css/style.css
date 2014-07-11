@@ -327,7 +327,7 @@ a{
 }
 .banner_title{
 	vertical-align:middle;
-	height:76px;
+	height:88px;
 }
 .banner_img{
 	display:block;
@@ -356,7 +356,7 @@ a{
 }
 
 #page_banner{
-    height:77px;
+    height:89px;
     background-color:#fff4d3;
     font-weight:bold;
     color:#ec6e01;;
@@ -529,6 +529,9 @@ a{
     border:1px solid #e3e3e3;
     border-radius:4px;
     line-height: 26px;
+}
+#game_tip{
+   margin-right: 10px;
 }
 
 

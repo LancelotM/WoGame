@@ -1,6 +1,6 @@
 
 function checkBlank(id,checkInfo){
-     var value = document.getElementById(id).value;
+     var value = document.getElementById(id).value.trim();
      if(value == "" || value == null){
 		document.getElementById(checkInfo).innerHTML = "内容不能为空!";
      }else{
@@ -9,8 +9,8 @@ function checkBlank(id,checkInfo){
 }
 function checkForm(){
     var basePath = getBasePath();
-    var username = $('#username').val();
-    var password = $('#password').val();
+    var username = $('#username').val().trim();
+    var password = $('#password').val().trim();
     if(username != "" && username != null && password != "" && password != null){
         $.ajax({
             url:basePath+"/checkNamePwd",
@@ -39,7 +39,7 @@ function checkForm(){
 
 $(window).keydown(function(event){
     if(event.keyCode == 13){
-        $('#submit').click();
+        $('#submit').trigger('click');
     }
 });
 
@@ -57,7 +57,7 @@ $(function(){
     }
 
     if(loginCode != null && loginCode != "" && pwd != null && pwd != ""){
-        $('#submit').click();
+        $('#submit').trigger('click');
     }
 });
 

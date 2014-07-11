@@ -110,7 +110,7 @@ public class PackageInfoBusiness {
             domain.setApkFilePath(contentArr[9]);
             domain.setApkOnlineTime(contentArr[10]);
             domain.setStatus(contentArr[11]);
-            domain.setReserve1(contentArr[12]);
+            domain.setProductIndex(contentArr[12]);
             domain.setReserve2(contentArr[13]);
             domain.setReserve3(contentArr[14]);
             domain.setReserve4(contentArr[15]);
