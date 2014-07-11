@@ -40,11 +40,6 @@
                         <td>广告位</td>
                     </tr>
                 </table>
-                <#--<div id="pages">-->
-                    <#--<a href="javascript:;">1</a>-->
-                    <#--<a href="javascript:;">2</a>-->
-                    <#--<a href="javascript:;">3</a>-->
-                <#--</div>-->
             </div>
         </div>
     </div>
