@@ -20,7 +20,7 @@ public class ZTEReportDomain implements Serializable{
     private String appid;
     private String appname;
     private String channelId;
-    private String operateResult;
+    private int operateResult;
     private Date dateCreate;
 
     @Id
@@ -62,11 +62,11 @@ public class ZTEReportDomain implements Serializable{
     }
 
     @Column(name="operate_result")
-    public String getOperateResult() {
+    public int getOperateResult() {
         return operateResult;
     }
 
-    public void setOperateResult(String operateResult) {
+    public void setOperateResult(int operateResult) {
         this.operateResult = operateResult;
     }
 

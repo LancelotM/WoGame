@@ -40,9 +40,12 @@ public class ReportController {
         ReportInfo packageReportInfo = packageReport.fetchPackageReport(channelId, startDate, endDate);
         ReportInfo receiptReportInfo = packageReport.fetchReceiptInfo(channelId, startDate, endDate);
         ReportInfo zteReportInfo = zteReport.fetchZTEInfo(channelId,startDate,endDate);
+        map.put("start",startDate);
+        map.put("end",endDate);
+        map.put("chaid",channelId);
         map.put("packageReportInfo",packageReportInfo);
         map.put("receiptReportInfo",receiptReportInfo);
         map.put("zteReportInfo",zteReportInfo);
-        return new ModelAndView("/report");
+        return new ModelAndView("/report",map);
     }
 }

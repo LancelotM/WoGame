@@ -52,7 +52,6 @@ $(function(){
         dataType: "json",
         success: function(data){
             var html = "";
-            var imgSrc = "";
             var bannerImgDesc = "";
             $.each(data, function(commentIndex, comment){
                 if(commentIndex == 1){
@@ -73,29 +72,31 @@ $(function(){
         }
     });
 
-    $('#pages a').click(function(){
-        var curPage = $(this).text();
-        $.ajax({
-            type: "POST",
-            url: basePath+"/topGameLog?"+Math.random(),
-            data: {type:typeVlaue, channelId:channelNum,page:curPage},
-            dataType: "json",
-            success: function(data){
-                var html = "";
-                $.each(data, function(commentIndex, comment){
-                    html += '<tr class="append_tr"><td>'+comment['gameName']
-                        +'</td><td>'+comment['thisTimeData']+'</td><td>'+comment['lastTimeData']+
-                        '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
-                        '</td><td>'+comment['last4TimeData']+'</td></tr>'
-                });
+    $.ajax({
+        type: "POST",
+        url: basePath+"/topGameLog?"+Math.random(),
+        data: {type:typeVlaue, channelId:channelNum},
+        dataType: "json",
+        success: function(data){
+            var html = "";
+            $.each(data, function(commentIndex, comment){
+                html += '<tr class="append_tr"><td>'+comment['gameName']
+                    +'</td><td>'+comment['thisTimeData']+'</td><td>'+comment['lastTimeData']+
+                    '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
+                    '</td><td>'+comment['last4TimeData']+'</td></tr>'
+            });
 //                $("tr[class='append_tr']").remove();
-                $('#top30Game').append(html);
-            }
-        });
+            $('#top30Game').append(html);
+        }
+    });
+
+//    $('#pages a').click(function(){
+//        var curPage = $(this).text();
+
 //        $("a[class='current_page']").removeClass();
 //        $(this).addClass('current_page');
-    });
-    $('#pages a').first().trigger('click');
+//    });
+   // $('#pages a').first().trigger('click');
 });
 
 function createForm(url,value,type){
