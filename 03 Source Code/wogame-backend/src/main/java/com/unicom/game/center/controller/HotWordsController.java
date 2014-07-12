@@ -45,9 +45,9 @@ public class HotWordsController {
 
         List<KeywordInfo> keywords = keywordService.fetchTopSearchKeyword();
         DownloadInfoModel downloadModel = downLoadService.getDownloadInfos(null, null, null, 1);
-        model.put("totalPage", downloadModel.getTotalPage());
+        model.put("totalPage", downloadModel.getTotalPages());
         model.put("keywords",keywords);
-        model.put("downloadInfoDomains",downloadModel.getDownloadInfoDomains());
+        model.put("downloadInfoDomains",downloadModel.getDownloadInfomodels());
         return new ModelAndView("/keyword", model); 
     }
 

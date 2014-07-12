@@ -48,10 +48,7 @@ public class DownloadInfoDao extends HibernateDao<DownloadInfoDomain>{
                sb.append("'");
            }
         }
-
-        int rowsPerPage = 10;
-        int start = (page - 1)*rowsPerPage+1;
-        List<DownloadDiaplayModel> downloadInfos = getSession().createQuery(sb.toString()).setFirstResult(start).setMaxResults(rowsPerPage).list();
+        List<DownloadDiaplayModel> downloadInfos = getSession().createQuery(sb.toString()).list();
 		
 		return downloadInfos;
 	}

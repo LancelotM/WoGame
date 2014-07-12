@@ -58,14 +58,19 @@ public class DownLoadInfoBusiness {
         List<DownloadDiaplayModel> downloadInfoDomains = downloadInfoDao.getByProductOrChaOrDate(productId,channelID,startDate,endDate,page);
         int perRowsPage = 10;
         int totalPage = 0;
+        int start = (page - 1)*perRowsPage+1;
+        int end = start + perRowsPage;
+        if(end > downloadInfoDomains.size()){
+            end = downloadInfoDomains.size();
+        }
         if(downloadInfoDomains.size()%perRowsPage == 0){
             totalPage = downloadInfoDomains.size()/perRowsPage;
         }else {
             totalPage = downloadInfoDomains.size()/perRowsPage + 1;
         }
         DownloadInfoModel downloadInfoModel = new DownloadInfoModel();
-        downloadInfoModel.setTotalPage(totalPage);
-        downloadInfoModel.setDownloadInfoDomains(downloadInfoDomains);
+        downloadInfoModel.setTotalPages(totalPage);
+        downloadInfoModel.setDownloadInfomodels(downloadInfoDomains.subList(start,end));
         return downloadInfoModel;
     }
 
