@@ -13,7 +13,7 @@ import java.util.Date;
 public class KeyWord implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	
+    private Integer id;
     private String keyword;
     private int count;
     private Date dateCreated;
@@ -22,12 +22,19 @@ public class KeyWord implements Serializable{
     public KeyWord() {
         super();
     }
-    public KeyWord(String keyword, int count, Date dateCreated, Date dateModified) {
+    public KeyWord(Integer id, String keyword, int count, Date dateCreated, Date dateModified) {
         super();
+        this.id = id;
         this.keyword = keyword;
         this.count = count;
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
+    }
+    public Integer getId(){
+        return id;
+    }
+    public void setId(Integer id){
+        this.id = id;
     }
     public String getKeyword() {
         return keyword;

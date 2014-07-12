@@ -1,16 +1,9 @@
 package com.unicom.game.center.loganalyser.imp;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,8 +35,6 @@ import com.unicom.game.center.utils.Utility;
 
 @Component
 public class LogAnalyser implements ILogAnalyser {
-	
-   
     @Autowired
     private LoginInfoBusiness userCountBusiness;
     @Autowired
@@ -56,414 +47,384 @@ public class LogAnalyser implements ILogAnalyser {
     private ProductBusiness productBusiness;
     @Autowired
     private DownLoadInfoBusiness downLoadInfoBusiness;
-	
-
     @Autowired
     private PackageInfoBusiness packageInfoBusiness;
-
     @Autowired
-   	private SFTPHelper sftpHelper;
-    
-	@Value("#{properties['response.file.path']}")
-	private String responseFilePath;
-	
-	@Value("#{properties['latest.handdle.file']}")
-	private String latestHanddleFile;
-	
-    private HashMap<String,Object> productValue(JSONObject dataJson){
-        HashMap<String,Object> hashMap = new HashMap<String,Object>();
-        String product_id = dataJson.getString("productId");
-        String product_name = dataJson.getString("productName");
-        String product_icon = dataJson.getString("productIcon");
-        int channel_id = Integer.parseInt(dataJson.getString("channelId"));
-        hashMap.put("product_id",product_id);
-        hashMap.put("product_name",product_name);
-        hashMap.put("product_icon",product_icon);
-        hashMap.put("channel_id",channel_id);
-        return hashMap;
-    }
-    private boolean checkKey(HashMap<Integer,UserCount> userCountHashMap,int channelId){
-        boolean flag = true;
-        Set<Integer> set = userCountHashMap.keySet();
-        Iterator<Integer> ite = set.iterator();
-        while(ite.hasNext()){
-            int tempNum = ite.next();
-            if (tempNum == channelId) {
-                flag = false;
+    private SFTPHelper sftpHelper;
+
+    @Value("#{properties['response.file.path']}")
+    private String responseFilePath;
+
+    @Value("#{properties['latest.handdle.file']}")
+    private String latestHanddleFile;
+
+    @Value("#{properties['log.file.path']}")
+    private String logFilePath;
+
+    @Value("#{properties['latest.log.fileInfoNumber']}")
+    private String logInfoNumberFile;
+
+    @Value("#{properties['latest.log.fileInfo']}")
+    private String logInfoFile;
+
+    private void  keyWordDispose(String value, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate){
+        KeyWord keyWord = null;
+        Date today = new Date();
+        Date yesterday = DateUtils.getDayByInterval(today,-1);
+        KeywordDomain keywordDomain = keywordBusiness.getKeyWord(value);
+        if (keywordDomain == null) {
+            if(keyMapSave.containsKey(value)){
+                keyWord = keyMapSave.get(value) ;
+                keyWord.setKeyword(value);
+                keyWord.setCount(keyWord.getCount() + 1);
+                keyWord.setDateCreated(yesterday);
+                keyWord.setDateModified(today);
+                keyMapSave.put(value, keyWord);
+            }else{
+                keyWord = new KeyWord();
+                keyWord.setKeyword(value);
+                keyWord.setCount(1);
+                keyWord.setDateCreated(yesterday);
+                keyWord.setDateModified(today);
+                keyMapSave.put(value, keyWord);
             }
+        }else{
+            if(!keyMapUpdate.containsKey(value)){
+                keyWord = new KeyWord();
+                keyWord.setId(keywordDomain.getId());
+                keyWord.setKeyword(value);
+                keyWord.setCount(keywordDomain.getCount());
+                keyMapUpdate.put(value,keyWord);
+                keyWord = keyMapUpdate.get(value);
+                keyWord.setKeyword(value);
+                keyWord.setCount(keyWord.getCount() + 1);
+                keyWord.setDateCreated(yesterday);
+                keyWord.setDateModified(today);
+                keyMapUpdate.put(value, keyWord);
+            } else {
+                keyWord = keyMapUpdate.get(value) ;
+                keyWord.setId(keyWord.getId());
+                keyWord.setKeyword(value);
+                keyWord.setCount(keyWord.getCount() + 1);
+                keyWord.setDateCreated(yesterday);
+                keyWord.setDateModified(today);
+                keyMapUpdate.put(value, keyWord);
+            }
+        }
+    }
+
+    private static <E> boolean checkKey(Map<Integer,E> hashMap,int channelId){
+        boolean flag = false;
+        E mapValue = hashMap.get(channelId);
+        if(null != mapValue){
+            flag = true;
         }
         return flag;
     }
-    private boolean checkKey(int channelId,HashMap<Integer,PageTraffic> pageTrafficHashMap){
-        boolean flag = true;
-        Set<Integer> set = pageTrafficHashMap.keySet();
-        Iterator<Integer> ite = set.iterator();
-        while(ite.hasNext()){
-            int tempNum = ite.next();
-            if (tempNum == channelId) {
-                flag = false;
+
+    private static Map wogameInfoNumberReader(File file){
+        String fileContent = null;
+        String contentTemp = null;
+        BufferedReader reader = null;
+        Map<String,Integer> numberCountMap = new HashMap<String, Integer>();
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            while ((contentTemp = reader.readLine()) !=  null){
+                if(fileContent == null){
+                    fileContent = contentTemp;
+                } else{
+                    fileContent = fileContent + " " + contentTemp;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        StringTokenizer tokenizer = new StringTokenizer(fileContent);
+        while(tokenizer.hasMoreTokens()){
+            String splitWord = tokenizer.nextToken();
+            if(numberCountMap.containsKey(splitWord)){
+                int count = numberCountMap.get(splitWord);
+                numberCountMap.put(splitWord,count+1);
+            }else{
+                numberCountMap.put(splitWord,1);
             }
         }
-        return flag;
+        return numberCountMap;
     }
 
-	@Override
-	public void doLogAnalyse(){
-		Logging.logDebug("----- doLogAnaylyse start -----");
-		try{
-            boolean banner_flag = false;
-            int channelId = 0;
-            int sort = 0;
-            int downloadNum = 0;
-            int gameTrafficNum = 0;
-            Date today = new Date();
-            Date yesterday = new DateUtils().getDayByInterval(today,-1);
-            String fileDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
-            String fileName = "E:\\WoGame-GitHub\\log\\wogamecenter_info."+fileDate+".log";
-            File file = new File(fileName);
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new FileReader(file));
-                String tempString = null;
-                int id = 0;
-                HashMap<Integer,UserCount> userCountHashMap = new HashMap<Integer,UserCount>();
-                HashMap<Integer,PageTraffic> pageTrafficHashMap = new HashMap<Integer,PageTraffic>();
-                HashMap<String,Product> productHashMap = new HashMap<String,Product>();
-                HashMap<Integer,GameTraffic> gameTrafficHashMap = new HashMap<Integer,GameTraffic>();
-                HashMap<Integer,DownLoadInfo> downLoadInfoHashMap = new HashMap<Integer,DownLoadInfo>();
-                HashMap<String,KeyWord> keyWordHashMap = new HashMap<String,KeyWord>();
-                while ((tempString = reader.readLine()) != null){
-                    String cookie = null;
-                    int pgeId = 0;
-                    String keyword = null;
-                    UserCount userCount = new UserCount();
-                    PageTraffic pageTraffic = new PageTraffic();
-                    Product product = new Product();
-                    DownLoadInfo downLoadInfo = new DownLoadInfo();
-                    KeyWord newKeyWord = new KeyWord();
-                    GameTraffic gameTraffic = new GameTraffic();
-                    HashMap<String,Object> hashMapBanner = new HashMap<String,Object>();
-                    String tempReplace = tempString.replace("\"", "");
-                    String DataInfo = tempString.split(" - ")[1].trim();
-                    JSONObject dataJson = JSONObject.fromObject(DataInfo);
-                    String [] strTempString = tempReplace.split("\\u007B");
-
-                    if((strTempString[1].split(":"))[0].trim().equalsIgnoreCase("userCount")) {
-                        JSONObject userCountJson = dataJson.getJSONObject("userCount");
-                        cookie = userCountJson.getString("cookie");
-                        channelId = Integer.parseInt(userCountJson.getString("channelId"));
-                        boolean flag = new LogAnalyser().checkKey(userCountHashMap,channelId);
-                        if (flag == false){
-                            userCount = userCountHashMap.get(channelId);
-                            if(userCount != null){
-                                if(cookie.equalsIgnoreCase("true")){
-                                    userCount.setOld_user_count(userCount.getOld_user_count() + 1);
-                                }else if(cookie.equalsIgnoreCase("false")){
-                                    userCount.setNew_user_count(userCount.getNew_user_count() + 1);
-                                }
-                            } else{
-                                userCount = new UserCount();
-                                if(cookie.equalsIgnoreCase("true")){
-                                    userCount.setOld_user_count(1);
-                                }else if(cookie.equalsIgnoreCase("false")){
-                                    userCount.setNew_user_count(1);
-                                }
-                            }
-                        } else {
-                            userCount = new UserCount();
-                            if(cookie.equalsIgnoreCase("true")){
-                                userCount.setOld_user_count(1);
-                            }else if(cookie.equalsIgnoreCase("false")){
-                                userCount.setNew_user_count(1);
-                            }
+    private void woGameInfoNumberParse(Map<String,Integer> numberCountMap,Date fileDate){
+        Map<Integer,UserCount> userCountMap = new HashMap<Integer, UserCount>();
+        Map<Integer,PageTraffic> pageTrafficMap = new HashMap<Integer, PageTraffic>();
+        Map<Integer,GameTraffic> gameTrafficMap = new HashMap<Integer,GameTraffic>();
+        UserCount userCount = null;
+        PageTraffic pageTraffic = null;
+        GameTraffic gameTraffic = null;
+        int id = 0;
+        int clickThrough = 0;
+        int adType = 0;
+        int adId = 0;
+        Iterator iterator = numberCountMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry =(Map.Entry) iterator.next();
+            String key = entry.getKey().toString();
+            int val = Integer.parseInt(entry.getValue().toString());
+            String firstTwoCharacters = key.substring(0,2);
+            int channelId = Integer.parseInt(key.substring(2,key.length()));
+            if(firstTwoCharacters.equalsIgnoreCase("80")||firstTwoCharacters.equalsIgnoreCase("81")){
+                if (userCountMap.containsKey(channelId)){
+                    userCount = userCountMap.get(channelId);
+                    if(userCount != null){
+                        if(firstTwoCharacters.equalsIgnoreCase("80")){
+                            userCount.setNew_user_count(userCount.getNew_user_count() + val);
+                        } else if(firstTwoCharacters.equalsIgnoreCase("81")){
+                            userCount.setOld_user_count(userCount.getOld_user_count() + val);
                         }
-                        userCount.setDateCreated(yesterday);
-                        userCount.setChannelId(channelId);
-                        userCountHashMap.put(channelId, userCount);
+                    } else{
+                        userCount = new UserCount();
+                        if(firstTwoCharacters.equalsIgnoreCase("80")){
+                            userCount.setNew_user_count(val);
+                        } else if(firstTwoCharacters.equalsIgnoreCase("81")){
+                            userCount.setOld_user_count(val);
+                        }
                     }
-                    if((strTempString[1].split(":"))[0].trim().equalsIgnoreCase("pageTraffic")) {
-                        JSONObject pagetraffic = dataJson.getJSONObject("pageTraffic");
-                        pgeId = Integer.parseInt(pagetraffic.getString("pageId"));
-                        channelId = Integer.parseInt(pagetraffic.getString("channelId"));
-                        boolean flag = new LogAnalyser().checkKey(channelId,pageTrafficHashMap);
-                        if (flag == false){
-                            pageTraffic = pageTrafficHashMap.get(channelId);
-                            if(null != pageTraffic){
-                                if(pgeId == 1){
-                                    pageTraffic.setHomepage(pageTraffic.getHomepage() + 1);
-                                } else if(pgeId == 2){
-                                    pageTraffic.setCategory(pageTraffic.getCategory() + 1);
-                                } else if(pgeId == 3){
-                                    pageTraffic.setHotlist(pageTraffic.getHotlist() + 1);
-                                } else if(pgeId == 4){
-                                    pageTraffic.setLatest(pageTraffic.getLatest() + 1);
-                                }
-                            }else{
-                                pageTraffic = new PageTraffic();
-                                if(pgeId == 1){
-                                    pageTraffic.setHomepage(1);
-                                } else if(pgeId == 2){
-                                    pageTraffic.setCategory(1);
-                                } else if(pgeId == 3){
-                                    pageTraffic.setHotlist(1);
-                                } else if(pgeId == 4){
-                                    pageTraffic.setLatest(1);
-                                }
-                            }
-                        } else {
-                            pageTraffic = new PageTraffic();
-                            if(pgeId == 1){
-                                pageTraffic.setHomepage(1);
-                            } else if(pgeId == 2){
-                                pageTraffic.setCategory(1);
-                            } else if(pgeId == 3){
-                                pageTraffic.setHotlist(1);
-                            } else if(pgeId == 4){
-                                pageTraffic.setLatest(1);
-                            }
-                        }
-                        pageTraffic.setDateCreated(yesterday);
-                        pageTraffic.setChannelId(channelId);
-                        pageTrafficHashMap.put(channelId, pageTraffic);
-                    }
-                    if((strTempString[1].split(":"))[0].trim().equalsIgnoreCase("keyword")) {
-                        JSONObject kwJson = dataJson.getJSONObject("keyword");
-                        keyword = kwJson.getString("keyword");
-                        KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keyword);
-                        if(keywordDomain == null){
-                            boolean flag = true;
-                            Set<String> set = keyWordHashMap.keySet();
-                            Iterator<String> ite = set.iterator();
-                            while(ite.hasNext()){
-                                String tempNum = ite.next();
-                                if (tempNum.equalsIgnoreCase(keyword)) {
-                                    flag = false;
-                                }
-                            }
-                            if (flag == true){
-                                newKeyWord = new KeyWord();
-                                newKeyWord.setKeyword(keyword);
-                                newKeyWord.setCount(1);
-                                newKeyWord.setDateCreated(yesterday);
-                                newKeyWord.setDateModified(today);
-                                keyWordHashMap.put(keyword, newKeyWord);
-                            } else{
-                                newKeyWord = keyWordHashMap.get(keyword) ;
-                                newKeyWord.setKeyword(keyword);
-                                newKeyWord.setCount(newKeyWord.getCount() + 1);
-                                newKeyWord.setDateCreated(yesterday);
-                                newKeyWord.setDateModified(today);
-                                keyWordHashMap.put(keyword, newKeyWord);
-                            }
-                        } else {
-                            boolean flag = true;
-                            Set<String> set = keyWordHashMap.keySet();
-                            Iterator<String> ite = set.iterator();
-                            while(ite.hasNext()){
-                                String tempNum = ite.next();
-                                if (tempNum.equalsIgnoreCase(keyword)) {
-                                    flag = false;
-                                }
-                            }
-                            if(flag == true){
-                                newKeyWord = new KeyWord();
-                                newKeyWord.setKeyword(keyword);
-                                newKeyWord.setCount(keywordDomain.getCount());
-                                keyWordHashMap.put("keyword",newKeyWord);
-                                newKeyWord = keyWordHashMap.get(keyword);
-                                newKeyWord.setKeyword(keyword);
-                                newKeyWord.setCount(newKeyWord.getCount() + 1);
-                                newKeyWord.setDateCreated(yesterday);
-                                newKeyWord.setDateModified(today);
-                                keyWordHashMap.put(keyword, newKeyWord);
-                            }else{
-                                newKeyWord = keyWordHashMap.get(keyword) ;
-                                newKeyWord.setKeyword(keyword);
-                                newKeyWord.setCount(newKeyWord.getCount() + 1);
-                                newKeyWord.setDateCreated(yesterday);
-                                newKeyWord.setDateModified(today);
-                                keyWordHashMap.put(keyword, newKeyWord);
-                            }
-                        }
-
-                    }
-                    if((strTempString[1].split(":"))[0].trim().equalsIgnoreCase("bannerTraffic")||(strTempString[1].split(":"))[0].trim().equalsIgnoreCase("hotGameTraffic")) {
-                        if((strTempString[1].split(":"))[0].trim().equalsIgnoreCase("bannerTraffic")){
-                            banner_flag = true;
-                            JSONObject bannerTrafficJson = dataJson.getJSONObject("bannerTraffic");
-                            hashMapBanner = new LogAnalyser().productValue(bannerTrafficJson);
-                            sort = Integer.parseInt(bannerTrafficJson.getString("sort"));
-                            channelId = Integer.parseInt(hashMapBanner.get("channel_id").toString());
-                            hashMapBanner.put("banner_flag", banner_flag);
-                            hashMapBanner.put("sort",sort);
-                            Product gameTrafficProduct = new Product();
-                            gameTrafficProduct.setProduct_id(hashMapBanner.get("product_id").toString());
-                            gameTrafficProduct.setProduct_icon(hashMapBanner.get("product_icon").toString());
-                            gameTrafficProduct.setProduct_name(hashMapBanner.get("product_name").toString());
-                            gameTrafficProduct.setDateCreated(yesterday);
-                            if((sort <30) && productBusiness.checkId(hashMapBanner.get("product_id").toString())) {
-                                gameTraffic = new GameTraffic();
-                                gameTraffic.setClick_through(gameTrafficNum);
-                                gameTraffic.setDownload_count(downloadNum);
-                                gameTraffic.setChannel_id(channelId);
-                                gameTraffic.setProduct_id(hashMapBanner.get("product_id").toString());
-                                gameTraffic.setSort(Integer.parseInt(hashMapBanner.get("sort").toString()));
-                                gameTraffic.setBanner_flag(Boolean.parseBoolean(hashMapBanner.get("banner_flag").toString()));
-                                gameTraffic.setDateCreated(yesterday);
-                                gameTraffic.setProduct(gameTrafficProduct);
-                                gameTrafficHashMap.put(++id,gameTraffic);
-                            }
-                        } else if ((strTempString[1].split(":"))[0].trim().equalsIgnoreCase("hotGameTraffic")){
-                            banner_flag = false;
-                            JSONObject hotGameJson = dataJson.getJSONObject("hotGameTraffic");
-                            hashMapBanner = new LogAnalyser().productValue(hotGameJson);
-                            sort = Integer.parseInt(hotGameJson.getString("sort"));
-                            channelId = Integer.parseInt(hashMapBanner.get("channel_id").toString());
-                            hashMapBanner.put("banner_flag",banner_flag);
-                            hashMapBanner.put("sort",sort);
-                            boolean flag = true;
-                            Set<Integer> set = gameTrafficHashMap.keySet();
-                            Iterator<Integer> ite = set.iterator();
-                            while(ite.hasNext()){
-                                int tempNum = ite.next();
-                                if (tempNum == Integer.parseInt(hashMapBanner.get("channel_id").toString())) {
-                                    flag = false;
-                                }
-                            }
-                            Product gameTrafficProduct = new Product();
-                            gameTrafficProduct.setProduct_id(hashMapBanner.get("product_id").toString());
-                            gameTrafficProduct.setProduct_icon(hashMapBanner.get("product_icon").toString());
-                            gameTrafficProduct.setProduct_name(hashMapBanner.get("product_name").toString());
-                            gameTrafficProduct.setDateCreated(yesterday);
-                            if((sort <30) && flag == true && productBusiness.checkId(hashMapBanner.get("product_id").toString())) {
-                                gameTraffic = new GameTraffic();
-                                gameTraffic.setClick_through(1);
-                                gameTraffic.setChannel_id(channelId);
-                                gameTraffic.setDownload_count(downloadNum);
-                                gameTraffic.setProduct_id(hashMapBanner.get("product_id").toString());
-                                gameTraffic.setSort(Integer.parseInt(hashMapBanner.get("sort").toString()));
-                                gameTraffic.setBanner_flag(Boolean.parseBoolean(hashMapBanner.get("banner_flag").toString()));
-                                gameTraffic.setDateCreated(yesterday);
-                                gameTraffic.setProduct(gameTrafficProduct);
-                                gameTrafficNum = gameTraffic.getClick_through();
-                                gameTrafficHashMap.put(++id,gameTraffic);
-                            }else if((sort <30) && flag == false && productBusiness.checkId(hashMapBanner.get("product_id").toString())) {
-                                gameTraffic = new GameTraffic();
-                                gameTraffic.setClick_through(gameTrafficNum + 1);
-                                gameTraffic.setDownload_count(downloadNum);
-                                gameTraffic.setChannel_id(channelId);
-                                gameTraffic.setProduct_id(hashMapBanner.get("product_id").toString());
-                                gameTraffic.setSort(Integer.parseInt(hashMapBanner.get("sort").toString()));
-                                gameTraffic.setBanner_flag(Boolean.parseBoolean(hashMapBanner.get("banner_flag").toString()));
-                                gameTraffic.setDateCreated(yesterday);
-                                gameTraffic.setProduct(gameTrafficProduct);
-                                gameTrafficNum = gameTraffic.getClick_through();
-                                gameTrafficHashMap.put(++id,gameTraffic);
-                            }
-                        }
-
-                        boolean flag = true;
-                        Set<String> sets = productHashMap.keySet();
-                        Iterator<String> iterator = sets.iterator();
-                        while(iterator.hasNext()){
-                            String tempNum = iterator.next();
-                            if (tempNum.equalsIgnoreCase(hashMapBanner.get("product_id").toString())) {
-                                flag = false;
-                            }
-                        }
-                        if ((sort <30) && flag && !(productBusiness.checkId(hashMapBanner.get("product_id").toString()))){
-                            product = new Product();
-                            product.setProduct_id(hashMapBanner.get("product_id").toString());
-                            product.setProduct_name(hashMapBanner.get("product_name").toString());
-                            product.setProduct_icon(hashMapBanner.get("product_icon").toString());
-                            product.setDateCreated(yesterday);
-                            productHashMap.put("product_id", product);
-                        }
-                    }else if ((strTempString[1].split(":"))[0].trim().equalsIgnoreCase("downloadInfo")) {
-                        gameTraffic.setDownload_count(gameTraffic.getDownload_count() + 1);
-                        JSONObject downLoadJson = dataJson.getJSONObject("downloadInfo");
-                        hashMapBanner = new LogAnalyser().productValue(downLoadJson);
-                        channelId = Integer.parseInt(hashMapBanner.get("channel_id").toString());
-                        boolean flag = true;
-                        Set<Integer> set = downLoadInfoHashMap.keySet();
-                        Iterator<Integer> ite = set.iterator();
-                        while(ite.hasNext()){
-                            int tempNum = ite.next();
-                            if (tempNum == channelId) {
-                                flag = false;
-                            }
-                        }
-                        if(flag == true && productBusiness.checkId(hashMapBanner.get("product_id").toString())){
-                            downLoadInfo = new DownLoadInfo();
-                            downLoadInfo.setDownload_count(1);
-                            downLoadInfo.setChannel_id(channelId);
-                            downLoadInfo.setProduct_id(hashMapBanner.get("product_id").toString());
-                            downLoadInfo.setDateCreated(yesterday);
-                            downloadNum = downLoadInfo.getDownload_count();
-                            downLoadInfoHashMap.put(channelId, downLoadInfo);
-                        } else if(flag == false && productBusiness.checkId(hashMapBanner.get("product_id").toString())){
-                            downLoadInfo = downLoadInfoHashMap.get(channelId);
-                            downLoadInfo.setDownload_count(downLoadInfo.getDownload_count() + 1);
-                            downLoadInfo.setChannel_id(channelId);
-                            downLoadInfo.setProduct_id(hashMapBanner.get("product_id").toString());
-                            downLoadInfo.setDateCreated(yesterday);
-                            downloadNum = downLoadInfo.getDownload_count();
-                            downLoadInfoHashMap.put(channelId, downLoadInfo);
-                        }
-
-
-                        flag = true;
-                        Set<String> sets = productHashMap.keySet();
-                        Iterator<String> iterator = sets.iterator();
-                        while(iterator.hasNext()){
-                            String tempNum = iterator.next();
-                            if (tempNum.equalsIgnoreCase(hashMapBanner.get("product_id").toString())) {
-                                flag = false;
-                            }
-                        }
-                        if (flag == true && !(productBusiness.checkId(hashMapBanner.get("product_id").toString()))){
-                            product = new Product();
-                            product.setProduct_id(hashMapBanner.get("product_id").toString());
-                            product.setProduct_name(hashMapBanner.get("product_name").toString());
-                            product.setProduct_icon(hashMapBanner.get("product_icon").toString());
-                            product.setDateCreated(yesterday);
-                            productHashMap.put("product_id", product);
-                        }
+                } else {
+                    userCount = new UserCount();
+                    if(firstTwoCharacters.equalsIgnoreCase("80")){
+                        userCount.setNew_user_count(val);
+                    } else if(firstTwoCharacters.equalsIgnoreCase("81")){
+                        userCount.setOld_user_count(val);
                     }
                 }
-                userCountBusiness.typeConversion(userCountHashMap);
-                pageTrafficBusiness.typeConversion(pageTrafficHashMap);
-                gameTrafficBusiness.typeConversion(gameTrafficHashMap);
-                keywordBusiness.typeConversion(keyWordHashMap);
-                productBusiness.typeConversion(productHashMap);
-                downLoadInfoBusiness.typeConversion(downLoadInfoHashMap);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if(reader != null) {
-                    try {
-                        reader.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                userCount.setChannelId(channelId);
+                userCount.setDateCreated(fileDate);
+                userCountMap.put(channelId,userCount);
+            } else if(firstTwoCharacters.equalsIgnoreCase("61")||firstTwoCharacters.equalsIgnoreCase("62")||firstTwoCharacters.equalsIgnoreCase("63")||firstTwoCharacters.equalsIgnoreCase("64")){
+                if (pageTrafficMap.containsKey(channelId)){
+                    pageTraffic = pageTrafficMap.get(channelId);
+                    if(pageTraffic != null){
+                        if (firstTwoCharacters.equalsIgnoreCase("61")){
+                            pageTraffic.setHomepage(pageTraffic.getHomepage() + val);
+                        } else if (firstTwoCharacters.equalsIgnoreCase("62")){
+                            pageTraffic.setCategory(pageTraffic.getCategory() + val);
+                        } else if (firstTwoCharacters.equalsIgnoreCase("63")){
+                            pageTraffic.setHotlist(pageTraffic.getHotlist() + val);
+                        } else if (firstTwoCharacters.equalsIgnoreCase("64")){
+                            pageTraffic.setLatest(pageTraffic.getLatest() + val);
+                        }
+                    } else {
+                        pageTraffic = new PageTraffic();
+                        if (firstTwoCharacters.equalsIgnoreCase("61")){
+                            pageTraffic.setHomepage(val);
+                        } else if (firstTwoCharacters.equalsIgnoreCase("62")){
+                            pageTraffic.setCategory(val);
+                        } else if (firstTwoCharacters.equalsIgnoreCase("63")){
+                            pageTraffic.setHotlist(val);
+                        } else if (firstTwoCharacters.equalsIgnoreCase("64")){
+                            pageTraffic.setLatest(val);
+                        }
                     }
+                } else {
+                    pageTraffic = new PageTraffic();
+                    if (firstTwoCharacters.equalsIgnoreCase("61")){
+                        pageTraffic.setHomepage(val);
+                    } else if (firstTwoCharacters.equalsIgnoreCase("62")){
+                        pageTraffic.setCategory(val);
+                    } else if (firstTwoCharacters.equalsIgnoreCase("63")){
+                        pageTraffic.setHotlist(val);
+                    } else if (firstTwoCharacters.equalsIgnoreCase("64")){
+                        pageTraffic.setLatest(val);
+                    }
+                }
+                pageTraffic.setChannelId(channelId);
+                pageTraffic.setDateCreated(fileDate);
+                pageTrafficMap.put(channelId,pageTraffic);
+            }else if(firstTwoCharacters.equalsIgnoreCase("50")||firstTwoCharacters.equalsIgnoreCase("51")){
+                if (firstTwoCharacters.equalsIgnoreCase("50")){
+                    channelId = Integer.parseInt(key.substring(8,key.length()));
+                    gameTraffic = new GameTraffic();
+                    gameTraffic.setSort(Integer.parseInt(key.substring(6,8)));
+                    gameTraffic.setAdType(Integer.parseInt(key.substring(4,6)));
+                    gameTraffic.setAdId(Integer.parseInt(key.substring(2, 4)));
+                    gameTraffic.setClickThrough(clickThrough);
+                    gameTraffic.setChannelId(channelId);
+                    gameTraffic.setDateCreated(fileDate);
+                    adId = gameTraffic.getAdId();
+                    adType = gameTraffic.getAdType();
+                    gameTrafficMap.put(++id, gameTraffic);
+                } else if(firstTwoCharacters.equalsIgnoreCase("51")){
+                    channelId = Integer.parseInt(key.substring(4,key.length()));
+                    if(!gameTrafficMap.containsKey(channelId)){
+                        gameTraffic = new GameTraffic();
+                        gameTraffic.setClickThrough(val);
+                        clickThrough = gameTraffic.getClickThrough();
+                    } else{
+                        gameTraffic = new GameTraffic();
+                        gameTraffic.setClickThrough(gameTraffic.getClickThrough() + val);
+                        clickThrough = gameTraffic.getClickThrough();
+                    }
+                    gameTraffic.setSort(Integer.parseInt(key.substring(2,4)));
+                    gameTraffic.setAdType(adType);
+                    gameTraffic.setAdId(adId);
+                    gameTraffic.setChannelId(channelId);
+                    gameTraffic.setDateCreated(fileDate);
+                    gameTrafficMap.put(++id,gameTraffic);
                 }
             }
+        }
+        numberCountMap.clear();
+        userCountBusiness.typeConversion(userCountMap);
+        userCountMap.clear();
+        pageTrafficBusiness.typeConversion(pageTrafficMap);
+        pageTrafficMap.clear();
+        gameTrafficBusiness.typeConversion(gameTrafficMap);
+        gameTrafficMap.clear();
+    }
 
-					
-		}catch(Exception e){
-			Logging.logError("Error occurs in doLogAnaylyse ", e);
-		}
-		Logging.logDebug("----- doLogAnaylyse end -----");
-	}
+    private void woGameInfoParse(String tempString, Date fileDate, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate, Map<String,Product> productMap,Map<Integer,DownLoadInfo> downLoadInfoMap){
+        Product product = null;
+        DownLoadInfo downLoadInfo = null;
+        String firstTwoCharacters = tempString.substring(0, 2);
+        if(firstTwoCharacters.equalsIgnoreCase("40")){
+            String surplus = tempString.substring(2,tempString.length());
+            keyWordDispose(surplus,keyMapSave,keyMapUpdate);
+        } else if(firstTwoCharacters.equalsIgnoreCase("30")){
+            String product_id = tempString.substring(5,15).trim();
+            String channel_id = tempString.substring(2,5).trim();
+            String product_name = tempString.substring(15,257).trim();
+            String product_icon = tempString.substring(258,tempString.length()).trim();
+            keyWordDispose(product_name,keyMapSave,keyMapUpdate);
+            boolean flag =  productBusiness.checkId(product_id);
+            if(flag){
+                product = new Product();
+                product.setProduct_id(product_id);
+                product.setProduct_name(product_name);
+                product.setProduct_icon(product_icon);
+                product.setDateCreated(fileDate);
+                productMap.put(product_id,product);
+            }
+            if(downLoadInfoMap.containsKey(channel_id)){
+                downLoadInfo = downLoadInfoMap.get(Integer.parseInt(channel_id));
+                downLoadInfo.setDownload_count(downLoadInfo.getDownload_count() + 1);
+                downLoadInfo.setChannel_id(Integer.parseInt(channel_id));
+                downLoadInfo.setProduct_id(product_id);
+                downLoadInfo.setDateCreated(fileDate);
+                downLoadInfoMap.put(Integer.parseInt(channel_id), downLoadInfo);
+            }else{
+                downLoadInfo = new DownLoadInfo();
+                downLoadInfo.setDownload_count(1);
+                downLoadInfo.setChannel_id(Integer.parseInt(channel_id));
+                downLoadInfo.setProduct_id(product_id);
+                downLoadInfo.setDateCreated(fileDate);
+                downLoadInfoMap.put(Integer.parseInt(channel_id), downLoadInfo);
+            }
+        }
+    }
+
+    private void doLogAnalyse1(){
+        Map<String,Integer> numberCountMap = null;
+        String dateBefore = null;
+        Date today = new Date();
+        Date yesterday = DateUtils.getDayByInterval(today,-1);
+        String fileDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
+        String currentFileName = "wogamecenter_info_number."+fileDate+".log";
+        try {
+            List<String> currentFileList = FileUtils.readFileByRow(logInfoNumberFile);
+            if(currentFileList.size()>0){
+                dateBefore = currentFileList.get(0);
+            }else{
+                dateBefore = new SimpleDateFormat("yyyyMMddHHmmss").format(DateUtils.getDayByInterval(today,-2));
+            }
+            String dateNow = new SimpleDateFormat("yyyyMMddHHmmss").format(yesterday);
+            int compareDateNum = DateUtils.compareDate(dateBefore,dateNow);
+            switch (compareDateNum){
+                case -1:
+                    FileUtils.writeFileOverWrite(logInfoNumberFile,dateNow);
+                    File file = new File(logFilePath+"/"+currentFileName);
+                    if(!file.exists()){
+                        file.createNewFile();
+                    }
+                    numberCountMap = wogameInfoNumberReader(file);
+                    woGameInfoNumberParse(numberCountMap, yesterday);
+                    break;
+                case 1:
+                case 0:
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
+    private void doLogAnalyse2(){
+        String dateBefore = null;
+        Date today = new Date();
+        Date yesterday = DateUtils.getDayByInterval(today,-1);
+        String fileDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
+        Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
+        Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
+        Map<String,Product> productMap = new HashMap<String, Product>();
+        Map<Integer,DownLoadInfo> downLoadInfoMap = new HashMap<Integer,DownLoadInfo>();
+        String currentFileName = "wogamecenter_info."+fileDate+".log";
+        try {
+            List<String> currentFileList = FileUtils.readFileByRow(logInfoFile);
+            if(currentFileList.size()>0){
+                dateBefore = currentFileList.get(0);
+            }else{
+                dateBefore = new SimpleDateFormat("yyyyMMddHHmmss").format(DateUtils.getDayByInterval(today,-2));
+            }
+            String dateNow = new SimpleDateFormat("yyyyMMddHHmmss").format(yesterday);
+            int compareDateNum = DateUtils.compareDate(dateBefore,dateNow);
+            switch (compareDateNum){
+                case -1:
+                    FileUtils.writeFileOverWrite(logInfoFile,dateNow);
+                    File file = new File(logFilePath+"/"+currentFileName);
+                    if(!file.exists()){
+                        file.createNewFile();
+                    }
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "GB2312"));
+                    String tempString = null;
+                    while ((tempString = reader.readLine()) != null){
+                        woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap,downLoadInfoMap);
+                    }
+                    break;
+                case 1:
+                case 0:
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        keywordBusiness.typeConversionSave(keyMapSave);
+        keyMapSave.clear();
+        if(keyMapUpdate.size()>=1){
+            keywordBusiness.typeConversionUpdate(keyMapUpdate);
+        }
+        keyMapUpdate.clear();
+        productBusiness.typeConversion(productMap);
+        productMap.clear();
+        downLoadInfoBusiness.typeConversion(downLoadInfoMap);
+        downLoadInfoMap.clear();
+    }
+    @Override
+    public void doLogAnalyse(){
+        Logging.logDebug("----- doLogAnaylyse start -----");
+        try{
+            doLogAnalyse1();
+            doLogAnalyse2();
+        }catch(Exception e){
+            Logging.logError("Error occurs in doLogAnaylyse ", e);
+        }
+        Logging.logDebug("----- doLogAnaylyse end -----");
+    }
 
 
     @Override
-  	public void doPackageInfoDomainsSave() throws Exception {
-  		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+    public void doPackageInfoDomainsSave() throws Exception {
+        Logging.logDebug("----- doPackageInfoDomainsSave start -----");
 
         String currentFileName = "";
         ChannelSftp sftp = null;
-  		try {
+        try {
             List<String> currentFileNameList = FileUtils.readFileByRow(latestHanddleFile);
             if (currentFileNameList.size() > 0) {
                 currentFileName = currentFileNameList.get(0);
@@ -486,15 +447,15 @@ public class LogAnalyser implements ILogAnalyser {
                 packageInfoBusiness.savePackageInfoList(packageInfoDomains, Constant.HIBERNATE_FLUSH_NUM);
                 currentFileName = fileName;
             }
-  		} catch(Exception e){           
-  			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
-  		} finally{
-  			 FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
+        } catch(Exception e){
+            Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
+        } finally{
+            FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
             if (sftp != null) {
                 sftpHelper.closeChannel(sftp.getSession(), sftp);
             }
-  		}
-  		Logging.logDebug("----- doPackageInfoDomainsSave end -----");
-  	}
+        }
+        Logging.logDebug("----- doPackageInfoDomainsSave end -----");
+    }
 
 }

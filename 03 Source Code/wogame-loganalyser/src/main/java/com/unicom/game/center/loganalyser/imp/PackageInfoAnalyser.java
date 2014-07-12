@@ -63,7 +63,7 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 
                 for (String content : contentList) {
                     String[] contentArr = Utility.splitString(content, Constant.RESPONSE_FIEL_SEPARATOR);
-                    if(null != contentArr && contentArr.length > 0 && "0".equals(contentArr[11])){
+                    if(null != contentArr && contentArr.length > 12 && "0".equals(contentArr[11])){
                         PackageInfoDomain domain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
                         packageInfoDomains.add(domain);                    	
                     }

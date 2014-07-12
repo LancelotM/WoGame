@@ -120,8 +120,9 @@ public class PageTrafficBusiness {
         jsonData.setStatus("success");
         return jsonData;
     }
-    
-    public void typeConversion(HashMap<Integer,PageTraffic> pageTrafficHashMap){
+
+
+    public void typeConversion(Map<Integer,PageTraffic> pageTrafficHashMap){
         List<PageTrafficDomain> list = new ArrayList<PageTrafficDomain>();
         Iterator iterator = pageTrafficHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -137,5 +138,5 @@ public class PageTrafficBusiness {
             list.add(pageTrafficDomain);
         }
         pageTrafficDao.savePageTrafficDomainList(list,100);
-    }    
+    }
 }

@@ -153,7 +153,12 @@ public class GameDownloadController {
         if (channelCode == null) {
         	return downloadUrl;
         }
-        return StringUtils.left(downloadUrl, downloadUrl.length() - 4) + "_" + channelCode + StringUtils.right(downloadUrl, 4);
+        
+        //TODO : temp fix issue
+        int position = StringUtils.ordinalIndexOf(downloadUrl, "/", 4);
+		String  packageURL =StringUtils.left(downloadUrl, position) + "_" + channelCode + StringUtils.right(downloadUrl, downloadUrl.length() - position);
+
+        return StringUtils.left(packageURL, packageURL.length() - 4) + "_" + channelCode + StringUtils.right(packageURL, 4);
 
     }
 

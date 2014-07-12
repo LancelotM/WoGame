@@ -136,8 +136,9 @@ public class LoginInfoBusiness {
         jsonData.setStatus("success");
         return jsonData;
     }
-    
-    public void typeConversion(HashMap<Integer,UserCount> userCountHashMap){
+
+
+    public void typeConversion(Map<Integer,UserCount> userCountHashMap){
         List<UserCountDomain> list = new ArrayList<UserCountDomain>();
         Iterator iterator = userCountHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -151,6 +152,6 @@ public class LoginInfoBusiness {
             list.add(userCountDomain);
         }
         userCountDao.saveUserCountDomainList(list,100);
-    }    
+    }
 
 }
