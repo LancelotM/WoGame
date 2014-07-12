@@ -47,29 +47,30 @@ public class DownLoadInfoBusiness {
         downloadInfoDao.saveUserCountDomainList(list,100);
     }
 
-    public DownloadInfoModel getDownloadInfos(String productId,Integer channelID,String dateStr,int page){
-        String startDate = null;
-        String endDate = null;
-        if(!Utility.isEmpty(dateStr)){
-            String[] date = dateStr.split("-");
-            startDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[0],"yyyy.MM.dd"),"yyyy-MM-dd");
-            endDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[1],"yyyy.MM.dd"),"yyyy-MM-dd");
+    public DownloadInfoModel getDownloadInfos(Integer channelID,String startDate,String endDate,int page,Integer rowsPerPage){
+//        if(!Utility.isEmpty(dateStr)){
+//            String[] date = dateStr.split("-");
+//            startDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[0],"yyyy.MM.dd"),"yyyy-MM-dd");
+//            endDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[1],"yyyy.MM.dd"),"yyyy-MM-dd");
+//        }
+        if(!Utility.isEmpty(startDate)&&!Utility.isEmpty(endDate)){
+            startDate = DateUtils.formatDateToString(DateUtils.stringToDate(startDate,"yyyyMMdd"),"yyyy-MM-dd");
+            endDate = DateUtils.formatDateToString(DateUtils.stringToDate(endDate,"yyyyMMdd"),"yyyy-MM-dd");
         }
-        List<DownloadDiaplayModel> downloadInfoDomains = downloadInfoDao.getByProductOrChaOrDate(productId,channelID,startDate,endDate,page);
-        int perRowsPage = 10;
-        int totalPage = 0;
-        int start = (page - 1)*perRowsPage+1;
-        int end = start + perRowsPage;
+        List<DownloadDiaplayModel> downloadInfoDomains = downloadInfoDao.getByProductOrChaOrDate(channelID,startDate,endDate);
+        if(downloadInfoDomains.size()%2 !=0){
+            DownloadDiaplayModel diaplayModel = new DownloadDiaplayModel();
+            diaplayModel.setDownloadCount("");
+            diaplayModel.setProductName("");
+            downloadInfoDomains.add(diaplayModel);
+        }
+        int start = (page - 1)*rowsPerPage;
+        int end = start + rowsPerPage;
         if(end > downloadInfoDomains.size()){
             end = downloadInfoDomains.size();
         }
-        if(downloadInfoDomains.size()%perRowsPage == 0){
-            totalPage = downloadInfoDomains.size()/perRowsPage;
-        }else {
-            totalPage = downloadInfoDomains.size()/perRowsPage + 1;
-        }
         DownloadInfoModel downloadInfoModel = new DownloadInfoModel();
-        downloadInfoModel.setTotalPages(totalPage);
+        downloadInfoModel.setTotalRecords(downloadInfoDomains.size());
         downloadInfoModel.setDownloadInfomodels(downloadInfoDomains.subList(start,end));
         return downloadInfoModel;
     }

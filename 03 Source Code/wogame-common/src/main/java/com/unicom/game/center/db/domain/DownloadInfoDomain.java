@@ -2,6 +2,7 @@ package com.unicom.game.center.db.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -13,10 +14,9 @@ public class DownloadInfoDomain implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private int channelId;
-	private String productId;
 	private int downloadCount;
 	private Date dateCreated;
-    private ProductDomain product;
+    private String productId;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -38,15 +38,6 @@ public class DownloadInfoDomain implements Serializable{
 		this.channelId = channelId;
 	}
 	
-	@Column(name="product_id")
-	public String getProductId() {
-		return productId;
-	}
-	
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
-	
 	@Column(name="download_count")
 	public int getDownloadCount() {
 		return downloadCount;
@@ -65,12 +56,12 @@ public class DownloadInfoDomain implements Serializable{
 		this.dateCreated = dateCreated;
 	}
 
-    @OneToOne
-    public ProductDomain getProduct() {
-        return product;
+    @Column(name="product_id")
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProduct(ProductDomain product) {
-        this.product = product;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }

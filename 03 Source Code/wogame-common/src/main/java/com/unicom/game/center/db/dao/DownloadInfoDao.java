@@ -1,5 +1,6 @@
 package com.unicom.game.center.db.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,34 +24,44 @@ public class DownloadInfoDao extends HibernateDao<DownloadInfoDomain>{
 		getSession().flush();
 	}
 
-	public List<DownloadDiaplayModel> getByProductOrChaOrDate(String productId,Integer channelId,String startDate,String endDate,int page){
+	public List<DownloadDiaplayModel> getByProductOrChaOrDate(Integer channelId,String startDate,String endDate){
 		StringBuffer sb = new StringBuffer();
-		sb.append("select downInfoDomain.product.productName,downInfoDomain.downloadCount from DownloadInfoDomain downInfoDomain where 1 = 1 ");
-        if(!Utility.isEmpty(productId)){
-            sb.append("and downInfoDomain.productId = '");
-            sb.append(productId);
-            sb.append("'");
-        }
+		sb.append("select game.product_name,downInfoDomain.download_count from ");
+        sb.append(" download_info as downInfoDomain inner join product as game on downInfoDomain.product_id = game.product_id where 1 = 1 ");
+//        if(!Utility.isEmpty(productId)){
+//            sb.append("and game.product_name like '");
+//            sb.append(productId);
+//            sb.append("'");
+//        }
         if(channelId != null){
-            sb.append("and downInfoDomain.channelId = '");
+            sb.append("and downInfoDomain.channel_id = ");
             sb.append(channelId);
         }
         if(!Utility.isEmpty(startDate) && !Utility.isEmpty(endDate)){
            if(startDate.equals(endDate)){
-               sb.append(" and downInfoDomain.dateCreated = '");
+               sb.append(" and downInfoDomain.date_created = '");
                sb.append(startDate);
                sb.append("'");
            }else {
-               sb.append(" and downInfoDomain.dateCreated >= '");
+               sb.append(" and downInfoDomain.date_created >= '");
                sb.append(startDate);
-               sb.append("' and downInfoDomain.dateCreated <= '");
+               sb.append("' and downInfoDomain.date_created <= '");
                sb.append(endDate);
                sb.append("'");
            }
         }
-        List<DownloadDiaplayModel> downloadInfos = getSession().createQuery(sb.toString()).list();
-		
-		return downloadInfos;
+        sb.append(" order by downInfoDomain.download_count desc");
+        List<Object[]> downloadInfos = getSession().createSQLQuery(sb.toString()).list();
+		getSession().flush();
+        List<DownloadDiaplayModel>  downloadDiaplayModels = new ArrayList<DownloadDiaplayModel>();
+        DownloadDiaplayModel model = null;
+        for(Object[] objects : downloadInfos){
+            model = new DownloadDiaplayModel();
+            model.setProductName(String.valueOf(objects[0]));
+            model.setDownloadCount(String.valueOf(objects[1]));
+            downloadDiaplayModels.add(model);
+        }
+		return downloadDiaplayModels;
 	}
 	
     public void saveUserCountDomainList(List<DownloadInfoDomain> list, int num) {

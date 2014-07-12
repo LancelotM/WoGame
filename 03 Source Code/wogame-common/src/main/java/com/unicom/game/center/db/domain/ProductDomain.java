@@ -3,10 +3,7 @@ package com.unicom.game.center.db.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="product")
@@ -18,8 +15,7 @@ public class ProductDomain implements Serializable{
 	private String productName;
 	private String productIcon;
 	private Date dateCreated;
-	
-	
+
 	@Id
 	@Column(name="product_id")
 	public String getProductId() {
@@ -55,5 +51,8 @@ public class ProductDomain implements Serializable{
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-		
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 }

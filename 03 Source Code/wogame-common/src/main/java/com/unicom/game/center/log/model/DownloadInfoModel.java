@@ -11,16 +11,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class DownloadInfoModel {
-    private int totalPages;
+    private int totalRecords;
     private List<DownloadDiaplayModel> downloadInfomodels = new ArrayList<DownloadDiaplayModel>();
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
-    }
 
     public List<DownloadDiaplayModel> getDownloadInfomodels() {
         return downloadInfomodels;
@@ -28,5 +20,13 @@ public class DownloadInfoModel {
 
     public void setDownloadInfomodels(List<DownloadDiaplayModel> downloadInfomodels) {
         this.downloadInfomodels = downloadInfomodels;
+    }
+
+    public int getTotalRecords() {
+        return totalRecords;
+    }
+
+    public void setTotalRecords(int totalRecords) {
+        this.totalRecords = totalRecords;
     }
 }

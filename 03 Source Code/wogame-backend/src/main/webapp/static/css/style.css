@@ -491,6 +491,7 @@ a{
 #pages a
 {
     color: #ed6e02;
+    margin-left: 8px;
 }
 #pages a.current_page
 {
@@ -537,6 +538,18 @@ a{
 }
 #game_tip{
    margin-right: 10px;
+}
+#download_info_left{
+    width: 482.5px;
+}
+#download_info_right{
+    width: 482.5px;
+}
+#download_info_left tr{
+    border-right-width: 0px;
+}
+#download_info_right tr{
+    border-left-width: 0px;
 }
 
 

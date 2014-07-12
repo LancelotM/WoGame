@@ -9,7 +9,7 @@ package com.unicom.game.center.log.model;
  */
 public class DownloadDiaplayModel {
     private String productName;
-    private int downloadCount;
+    private String downloadCount;
 
     public String getProductName() {
         return productName;
@@ -19,11 +19,11 @@ public class DownloadDiaplayModel {
         this.productName = productName;
     }
 
-    public int getDownloadCount() {
+    public String getDownloadCount() {
         return downloadCount;
     }
 
-    public void setDownloadCount(int downloadCount) {
+    public void setDownloadCount(String downloadCount) {
         this.downloadCount = downloadCount;
     }
 }

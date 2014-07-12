@@ -44,18 +44,19 @@ public class HotWordsController {
     	ModelMap model = new ModelMap();
 
         List<KeywordInfo> keywords = keywordService.fetchTopSearchKeyword();
-        DownloadInfoModel downloadModel = downLoadService.getDownloadInfos(null, null, null, 1);
-        model.put("totalPage", downloadModel.getTotalPages());
+//        DownloadInfoModel downloadModel = downLoadService.getDownloadInfos(null, null, null, 1);
+//        model.put("totalPage", downloadModel.getTotalPages());
         model.put("keywords",keywords);
-        model.put("downloadInfoDomains",downloadModel.getDownloadInfomodels());
+//        model.put("downloadInfoDomains",downloadModel.getDownloadInfomodels());
         return new ModelAndView("/keyword", model); 
     }
 
     @RequestMapping(value="/getDownloadInfo",method={RequestMethod.POST})
-    public @ResponseBody DownloadInfoModel getDownloadInfo(@RequestParam(value="channelId",required = false) int channelId,
-                                                    @RequestParam(value="dateStr",required = false) String dateStr,
+    public @ResponseBody DownloadInfoModel getDownloadInfo(@RequestParam(value="channelId",required = false) Integer channelId,
+                                                    @RequestParam(value="startDate",required = false) String startDate,
+                                                    @RequestParam(value="endDate",required = false) String endDate,
                                                     @RequestParam(value="page",required = true) int page,
-                                                    @RequestParam(value="gameName",required = false) String gameName){
-        return downLoadService.getDownloadInfos(gameName,channelId,dateStr,page);
+                                                    @RequestParam(value="rowsPerPage",required = true) Integer rowsPerPage){
+        return downLoadService.getDownloadInfos(channelId,startDate,endDate,page,rowsPerPage);
     }
 }
