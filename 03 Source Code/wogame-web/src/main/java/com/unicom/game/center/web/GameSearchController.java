@@ -59,7 +59,7 @@ public class GameSearchController {
         String utf8Keyword = URLDecoder.decode(URLDecoder.decode(keyword, "UTF-8"), "UTF-8");
 
         // 记录Log
-        String[] logData = new String[]{"40", keyword};
+        String[] logData = new String[]{"40", utf8Keyword};
         statisticsLogger.info(StringUtils.join(logData, ""));
 
         //根据搜索字搜索游戏

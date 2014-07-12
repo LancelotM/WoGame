@@ -59,8 +59,8 @@
             doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
         }
 
-        function toAdDetail(sort) {
-            logNumber("${ctx}", ['51', sort.paddingLeft(2, '0')], function () {
+        function toAdDetail(id, sort) {
+            logNumber("${ctx}", ['51', sort.PadLeft(2, '0')], function () {
                 location.href = "${ctx}/gameInfo;jsessionid=${sessionid}?productId=" + id;
             });
 
@@ -69,7 +69,7 @@
         function toAppDetail(id, ad_id, ad_type, sort) {
             $(document).waiting();
             //50+109+ad_id+ad_type+sort+109+channelId
-            logNumber("${ctx}", ['50', ad_id.paddingLeft(2, '0'), ad_type.padding(2, '0'), sort.paddingLeft(2, '0')], function () {
+            logNumber("${ctx}", ['50', ad_id.PadLeft(2, '0'), ad_type.PadLeft(2, '0'), sort.PadLeft(2, '0')], function () {
                 location.href = "${ctx}/gameInfo;jsessionid=${sessionid}?productId=" + id;
             });
 
@@ -78,7 +78,7 @@
     </script>
     <script type="text/javascript">
         <c:if test="${isIndex == true}">
-        logNumber("${ctx}", [isOldUser() ? '81' : '80', '109']);
+        logNumber("${ctx}", [isOldUser() ? '81' : '80']);
         </c:if>
 
         logNumber("${ctx}", ['61']);
@@ -107,7 +107,7 @@
             <c:forEach items="${adList}" var="item" varStatus="adIdx">
                 <c:if test="${item.resType == 2}">
                     <img src="${item.bannerUrl}"
-                         onclick="javascript:toAdDetail('${item.linkId}','${item.title}', '${item.bannerUrl}', '${adIdx.index}');"/>
+                         onclick="javascript:toAdDetail('${item.linkId}', '${adIdx.index+1}');"/>
                 </c:if>
             </c:forEach>
         </div>
@@ -126,13 +126,13 @@
                             <div class="index_xiejiao index_xiejiao_${appItem.recommendType}"></div>
                         </c:if>
                         <div class="w_img_bg">
-                            <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
-                                <img width="60" height="60" src="${appItem.iconUrl}">
+                            <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">
+                            <img width="60" height="60" src="${appItem.iconUrl}">
                             </a>
                         </div>
                         <div class="w_img_count">
                             <h3>
-                                <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">${appItem.appName}</a>
+                                <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">${appItem.appName}</a>
                             </h3>
 
                             <div class="isio">
@@ -152,13 +152,13 @@
                                 <div class="index_xiejiao_${item.apps[idx.index+1].recommendType} index_xiejiao"></div>
                             </c:if>
                             <div class="w_img_bg">
-                                <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">
-                                    <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
+                                <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.adId}', '${item.adType}', '${item.apps[idx.index+1].sort}');">
+                                <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
                                 </a>
                             </div>
                             <div class="w_img_count">
                                 <h3>
-                                    <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">${item.apps[idx.index+1].appName}</a>
+                                    <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.adId}', '${item.adType}', '${item.apps[idx.index+1].sort}');">${item.apps[idx.index+1].appName}</a>
                                 </h3>
 
                                 <div class="isio">
@@ -181,8 +181,8 @@
             <c:if test="${item.adType == 1 && idx.index < 1}">
                 <c:set var="appIndex" value="${appIndex+1}"/>
                 <div class="w_houlist_large">
-                    <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
-                        <img width="100%" height="200" src="${appItem.bannerUrl}">
+                    <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">
+                    <img width="100%" height="200" src="${appItem.bannerUrl}">
                     </a>
                 </div>
 
@@ -198,16 +198,16 @@
             <c:if test="${item.adType == 2 && idx.index < 2}">
                 <c:set var="appIndex" value="${appIndex+1}"/>
                 <div class="w_houlist">
-                    <a href="javascript:toAppDetail('${appItem.productId}','${appItem.appName}', '${appItem.iconUrl}', '${appIndex}');">
-                        <img width="100%" height="80" src="${appItem.bannerUrl}">
+                    <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">
+                    <img width="100%" height="80" src="${appItem.bannerUrl}">
                     </a>
                 </div>
 
                 <c:if test="${idx.index+1 < fn:length(item.apps)}">
                     <c:set var="appIndex" value="${appIndex+1}"/>
                     <div class="w_houlist">
-                        <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.apps[idx.index+1].appName}', '${item.apps[idx.index+1].iconUrl}', '${appIndex}');">
-                            <img width="100%" height="80" src="${item.apps[idx.index+1].bannerUrl}">
+                        <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.adId}', '${item.adType}', '${item.apps[idx.index+1].sort}');">
+                        <img width="100%" height="80" src="${item.apps[idx.index+1].bannerUrl}">
                         </a>
                     </div>
                 </c:if>

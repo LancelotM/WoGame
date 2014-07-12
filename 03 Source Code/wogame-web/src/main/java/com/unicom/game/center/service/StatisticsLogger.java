@@ -22,14 +22,14 @@ public class StatisticsLogger {
     private JsonMapper jsonMapper = new JsonMapper();
 
     public void info(String data) {
-        businessLogger.info("{}", data);
+        businessLogger.info(data);
     }
 
     public void download(String data) {
-        downloadLogger.info("{}", data);
+        downloadLogger.info(data);
     }
 
     public void number(String data) {
-        numberLogger.info("{}", data);
+        numberLogger.info(data);
     }
 }

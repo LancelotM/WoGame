@@ -68,8 +68,12 @@ public class GameDownloadController {
         GameDownloadVo info = zteService.readProductDownloadUrl(productId);
 
         if (StringUtils.isNotBlank(info.getDownloadUrl())) {
-            logDownloadUrl(productId, info, getClientIp(request));
-            info.setDownloadUrl(wrapDownloadUrl(productId, info.getDownloadUrl(), info.getOnlineTime(), session));
+            // 取得channel code
+            String channelId = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+            String channelCode = packageInfoBusiness.checkPackageExist(channelId, productId, info.getOnlineTime());
+
+            logDownloadUrl(productId, info, getClientIp(request), channelCode);
+            info.setDownloadUrl(wrapDownloadUrl(productId, info.getDownloadUrl(), info.getOnlineTime(), channelCode));
         }
 
         return info;
@@ -121,9 +125,10 @@ public class GameDownloadController {
      * server_time
      * IP
      */
-    private void logDownloadUrl(String productId, GameDownloadVo info, String ip) {
+    private void logDownloadUrl(String productId, GameDownloadVo info, String ip, String channel) {
+
         String[] logData = new String[]{
-                "",      //dlIndex
+                parseDlIndexFromUrl(info.getDownloadUrl()),      //dlIndex
                 "",  //userCode
                 "",  //IMSI
                 "",  //IMEI
@@ -134,7 +139,7 @@ public class GameDownloadController {
                 productId, //productIndex
                 "",  //spID
                 "",  //updated
-                "00018589", //channel
+                channel == null ? "" : channel, //channel "00018589"
                 "",  //referer
                 "", //status
                 "", //server_time
@@ -142,19 +147,27 @@ public class GameDownloadController {
 
         };
 
-        statisticsLogger.download(StringUtils.join("|"));
+        statisticsLogger.download(StringUtils.join(logData, "|"));
     }
 
-    private String wrapDownloadUrl(String productId, String downloadUrl, String onlineTime, HttpSession session) {
-        // 处理下载
-        String channelId = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
-        String channelCode = packageInfoBusiness.checkPackageExist(channelId, productId, onlineTime);
+    private String parseDlIndexFromUrl(String downloadUrl) {
+        if (downloadUrl == null) {
+            return "";
+        }
+
+        String key = "/dl";
+        int subDomainPosition = StringUtils.indexOf(downloadUrl, key);
+        int domainPosition = StringUtils.indexOf(downloadUrl, ".");
+        return StringUtils.substring(downloadUrl, subDomainPosition + key.length(), domainPosition);
+    }
+
+    private String wrapDownloadUrl(String productId, String downloadUrl, String onlineTime, String channelCode) {
 
         if (channelCode == null) {
         	return downloadUrl;
         }
-        
-        //TODO : temp fix issue
+
+        // add channel code
         int position = StringUtils.ordinalIndexOf(downloadUrl, "/", 4);
 		String  packageURL =StringUtils.left(downloadUrl, position) + "_" + channelCode + StringUtils.right(downloadUrl, downloadUrl.length() - position);
 
@@ -166,7 +179,7 @@ public class GameDownloadController {
     @ResponseBody
     @ResponseStatus(value = HttpStatus.OK)
     public Map<String, String> handleException(Exception e) {
-        logger.error("解码Keyword出错", e);
+        logger.error("取得下载URL出错", e);
 
         Map<String, String> error = Maps.newHashMap();
         error.put("status", "-99");
