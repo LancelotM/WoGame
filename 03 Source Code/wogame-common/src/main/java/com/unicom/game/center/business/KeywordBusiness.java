@@ -38,7 +38,7 @@ public class KeywordBusiness {
 		return keywords;
 	}
 
-    public void typeConversionSave(HashMap<String,KeyWord> keyWordHashMap){
+    public void typeConversionSave(Map<String,KeyWord> keyWordHashMap){
         List<KeywordDomain> list = new ArrayList<KeywordDomain>();
         Iterator iterator = keyWordHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -54,7 +54,7 @@ public class KeywordBusiness {
         keywordDao.saveKeywordDomainList(list,100);
     }
 
-    public void typeConversionUpdate(HashMap<String,KeyWord> keyWordHashMap){
+    public void typeConversionUpdate(Map<String,KeyWord> keyWordHashMap){
         List<KeywordDomain> list = new ArrayList<KeywordDomain>();
         Iterator iterator = keyWordHashMap.entrySet().iterator();
         while (iterator.hasNext()){

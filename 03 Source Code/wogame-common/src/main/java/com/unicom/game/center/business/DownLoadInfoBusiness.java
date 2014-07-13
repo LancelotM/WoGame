@@ -27,7 +27,7 @@ public class DownLoadInfoBusiness {
     @Autowired
     private DownloadInfoDao downloadInfoDao;
     
-    public void typeConversion(HashMap<Integer,DownLoadInfo> downLoadInfoHashMap){
+    public void typeConversion(Map<Integer,DownLoadInfo> downLoadInfoHashMap){
         List<DownloadInfoDomain> list = new ArrayList<DownloadInfoDomain>();
         Iterator iterator = downLoadInfoHashMap.entrySet().iterator();
         while (iterator.hasNext()){

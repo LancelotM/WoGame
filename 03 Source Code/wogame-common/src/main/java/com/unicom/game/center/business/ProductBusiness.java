@@ -28,7 +28,7 @@ public class ProductBusiness {
     @Autowired
     private ProductDao productDao;
 
-    public void typeConversion(HashMap<String,Product> productHashMap){
+    public void typeConversion(Map<String,Product> productHashMap){
         List<ProductDomain> list = new ArrayList<ProductDomain>();
         Iterator iterator = productHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -45,10 +45,10 @@ public class ProductBusiness {
     }
     
     public boolean checkId(String value){
-        boolean flag = true;
+        boolean flag = false;
         ProductDomain productDomain = productDao.getByProductId(value);
         if(productDomain == null){
-            flag = false;
+            flag = true;
         }
         return flag;
     }    

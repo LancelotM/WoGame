@@ -237,30 +237,22 @@ public class AdTrafficBusiness {
         }
     }
 
-    public void typeConversion(HashMap<Integer,GameTraffic> gameTrafficHashMap){
+    public void typeConversion(Map<Integer,GameTraffic> gameTrafficHashMap){
         List<AdTrafficDomain> list = new ArrayList<AdTrafficDomain>();
         Iterator iterator = gameTrafficHashMap.entrySet().iterator();
         while (iterator.hasNext()){
-            ProductDomain productDomain = new ProductDomain();
             AdTrafficDomain gameTrafficDomain = new AdTrafficDomain();
             Map.Entry<Integer, GameTraffic> entry = (Map.Entry)iterator.next();
             GameTraffic gameTraffic = entry.getValue();
-            productDomain.setProductId(gameTraffic.getProduct().getProduct_id());
-            productDomain.setProductIcon(gameTraffic.getProduct().getProduct_icon());
-            productDomain.setProductName(gameTraffic.getProduct().getProduct_name());
-            productDomain.setDateCreated(gameTraffic.getProduct().getDateCreated());
+            gameTrafficDomain.setChannelId(gameTraffic.getChannelId());
+            gameTrafficDomain.setAdId(gameTraffic.getAdId());
+            gameTrafficDomain.setAdType(gameTraffic.getAdType());
             gameTrafficDomain.setSort(gameTraffic.getSort());
-            gameTrafficDomain.setClickThrough(gameTraffic.getClick_through());
-//            gameTrafficDomain.setDownloadCount(gameTraffic.getDownload_count());
-//            gameTrafficDomain.setDateCreated(gameTraffic.getDateCreated());
-//            gameTrafficDomain.setFlag(gameTraffic.isBanner_flag());
-//            gameTrafficDomain.setChannelId(gameTraffic.getChannel_id());
-//            gameTrafficDomain.setProduct(productDomain);
+            gameTrafficDomain.setClickThrough(gameTraffic.getClickThrough());
+            gameTrafficDomain.setDateCreated(gameTraffic.getDateCreated());
             list.add(gameTrafficDomain);
         }
         gameTrafficDao.saveAdTrafficDomainList(list,100);
     }
 
-
-	
 }
