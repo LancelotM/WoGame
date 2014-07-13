@@ -2,44 +2,38 @@
 
 1.编码日志（wogamecenter_info_number.log）
 -- 新旧用户登录统计(是否包含cookie信息判断新老用户)
-新用户 ： 80+109+channelId
-老用户 ： 81+109+channelId
+新用户 ： 80+channelId
+老用户 ： 81+channelId
 
 例 channelId为5时
-新用户 ： 801095
-老用户 ： 811095
+新用户 ： 805
+老用户 ： 815
 
 -- 页面流量统计
-首页 ：61+109+channelId
-分类 ：62+109+channelId 
-一周热榜 ：63+109+channelId 
-最新 ：64+109+channelId
+首页 ：61+channelId
+分类 ：62+channelId 
+一周热榜 ：63+channelId 
+最新 ：64+channelId
 
 例 channelId为31时
-首页 ：6110931
-分类 ：6210931
-一周热榜 ：6310931 
-最新 ：6410931
+首页 ：6131
+分类 ：6231
+一周热榜 ：6331 
+最新 ：6431
 
--- 推荐页广告位和Banner点击次数统计
-广告位 ：50+109+ad_id+ad_type+sort+109+channelId  
-Banner ：51+109+sort+109+channelId
+-- 推荐页广告位和Banner点击次数统计（ad_id，ad_type，sort为定长。位数不足时，前面补0）
+广告位 ：50+ad_id（2位）+ad_type（2位）+sort（2位）+channelId  
+Banner ：51+sort（2位）+channelId
 
-2.Json日志（wogamecenter_info.log）
+2.搜索下载日志（wogamecenter_info.log）
 -- 搜索关键词
-{
-    "keyword": ""		//关键词
-}
+40+keyword
 样例：
-{"keyword": "捕鱼达人"}
+40捕鱼达人
 
--- 下载游戏请求统计
-{
-	"productId": "",	//游戏的id
-	"productName": "",	//游戏名字
-	"productIcon": "",	//游戏图标地址
-	"channelId": ""		//渠道信息
-}
+-- 下载游戏请求统计（channelId，productId，productName为定长，位数不足时，后面补空格）
+30+channelId(3位)+productId（10位）+productName（256位）+productIcon
+
 
 3.获取下载链接日志（wogamecenter_dl.log）
  成功获取下载地址URL日志（共计18个字段，用|线分隔）：

@@ -3,6 +3,9 @@ package com.unicom.game.center.db.dao;
 import java.util.Date;
 import java.util.List;
 
+import com.unicom.game.center.log.model.DownloadDiaplayModel;
+import com.unicom.game.center.utils.Utility;
+import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.DownloadInfoDomain;
@@ -20,19 +23,34 @@ public class DownloadInfoDao extends HibernateDao<DownloadInfoDomain>{
 		getSession().flush();
 	}
 
-	public DownloadInfoDomain getByProductAndChannel(String productId,int channelId,Date date){
+	public List<DownloadDiaplayModel> getByProductOrChaOrDate(String productId,Integer channelId,String startDate,String endDate,int page){
 		StringBuffer sb = new StringBuffer();
-		sb.append("from DownloadInfoDomain where productId ='");
-		sb.append(productId);
-		sb.append("' and channelId =");
-		sb.append(channelId);
-		sb.append(" and dateCreated = '");
-		sb.append(date);
-		sb.append("'");
+		sb.append("select downInfoDomain.product.productName,downInfoDomain.downloadCount from DownloadInfoDomain downInfoDomain where 1 = 1 ");
+        if(!Utility.isEmpty(productId)){
+            sb.append("and downInfoDomain.productId = '");
+            sb.append(productId);
+            sb.append("'");
+        }
+        if(channelId != null){
+            sb.append("and downInfoDomain.channelId = '");
+            sb.append(channelId);
+        }
+        if(!Utility.isEmpty(startDate) && !Utility.isEmpty(endDate)){
+           if(startDate.equals(endDate)){
+               sb.append(" and downInfoDomain.dateCreated = '");
+               sb.append(startDate);
+               sb.append("'");
+           }else {
+               sb.append(" and downInfoDomain.dateCreated >= '");
+               sb.append(startDate);
+               sb.append("' and downInfoDomain.dateCreated <= '");
+               sb.append(endDate);
+               sb.append("'");
+           }
+        }
+        List<DownloadDiaplayModel> downloadInfos = getSession().createQuery(sb.toString()).list();
 		
-		DownloadInfoDomain downloadInfo = (DownloadInfoDomain)getSession().createQuery(sb.toString()).uniqueResult();
-		
-		return downloadInfo;
+		return downloadInfos;
 	}
 	
     public void saveUserCountDomainList(List<DownloadInfoDomain> list, int num) {

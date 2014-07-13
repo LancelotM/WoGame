@@ -3,12 +3,7 @@ package com.unicom.game.center.db.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="download_info")
@@ -21,6 +16,7 @@ public class DownloadInfoDomain implements Serializable{
 	private String productId;
 	private int downloadCount;
 	private Date dateCreated;
+    private ProductDomain product;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -69,4 +65,12 @@ public class DownloadInfoDomain implements Serializable{
 		this.dateCreated = dateCreated;
 	}
 
+    @OneToOne
+    public ProductDomain getProduct() {
+        return product;
+    }
+
+    public void setProduct(ProductDomain product) {
+        this.product = product;
+    }
 }

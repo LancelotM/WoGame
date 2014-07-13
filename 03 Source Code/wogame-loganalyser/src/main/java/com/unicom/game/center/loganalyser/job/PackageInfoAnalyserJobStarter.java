@@ -1,8 +1,9 @@
 package com.unicom.game.center.loganalyser.job;
 
-import com.unicom.game.center.loganalyser.imp.LogAnalyser;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.unicom.game.center.loganalyser.imp.PackageInfoAnalyser;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,14 +12,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Time: 3:40 PM
  * To change this template use File | Settings | File Templates.
  */
-public class SavePackageInfoDomainsJobStarter {
+public class PackageInfoAnalyserJobStarter {
 
     public static void main(String[] args) throws Exception {
         String[] configLocations = {"classpath:applicationContext_LogAnalyser_bean.xml",
 				"classpath:applicationContext_dao.xml"};
            ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
 
-           LogAnalyser logAnalyser = (LogAnalyser) ctx.getBean("logAnalyser");
+           PackageInfoAnalyser logAnalyser = (PackageInfoAnalyser) ctx.getBean("packageInfoAnalyser");
            logAnalyser.doPackageInfoDomainsSave();
    	}
 }

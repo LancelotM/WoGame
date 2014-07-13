@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.unicom.game.center.log.model.DownloadDiaplayModel;
+import com.unicom.game.center.log.model.DownloadInfoModel;
+import com.unicom.game.center.utils.DateUtils;
+import com.unicom.game.center.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,4 +46,33 @@ public class DownLoadInfoBusiness {
         }
         downloadInfoDao.saveUserCountDomainList(list,100);
     }
+
+    public DownloadInfoModel getDownloadInfos(String productId,Integer channelID,String dateStr,int page){
+        String startDate = null;
+        String endDate = null;
+        if(!Utility.isEmpty(dateStr)){
+            String[] date = dateStr.split("-");
+            startDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[0],"yyyy.MM.dd"),"yyyy-MM-dd");
+            endDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[1],"yyyy.MM.dd"),"yyyy-MM-dd");
+        }
+        List<DownloadDiaplayModel> downloadInfoDomains = downloadInfoDao.getByProductOrChaOrDate(productId,channelID,startDate,endDate,page);
+        int perRowsPage = 10;
+        int totalPage = 0;
+        int start = (page - 1)*perRowsPage+1;
+        int end = start + perRowsPage;
+        if(end > downloadInfoDomains.size()){
+            end = downloadInfoDomains.size();
+        }
+        if(downloadInfoDomains.size()%perRowsPage == 0){
+            totalPage = downloadInfoDomains.size()/perRowsPage;
+        }else {
+            totalPage = downloadInfoDomains.size()/perRowsPage + 1;
+        }
+        DownloadInfoModel downloadInfoModel = new DownloadInfoModel();
+        downloadInfoModel.setTotalPages(totalPage);
+        downloadInfoModel.setDownloadInfomodels(downloadInfoDomains.subList(start,end));
+        return downloadInfoModel;
+    }
+
+
 }

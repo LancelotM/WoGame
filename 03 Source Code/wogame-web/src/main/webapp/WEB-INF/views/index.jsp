@@ -59,56 +59,29 @@
             doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
         }
 
-        function toAdDetail(id, name, url, sort) {
-            logUsage("${ctx}", {
-                "bannerTraffic": {
-                    "productId": id,
-                    "productName": name,	//游戏名字
-                    "productIcon": url,	//游戏图标地址
-                    "sort": sort			//广告的排位顺序
-                }
-            }, function () {
+        function toAdDetail(sort) {
+            logNumber("${ctx}", ['51', sort.paddingLeft(2, '0')], function () {
                 location.href = "${ctx}/gameInfo;jsessionid=${sessionid}?productId=" + id;
             });
 
         }
 
-        function toAppDetail(id, name, url, sort) {
+        function toAppDetail(id, ad_id, ad_type, sort) {
             $(document).waiting();
-            logdata(id, name, url, sort, function () {
+            //50+109+ad_id+ad_type+sort+109+channelId
+            logNumber("${ctx}", ['50', ad_id.paddingLeft(2, '0'), ad_type.padding(2, '0'), sort.paddingLeft(2, '0')], function () {
                 location.href = "${ctx}/gameInfo;jsessionid=${sessionid}?productId=" + id;
             });
 
-        }
-
-        //4.前30游戏点击次数统计
-        function logdata(id, name, url, sort, callback) {
-            logUsage("${ctx}", {
-                "hotGameTraffic": {
-                    "productId": id,	//游戏的id
-                    "productName": name,	//游戏名字
-                    "productIcon": url,	//游戏图标地址
-                    /*"channelId": "",	//渠道信息*/
-                    "sort": sort			//前30游戏的排位顺序
-                }
-            }, callback);
         }
 
     </script>
     <script type="text/javascript">
         <c:if test="${isIndex == true}">
-        logUsage("${ctx}", {
-            "userCount": {
-                "cookie": isOldUser()
-            }
-        });
+        logNumber("${ctx}", [isOldUser() ? '81' : '80', '109']);
         </c:if>
 
-        logUsage("${ctx}", {
-            "pageTraffic": {
-                "pgeId": "1"		//页面编号1：首页 2：分类 3：一周热榜 4：最新
-            }
-        })
+        logNumber("${ctx}", ['61']);
     </script>
 </head>
 

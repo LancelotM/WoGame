@@ -8,22 +8,12 @@ package com.unicom.game.center.model;
  * To change this template use File | Settings | File Templates.
  */
 public class GameDisplayModel {
-
-    private String icon;
     private String gameName;
     private String thisTimeData;
     private String lastTimeData;
     private String last2TimeData;
     private String last3TimeData;
     private String last4TimeData;
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
 
     public String getGameName() {
         return gameName;

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springside.modules.web.MediaTypes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -45,26 +46,103 @@ public class GameDownloadController {
     public GameDownloadVo info(@RequestParam("productId") String productId,
                                @RequestParam("productName") String productName,
                                @RequestParam("productIcon") String productIcon,
-                               HttpSession session) throws UnsupportedEncodingException {
+                               HttpServletRequest request) throws UnsupportedEncodingException {
 
         String utf8ProductName = URLDecoder.decode(URLDecoder.decode(productName, "UTF-8"), "UTF-8");
 
+        HttpSession session = request.getSession();
         // 记录Log
         String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
-        Map<String, String> logData = Maps.newLinkedHashMap();
-        logData.put("productId", productId);
-        logData.put("productName", utf8ProductName);
-        logData.put("productIcon", productIcon);
-        logData.put("channelId", channel);
-        statisticsLogger.log("downloadInfo", logData);
+
+        //30 channelId（3位） productId（10位） productName（256位） productIcon
+        String[] logData = new String[]{
+                "30",
+                StringUtils.rightPad(channel, 3, " "),
+                StringUtils.rightPad(productId, 10, " "),
+                StringUtils.rightPad(utf8ProductName, 256, ""),
+                productIcon
+        };
+
+        statisticsLogger.info(StringUtils.join(logData, ""));
 
         GameDownloadVo info = zteService.readProductDownloadUrl(productId);
 
         if (StringUtils.isNotBlank(info.getDownloadUrl())) {
+            logDownloadUrl(productId, info, getClientIp(request));
             info.setDownloadUrl(wrapDownloadUrl(productId, info.getDownloadUrl(), info.getOnlineTime(), session));
         }
 
         return info;
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        String ip = request.getHeader("x-real-ip");
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("x-forwarded-for");
+            if (ip != null) {
+                ip = ip.split(",")[0].trim();
+            }
+        }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+
+        return ip;
+    }
+
+    /**
+     * 成功获取下载地址URL日志（共计18个字段，用|线分隔）：
+     * dlIndex
+     * userCode
+     * IMSI
+     * IMEI
+     * version
+     * preassemble
+     * clientVersion
+     * accessType				（沃游戏中心 ：81）
+     * productIndex			（游戏的productId）
+     * positionClient（客户侧真实排序号）
+     * positionindex（服务器侧排序号)
+     * spID
+     * updated
+     * channel					(沃商店：0 沃游戏：00018589)
+     * referer
+     * status
+     * server_time
+     * IP
+     */
+    private void logDownloadUrl(String productId, GameDownloadVo info, String ip) {
+        String[] logData = new String[]{
+                "",      //dlIndex
+                "",  //userCode
+                "",  //IMSI
+                "",  //IMEI
+                "",  //version
+                "",  //preassemble
+                "",  //clientVersion
+                "81", //accessType
+                productId, //productIndex
+                "",  //spID
+                "",  //updated
+                "00018589", //channel
+                "",  //referer
+                "", //status
+                "", //server_time
+                ip //ip
+
+        };
+
+        statisticsLogger.download(StringUtils.join("|"));
     }
 
     private String wrapDownloadUrl(String productId, String downloadUrl, String onlineTime, HttpSession session) {
@@ -75,7 +153,12 @@ public class GameDownloadController {
         if (channelCode == null) {
         	return downloadUrl;
         }
-        return StringUtils.left(downloadUrl, downloadUrl.length() - 4) + "_" + channelCode + StringUtils.right(downloadUrl, 4);
+        
+        //TODO : temp fix issue
+        int position = StringUtils.ordinalIndexOf(downloadUrl, "/", 4);
+		String  packageURL =StringUtils.left(downloadUrl, position) + "_" + channelCode + StringUtils.right(downloadUrl, downloadUrl.length() - position);
+
+        return StringUtils.left(packageURL, packageURL.length() - 4) + "_" + channelCode + StringUtils.right(packageURL, 4);
 
     }
 

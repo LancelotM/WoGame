@@ -2,7 +2,7 @@
 				<img class="logo" src="${basePath}/static/images/logo.png" alt=""/>
 				<div class="info">
                     <#if ChannelName?exists>
-                        <span>${(ChannelName)!}，你好</span>
+                        <span>${ChannelName!}，你好</span>
                     <#else>
                          <span>管理员，你好</span>
                          <a id="exit_id" class="exite_button" href="javascript:;">安全登出</a>
@@ -27,6 +27,6 @@
                             <ul id="report_ul" class="son_ul" style="display:none">
                                 <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getReport">报表详情</a></li>
                             </ul>
+                        </#if>
                         </div>
-						</#if>
 					</div>

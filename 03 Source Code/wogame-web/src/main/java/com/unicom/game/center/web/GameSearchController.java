@@ -7,6 +7,7 @@ import com.unicom.game.center.vo.SearchKeywordItemVo;
 import com.unicom.game.center.vo.SearchKeywordsVo;
 import com.unicom.game.center.vo.SearchResultItemVo;
 import com.unicom.game.center.vo.SearchResultVo;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,9 +59,8 @@ public class GameSearchController {
         String utf8Keyword = URLDecoder.decode(URLDecoder.decode(keyword, "UTF-8"), "UTF-8");
 
         // 记录Log
-        Map<String, String> logData = Maps.newHashMap();
-        logData.put("keyword", utf8Keyword);
-        statisticsLogger.log("keyword", logData);
+        String[] logData = new String[]{"40", keyword};
+        statisticsLogger.info(StringUtils.join(logData, ""));
 
         //根据搜索字搜索游戏
         SearchResultVo vo = zteService.readSearchResult(utf8Keyword, pageNum);
