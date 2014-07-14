@@ -32,6 +32,21 @@ public class ZTEService {
 	
 	@Value("#{properties['wogame.service.hotwords']}")
 	private String wogameHotwords;	
+	
+	@Value("#{properties['zte.service.host']}")
+	private String wostoreHost;	
+	
+	@Value("#{properties['zte.service.detail']}")
+	private String wostoreDetail;
+	
+	@Value("#{properties['zte.service.search']}")
+	private String wostoreSearch;	
+	
+	@Value("#{properties['zte.service.download']}")
+	private String wostoreDownload;	
+	
+	@Value("#{properties['zte.service.keyword']}")
+	private String wostoreKeyword;	
 
     private Logger logger = LoggerFactory.getLogger(ZTEService.class);
 
@@ -42,11 +57,6 @@ public class ZTEService {
     private static final String SEARCH_KEYWORD_TABLE_NAME = "getkeywords";
     private static final String SEARCH_KEYWORD_RESULT_SPLIT_CHAR = "|";
 
-    private static final String URL_PRODUCT_DETAIL = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid={serviceid}&productid={productid}&state={state}";
-    private static final String URL_SEARCH_GAME = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=searchallgameapp&keyword={keyword}&pagenum={pageNum}&tablename=search&count=20";
-    private static final String URL_PRODUCT_DOWNLOAD = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=order&productid={productid}&ordertype=4" +
-            "&accountingtype=0&recuserid=&update=0&packageid=&downchannel=8";
-    private static final String URL_SEARCH_KEYWORDS = "http://client.wostore.cn:6106/appstore_agent/unistore/servicedata.do?serviceid=getkeywords&keyword={keyword}";
     private static final String DATE_FORMAT_ONLINE_TIME = "yyyyMMddHHmmss";
 
     public GameInfoVo readProductDetail(String productId) {
@@ -64,7 +74,7 @@ public class ZTEService {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(URL_PRODUCT_DETAIL, HttpMethod.GET, entity, byte[].class, urlVariables);
+        ResponseEntity<byte[]> response = restTemplate.exchange((wostoreHost + wostoreDetail), HttpMethod.GET, entity, byte[].class, urlVariables);
 
         return parseGameInfo(response.getBody());
     }
@@ -151,7 +161,7 @@ public class ZTEService {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(URL_SEARCH_GAME, HttpMethod.GET, entity, byte[].class, urlVariables);
+        ResponseEntity<byte[]> response = restTemplate.exchange((wostoreHost + wostoreSearch), HttpMethod.GET, entity, byte[].class, urlVariables);
 
         return parseSearchResult(response.getBody());
     }
@@ -164,25 +174,25 @@ public class ZTEService {
         HttpHeaders headers = new HttpHeaders();
 //        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 //        headers.setContentLength(57);
-        headers.set("user-agent", "Anroid/Lenovo798T");
-        headers.set("storeua", "Anroid/Lenovo798T");
-        headers.set("x-up-calling-line-id", "00000000000");
+//        headers.set("user-agent", "Anroid/Lenovo798T");
+//        headers.set("storeua", "Anroid/Lenovo798T");
+//        headers.set("x-up-calling-line-id", "00000000000");
         headers.set("handphone", "00000000000");
-        headers.set("handua", "9000000000");
-        headers.set("settertype", "3");
-        headers.set("version", "3");
-        headers.set("imei", "000000000000000");
-        headers.set("imsi", "000000000000000");
-        headers.set("preassemble", "Android-v16>Common>V2.0.0>20120328>NA>NA>NA>beiyong>NA>NA");
-        headers.set("companylogo", "18150");
-        headers.set("sessionid", "202dc1f08ee64f8f896fafc3c5c62c03");
-        headers.set("appfrom", "openfeint");
+//        headers.set("handua", "9000000000");
+//        headers.set("settertype", "3");
+//        headers.set("version", "3");
+//        headers.set("imei", "000000000000000");
+//        headers.set("imsi", "000000000000000");
+//        headers.set("preassemble", "Android-v16>Common>V2.0.0>20120328>NA>NA>NA>beiyong>NA>NA");
+//        headers.set("companylogo", "18150");
+//        headers.set("sessionid", "202dc1f08ee64f8f896fafc3c5c62c03");
+//        headers.set("appfrom", "openfeint");
         headers.set("newclient", "1");
-        headers.set("phoneAccessMode", "3");
-        headers.set("usertype", "3");
-        if (isContainChannel) {
-            headers.set("clientchannelflag", "8");
-        }
+//        headers.set("phoneAccessMode", "3");
+//        headers.set("usertype", "3");
+//        if (isContainChannel) {
+//            headers.set("clientchannelflag", "8");
+//        }
         return headers;
     }
 
@@ -257,7 +267,7 @@ public class ZTEService {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(URL_PRODUCT_DOWNLOAD, HttpMethod.GET, entity, byte[].class, urlVariables);
+        ResponseEntity<byte[]> response = restTemplate.exchange((wostoreHost + wostoreDownload), HttpMethod.GET, entity, byte[].class, urlVariables);
 
         return parseGameDownloadInfo(response.getBody());
     }
@@ -317,7 +327,7 @@ public class ZTEService {
             HttpEntity<String> entity = new HttpEntity<String>("", headers);
             RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
 
-            ResponseEntity<byte[]> response = restTemplate.exchange(URL_SEARCH_KEYWORDS, HttpMethod.GET, entity, byte[].class, urlVariables);
+            ResponseEntity<byte[]> response = restTemplate.exchange((wostoreHost + wostoreKeyword), HttpMethod.GET, entity, byte[].class, urlVariables);
 
             return parseSearchKeywords(response.getBody());
         } catch (Exception e) {
