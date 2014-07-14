@@ -44,7 +44,7 @@ $(function(){
             if(chaId == 'channelID' || chaId == "" || chaId == null){
                 alert("channelID不能为空！");
                 return;
-            }else if(chaId != 5 || chaId != 8){
+            }else if(chaId.length != 5 || chaId.length != 8){
                 alert("channelID必须是5字符或8字符！");
                 return;
             }else if(cpid == 'CPID' || cpid == "" || cpid == null){
