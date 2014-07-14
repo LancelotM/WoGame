@@ -14,10 +14,13 @@
     <!-- js -->
     <script type="text/javascript" src="${basePath}/static/js/libs/jquery.min.js"></script>
 	<script type="text/javascript" src="${basePath}/static/js/libs/highcharts.js"></script>
-	<script type="text/javascript" src="${basePath}/static/js/menuControl.js"></script>	
-    
+    <script type="text/javascript" src="${basePath}/static/js/libs/jquery.paginate.js"></script>
+	<script type="text/javascript" src="${basePath}/static/js/menuControl.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/libs/jquery-ui.js"></script>
+
     <!-- css -->
     <link href="${basePath}/static/css/style.css" rel="stylesheet">
+    <link href="${basePath}/static/css/jquery-ui.css" rel="stylesheet">
     <#--csses css-->
     <#if csses??>
         <#list csses as css>

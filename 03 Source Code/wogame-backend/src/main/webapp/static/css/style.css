@@ -465,39 +465,6 @@ a{
 	border-radius:5px;
 }
 
-/*分页部分*/
-#pages
-{
-    width: 965px;
-    text-align: right;
-    height: 22px;
-    line-height: 22px;
-    margin-top: 22px;
-}
-#pages a, #pages a.current_page:hover
-{
-	border: #ed6e02 solid 1px;
-    padding: 2px 7px;
-	border-radius:3px;
-}
-#pages a:hover
-{
-    padding: 2.5px 7.5px;
-	background: #cddde4;
-    border: #ed6e02 solid 1px;
-    color: #067db5;
-	border-radius:3px;
-}
-#pages a
-{
-    color: #ed6e02;
-    margin-left: 8px;
-}
-#pages a.current_page
-{
-    background: #ed6e02;
-    color: #ffffff;
-}
 #dialog{
     height:288px;
     width:718px;
@@ -551,6 +518,7 @@ a{
 #download_info_right tr{
     border-left-width: 0px;
 }
+
 
 
 

@@ -53,10 +53,6 @@ public class DownLoadInfoBusiness {
 //            startDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[0],"yyyy.MM.dd"),"yyyy-MM-dd");
 //            endDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[1],"yyyy.MM.dd"),"yyyy-MM-dd");
 //        }
-        if(!Utility.isEmpty(startDate)&&!Utility.isEmpty(endDate)){
-            startDate = DateUtils.formatDateToString(DateUtils.stringToDate(startDate,"yyyyMMdd"),"yyyy-MM-dd");
-            endDate = DateUtils.formatDateToString(DateUtils.stringToDate(endDate,"yyyyMMdd"),"yyyy-MM-dd");
-        }
         List<DownloadDiaplayModel> downloadInfoDomains = downloadInfoDao.getByProductOrChaOrDate(channelID,startDate,endDate);
         if(downloadInfoDomains.size()%2 !=0){
             DownloadDiaplayModel diaplayModel = new DownloadDiaplayModel();
