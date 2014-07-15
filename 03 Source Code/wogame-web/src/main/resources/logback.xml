@@ -46,7 +46,7 @@
         </rollingPolicy>
         <Encoding>UTF-8</Encoding>
         <encoder>
-            <pattern>%msg  </pattern>
+            <pattern>%msg</pattern>
         </encoder>
     </appender>       
 

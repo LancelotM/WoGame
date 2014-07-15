@@ -165,7 +165,7 @@ public class SFTPHelper {
                 for (int i = 0;i < vector.size();i++) {
                     ChannelSftp.LsEntry f = (ChannelSftp.LsEntry)vector.get(i);
                     String name = f.getFilename();
-                    if (!name.equals(".") && !name.equals("..")) {
+                    if (!name.equals(".") && !name.equals("..") && !name.startsWith(".")) {
                         list.add(f.getFilename());
                     }
                 }

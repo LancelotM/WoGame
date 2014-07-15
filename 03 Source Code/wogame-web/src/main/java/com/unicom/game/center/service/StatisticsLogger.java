@@ -30,6 +30,6 @@ public class StatisticsLogger {
     }
 
     public void number(String data) {
-        numberLogger.info(data);
+        numberLogger.info(data+" ");
     }
 }
