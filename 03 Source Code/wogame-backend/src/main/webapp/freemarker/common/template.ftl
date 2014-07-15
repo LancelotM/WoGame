@@ -38,7 +38,7 @@
 <#--jses js-->
     <#if jses??>
         <#list jses as js>
-    		<script type="text/javascript" src="${basePath}/static/js/${js}.js"></script>
+    		<script type="text/javascript" src="${basePath}/static/js/${js}.js" charset="UTF-8"></script>
         </#list>
     </#if>
 </html>

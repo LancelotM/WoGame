@@ -39,7 +39,7 @@
                         <td>下载次数</td>
                     </tr>
                 </table>
-                <div id="pages" style="clear: both;">
+                <div id="pages">
                     <input id="rowsPerPage" type="hidden" value="20" />
 
                 </div>

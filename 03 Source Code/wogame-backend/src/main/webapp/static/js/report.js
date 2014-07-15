@@ -1,12 +1,18 @@
 $(function(){
     $('#report_search').click(function(){
         var reportChaid = $('#report_chaid').val().trim();
-        if(reportChaid == null || reportChaid == ""){
+        var startDateVal = $("#startDateStr").val().trim();
+        var endDateVal = $("#endDateStr").val().trim();
+        if(isEmpty(reportChaid)){
             alert("channelID不能为空！");
             return;
-        }else if($("#startDateStr").val() > $("#endDateStr").val()){
-            alert("截止日期不能大于起始日期！");
+        }else if(!isEmpty(startDateVal)&&!isEmpty(endDateVal)&&startDateVal > endDateVal){
+            alert("起始日期不能大于截止日期！");
             return;
+        }else if(!isEmpty(startDateVal) && (isEmpty(endDateVal))){
+            $("#endDateStr").val(startDateVal)
+        }else if(!isEmpty(endDateVal) && (isEmpty(startDateVal))){
+            $("#startDateStr").val(endDateVal)
         }
         $('#report_form').submit();
     });
