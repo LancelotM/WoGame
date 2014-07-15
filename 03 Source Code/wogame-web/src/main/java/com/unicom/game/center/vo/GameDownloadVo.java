@@ -10,6 +10,8 @@ public class GameDownloadVo {
     private String downloadUrl;
     private String isFitApp;
     private String onlineTime;
+    private String fileName;
+    private String context;
 
     public String getId() {
         return id;
@@ -57,5 +59,21 @@ public class GameDownloadVo {
 
     public void setOnlineTime(String onlineTime) {
         this.onlineTime = onlineTime;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
     }
 }

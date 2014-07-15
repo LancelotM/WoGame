@@ -6,6 +6,7 @@ import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.service.ZTEService;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.vo.GameDownloadVo;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springside.modules.web.MediaTypes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Map;
@@ -27,7 +33,6 @@ import java.util.Map;
  * @author calvin
  */
 @Controller
-@RequestMapping(value = "/download")
 public class GameDownloadController {
 
     private Logger logger = LoggerFactory.getLogger(GameDownloadController.class);
@@ -41,7 +46,21 @@ public class GameDownloadController {
     @Autowired
     private PackageInfoBusiness packageInfoBusiness;
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    @RequestMapping(value = "downloadFile", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    public void download(@RequestParam("url") String url, @RequestParam("fileName") String fileName,
+                         HttpServletResponse response) throws IOException {
+        RestTemplate template = new RestTemplate();
+        String utf8ProductName = URLDecoder.decode(URLDecoder.decode(fileName, "UTF-8"), "UTF-8");
+        byte[] fileBytes = template.getForObject(url, byte[].class);
+
+        InputStream is = new ByteArrayInputStream(fileBytes);
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=" + new String(utf8ProductName.getBytes(), "iso8859-1") + ".apk");
+        IOUtils.copy(is, response.getOutputStream());
+        response.flushBuffer();
+    }
+
+    @RequestMapping(value = "/download", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
     @ResponseBody
     public GameDownloadVo info(@RequestParam("productId") String productId,
                                @RequestParam("productName") String productName,
@@ -68,6 +87,8 @@ public class GameDownloadController {
         GameDownloadVo info = zteService.readProductDownloadUrl(productId);
 
         if (StringUtils.isNotBlank(info.getDownloadUrl())) {
+            info.setFileName(utf8ProductName);
+            info.setContext(request.getContextPath());
             // 取得channel code
             String channelId = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
             String channelCode = packageInfoBusiness.checkPackageExist(channelId, productId, info.getOnlineTime());
