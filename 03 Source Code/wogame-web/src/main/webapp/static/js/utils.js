@@ -83,7 +83,7 @@ function download_file(context, url, fileName) {
         form.attr("style", "display:none");
         form.attr("id", "downloadForm");
         form.attr("target", "");
-        form.attr("method", "get");
+        form.attr("method", "post");
         form.attr("action", context + "/downloadFile");
 
 

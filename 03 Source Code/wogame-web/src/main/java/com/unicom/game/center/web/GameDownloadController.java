@@ -46,7 +46,7 @@ public class GameDownloadController {
     @Autowired
     private PackageInfoBusiness packageInfoBusiness;
 
-    @RequestMapping(value = "downloadFile", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
+    @RequestMapping(value = "downloadFile", method = RequestMethod.POST, produces = MediaTypes.JSON_UTF_8)
     public void download(@RequestParam("url") String url, @RequestParam("fileName") String fileName,
                          HttpServletResponse response) throws IOException {
         RestTemplate template = new RestTemplate();
