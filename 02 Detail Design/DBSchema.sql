@@ -134,7 +134,7 @@ FOR EACH ROW
 
 create table wogamecenter.package_report(
 	id int(20) primary key auto_increment,
-	appid varchar(30) not null,
+	appid varchar(40) not null,
 	appname varchar(30) not null,
 	channel_code varchar(40) not null,
 	package_status int(20) not null,
@@ -146,7 +146,7 @@ alter table wogamecenter.package_report add constraint package_report_chnanel_fk
 
 create table wogamecenter.zte_report(
 	id int(20) primary key auto_increment,
-	appid varchar(30) not null,
+	appid varchar(40) not null,
 	appname varchar(30) not null,
 	channel_code varchar(40) not null,
 	operate_result int(8) not null,
