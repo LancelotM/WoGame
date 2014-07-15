@@ -20,7 +20,7 @@
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/js/utils.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
     <script type="text/javascript">
@@ -127,7 +127,7 @@
                         </c:if>
                         <div class="w_img_bg">
                             <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">
-                            <img width="60" height="60" src="${appItem.iconUrl}">
+                                <img width="60" height="60" src="${appItem.iconUrl}">
                             </a>
                         </div>
                         <div class="w_img_count">
@@ -153,7 +153,7 @@
                             </c:if>
                             <div class="w_img_bg">
                                 <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.adId}', '${item.adType}', '${item.apps[idx.index+1].sort}');">
-                                <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
+                                    <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
                                 </a>
                             </div>
                             <div class="w_img_count">
@@ -182,7 +182,7 @@
                 <c:set var="appIndex" value="${appIndex+1}"/>
                 <div class="w_houlist_large">
                     <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">
-                    <img width="100%" height="200" src="${appItem.bannerUrl}">
+                        <img width="100%" height="200" src="${appItem.bannerUrl}">
                     </a>
                 </div>
 
@@ -199,7 +199,7 @@
                 <c:set var="appIndex" value="${appIndex+1}"/>
                 <div class="w_houlist">
                     <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">
-                    <img width="100%" height="80" src="${appItem.bannerUrl}">
+                        <img width="100%" height="80" src="${appItem.bannerUrl}">
                     </a>
                 </div>
 
@@ -207,7 +207,7 @@
                     <c:set var="appIndex" value="${appIndex+1}"/>
                     <div class="w_houlist">
                         <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.adId}', '${item.adType}', '${item.apps[idx.index+1].sort}');">
-                        <img width="100%" height="80" src="${item.apps[idx.index+1].bannerUrl}">
+                            <img width="100%" height="80" src="${item.apps[idx.index+1].bannerUrl}">
                         </a>
                     </div>
                 </c:if>

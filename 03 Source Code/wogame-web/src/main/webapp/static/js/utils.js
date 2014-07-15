@@ -63,26 +63,33 @@ function doDownload(url, id, name, icon) {
                 if (data.downloadUrl == "") {
                     alert(data.description);
                 } else {
-                    download_file(data.downloadUrl);
+                    download_file(data.context, data.downloadUrl, data.fileName);
                 }
             } else {
                 alert("服务器错误。");
             }
         })
 }
-function download_file(url) {
+function download_file(context, url, fileName) {
 
     var form = $("#downloadForm");
     if (form.length > 0) {
         form.attr("target", "");
-        form.attr("action", url);
+        form.attr("action", context + "/downloadFile");
+        $("#url", form).val(url);
+        $("#fileName", form).val(encodeURI(encodeURI(fileName)));
     } else {
         form = $("<form>");//定义一个form表单
         form.attr("style", "display:none");
         form.attr("id", "downloadForm");
         form.attr("target", "");
         form.attr("method", "post");
-        form.attr("action", url);
+        form.attr("action", context + "/downloadFile");
+
+
+        form.append($("<input>").attr({"id": "url", "name": "url", "value": url}));
+        form.append($("<input>").attr({"id": "fileName", "name": "fileName", "value": encodeURI(encodeURI(fileName))}));
+
         $("body").append(form);//将表单放置在web中
     }
 
