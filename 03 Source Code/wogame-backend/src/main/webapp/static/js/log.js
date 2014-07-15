@@ -54,7 +54,7 @@ $(function(){
             var html = "";
             var bannerImgDesc = "";
             $.each(data, function(commentIndex, comment){
-                if(commentIndex == 1){
+                if(commentIndex == 0){
                     $.each(comment, function(varindex, game){
 //                        imgSrc += '<img src="'+basePath+"/"+game['icon']+'" alt=""/>';
                         bannerImgDesc += '<td>广告位'+(varindex+1)+'</td>';
