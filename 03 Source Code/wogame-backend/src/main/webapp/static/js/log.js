@@ -56,7 +56,6 @@ $(function(){
             $.each(data, function(commentIndex, comment){
                 if(commentIndex == 0){
                     $.each(comment, function(varindex, game){
-//                        imgSrc += '<img src="'+basePath+"/"+game['icon']+'" alt=""/>';
                         bannerImgDesc += '<td>广告位'+(varindex+1)+'</td>';
                     });
                 }
@@ -66,7 +65,6 @@ $(function(){
                 });
                 html += "</tr>"
             });
-//            $("#banner_caption").append(imgSrc);
             $('#banner').append(html);
             $('#bannerImg_dec').append(bannerImgDesc);
         }
@@ -85,18 +83,9 @@ $(function(){
                     '</td><td>'+comment['last2TimeData']+'</td><td>'+comment['last3TimeData']+
                     '</td><td>'+comment['last4TimeData']+'</td></tr>'
             });
-//                $("tr[class='append_tr']").remove();
             $('#top30Game').append(html);
         }
     });
-
-//    $('#pages a').click(function(){
-//        var curPage = $(this).text();
-
-//        $("a[class='current_page']").removeClass();
-//        $(this).addClass('current_page');
-//    });
-   // $('#pages a').first().trigger('click');
 });
 
 function createForm(url,value,type){
