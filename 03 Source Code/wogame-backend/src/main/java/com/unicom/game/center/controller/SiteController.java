@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.unicom.game.center.utils.Logging;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,8 @@ import com.unicom.game.center.utils.Constant;
  */
 @Controller
 public class SiteController {
+
+    private Logger logger = LoggerFactory.getLogger(SiteController.class);
     @Autowired
     private ChannelInfoBusiness channelService;
 
@@ -61,11 +66,17 @@ public class SiteController {
         ChannelInfoDomain channelInfo = null;
        if(channelName != null && channelName.length()> 0 &&channelCode != null && channelCode.length()>0 && cpid != null && cpid .length()>0){
            channelInfo = channelService.startChannel(channelCode,channelName,cpid);
+
            if(channelInfo != null){
                String wapURL = wapLink + channelInfo.getWapToken();
                String logURL = logLink + channelInfo.getLogToken();
                channelInfo.setWapToken(wapURL);
                channelInfo.setLogToken(logURL);
+               logger.info("channelName",channelName);
+               logger.info("channelCode",channelCode);
+               logger.info("cpid",cpid);
+               logger.info("wapURL",wapURL);
+               logger.info("logURL",logURL);
                modelMap.put("channelInfoDomain", channelInfo);
            }
         }

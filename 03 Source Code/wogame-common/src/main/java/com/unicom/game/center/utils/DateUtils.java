@@ -153,7 +153,7 @@ public class DateUtils {
     public static int intervalDays(String startDay,String endDay,int stype){
         int n = 0;
         String[] u = {"天","月","年"};
-        String formatStyle = stype==1?"yyyy-MM":"MM-dd";
+        String formatStyle = stype==1?"yyyy-MM":"yyyy-MM-dd";
 
         endDay = endDay==null?getCurrentDate("yyyy-MM-dd"):endDay;
 

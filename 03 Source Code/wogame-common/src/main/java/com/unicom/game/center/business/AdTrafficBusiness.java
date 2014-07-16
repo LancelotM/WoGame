@@ -107,9 +107,11 @@ public class AdTrafficBusiness {
     public List<List<AdInfo>> getBannerDateModel(Integer channelId,int type){
         TreeMap<String,List<AdInfo>> map = null;
         if(type == 1){
-            map = getBannerDisplayModel(fetchGameInfoByDate(channelId,true));
+            map = getBannerDisplayModel(fetchGameInfoByDate(channelId,true),1);
+            getBannerMap(map,1);
         }else if(type == 2){
-            map = getBannerDisplayModel(fetchGameInfoByMonth(channelId, true));
+            map = getBannerDisplayModel(fetchGameInfoByMonth(channelId, true),2);
+            getBannerMap(map,2);
         }
         List<List<AdInfo>> gameByDate = new ArrayList<List<AdInfo>>();
         List<AdInfo> games = null;
@@ -176,24 +178,40 @@ public class AdTrafficBusiness {
         return gameDisplayModels;
     }
 
-    public TreeMap<String,List<AdInfo>> getBannerDisplayModel(List<AdInfo> gameInfos){
-        TreeMap<String,List<AdInfo>>  data = new TreeMap<String, List<AdInfo>>(new Comparator() {
-            Collator collator = Collator.getInstance();
-
-            public int compare(Object o1, Object o2) {
-                //如果有空值，直接返回0
-                if (o1 == null || o2 == null)
-                    return 0;
-                CollationKey key1 = collator.getCollationKey(o1.toString());
-                CollationKey key2 = collator.getCollationKey(o2.toString());
-                return String.valueOf(o2).compareTo(String.valueOf(o1));
-            }
-        });
-        if(gameInfos != null && gameInfos.size() > 0){
-            for(AdInfo gameInfo : gameInfos){
-                getMap(data,gameInfo.getDate(),gameInfo);
+    public TreeMap<String,List<AdInfo>> getBannerDisplayModel(List<AdInfo> gameInfos,int dateType){
+        TreeMap<String,List<AdInfo>>  data = new TreeMap<String, List<AdInfo>>();
+        AdInfo adInfo = null;
+        if(gameInfos == null){
+            gameInfos = new ArrayList<AdInfo>();
+            for(int i = 1;i<=5;i++){
+                int s = 0;
+                if(dateType == 1){
+                    s = 1;
+                }
+                int j = s;
+                for(;s<j+5;s++){
+                    adInfo = new AdInfo();
+                    adInfo.setAdId(String.valueOf(i));
+                    adInfo.setClickThrough("0");
+                    if(dateType == 1){
+                        adInfo.setDate(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-s),"yyyy-MM-dd"));
+                    }else if(dateType == 2){
+                        adInfo.setDate(DateUtils.getMonthFirstByInterval(new Date(),-s));
+                    }
+                    gameInfos.add(adInfo);
+                }
             }
         }
+        String key = null;
+        for(AdInfo gameInfo : gameInfos){
+            if(dateType == 1){
+                key = String.valueOf(DateUtils.intervalDays(gameInfo.getDate(), null, 0));
+            }else if(dateType == 2){
+                key = String.valueOf(DateUtils.intervalDays(gameInfo.getDate(), null, 1));
+            }
+            getMap(data,key,gameInfo);
+        }
+
         return data;
     }
 
@@ -236,6 +254,32 @@ public class AdTrafficBusiness {
             list.add(gameTrafficDomain);
         }
         gameTrafficDao.saveAdTrafficDomainList(list,100);
+    }
+
+    public void getBannerMap(TreeMap<String,List<AdInfo>> map,int dateType){
+        List<AdInfo> zeroData = null;
+        int listSize = 0;
+        for(String index : map.keySet()){
+            listSize = map.get(index).size();
+            break;
+        }
+        int i = 0;
+        if(dateType == 1){
+             i = 1;
+        }
+        int j = i;
+        while(i < j+5){
+            if(map.get(String.valueOf(i)) == null){
+                zeroData = new ArrayList<AdInfo>();
+                for(int s = 0;s<listSize;s++){
+                    AdInfo adInfo = new AdInfo();
+                    adInfo.setClickThrough("0");
+                    zeroData.add(adInfo);
+                }
+                map.put(String.valueOf(i),zeroData);
+            }
+            i++;
+        }
     }
 
 }

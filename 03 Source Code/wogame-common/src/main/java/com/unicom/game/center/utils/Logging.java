@@ -15,6 +15,7 @@ public class Logging {
     private static org.apache.log4j.Logger errorLog = Logger.getLogger("error");
     private static org.apache.log4j.Logger debugLog = Logger.getLogger("debug");
     private static org.apache.log4j.Logger infoLog = Logger.getLogger("information");
+    private static org.apache.log4j.Logger siteLog = Logger.getLogger("siteInfo");
 
 
     /**
@@ -58,6 +59,10 @@ public class Logging {
      */
     public static void logInfo(String desc, Throwable ex) {
         infoLog.info(desc, ex);
+    }
+
+    public static void siteLog(String desc) {
+        siteLog.debug(desc);
     }
 
 
