@@ -44,7 +44,7 @@ public class UserCountDao extends HibernateDao<UserCountDomain>{
 	public List<LoginInfo> fetchLoginInfoByDate(String startDate, String endDate, Integer channelId){
 		StringBuffer sb = new StringBuffer();
 		sb.append("select sum(uc.newUserCount) as newUser,  sum(uc.oldUserCount) as oldUser,");
-		sb.append(" DATE_FORMAT(uc.dateCreated, '%m-%d') as date");
+		sb.append(" DATE_FORMAT(uc.dateCreated, '%Y-%m-%d') as date");
 		sb.append(" from UserCountDomain uc");
 		sb.append(" where uc.dateCreated >= '");
 		sb.append(startDate);

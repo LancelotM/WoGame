@@ -57,6 +57,7 @@ public class SFTPHelper {
 			sftp = (ChannelSftp) channel;
 		} catch (Exception ex) {
 			Logging.logError("Error occur in connectServer.", ex);
+			ex.printStackTrace();
 		}
 		return sftp;
 	}
@@ -165,13 +166,14 @@ public class SFTPHelper {
                 for (int i = 0;i < vector.size();i++) {
                     ChannelSftp.LsEntry f = (ChannelSftp.LsEntry)vector.get(i);
                     String name = f.getFilename();
-                    if (!name.equals(".") && !name.equals("..") && !name.startsWith(".")) {
+                    if (!name.startsWith(".")) {
                         list.add(f.getFilename());
                     }
                 }
    				return list;
    			} catch (Exception e) {
                    Logging.logError("Error occur in downloadFile.",e);
+                   e.printStackTrace();
    			}finally {
    				try {
    					closeChannel(sftp.getSession(), sftp);
