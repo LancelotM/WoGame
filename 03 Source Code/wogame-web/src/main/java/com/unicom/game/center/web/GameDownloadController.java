@@ -184,13 +184,13 @@ public class GameDownloadController {
 
     private String wrapDownloadUrl(String productId, String downloadUrl, String onlineTime, String channelCode) {
 
-        if (channelCode == null) {
+        if (channelCode == null || (null != channelCode && channelCode.length() != 8)) {
         	return downloadUrl;
         }
 
         // add channel code
         int position = StringUtils.ordinalIndexOf(downloadUrl, "/", 4);
-		String  packageURL =StringUtils.left(downloadUrl, position) + "_" + channelCode + StringUtils.right(downloadUrl, downloadUrl.length() - position);
+		String  packageURL =StringUtils.left(downloadUrl, position) + "_" + channelCode.substring(3) + StringUtils.right(downloadUrl, downloadUrl.length() - position);
 
         return StringUtils.left(packageURL, packageURL.length() - 4) + "_" + channelCode + StringUtils.right(packageURL, 4);
 
