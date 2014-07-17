@@ -15,7 +15,7 @@
                         <input id="dateType" type="hidden" value="${type!}" />
                     </div>
                 </form>
-                <img src="${basePath}/static/images/icon_radio.png" class="title_image"/>今日新增用户数
+                <img src="${basePath}/static/images/icon_radio.png" class="title_image"/>昨日新增用户数
                     <span class="numberal_format">${newUserCount!'0'}</span>人，总计用户数<span class="numberal_format">${totalUserCount!'0'}</span>人
                 <div id="uv" style="width:963px;height:556px;margin-top:20px;margin-bottom:20px;"></div>
                 <div class="log_title" style="margin-top:17px;">
@@ -43,5 +43,15 @@
             </div>
         </div>
     </div>
+    <iframe id="iframeC" name="iframeC" src="" width="0" height="0" style="display:none;" ></iframe>
+
+    <script type="text/javascript">
+        function sethash(){
+            hashH = document.documentElement.scrollHeight;
+            urlC = "http://localhost:8088/examples/agent.html";
+            document.getElementById("iframeC").src=urlC+"#"+hashH;
+        }
+        window.onload=sethash;
+    </script>
 </div>
 </@template>
