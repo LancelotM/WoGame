@@ -92,6 +92,7 @@ public class ChannelInfoBusiness {
 				channel.setChannelCode(channelCode);
 				channelInfoDao.update(channel);					
 			}
+			flag = true;
 		}catch(Exception ex){
 			Logging.logError("Error occur in update channel", ex);
 		}

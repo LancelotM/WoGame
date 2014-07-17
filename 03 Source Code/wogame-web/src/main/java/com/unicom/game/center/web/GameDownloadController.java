@@ -187,10 +187,14 @@ public class GameDownloadController {
         if (channelCode == null || (null != channelCode && channelCode.length() != 8)) {
         	return downloadUrl;
         }
+        
+        //download URL :: http:// dlshost: port /packageid/onlinetime/dlchar/DlIndex/Ptype/SEC/17wo.APK
+        String[] arrayURLs = downloadUrl.split("/");
+        String packageId = StringUtils.left(arrayURLs[3], arrayURLs[3].length() - 1) + channelCode.substring(3);
+        String packageInfo = Long.toHexString(Long.parseLong(packageId));
 
-        // add channel code
-        int position = StringUtils.ordinalIndexOf(downloadUrl, "/", 4);
-		String  packageURL =StringUtils.left(downloadUrl, position) + "_" + channelCode.substring(3) + StringUtils.right(downloadUrl, downloadUrl.length() - position);
+		String  packageURL =StringUtils.left(downloadUrl, (StringUtils.ordinalIndexOf(downloadUrl, "/", 3) + 1)) + packageInfo + 
+				StringUtils.right(downloadUrl, downloadUrl.length() - StringUtils.ordinalIndexOf(downloadUrl, "/", 4));
 
         return StringUtils.left(packageURL, packageURL.length() - 4) + "_" + channelCode + StringUtils.right(packageURL, 4);
 

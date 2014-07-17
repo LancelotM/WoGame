@@ -91,7 +91,13 @@
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
 			<version>0.1.51</version>
-		</dependency>				
+		</dependency>			
+				
+ 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>synchannel_client</artifactId>
+			<version>${project.version}</version>
+		</dependency>					
 		
   </dependencies>
 </project>

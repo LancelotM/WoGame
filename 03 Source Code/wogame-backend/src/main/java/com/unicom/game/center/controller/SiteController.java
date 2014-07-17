@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unicom.game.center.business.ChannelInfoBusiness;
+import com.unicom.game.center.business.SyncChannelClient;
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.model.ChannelInfo;
 
@@ -30,6 +31,9 @@ public class SiteController {
 
     @Autowired
     private ChannelInfoBusiness channelService;
+    
+    @Autowired
+    private SyncChannelClient syncChannelClient;
 
     @Value("#{properties['wogame.wap.link']}")
     private String wapLink;
@@ -68,6 +72,7 @@ public class SiteController {
                channelInfo.setWapToken(wapURL);
                channelInfo.setLogToken(logURL);
                modelMap.put("channelInfoDomain", channelInfo);
+               syncChannelClient.syncChannel(0, channelInfo.getChannelId(), channelCode, channelName);
            }
         }
         List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
@@ -108,6 +113,9 @@ public class SiteController {
                                    @RequestParam(value = "cpid", required = true) String cpId){
         ModelMap modelMap = new ModelMap();
         boolean flag = channelService.updateChannel(channelId,channelCode,cpId);
+        if(flag){
+        	syncChannelClient.syncChannel(1, channelId, channelCode, null);
+        }
         modelMap.put("updateFlag",flag);
         List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
         if(null != channelInfos){
