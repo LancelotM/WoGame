@@ -29,7 +29,7 @@ function checkForm(){
                     $('#check_username').text("用户不存在！");
                 }else if(data == 2){
                     $('#check_password').text("密码错误！");
-                }else{
+                }else if(data == 3){
                     $('#check_username').text("登录失败！");
                 }
             }
