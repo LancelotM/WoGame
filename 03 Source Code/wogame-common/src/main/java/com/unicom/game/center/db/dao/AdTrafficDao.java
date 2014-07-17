@@ -25,7 +25,7 @@ public class AdTrafficDao extends HibernateDao<AdTrafficDomain>{
 	public List<AdInfo> fetchAdInfoByDate(String startDate, String endDate, Integer channelId){	
 		StringBuffer sb = new StringBuffer();
 		sb.append("select traffic.ad_id as adId, sum(traffic.click_through) as clickThrough,");
-		sb.append(" DATE_FORMAT(traffic.date_created, '%m-%d') as date");
+		sb.append(" DATE_FORMAT(traffic.date_created, '%Y-%m-%d') as date");
 		sb.append(" from ad_traffic traffic");
 		sb.append(" where traffic.date_created >= '");
 		sb.append(startDate);

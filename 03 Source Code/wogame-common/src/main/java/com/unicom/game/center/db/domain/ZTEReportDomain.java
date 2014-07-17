@@ -12,7 +12,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name="ZTE_report")
+@Table(name="zte_report")
 public class ZTEReportDomain implements Serializable{
 
     private static final long serialVersionUID = 1L;

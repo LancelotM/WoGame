@@ -15,7 +15,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public class ZTEReportDao extends HibernateDao{
+public class ZTEReportDao extends HibernateDao<ZTEReportDomain>{
 
     public void save(ZTEReportDomain zteReportDomain){
         getSession().save(zteReportDomain);

@@ -160,7 +160,7 @@ public class GameDownloadController {
                 productId, //productIndex
                 "",  //spID
                 "",  //updated
-                channel == null ? "" : channel, //channel "00018589"
+                channel == null ? "0" : channel, //channel "00018589"
                 "",  //referer
                 "", //status
                 "", //server_time

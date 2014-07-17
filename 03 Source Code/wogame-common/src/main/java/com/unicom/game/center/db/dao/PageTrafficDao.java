@@ -32,7 +32,7 @@ public class PageTrafficDao extends HibernateDao<PageTrafficDomain>{
 		StringBuffer sb = new StringBuffer();
 		sb.append(" select sum(pt.homepage) as homepage,  sum(pt.category) as category,");
 		sb.append(" sum(pt.hotlist) as hotlist,  sum(pt.latest) as latest,");
-		sb.append(" DATE_FORMAT(pt.dateCreated, '%m-%d') as date");
+		sb.append(" DATE_FORMAT(pt.dateCreated, '%Y-%m-%d') as date");
 		sb.append(" from PageTrafficDomain pt");
 		sb.append(" where pt.dateCreated >= '");
 		sb.append(startDate);
