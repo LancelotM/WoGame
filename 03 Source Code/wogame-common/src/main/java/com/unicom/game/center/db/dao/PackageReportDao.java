@@ -52,5 +52,7 @@ public class PackageReportDao extends HibernateDao{
         return Integer.parseInt(result);
     }
 
-
+    public void savePackageReportDomainList(List<PackageReportDomain> list, int num) {
+        saveDomainList(list, num);
+    }
 }

@@ -64,28 +64,7 @@ public class DownloadInfoDao extends HibernateDao<DownloadInfoDomain>{
 		return downloadDiaplayModels;
 	}
 	
-    public void saveUserCountDomainList(List<DownloadInfoDomain> list, int num) {
-//        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext_dao.xml");
-//        SessionFactory sf = (SessionFactory) ac.getBean("sessionFactory");
-//        Session session = sf.openSession();
-//        /*Session session = null;*/
-//        if (list != null && list.size() > 0) {
-//            try {
-//                /*session = getSession();*/
-//                DownloadInfoDomain domain = null;
-//
-//                for (int i = 0; i < list.size(); i++) {
-//                    domain = list.get(i);
-//                    session.saveOrUpdate(domain);
-//                    if (i % num == 0) {
-//                        session.flush();
-//                        session.clear();
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
+    public void saveDownloadCountDomainList(List<DownloadInfoDomain> list, int num) {
     	saveDomainList(list, num);
     }	
 }

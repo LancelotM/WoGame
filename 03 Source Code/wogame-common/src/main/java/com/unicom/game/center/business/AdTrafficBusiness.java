@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -235,7 +236,7 @@ public class AdTrafficBusiness {
             gameTrafficDomain.setDateCreated(gameTraffic.getDateCreated());
             list.add(gameTrafficDomain);
         }
-        gameTrafficDao.saveAdTrafficDomainList(list,100);
+        gameTrafficDao.saveAdTrafficDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
     }
 
 }

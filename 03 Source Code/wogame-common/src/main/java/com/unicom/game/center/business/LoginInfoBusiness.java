@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -151,7 +152,7 @@ public class LoginInfoBusiness {
             userCountDomain.setDateCreated(userCount.getDateCreated());
             list.add(userCountDomain);
         }
-        userCountDao.saveUserCountDomainList(list,100);
+        userCountDao.saveUserCountDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
     }
 
 }

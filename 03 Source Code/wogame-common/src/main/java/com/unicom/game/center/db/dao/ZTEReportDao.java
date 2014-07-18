@@ -48,4 +48,8 @@ public class ZTEReportDao extends HibernateDao{
 
         return Integer.parseInt(result);
     }
+
+    public void saveZTEReportDomainList(List<ZTEReportDomain> list, int num) {
+        saveDomainList(list, num);
+    }
 }

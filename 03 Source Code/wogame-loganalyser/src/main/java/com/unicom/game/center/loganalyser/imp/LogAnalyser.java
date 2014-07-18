@@ -67,6 +67,22 @@ public class LogAnalyser implements ILogAnalyser {
     @Value("#{properties['latest.log.fileInfo']}")
     private String logInfoFile;
 
+    @Override
+    public void doPackageReportDomainsSave() throws Exception {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void doDownloadCountDomainsSave() throws Exception{
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void doExtractReportDomainsSave() throws Exception{
+        // TODO Auto-generated method stub
+    }
+
     private void  keyWordDispose(String value, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate){
         KeyWord keyWord = null;
         Date today = new Date();
@@ -75,19 +91,15 @@ public class LogAnalyser implements ILogAnalyser {
         if (keywordDomain == null) {
             if(keyMapSave.containsKey(value)){
                 keyWord = keyMapSave.get(value) ;
-                keyWord.setKeyword(value);
                 keyWord.setCount(keyWord.getCount() + 1);
-                keyWord.setDateCreated(yesterday);
-                keyWord.setDateModified(today);
-                keyMapSave.put(value, keyWord);
             }else{
                 keyWord = new KeyWord();
-                keyWord.setKeyword(value);
                 keyWord.setCount(1);
-                keyWord.setDateCreated(yesterday);
-                keyWord.setDateModified(today);
-                keyMapSave.put(value, keyWord);
             }
+            keyWord.setKeyword(value);
+            keyWord.setDateCreated(yesterday);
+            keyWord.setDateModified(today);
+            keyMapSave.put(value, keyWord);
         }else{
             if(!keyMapUpdate.containsKey(value)){
                 keyWord = new KeyWord();
@@ -96,57 +108,48 @@ public class LogAnalyser implements ILogAnalyser {
                 keyWord.setCount(keywordDomain.getCount());
                 keyMapUpdate.put(value,keyWord);
                 keyWord = keyMapUpdate.get(value);
-                keyWord.setKeyword(value);
-                keyWord.setCount(keyWord.getCount() + 1);
-                keyWord.setDateCreated(yesterday);
-                keyWord.setDateModified(today);
-                keyMapUpdate.put(value, keyWord);
             } else {
                 keyWord = keyMapUpdate.get(value) ;
                 keyWord.setId(keyWord.getId());
-                keyWord.setKeyword(value);
-                keyWord.setCount(keyWord.getCount() + 1);
-                keyWord.setDateCreated(yesterday);
-                keyWord.setDateModified(today);
-                keyMapUpdate.put(value, keyWord);
             }
+            keyWord.setKeyword(value);
+            keyWord.setCount(keyWord.getCount() + 1);
+            keyWord.setDateCreated(yesterday);
+            keyWord.setDateModified(today);
+            keyMapUpdate.put(value, keyWord);
         }
     }
 
-    private static <E> boolean checkKey(Map<Integer,E> hashMap,int channelId){
-        boolean flag = false;
-        E mapValue = hashMap.get(channelId);
-        if(null != mapValue){
-            flag = true;
-        }
-        return flag;
-    }
 
-    private static Map wogameInfoNumberReader(File file){
-        String fileContent = null;
-        String contentTemp = null;
+    private static Map woGameInfoNumberReader(File file){
+        String fileContent = "";
+        String contentTemp = "";
         BufferedReader reader = null;
         Map<String,Integer> numberCountMap = new HashMap<String, Integer>();
         try {
             reader = new BufferedReader(new FileReader(file));
             while ((contentTemp = reader.readLine()) !=  null){
-                if(fileContent == null){
+                if(fileContent.equals("")){
                     fileContent = contentTemp;
                 } else{
                     fileContent = fileContent + " " + contentTemp;
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logging.logError("Error occurs in woGameInfoNumberReader", e);
         }
-        StringTokenizer tokenizer = new StringTokenizer(fileContent);
-        while(tokenizer.hasMoreTokens()){
-            String splitWord = tokenizer.nextToken();
-            if(numberCountMap.containsKey(splitWord)){
-                int count = numberCountMap.get(splitWord);
-                numberCountMap.put(splitWord,count+1);
-            }else{
-                numberCountMap.put(splitWord,1);
+        if(fileContent.equals("")){
+            return numberCountMap;
+        }else{
+            StringTokenizer tokenizer = new StringTokenizer(fileContent);
+            while(tokenizer.hasMoreTokens()){
+                String splitWord = tokenizer.nextToken();
+                if(numberCountMap.containsKey(splitWord)){
+                    int count = numberCountMap.get(splitWord);
+                    numberCountMap.put(splitWord,count+1);
+                }else{
+                    numberCountMap.put(splitWord,1);
+                }
             }
         }
         return numberCountMap;
@@ -280,7 +283,7 @@ public class LogAnalyser implements ILogAnalyser {
         gameTrafficMap.clear();
     }
 
-    private void woGameInfoParse(String tempString, Date fileDate, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate, Map<String,Product> productMap,Map<Integer,DownLoadInfo> downLoadInfoMap){
+    private void woGameInfoParse(String tempString, Date fileDate, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate, Map<String,Product> productMap,Map<String,DownLoadInfo> downLoadInfoMap){
         Product product = null;
         DownLoadInfo downLoadInfo = null;
         String firstTwoCharacters = tempString.substring(0, 2);
@@ -291,7 +294,7 @@ public class LogAnalyser implements ILogAnalyser {
             String product_id = tempString.substring(5,15).trim();
             String channel_id = tempString.substring(2,5).trim();
             String product_name = tempString.substring(15,257).trim();
-            String product_icon = tempString.substring(258,tempString.length()).trim();
+            String product_icon = tempString.substring(257,tempString.length()).trim();
             keyWordDispose(product_name,keyMapSave,keyMapUpdate);
             boolean flag =  productBusiness.checkId(product_id);
             if(flag){
@@ -303,20 +306,16 @@ public class LogAnalyser implements ILogAnalyser {
                 productMap.put(product_id,product);
             }
             if(downLoadInfoMap.containsKey(channel_id)){
-                downLoadInfo = downLoadInfoMap.get(Integer.parseInt(channel_id));
+                downLoadInfo = downLoadInfoMap.get(channel_id);
                 downLoadInfo.setDownload_count(downLoadInfo.getDownload_count() + 1);
-                downLoadInfo.setChannel_id(Integer.parseInt(channel_id));
-                downLoadInfo.setProduct_id(product_id);
-                downLoadInfo.setDateCreated(fileDate);
-                downLoadInfoMap.put(Integer.parseInt(channel_id), downLoadInfo);
             }else{
                 downLoadInfo = new DownLoadInfo();
                 downLoadInfo.setDownload_count(1);
-                downLoadInfo.setChannel_id(Integer.parseInt(channel_id));
-                downLoadInfo.setProduct_id(product_id);
-                downLoadInfo.setDateCreated(fileDate);
-                downLoadInfoMap.put(Integer.parseInt(channel_id), downLoadInfo);
             }
+            downLoadInfo.setChannel_id(Integer.parseInt(channel_id));
+            downLoadInfo.setProduct_id(product_id);
+            downLoadInfo.setDateCreated(fileDate);
+            downLoadInfoMap.put(channel_id, downLoadInfo);
         }
     }
 
@@ -343,7 +342,7 @@ public class LogAnalyser implements ILogAnalyser {
                     if(!file.exists()){
                         file.createNewFile();
                     }
-                    numberCountMap = wogameInfoNumberReader(file);
+                    numberCountMap = woGameInfoNumberReader(file);
                     woGameInfoNumberParse(numberCountMap, yesterday);
                     break;
                 case 1:
@@ -351,7 +350,7 @@ public class LogAnalyser implements ILogAnalyser {
                     break;
             }
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logging.logError("Error occurs in doLogAnalyse1 ", e);
         }
     }
 
@@ -363,7 +362,7 @@ public class LogAnalyser implements ILogAnalyser {
         Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
         Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
         Map<String,Product> productMap = new HashMap<String, Product>();
-        Map<Integer,DownLoadInfo> downLoadInfoMap = new HashMap<Integer,DownLoadInfo>();
+        Map<String,DownLoadInfo> downLoadInfoMap = new HashMap<String,DownLoadInfo>();
         String currentFileName = "wogamecenter_info."+fileDate+".log";
         try {
             List<String> currentFileList = FileUtils.readFileByRow(logInfoFile);
@@ -391,19 +390,20 @@ public class LogAnalyser implements ILogAnalyser {
                 case 0:
                     break;
             }
+            keywordBusiness.typeConversionSave(keyMapSave);
+            if(keyMapUpdate.size()>=1){
+                keywordBusiness.typeConversionUpdate(keyMapUpdate);
+            }
+            productBusiness.typeConversion(productMap);
+            downLoadInfoBusiness.typeConversion(downLoadInfoMap);
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            Logging.logError("Error occurs in doLogAnalyse2 ", e);
+        } finally {
+            keyMapSave.clear();
+            keyMapUpdate.clear();
+            productMap.clear();
+            downLoadInfoMap.clear();
         }
-        keywordBusiness.typeConversionSave(keyMapSave);
-        keyMapSave.clear();
-        if(keyMapUpdate.size()>=1){
-            keywordBusiness.typeConversionUpdate(keyMapUpdate);
-        }
-        keyMapUpdate.clear();
-        productBusiness.typeConversion(productMap);
-        productMap.clear();
-        downLoadInfoBusiness.typeConversion(downLoadInfoMap);
-        downLoadInfoMap.clear();
     }
     @Override
     public void doLogAnalyse(){

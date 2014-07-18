@@ -12,8 +12,8 @@ import java.util.Date;
  */
 public class DownLoadInfo implements Serializable{
 
-	private static final long serialVersionUID = 1L;	
-	
+	private static final long serialVersionUID = 1L;
+    private Integer id;
     private String product_id;
     private int channel_id;
     private int download_count;
@@ -22,13 +22,23 @@ public class DownLoadInfo implements Serializable{
     public DownLoadInfo() {
         super();
     }
-    public DownLoadInfo(String productId, int channelId, int downloadCount,Date dateCreated) {
+    public DownLoadInfo(Integer id, String productId, int channelId, int downloadCount,Date dateCreated) {
         super();
+        this.id = id;
         this.product_id = productId;
         this.channel_id = channelId;
         this.download_count = downloadCount;
         this.dateCreated = dateCreated;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getProduct_id() {
         return product_id;
     }

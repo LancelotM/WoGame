@@ -23,5 +23,9 @@
 
 	<util:properties id="properties"
 		location="file:/unicom/conf/wogamecenter.properties" />
-    	
+
+    <bean id="downloadCountAnalyser" class="com.unicom.game.center.loganalyser.imp.DownloadCountAnalyser" />
+    <bean id="extractReportAnalyser" class="com.unicom.game.center.loganalyser.imp.ExtractReportAnalyser" />
+    <bean id="packageReportAnalyser" class="com.unicom.game.center.loganalyser.imp.PackageReportAnalyser" />
+
 </beans>

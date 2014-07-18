@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class ProductBusiness {
             productDomain.setDateCreated(product.getDateCreated());
             list.add(productDomain);
         }
-        productDao.saveProductDomainList(list,100);
+        productDao.saveProductDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
     }
     
     public boolean checkId(String value){

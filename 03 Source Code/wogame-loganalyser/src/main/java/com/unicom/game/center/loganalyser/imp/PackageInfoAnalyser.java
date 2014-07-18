@@ -42,6 +42,22 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 		
 	}
 
+    @Override
+    public void doPackageReportDomainsSave() throws Exception {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void doDownloadCountDomainsSave() throws Exception{
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void doExtractReportDomainsSave() throws Exception{
+        // TODO Auto-generated method stub
+    }
+
 	@Override
 	public void doPackageInfoDomainsSave() throws Exception {
   		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
