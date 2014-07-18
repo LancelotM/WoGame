@@ -43,15 +43,5 @@
             </div>
         </div>
     </div>
-    <iframe id="iframeC" name="iframeC" src="" width="0" height="0" style="display:none;" ></iframe>
-
-    <script type="text/javascript">
-        function sethash(){
-            hashH = document.documentElement.scrollHeight;
-            urlC = "http://localhost:8088/examples/agent.html";
-            document.getElementById("iframeC").src=urlC+"#"+hashH;
-        }
-        window.onload=sethash;
-    </script>
 </div>
 </@template>
