@@ -50,8 +50,7 @@ public class SyncChannelClient {
 
 	        channelInfo.setActive("1");
 	        m_clist.add(channelInfo);
-	        int code = msyn.syncchannel(type, m_clist);   
-	        System.out.println(code);				
+	        int code = msyn.syncchannel(type, m_clist);   			
 	        if(0 != code){
 	        	Logging.logError("sync channel failed! channelid : " + id);
 	        }
