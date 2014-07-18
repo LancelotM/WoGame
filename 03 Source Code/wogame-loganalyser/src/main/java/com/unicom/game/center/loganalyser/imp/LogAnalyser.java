@@ -1,6 +1,7 @@
 package com.unicom.game.center.loganalyser.imp;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -380,7 +381,8 @@ public class LogAnalyser implements ILogAnalyser {
                     if(!file.exists()){
                         file.createNewFile();
                     }
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "GB2312"));
+                    BufferedReader reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+
                     String tempString = null;
                     while ((tempString = reader.readLine()) != null){
                         woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap,downLoadInfoMap);
