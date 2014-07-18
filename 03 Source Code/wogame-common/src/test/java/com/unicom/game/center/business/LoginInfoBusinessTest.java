@@ -63,6 +63,7 @@ public class LoginInfoBusinessTest {
 		System.out.println((null != loginInfoList) ? 1 : 0);
 	}
 
+    @Test
     public void save(){
         Random r = new Random();
         for(int i = 1;i<=30;i++){
