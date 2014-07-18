@@ -25,7 +25,7 @@ public class UserCountDao extends HibernateDao<UserCountDomain>{
 	
 	public long fetchNewUserCount(String date, Integer channelId){
 		String hql = "select sum(newUserCount) from UserCountDomain where dateCreated = '"+date+"'";
-		if(null != channelId){
+		if(null != channelId && 0 != channelId.intValue()){
 			hql += " and channelId = " + channelId;
 		}
 		
@@ -34,7 +34,7 @@ public class UserCountDao extends HibernateDao<UserCountDomain>{
 	
 	public long fetchTotalUserCount(Integer channelId){
 		String hql = "select sum(newUserCount) from UserCountDomain ";
-		if(null != channelId){
+		if(null != channelId && 0 != channelId.intValue()){
 			hql += " where channelId = " + channelId;
 		}
 		

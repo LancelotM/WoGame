@@ -79,9 +79,13 @@ public class LogController {
     			return new ModelAndView("/index", model); 
     		}
     	}
-
-        model.put("channelId",(null != channelId) ? Integer.parseInt(channelId) : 0);
+        channelId = String.valueOf((null != channelId) ? Integer.parseInt(channelId) : 0);
+        model.put("channelId",Integer.parseInt(channelId));
         model.put("type",(null != type) ? type : "1");
+        long newUserCount = logInfoService.fetchNewUserCount(Integer.parseInt(channelId));
+        long totalUserCount = logInfoService.fetchTotalUserCount(Integer.parseInt(channelId));
+        model.put("newUserCount",newUserCount);
+        model.put("totalUserCount",totalUserCount);
         return new ModelAndView("/log", model); 
     }    
 
