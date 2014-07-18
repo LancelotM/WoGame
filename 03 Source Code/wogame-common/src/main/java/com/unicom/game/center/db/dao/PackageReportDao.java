@@ -1,10 +1,11 @@
 package com.unicom.game.center.db.dao;
 
-import com.unicom.game.center.db.domain.PackageReportDomain;
-import com.unicom.game.center.model.ReportInfo;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.unicom.game.center.db.domain.PackageReportDomain;
+import com.unicom.game.center.utils.Utility;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +15,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public class PackageReportDao extends HibernateDao{
+public class PackageReportDao extends HibernateDao<PackageReportDomain>{
 
     public void save(PackageReportDomain packageReport){
         getSession().save(packageReport);
@@ -25,17 +26,18 @@ public class PackageReportDao extends HibernateDao{
         StringBuilder hql = new StringBuilder();
         hql.append("select count(*) from PackageReportDomain package where package.channelId = '");
         hql.append(channelID);
-
-        if(!startDate.equals(endDate)){
-            hql.append("' and package.dateCreated >= '");
-            hql.append(startDate);
-            hql.append("' and package.dateCreate <= '");
-            hql.append(endDate);
-        }else {
-            hql.append("' and package.dateCreated = '");
-            hql.append(startDate);
-            hql.append("'");
+        if(!Utility.isEmpty(startDate)&&!Utility.isEmpty(endDate)){
+            if(!startDate.equals(endDate)){
+                hql.append("' and package.dateCreated >= '");
+                hql.append(startDate);
+                hql.append("' and package.dateCreated <= '");
+                hql.append(endDate);
+            }else {
+                hql.append("' and package.dateCreated = '");
+                hql.append(startDate);
+            }
         }
+        hql.append(" '");
         if(packageCode != null){
             hql.append(" and package.packageStatus = "+packageCode);
         }

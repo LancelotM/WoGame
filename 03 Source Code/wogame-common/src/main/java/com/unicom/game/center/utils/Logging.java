@@ -60,7 +60,6 @@ public class Logging {
         infoLog.info(desc, ex);
     }
 
-
     public static String getStringData(Throwable th){
         ThrowableInformation thInfo = new ThrowableInformation(th);
         String[] arr = thInfo.getThrowableStrRep();

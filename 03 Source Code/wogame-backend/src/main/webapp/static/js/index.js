@@ -1,7 +1,7 @@
 
 function checkBlank(id,checkInfo){
      var value = document.getElementById(id).value.trim();
-     if(value == "" || value == null){
+     if(isEmpty(value)){
 		document.getElementById(checkInfo).innerHTML = "内容不能为空!";
      }else{
          document.getElementById(checkInfo).innerHTML = "";
@@ -11,7 +11,7 @@ function checkForm(){
     var basePath = getBasePath();
     var username = $('#username').val().trim();
     var password = $('#password').val().trim();
-    if(username != "" && username != null && password != "" && password != null){
+    if(!isEmpty(username) && !isEmpty(password)){
         $.ajax({
             url:basePath+"/checkNamePwd",
             data:"username="+username+"&password="+password,
@@ -29,7 +29,7 @@ function checkForm(){
                     $('#check_username').text("用户不存在！");
                 }else if(data == 2){
                     $('#check_password').text("密码错误！");
-                }else{
+                }else if(data == 3){
                     $('#check_username').text("登录失败！");
                 }
             }
@@ -49,14 +49,14 @@ $(function(){
     if(pwd != null){
         document.getElementById("checkbox_img").style.display='inline';
     }
-    if(loginCode != null && loginCode != ""){
+    if(!isEmpty(loginCode)){
         $("#username").val(loginCode);
     }
-    if(pwd != null && pwd != ""){
+    if(!isEmpty(pwd)){
         $("#password").val(pwd);
     }
 
-    if(loginCode != null && loginCode != "" && pwd != null && pwd != ""){
+    if(!isEmpty(loginCode)&& !isEmpty(pwd)){
         $('#submit').trigger('click');
     }
 });

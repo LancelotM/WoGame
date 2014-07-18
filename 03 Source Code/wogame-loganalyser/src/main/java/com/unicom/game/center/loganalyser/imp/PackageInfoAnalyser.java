@@ -28,7 +28,7 @@ public class PackageInfoAnalyser implements ILogAnalyser{
     private PackageInfoBusiness packageInfoBusiness;
    
     @Autowired
-    private FTPHelper ftpHelper;
+    private FTPHelper ftpHelper;    
     
 	@Value("#{properties['response.file.path']}")
 	private String responseFilePath;
@@ -61,6 +61,7 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 	@Override
 	public void doPackageInfoDomainsSave() throws Exception {
   		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+  		System.out.println("=====doPackageInfoDomainsSave start========");
 
         String currentFileName = "";
 
@@ -70,10 +71,13 @@ public class PackageInfoAnalyser implements ILogAnalyser{
                 currentFileName = currentFileNameList.get(0);
             }
 
+  			
             List<String> fileList = ftpHelper.getFileList(responseFilePath);
+            System.out.println("FTP Files size :" + fileList.size());
             fileList = Utility.getSubStringList(fileList, currentFileName);
 
             for (String fileName : fileList) {
+            	System.out.println(fileName);
                 List<PackageInfoDomain> packageInfoDomains = new ArrayList<PackageInfoDomain>();
                 List<String> contentList = ftpHelper.readRemoteFileByRow(responseFilePath, fileName);
 
@@ -90,11 +94,14 @@ public class PackageInfoAnalyser implements ILogAnalyser{
             }
   		} catch(Exception e){           
   			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
+  			e.printStackTrace();
   		} finally{
   			 FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
   			ftpHelper.disConnectFtpServer();
   		}
+  		
+  		System.out.println("=====doPackageInfoDomainsSave end========");
   		Logging.logDebug("----- doPackageInfoDomainsSave end -----");
   	}
-
+	
 }

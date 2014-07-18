@@ -13,7 +13,6 @@ import java.util.Date;
 public class UserCount implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	
     private int old_user_count;
     private int new_user_count;
     private int channelId;

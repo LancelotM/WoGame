@@ -70,5 +70,14 @@ function createForms(url,values){
     document.body.removeChild(infoForm) ;
 }
 
+function isEmpty(str){
+    if(str != null && str.trim().length > 0){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+
 
 

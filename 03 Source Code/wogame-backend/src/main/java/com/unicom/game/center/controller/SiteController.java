@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.unicom.game.center.business.ChannelInfoBusiness;
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.model.ChannelInfo;
-import com.unicom.game.center.utils.Constant;
 
 /**
  * @author Alex Yin
@@ -28,6 +27,7 @@ import com.unicom.game.center.utils.Constant;
  */
 @Controller
 public class SiteController {
+
     @Autowired
     private ChannelInfoBusiness channelService;
 
@@ -61,6 +61,7 @@ public class SiteController {
         ChannelInfoDomain channelInfo = null;
        if(channelName != null && channelName.length()> 0 &&channelCode != null && channelCode.length()>0 && cpid != null && cpid .length()>0){
            channelInfo = channelService.startChannel(channelCode,channelName,cpid);
+
            if(channelInfo != null){
                String wapURL = wapLink + channelInfo.getWapToken();
                String logURL = logLink + channelInfo.getLogToken();

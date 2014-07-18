@@ -101,6 +101,9 @@ public class ChannelInfoBusiness {
 	
 	public ChannelInfoDomain startChannel(String channelCode, String channelName, String cpId){
 		ChannelInfoDomain channel = null;
+        if(channelCode.trim().length() != 8 && channelCode.trim().length() == 5){
+            channelCode = "000"+channelCode;
+        }
 		
 		try{
 			Date date = new Date();

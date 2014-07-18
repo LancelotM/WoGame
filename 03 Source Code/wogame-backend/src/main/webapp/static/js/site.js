@@ -38,20 +38,24 @@ $(function(){
 
     $('#launch').click(function(){
         if(submitFlag){
-            var flag = true;
+//            var chaId = $('#channelId_input').val().trim();
+//            var cpid = $('#cpid_input').val().trim();
+//            if(chaId == 'channelID' || chaId == "" || chaId == null){
+//                alert("channelID不能为空！");
+//                return;
+//            }else if(chaId.length != 5 && chaId.length != 8){
+//                alert("channelID必须是5字符或8字符！");
+//                return;
+//            }else if(cpid == 'CPID' || cpid == "" || cpid == null){
+//                alert("CPID不能为空！");
+//                return;
+//            }
+//            $('#launch_form').submit();
             var chaId = $('#channelId_input').val().trim();
             var cpid = $('#cpid_input').val().trim();
-            if(chaId == 'channelID' || chaId == "" || chaId == null){
-                alert("channelID不能为空！");
-                return;
-            }else if(chaId.length != 5 && chaId.length != 8){
-                alert("channelID必须是5字符或8字符！");
-                return;
-            }else if(cpid == 'CPID' || cpid == "" || cpid == null){
-                alert("CPID不能为空！");
-                return;
+            if(checkChaIdAndCpid(chaId,cpid)){
+                $('#launch_form').submit();
             }
-            $('#launch_form').submit();
         }
     });
     $('#cancel').click(function(){
@@ -59,7 +63,11 @@ $(function(){
         $('#dialog').hide();
     });
     $('#update_submit').click(function(){
-        $('#update_form').submit();
+        var chaId = $('#dialog_chaId').val().trim();
+        var cpid = $('#dialog_cpid').val().trim();
+        if(checkChaIdAndCpid(chaId,cpid)){
+            $('#update_form').submit();
+        }
     });
     $("#launch_form input").each(function(){
         $(this).setDefauleValue();
@@ -153,6 +161,21 @@ $.fn.setDefauleValue = function() {
                 }
             });
     });
+}
+
+function checkChaIdAndCpid(chaId,cpid){
+    if(chaId == 'channelID' || chaId == "" || chaId == null){
+        alert("channelID不能为空！");
+        return false;
+    }else if(chaId.length != 5 && chaId.length != 8){
+        alert("channelID必须是5字符或8字符！");
+        return false;
+    }else if(cpid == 'CPID' || cpid == "" || cpid == null){
+        alert("CPID不能为空！");
+        return false;
+    }else{
+        return true;
+    }
 }
 
 

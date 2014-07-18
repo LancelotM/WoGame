@@ -27,22 +27,35 @@ public class PackageReportBusiness {
     private PackageReportDao dao;
 
     public ReportInfo fetchPackageReport(String channelId,String start,String end){
-        int successPackage = dao.getPackageInfo(channelId,start,end,0,null);
-        int packageSum = dao.getPackageInfo(channelId,start,end,null,null);
-        ReportInfo reportInfo = new ReportInfo();
-        reportInfo.setFailSum(packageSum - successPackage);
-        reportInfo.setPackageSum(packageSum);
-        reportInfo.setSucessSum(successPackage);
-        return reportInfo;
+        ReportInfo reportInfo = null;
+        try{
+            int successPackage = dao.getPackageInfo(channelId,start,end,0,null);
+            int packageSum = dao.getPackageInfo(channelId,start,end,null,null);
+            reportInfo = new ReportInfo();
+            reportInfo.setFailSum(packageSum - successPackage);
+            reportInfo.setPackageSum(packageSum);
+            reportInfo.setSucessSum(successPackage);
+            return reportInfo;
+        }catch(Exception e){
+            Logging.logError("Error occur in fetchPackageReport", e);
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public ReportInfo fetchReceiptInfo(String channelId,String start,String end){
-        int successPackage = dao.getPackageInfo(channelId,start,end,0,2);
-        int failPackage = dao.getPackageInfo(channelId,start,end,0,1);
-        ReportInfo reportInfo = new ReportInfo();
-        reportInfo.setFailSum(failPackage);
-        reportInfo.setPackageSum(failPackage+successPackage);
-        reportInfo.setSucessSum(successPackage);
+        ReportInfo reportInfo = null;
+        try {
+            int successPackage = dao.getPackageInfo(channelId,start,end,0,2);
+            int failPackage = dao.getPackageInfo(channelId,start,end,0,1);
+            reportInfo = new ReportInfo();
+            reportInfo.setFailSum(failPackage);
+            reportInfo.setPackageSum(failPackage+successPackage);
+            reportInfo.setSucessSum(successPackage);
+        }catch(Exception e){
+            Logging.logError("Error occur in fetchReceiptInfo", e);
+            e.printStackTrace();
+        }
         return reportInfo;
     }
 

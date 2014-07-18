@@ -1,15 +1,13 @@
 package com.unicom.game.center.db.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.unicom.game.center.log.model.DownloadDiaplayModel;
-import com.unicom.game.center.utils.Utility;
-import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.DownloadInfoDomain;
+import com.unicom.game.center.log.model.DownloadDiaplayModel;
+import com.unicom.game.center.utils.Utility;
 
 @Component
 public class DownloadInfoDao extends HibernateDao<DownloadInfoDomain>{

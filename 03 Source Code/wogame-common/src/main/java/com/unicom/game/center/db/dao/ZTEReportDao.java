@@ -15,7 +15,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public class ZTEReportDao extends HibernateDao{
+public class ZTEReportDao extends HibernateDao<ZTEReportDomain>{
 
     public void save(ZTEReportDomain zteReportDomain){
         getSession().save(zteReportDomain);
@@ -26,16 +26,18 @@ public class ZTEReportDao extends HibernateDao{
         StringBuilder hql = new StringBuilder();
         hql.append("select count(*) from ZTEReportDomain zteReport where zteReport.channelId = '");
         hql.append(channelId);
-        if(!startDate.equals(endDate)){
-            hql.append("' and zteReport.dateCreate >= '");
-            hql.append(startDate);
-            hql.append("' and zteReport.dateCreate < '");
-            hql.append(endDate);
-        }else {
-            hql.append("' and zteReport.dateCreate = '");
-            hql.append(startDate);
-            hql.append("'");
+        if(!Utility.isEmpty(startDate)&&!Utility.isEmpty(endDate)){
+            if(!startDate.equals(endDate)){
+                hql.append("' and zteReport.dateCreate >= '");
+                hql.append(startDate);
+                hql.append("' and zteReport.dateCreate <= '");
+                hql.append(endDate);
+            }else {
+                hql.append("' and zteReport.dateCreate = '");
+                hql.append(startDate);
+            }
         }
+        hql.append("'");
         if(isSuccess != null){
             hql.append(" and zteReport.operateResult = "+isSuccess);
         }
