@@ -25,8 +25,12 @@ $(function(){
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
+            var stepValue = 1;
+            if(data.unit.length > 12){
+                stepValue = 3;
+            }
             $('#uv').highcharts({ title: { text: '联通沃游戏中心', x: -20 },subtitle:{text:'新老用户登录统计',x:-20},
-                xAxis: { categories: data.unit },
+                xAxis: { categories: data.unit ,labels:{step:stepValue,staggerLines: 1}},
                 yAxis: { title: { text: '登陆次数' }, plotLines: [{ value: 0, width: 1, color: '#808080' }] },
                 tooltip: { valueSuffix: '次' }, legend: { layout: 'vertical', align: 'right', verticalAlign: 'middle', borderWidth: 0 },
                 series: data.result });
@@ -38,8 +42,12 @@ $(function(){
         data: {type:typeVlaue, channelId:channelNum},
         dataType: "json",
         success: function(data){
+            var stepValue = 1;
+            if(data.unit.length > 12){
+                stepValue = 3;
+            }
             $(function () { $('#pv').highcharts({ title: { text: '联通沃游戏中心', x: -20 },subtitle:{text:'主要页面流量统计',x:-20},
-                xAxis: { categories: data.unit },
+                xAxis: { categories: data.unit,labels:{step:stepValue,staggerLines: 1}},
                 yAxis: { title: { text: '点击次数' }, plotLines: [{ value: 0, width: 1, color: '#808080' }] },
                 tooltip: { valueSuffix: '次' }, legend: { layout: 'vertical', align: 'right', verticalAlign: 'middle', borderWidth: 0 },
                 series: data.result }); });

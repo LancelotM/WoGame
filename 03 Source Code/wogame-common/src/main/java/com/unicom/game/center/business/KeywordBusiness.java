@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +52,7 @@ public class KeywordBusiness {
             keywordDomain.setDateModified(keyWord.getDateModified());
             list.add(keywordDomain);
         }
-        keywordDao.saveKeywordDomainList(list,100);
+        keywordDao.saveKeywordDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
     }
 
     public void typeConversionUpdate(Map<String,KeyWord> keyWordHashMap){
@@ -68,7 +69,7 @@ public class KeywordBusiness {
             keywordDomain.setDateModified(keyWord.getDateModified());
             list.add(keywordDomain);
         }
-        keywordDao.saveKeywordDomainList(list,100);
+        keywordDao.saveKeywordDomainList(list,Constant.HIBERNATE_FLUSH_NUM);
     }
     
     public KeywordDomain getKeyWord(String keyword){

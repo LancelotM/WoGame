@@ -5,6 +5,9 @@ import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.utils.AESEncryptionHelper;
 import com.unicom.game.center.vo.RecommendedListVo;
 import com.unicom.game.center.vo.RollingAdListVo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,8 @@ public class IndexController {
 
 	@Value("#{properties['site.secret.key']}")
 	private String siteKey;    
+	
+	private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String list(@RequestParam("token") String token, Model model, HttpSession session) {
@@ -37,6 +42,7 @@ public class IndexController {
     		channel = AESEncryptionHelper.decrypt(token, siteKey);
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("Error channel token!");
 		}
     	
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);

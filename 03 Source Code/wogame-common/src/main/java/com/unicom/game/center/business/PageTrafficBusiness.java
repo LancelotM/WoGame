@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -137,6 +138,6 @@ public class PageTrafficBusiness {
             pageTrafficDomain.setDateCreated(pageTraffic.getDateCreated());
             list.add(pageTrafficDomain);
         }
-        pageTrafficDao.savePageTrafficDomainList(list,100);
+        pageTrafficDao.savePageTrafficDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
     }
 }

@@ -2,11 +2,16 @@ package com.unicom.game.center.business;
 
 import com.unicom.game.center.db.dao.PackageReportDao;
 import com.unicom.game.center.db.dao.ZTEReportDao;
+import com.unicom.game.center.db.domain.PackageReportDomain;
 import com.unicom.game.center.db.domain.ZTEReportDomain;
 import com.unicom.game.center.model.ReportInfo;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -54,5 +59,32 @@ public class PackageReportBusiness {
         return reportInfo;
     }
 
+    /**
+     *
+     * @param contentArr
+     */
+    public PackageReportDomain convertPackageReportFromFile(String[] contentArr){
+        PackageReportDomain packageReportDomain = new PackageReportDomain();
+        packageReportDomain.setAppid(contentArr[1]);
+        packageReportDomain.setAppname(contentArr[2]);
+        packageReportDomain.setChannelId(contentArr[3]);
+        packageReportDomain.setPackageStatus(Integer.parseInt(contentArr[4]));
+        packageReportDomain.setReceiptStatus(Integer.parseInt(contentArr[5]));
+        packageReportDomain.setDateCreated(DateUtils.getDayByInterval(new Date(), -1));
+        return packageReportDomain;
+    }
+
+    /**
+     *
+     * @param list
+     * @param num
+     */
+    public void savePackageReportList(List<PackageReportDomain> list, int num){
+        try{
+            dao.savePackageReportDomainList(list, num);
+        }catch(Exception ex){
+            Logging.logError("Error occur in savePackageReportList.", ex);
+        }
+    }
 
 }

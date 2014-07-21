@@ -1,8 +1,13 @@
 package com.unicom.game.center.business;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
+import com.unicom.game.center.db.dao.UserCountDao;
+import com.unicom.game.center.db.domain.UserCountDomain;
 import com.unicom.game.center.model.JsonParent;
+import com.unicom.game.center.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +27,9 @@ public class LoginInfoBusinessTest {
 	
 	@Autowired
 	private LoginInfoBusiness loginInfo;
+
+    @Autowired
+    private UserCountDao userCountDao;
 	
 	@Test
 	public void testFetchNewUserCount(){
@@ -53,5 +61,18 @@ public class LoginInfoBusinessTest {
 		System.out.println((null != loginInfoList) ? 1 : 0);
 		loginInfoList = loginInfo.fetchLoginInfoByMonth(18082);
 		System.out.println((null != loginInfoList) ? 1 : 0);
-	}	
+	}
+
+    @Test
+    public void save(){
+        Random r = new Random();
+        for(int i = 1;i<=30;i++){
+            UserCountDomain domain = new UserCountDomain();
+            domain.setChannelId(11);
+            domain.setNewUserCount(r.nextInt(600));
+            domain.setOldUserCount(r.nextInt(600));
+            domain.setDateCreated(DateUtils.getDayByInterval(new Date(), -i));
+            userCountDao.save(domain);
+        }
+    }
 }

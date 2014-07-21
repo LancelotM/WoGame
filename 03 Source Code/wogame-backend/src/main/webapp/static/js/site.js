@@ -19,10 +19,13 @@ $(function(){
                 }else{
                     submitFlag = true;
                     $('#launch_img').attr('src',basePath+'/static/images/launch.png');
-                    $('#channelId_input').val("");
-                    $('#cpid_input').val("");
+                    $('#channelId_input').val("channelID");
+                    $('#cpid_input').val("CPID");
                     $('#wapURL').text("") ;
                     $('#logURL').text("");
+                    $("#launch_form input").each(function(){
+                        $(this).setDefauleValue();
+                    });
                 }
                 $('#launch_form input').trigger('focus');
                 $('#launch_form input').trigger('blur');
@@ -69,9 +72,7 @@ $(function(){
             $('#update_form').submit();
         }
     });
-    $("#launch_form input").each(function(){
-        $(this).setDefauleValue();
-    });
+
     $('#switch_region').mouseenter(function(){
         if($('#province_div').css('display')=="none"){
             $('#province_div').css('display','block');

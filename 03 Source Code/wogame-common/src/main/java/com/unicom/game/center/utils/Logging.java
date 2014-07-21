@@ -36,6 +36,10 @@ public class Logging {
     public static void logError(String desc, Throwable ex) {
         errorLog.error(desc, ex);
     }
+    
+    public static void logError(String desc) {
+        errorLog.error(desc);
+    }    
 
     public static void logDebug(String desc){
     	debugLog.debug(desc);
@@ -59,7 +63,6 @@ public class Logging {
     public static void logInfo(String desc, Throwable ex) {
         infoLog.info(desc, ex);
     }
-
 
     public static String getStringData(Throwable th){
         ThrowableInformation thInfo = new ThrowableInformation(th);

@@ -74,15 +74,18 @@ public class FTPHelper {
 				}
 				
 				ftpClient.connect(host, port);
+				ftpClient.setControlEncoding("UTF-8");
 				ftpClient.login(username, password);
 				ftpClient.setDefaultPort(port);
 				reply = ftpClient.getReplyCode();
+				System.out.println("FTP connect reply code :" + reply);
 				if (!FTPReply.isPositiveCompletion(reply)) {
 					ftpClient.disconnect();
 					return false;
 				}
 			} catch (Exception e) {
                 Logging.logError("exception",e);
+                e.printStackTrace();
 			}
 		}
 		return true;
@@ -100,11 +103,11 @@ public class FTPHelper {
    					if(file.isFile()){
    						list.add(file.getName());
    					}
-   				}
-   				
+   				}   				
    				return list;
    			} catch (Exception e){
-                   Logging.logError("Error occur in getFileList.",e);
+   				e.printStackTrace();
+                Logging.logError("Error occur in getFileList.",e);
    			}finally {
 				try {
 					ftpClient.disconnect();

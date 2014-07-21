@@ -1,13 +1,10 @@
 package com.unicom.game.center.business;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.unicom.game.center.log.model.DownloadDiaplayModel;
 import com.unicom.game.center.log.model.DownloadInfoModel;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 import com.unicom.game.center.utils.Utility;
@@ -32,7 +29,7 @@ public class DownLoadInfoBusiness {
     @Autowired
     private DownloadInfoDao downloadInfoDao;
     
-    public void typeConversion(Map<Integer,DownLoadInfo> downLoadInfoHashMap){
+    public void typeConversion(Map<String,DownLoadInfo> downLoadInfoHashMap){
         List<DownloadInfoDomain> list = new ArrayList<DownloadInfoDomain>();
         Iterator iterator = downLoadInfoHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -45,7 +42,7 @@ public class DownLoadInfoBusiness {
             downloadInfoDomain.setDateCreated(downLoadInfo.getDateCreated());
             list.add(downloadInfoDomain);
         }
-        downloadInfoDao.saveUserCountDomainList(list,100);
+        downloadInfoDao.saveDownloadCountDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
     }
 
     public DownloadInfoModel getDownloadInfos(Integer channelID,String startDate,String endDate,int page,Integer rowsPerPage){
@@ -77,5 +74,31 @@ public class DownLoadInfoBusiness {
         return downloadInfoModel;
     }
 
+
+    /**
+     *
+     * @param contentArr
+     */
+    public DownloadInfoDomain convertDownloadCountFromFile(String[] contentArr){
+        DownloadInfoDomain downloadInfoDomain = new DownloadInfoDomain();
+        downloadInfoDomain.setProductId(contentArr[0]);
+        downloadInfoDomain.setChannelId(Integer.parseInt(contentArr[1]));
+        downloadInfoDomain.setDownloadCount(Integer.parseInt(contentArr[2]));
+        downloadInfoDomain.setDateCreated(DateUtils.getDayByInterval(new Date(), -1));
+        return downloadInfoDomain;
+    }
+
+    /**
+     *
+     * @param list
+     * @param num
+     */
+    public void saveDownloadCountList(List<DownloadInfoDomain> list, int num){
+        try{
+            downloadInfoDao.saveDownloadCountDomainList(list, num);
+        }catch(Exception ex){
+            Logging.logError("Error occur in savePackageReportList.", ex);
+        }
+    }
 
 }

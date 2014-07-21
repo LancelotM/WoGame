@@ -1,11 +1,11 @@
 package com.unicom.game.center.db.dao;
 
-import com.unicom.game.center.db.domain.PackageReportDomain;
-import com.unicom.game.center.model.ReportInfo;
-import com.unicom.game.center.utils.Utility;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.unicom.game.center.db.domain.PackageReportDomain;
+import com.unicom.game.center.utils.Utility;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +15,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-public class PackageReportDao extends HibernateDao{
+public class PackageReportDao extends HibernateDao<PackageReportDomain>{
 
     public void save(PackageReportDomain packageReport){
         getSession().save(packageReport);
@@ -54,5 +54,7 @@ public class PackageReportDao extends HibernateDao{
         return Integer.parseInt(result);
     }
 
-
+    public void savePackageReportDomainList(List<PackageReportDomain> list, int num) {
+        saveDomainList(list, num);
+    }
 }
