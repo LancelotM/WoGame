@@ -131,7 +131,7 @@ public class AdTrafficBusiness {
             if("month".equals(dateType)){
                 dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -(i + 1)), "yy-MM"));
             }else if("day".equals(dateType)){
-                dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"MM-dd"));
+                dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"yyyy-MM-dd"));
             }
         }
         List<GameDisplayModel> gameDisplayModels = new ArrayList<GameDisplayModel>();
