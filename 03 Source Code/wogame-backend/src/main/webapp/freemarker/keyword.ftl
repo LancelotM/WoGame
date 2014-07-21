@@ -21,7 +21,7 @@
                         起始日期：<input id="startDateStr" class="dateStr" type="text" value="" name="startDate" style="height:22px;"/>&nbsp;&nbsp;
                         截止日期：<input id="endDateStr" type="text" value="" name="endDate" style="height:22px;"/>&nbsp;&nbsp;
                         <#--游戏名称：<input id="gameName" type="text" value="${end!}" name="gameName" style=" height:22px;"/>&nbsp;&nbsp;-->
-                        ChannelID：<input id="downloadChaid" type="text" value="${chaid!}" name="channelId" style="height:22px;"/>&nbsp;&nbsp;
+                        ChannelID：<input id="downloadChaid" type="text" value="${developer_channel!}" name="channelId" style="height:22px;"/>&nbsp;&nbsp;
                         <a id="downloadinfo_search" href="javascript:;"  style="color:black;"><img class="title_image" src="${basePath}/static/images/search_img.png"/>下载日志搜索</a>
                     </form>
                 </div>
