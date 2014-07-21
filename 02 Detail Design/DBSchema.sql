@@ -116,7 +116,7 @@ create table wogamecenter.package_info(
 	apk_file_path varchar(512),
 	apk_online_time varchar(14),
 	status varchar(8),
-	productIndex varchar(200),
+	productIndex varchar(200) not null,
 	reserve2 varchar(200),
 	reserve3 varchar(200),
 	reserve4 varchar(200),
@@ -137,8 +137,8 @@ create table wogamecenter.package_report(
 	appid varchar(40) not null,
 	appname varchar(30) not null,
 	channel_code varchar(40) not null,
-	package_status int(20) not null,
-	receipt_status int(20) not null,
+	package_status int(8) not null,
+	receipt_status int(8) not null,
 	date_created date not null
 )engine=innodb default charset=utf8;
 
@@ -165,3 +165,5 @@ flush privileges;
 
 外网IP: 123.125.219.110
 内网IP: 172.16.13.198
+
+现网IP：172.16.18.8
