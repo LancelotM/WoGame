@@ -55,7 +55,7 @@ public class AdTrafficDao extends HibernateDao<AdTrafficDomain>{
 		StringBuffer sb = new StringBuffer();
 		sb.append("select traffic.ad_id as adId, sum(traffic.click_through) as clickThrough,");
 		sb.append(" DATE_FORMAT(traffic.date_created, '%Y-%m') as date");
-		sb.append(" from game_traffic traffic");
+		sb.append(" from ad_traffic traffic");
 		sb.append(" where traffic.date_created >= '");
 		sb.append(startDate);
 		sb.append("' and traffic.date_created <= '");
@@ -112,7 +112,7 @@ public class AdTrafficDao extends HibernateDao<AdTrafficDomain>{
 		StringBuffer sb = new StringBuffer();
 		sb.append("select traffic.sort as adId, sum(traffic.click_through) as clickThrough,");
 		sb.append(" DATE_FORMAT(traffic.date_created, '%Y-%m') as date");
-		sb.append(" from game_traffic traffic");
+		sb.append(" from ad_traffic traffic");
 		sb.append(" where traffic.date_created >= '");
 		sb.append(startDate);
 		sb.append("' and traffic.date_created <= '");
@@ -124,7 +124,7 @@ public class AdTrafficDao extends HibernateDao<AdTrafficDomain>{
 			sb.append(channelId);
 		}
 		
-		sb.append(" group by date, traffic.ad_id");
+		sb.append(" group by date, traffic.sort");
 		sb.append(" order by date desc, adId asc");
 
 		
