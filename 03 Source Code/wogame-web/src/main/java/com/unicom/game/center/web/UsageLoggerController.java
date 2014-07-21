@@ -31,7 +31,7 @@ public class UsageLoggerController {
 
         String[] logData = new String[]{data, channel};
 
-        statisticsLogger.info(StringUtils.join(""));
+        statisticsLogger.info(StringUtils.join(logData, ""));
 
         return "{\"result\":\"success\"}";
     }

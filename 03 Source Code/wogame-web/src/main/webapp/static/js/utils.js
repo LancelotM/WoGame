@@ -1,3 +1,12 @@
+function getContextPath() {
+    var pathName = document.location.pathname;
+    var index = pathName.substr(1).indexOf("/");
+    var result = pathName.substr(0, index + 1);
+    return result;
+}
+
+var contextPath = getContextPath();
+
 /**
  * 画面点击出现等待效果
  */
@@ -196,4 +205,8 @@ function logNumber(rootUrl, data, callback) {
         }
     });
 }
-
+$(function () {
+    var iframe = $('<iframe frameborder="0" height="0" scrolling="no"></iframe>');
+    iframe.attr("src", contextPath + "/common/keepSessionAlive.jsp");
+    $(document.body).append(iframe);
+});
