@@ -129,7 +129,7 @@ public class AdTrafficBusiness {
         List<String> dateList = new ArrayList<String>();
         for(int i = 0;i<5;i++){
             if("month".equals(dateType)){
-                dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -(i + 1)), "yy-MM"));
+                dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -i), "yy-MM"));
             }else if("day".equals(dateType)){
                 dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"yyyy-MM-dd"));
             }

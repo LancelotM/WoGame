@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created with IntelliJ IDEA.
  * User: lenovo
@@ -28,14 +30,20 @@ public class ReportController {
     private ZTEReportBusiness zteReport;
 
     @RequestMapping(value = "/getReport", method = {RequestMethod.GET})
-    public ModelAndView getReport(){
-        return new ModelAndView("/report");
+    public ModelAndView getReport(HttpSession session){
+        Boolean adminFlag = (Boolean)session.getAttribute("admin");
+        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+            return new ModelAndView("/report");
+        }else{
+            return new ModelAndView("/index");
+        }
     }
 
     @RequestMapping(value = "/reportInfo", method = {RequestMethod.POST})
     public ModelAndView getPackageReport(@RequestParam(value="channelId",required = true) String channelId,
                                          @RequestParam(value="startDate",required = true) String startDate,
                                          @RequestParam(value="endDate",required = true) String endDate){
+
         ModelMap map = new ModelMap();
         ReportInfo packageReportInfo = packageReport.fetchPackageReport(channelId, startDate, endDate);
         ReportInfo receiptReportInfo = packageReport.fetchReceiptInfo(channelId, startDate, endDate);
