@@ -1,11 +1,11 @@
 			<div class="header">
 				<img class="logo" src="${basePath}/static/images/logo.png" alt=""/>
 				<div class="info">
-                    <#if ChannelName?exists>
-                        <span>${ChannelName!}，你好</span>
-                    <#else>
+                    <#if admin?exists && admin>
                          <span>管理员，你好</span>
-                         <a id="exit_id" class="exite_button" href="javascript:;">安全登出</a>
+                         <a id="exit_id" class="exite_button" href="javascript:;">安全登出</a>                        
+                    <#else>
+                         <span>${ChannelName!}，你好</span>
                     </#if>
 
 				</div>
