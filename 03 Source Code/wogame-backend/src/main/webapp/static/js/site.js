@@ -74,6 +74,24 @@ $(function(){
     });
 
     $('#switch_region').mouseenter(function(){
+        $.ajax({
+            type: "GET",
+            url: getBasePath()+"/getChannels?"+Math.random(),
+            dataType: "json",
+            success: function(data){
+                $('.channelLi').remove();
+                var html = "";
+                $.each(data, function(commentIndex, comment){
+
+                    html += '<li class="channelLi"><span>'+comment['key']+'</span>';
+                    $.each(comment['channels'], function(commentIndex, innerData){
+                        html += '<a href="javascript:;">'+innerData+'</a>'
+                    });
+                    html += '</li>';
+                });
+                $('#chnanels').append(html);
+            }
+        });
         if($('#province_div').css('display')=="none"){
             $('#province_div').css('display','block');
         }

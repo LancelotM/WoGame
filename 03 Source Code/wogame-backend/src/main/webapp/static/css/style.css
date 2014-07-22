@@ -232,6 +232,11 @@ a{
 	margin-right:5px;
 }
 
+.search_count{
+    vertical-align:-45%;
+    margin-right:5px;
+}
+
 .main_info table{
   background-color:#ffffff;
   width:965px;

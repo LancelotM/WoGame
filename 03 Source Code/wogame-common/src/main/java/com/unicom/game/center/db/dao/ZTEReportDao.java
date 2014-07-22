@@ -43,7 +43,7 @@ public class ZTEReportDao extends HibernateDao<ZTEReportDomain>{
         }
         List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();
-        String result = null;
+        String result = "0";
         for(Object obj : list){
             result = String.valueOf(obj);
         }
