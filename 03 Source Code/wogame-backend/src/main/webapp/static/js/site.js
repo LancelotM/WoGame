@@ -1,44 +1,63 @@
 var Dialog = {};
 var submitFlag = true;
 $(function(){
-    $('#province_div a').click(function(){
-        var basePath = getBasePath();
-        $.ajax({
-            url:basePath+"/getChaByName?"+Math.random(),
-            data:{channelName:$(this).text()},
-            async:false,
-            type:"POST",
-            success:function(data,status){
-                if(data.flag){
-                    submitFlag = false;
-                    $('#launch_img').attr('src',basePath+'/static/images/launched.png');
-                    $('#channelId_input').val(data.channelCode);
-                    $('#cpid_input').val(data.cpId);
-                    $('#wapURL').text(data.wapToken) ;
-                    $('#logURL').text(data.logToken);
-                }else{
-                    submitFlag = true;
-                    $('#launch_img').attr('src',basePath+'/static/images/launch.png');
-                    $('#channelId_input').val("channelID");
-                    $('#cpid_input').val("CPID");
-                    $('#wapURL').text("") ;
-                    $('#logURL').text("");
-                    $("#launch_form input").each(function(){
-                        $(this).setDefauleValue();
-                    });
-                }
-                $('#launch_form input').trigger('focus');
-                $('#launch_form input').trigger('blur');
-            }
-        });
-        var dispayVal = $('#province_div').css('display');
-        if(dispayVal=="block"){
-            $('#province_div').css('display','none');
-        }
-        $('#channel').text($(this).text());
-        $('#channelName').val($(this).text());
-    });
+//    $.ajax({
+//        type: "GET",
+//        url: getBasePath()+"/getChannels?"+Math.random(),
+//        dataType: "json",
+//        success: function(data){
+//            $('.channelLi').remove();
+//            var html = "";
+//            $.each(data, function(commentIndex, comment){
+//
+//                html += '<li class="channelLi"><span>'+comment['key']+'</span>';
+//                $.each(comment['channels'], function(commentIndex, innerData){
+//                    html += '<a href="javascript:;">'+innerData+'</a>'
+//                });
+//                html += '</li>';
+//            });
+//            $('#chnanels').append(html);
+//        }
+//    });
 
+    $('#province_div a').click(function(){
+            var basePath = getBasePath();
+            $.ajax({
+                url:basePath+"/getChaByName?"+Math.random(),
+                data:{channelName:$(this).text()},
+                async:false,
+                type:"POST",
+                success:function(data,status){
+                    if(data.flag){
+                        submitFlag = false;
+                        $('#launch_img').attr('src',basePath+'/static/images/launched.png');
+                        $('#channelId_input').val(data.channelCode);
+                        $('#cpid_input').val(data.cpId);
+                        $('#wapURL').text(data.wapToken) ;
+                        $('#logURL').text(data.logToken);
+                    }else{
+                        submitFlag = true;
+                        $('#launch_img').attr('src',basePath+'/static/images/launch.png');
+                        $('#channelId_input').val("channelID");
+                        $('#cpid_input').val("CPID");
+                        $('#wapURL').text("") ;
+                        $('#logURL').text("");
+                        $("#launch_form input").each(function(){
+                            $(this).setDefauleValue();
+                        });
+                    }
+                    $('#launch_form input').trigger('focus');
+                    $('#launch_form input').trigger('blur');
+                }
+            });
+            var dispayVal = $('#province_div').css('display');
+            if(dispayVal=="block"){
+                $('#province_div').css('display','none');
+            }
+            $('#channel').text($(this).text());
+            $('#channelName').val($(this).text());
+        }
+    );
     $('#launch').click(function(){
         if(submitFlag){
 //            var chaId = $('#channelId_input').val().trim();
@@ -74,24 +93,6 @@ $(function(){
     });
 
     $('#switch_region').mouseenter(function(){
-        $.ajax({
-            type: "GET",
-            url: getBasePath()+"/getChannels?"+Math.random(),
-            dataType: "json",
-            success: function(data){
-                $('.channelLi').remove();
-                var html = "";
-                $.each(data, function(commentIndex, comment){
-
-                    html += '<li class="channelLi"><span>'+comment['key']+'</span>';
-                    $.each(comment['channels'], function(commentIndex, innerData){
-                        html += '<a href="javascript:;">'+innerData+'</a>'
-                    });
-                    html += '</li>';
-                });
-                $('#chnanels').append(html);
-            }
-        });
         if($('#province_div').css('display')=="none"){
             $('#province_div').css('display','block');
         }
@@ -196,5 +197,7 @@ function checkChaIdAndCpid(chaId,cpid){
         return true;
     }
 }
+
+
 
 
