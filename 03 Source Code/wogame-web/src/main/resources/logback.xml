@@ -29,9 +29,9 @@
     </appender>
     
     <appender name="downloadFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/unicom/logs/wogamecenter_dl.log</file>
+        <file>/unicom/download/dailyreport/download_report.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/unicom/logs/wogamecenter_dl.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/unicom/download/dailyreport/download_report_%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <Encoding>UTF-8</Encoding>
         <encoder>
