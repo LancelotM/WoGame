@@ -22,6 +22,7 @@ public class KeywordDomain implements Serializable{
 	private int count;
 	private Date dateCreated;
 	private Date dateModified;
+    private Integer channelId;
 	
 	@Id  
 	@GeneratedValue(strategy=GenerationType.IDENTITY)   
@@ -77,6 +78,14 @@ public class KeywordDomain implements Serializable{
 	
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
-	}	
+	}
 
+    @Column(name="channel_id")
+    public Integer getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(Integer channelId) {
+        this.channelId = channelId;
+    }
 }

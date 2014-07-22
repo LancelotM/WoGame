@@ -1,11 +1,13 @@
 package com.unicom.game.center.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.unicom.game.center.model.ChannelModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -122,6 +124,11 @@ public class SiteController {
             modelMap.put("channelInfos", channelInfos);
         }
         return new ModelAndView("/site",modelMap);
+    }
+
+    @RequestMapping(value="/getChannels",method = {RequestMethod.GET})
+    public @ResponseBody List<ChannelModel> getChannel(){
+        return channelService.getChannelMap();
     }
 
 

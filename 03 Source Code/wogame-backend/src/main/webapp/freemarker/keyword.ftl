@@ -5,6 +5,9 @@
 <#include "/menu.ftl">
         <div class="main">
             <div class="main_info detail">
+                <img src="${basePath}/static/images/search_title.png" class="search_count"/>今日已搜索
+                <span class="numberal_format">${todayCount!'0'}</span>次，昨日共搜索<span class="numberal_format">${yesterdayCount!'0'}</span>次,
+                最近30天共计搜索<span class="numberal_format">${totalCount!'0'}</span>次
                 <div class="log_title" style="margin-top:20px;">
                     <img class="title_image" src="${basePath}/static/images/search_img.png"/>用户搜索频率最高的Top50关键字
                 </div>
