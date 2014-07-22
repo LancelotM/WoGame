@@ -18,7 +18,6 @@ public class KeywordDomain implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String keyword;
-	private int channelId;
 	private int count;
 	private Date dateCreated;
 	private Date dateModified;
@@ -33,15 +32,6 @@ public class KeywordDomain implements Serializable{
 	
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	
-	@Column(name="channel_id")
-	public int getChannelId() {
-		return channelId;
-	}
-
-	public void setChannelId(int channelId) {
-		this.channelId = channelId;
 	}
 	
 	@Column(name="keyword")
