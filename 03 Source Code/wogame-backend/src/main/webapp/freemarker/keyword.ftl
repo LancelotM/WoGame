@@ -22,9 +22,9 @@
                         截止日期：<input id="endDateStr" type="text" value="" name="endDate" readonly="true" style="height:22px;"/>&nbsp;&nbsp;
                         <#--游戏名称：<input id="gameName" type="text" value="${end!}" name="gameName" style=" height:22px;"/>&nbsp;&nbsp;-->
                         <#if admin?exists && admin>
-                                ChannelID：<input id="downloadChaid" type="text" value="${developer_channel!}" name="channelId" style="height:22px;"/>&nbsp;&nbsp;
+                                ChannelID：<input id="downloadChaid" type="text" name="channelId" style="height:22px;"/>&nbsp;&nbsp;
                             <#else>
-                                ChannelID：<input id="downloadChaid" type="text" value="${developer_channel!}" readonly="true" name="channelId" style="height:22px;"/>&nbsp;&nbsp;
+                                ChannelID：<input id="downloadChaid" type="text" value="${developer_channelCode!}" disabled="disabled" name="channelId" style="height:22px;"/>&nbsp;&nbsp;
                         </#if>
 
                         <a id="downloadinfo_search" href="javascript:;"  style="color:black;"><img class="title_image" src="${basePath}/static/images/search_img.png"/>下载日志搜索</a>

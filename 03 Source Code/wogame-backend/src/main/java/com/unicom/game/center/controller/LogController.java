@@ -66,6 +66,7 @@ public class LogController {
                 }
 				session.setAttribute("admin", false);
 				session.setAttribute("developer_channel", channelId);
+                session.setAttribute("developer_channelCode", channelInfo.getChannelCode());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
