@@ -46,10 +46,8 @@ public class HotWordsController {
     	ModelMap model = new ModelMap();
 
         List<KeywordInfo> keywords = keywordService.fetchTopSearchKeyword(channelId);
-        int todayCount = keywordService.getDayCount(channelId,DateUtils.formatDateToString(new Date(),"yyyy-MM-dd"));
         int yesterdayCount = keywordService.getDayCount(channelId,DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -1),"yyyy-MM-dd"));
         int totalCount = keywordService.getThirtyDayCount(channelId);
-        model.put("todayCount",todayCount);
         model.put("yesterdayCount",yesterdayCount);
         model.put("totalCount",totalCount);
         model.put("keywords",keywords);
