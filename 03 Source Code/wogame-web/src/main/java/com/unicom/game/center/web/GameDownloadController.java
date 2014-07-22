@@ -172,14 +172,15 @@ public class GameDownloadController {
     }
 
     private String parseDlIndexFromUrl(String downloadUrl) {
-        if (downloadUrl == null) {
-            return "";
-        }
-
-        String key = "/dl";
-        int subDomainPosition = StringUtils.indexOf(downloadUrl, key);
-        int domainPosition = StringUtils.indexOf(downloadUrl, ".");
-        return StringUtils.substring(downloadUrl, subDomainPosition + key.length(), domainPosition);
+    	String dlIndex= "";
+    	if(null != downloadUrl){
+    		String[] arrayURLs = downloadUrl.split("/");
+    		if(arrayURLs.length > 9){
+    			dlIndex =  arrayURLs[6];
+    		}
+    	}
+    	
+    	return dlIndex;        
     }
 
     private String wrapDownloadUrl(String productId, String downloadUrl, String onlineTime, String channelCode) {
