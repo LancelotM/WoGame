@@ -34,6 +34,8 @@ function checkForm(){
                 }
             }
         });
+    }else if(isEmpty(username) || isEmpty(password)){
+        $('#check_username').text("用户或密码不能为空！！");
     }
 }
 
