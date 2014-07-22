@@ -26,10 +26,10 @@
 Banner ：51+sort（2位）+channelId
 
 2.搜索下载日志（wogamecenter_info.log）
--- 搜索关键词
-40+keyword
+-- 搜索关键词（channelId，位数不足时，后面补空格）
+40+channelId(3位)+keyword
 样例：
-40捕鱼达人
+401  捕鱼达人
 
 -- 下载游戏请求统计（channelId，productId，productName为定长，位数不足时，后面补空格）
 30+channelId(3位)+productId（10位）+productName（256位）+productIcon

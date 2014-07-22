@@ -48,10 +48,6 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-    <!--<bean id="downloadCountAnalyser" class="com.unicom.game.center.loganalyser.imp.DownloadCountAnalyser" />-->
-    <!--<bean id="extractReportAnalyser" class="com.unicom.game.center.loganalyser.imp.ExtractReportAnalyser" />-->
-    <!--<bean id="packageReportAnalyser" class="com.unicom.game.center.loganalyser.imp.PackageReportAnalyser" />-->
-
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="*" propagation="REQUIRED" />

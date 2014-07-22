@@ -167,3 +167,7 @@ flush privileges;
 内网IP: 172.16.13.198
 
 现网IP：172.16.18.8
+
+--2014/07/22
+alter table wogamecenter.keyword add channel_id int(20) not null;
+alter table wogamecenter.keyword add constraint Keyword_Channel_FK foreign key (channel_id) references wogamecenter.channel_info(channel_id); 

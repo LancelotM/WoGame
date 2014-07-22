@@ -1,14 +1,5 @@
 package com.unicom.game.center.loganalyser.imp;
 
-import com.unicom.game.center.business.PackageInfoBusiness;
-import com.unicom.game.center.business.ZTEReportBusiness;
-import com.unicom.game.center.db.domain.PackageInfoDomain;
-import com.unicom.game.center.db.domain.ZTEReportDomain;
-import com.unicom.game.center.loganalyser.ILogAnalyser;
-import com.unicom.game.center.utils.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +9,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.unicom.game.center.business.PackageInfoBusiness;
+import com.unicom.game.center.business.ZTEReportBusiness;
+import com.unicom.game.center.db.domain.PackageInfoDomain;
+import com.unicom.game.center.db.domain.ZTEReportDomain;
+import com.unicom.game.center.loganalyser.ILogAnalyser;
+import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.DateUtils;
+import com.unicom.game.center.utils.FileUtils;
+import com.unicom.game.center.utils.Logging;
+import com.unicom.game.center.utils.Utility;
+
 /**
  * Created with IntelliJ IDEA.
  * User: claire_chang
@@ -25,6 +31,7 @@ import java.util.List;
  * Time: 下午2:09
  * To change this template use File | Settings | File Templates.
  */
+@Component
 public class ExtractReportAnalyser implements ILogAnalyser {
 
     @Autowired

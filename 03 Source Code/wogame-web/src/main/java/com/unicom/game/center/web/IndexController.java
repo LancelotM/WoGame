@@ -37,7 +37,7 @@ public class IndexController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String list(@RequestParam("token") String token, Model model, HttpSession session) {
 
-    	String channel = com.unicom.game.center.utils.Constant.WOGAME_CHANNEL_CODE;
+    	String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
     	try {
     		channel = AESEncryptionHelper.decrypt(token, siteKey);
 		} catch (Exception e) {
