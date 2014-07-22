@@ -37,6 +37,9 @@ public class ChannelInfoBusiness {
 	@Value("#{properties['backend.secret.key']}")
 	private String backendKey;	
 	
+	@Value("#{properties['channel.info.path']}")
+	private String channelInfoPath;	
+	
 	
 	public List<ChannelInfo> fetchActiveChannelInfos(){
 		List<ChannelInfo> channelInfos = null;
@@ -171,7 +174,7 @@ public class ChannelInfoBusiness {
         ranges.add("L-S");
         ranges.add("T-Z");
         try {
-            Document document = reader.read("channel.xml");
+            Document document = reader.read(channelInfoPath);
             Element element = document.getRootElement();
             List nodes = element.elements("channel");
             for(Iterator it = nodes.iterator();it.hasNext();){
