@@ -32,7 +32,8 @@ public class KeywordBusiness {
 			keywords = keywordDao.getTop50Keyword(channelId);
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchTopKeyword", ex);
-		}
+            ex.printStackTrace();
+        }
 		return keywords;
 	}
 
@@ -80,7 +81,7 @@ public class KeywordBusiness {
 
     public int getThirtyDayCount(Integer channelId){
         String endDate = DateUtils.formatDateToString(new Date(),"yyyy-MM-dd");
-        String startDate = DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -30),"yyyy-MM-dd");
+        String startDate = DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -30), "yyyy-MM-dd");
         return keywordDao.getThirtyCount(startDate,endDate,channelId);
     }
 

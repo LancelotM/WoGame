@@ -31,7 +31,7 @@ public class KeywordDao extends HibernateDao<KeywordDomain>{
 		sb.append("select key.keyword as keyword, key.count as count");
 		sb.append(" from KeywordDomain key");
         if(null != channelId && 0 != channelId.intValue()){
-            sb.append(" and key.channelId = ");
+            sb.append(" where key.channelId = ");
             sb.append(channelId);
         }
 		sb.append(" order by key.count desc");
