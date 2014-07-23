@@ -96,8 +96,9 @@ public class FTPHelper {
    		if(connectServer()){
    			try {
    				ftpClient.changeWorkingDirectory(path);
-   				
+   				ftpClient.enterLocalPassiveMode();
    				FTPFile[] ftpFiles = ftpClient.listFiles(path);
+
    				for(int i = 0; ftpFiles != null && i < ftpFiles.length; i++){
    					FTPFile file = ftpFiles[i];
    					if(file.isFile()){

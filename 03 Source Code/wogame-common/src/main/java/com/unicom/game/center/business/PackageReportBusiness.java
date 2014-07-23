@@ -46,15 +46,16 @@ public class PackageReportBusiness {
         ReportInfo reportInfo = null;
         try {  //EXTRACT_NOSYNC_STATUS
             int successPackage = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_SUCCESS_STATUS);
-            int syncing = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_SYNC_STATUS);
-            int noSync = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_NOSYNC_STATUS);
+//            int syncing = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_SYNC_STATUS);
+//            int noSync = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_NOSYNC_STATUS);
             int failReceiptPackage = dao.getFailPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS);
+            int total = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,null);
             reportInfo = new ReportInfo();
             reportInfo.setFailSum(failReceiptPackage);
-            reportInfo.setPackageSum(failReceiptPackage+successPackage+noSync+syncing);
+            reportInfo.setPackageSum(total);
             reportInfo.setSucessSum(successPackage);
-            reportInfo.setNoSyncSum(noSync);
-            reportInfo.setSyncSum(syncing);
+//            reportInfo.setNoSyncSum(noSync);
+//            reportInfo.setSyncSum(syncing);
         }catch(Exception e){
             Logging.logError("Error occur in fetchReceiptInfo", e);
             e.printStackTrace();
