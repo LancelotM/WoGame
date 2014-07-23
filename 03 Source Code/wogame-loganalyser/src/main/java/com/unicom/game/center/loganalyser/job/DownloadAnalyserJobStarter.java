@@ -11,7 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Time: 下午1:22
  * To change this template use File | Settings | File Templates.
  */
-public class DownloadCountAnalyserJobStarter {
+public class DownloadAnalyserJobStarter {
     public static void main(String[] args) throws Exception {
         String[] configLocations = {"classpath:applicationContext_LogAnalyser_bean.xml",
                 "classpath:applicationContext_dao.xml"};

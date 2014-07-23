@@ -55,12 +55,7 @@ public class DownloadCountAnalyser implements ILogAnalyser {
     }
 
     @Override
-    public void doPackageReportDomainsSave() throws Exception {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void doExtractReportDomainsSave() throws Exception{
+    public void doReportDomainsSave() throws Exception {
         // TODO Auto-generated method stub
     }
 
