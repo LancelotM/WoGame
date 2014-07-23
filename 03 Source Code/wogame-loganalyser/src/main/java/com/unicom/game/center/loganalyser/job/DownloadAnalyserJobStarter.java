@@ -1,8 +1,9 @@
 package com.unicom.game.center.loganalyser.job;
 
-import com.unicom.game.center.loganalyser.imp.DownloadCountAnalyser;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.unicom.game.center.loganalyser.imp.DownloadAnalyser;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,7 +18,7 @@ public class DownloadAnalyserJobStarter {
                 "classpath:applicationContext_dao.xml"};
         ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
 
-        DownloadCountAnalyser downloadCountAnalyser = (DownloadCountAnalyser) ctx.getBean("downloadCountAnalyser");
-        downloadCountAnalyser.doDownloadCountDomainsSave();
+        DownloadAnalyser downloadAnalyser = (DownloadAnalyser) ctx.getBean("downloadAnalyser");
+        downloadAnalyser.doDownloadCountDomainsSave();
     }
 }

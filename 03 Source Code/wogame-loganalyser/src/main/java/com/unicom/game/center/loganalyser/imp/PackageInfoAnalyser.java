@@ -37,7 +37,7 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 	private String responseFilePath;
 	
 	@Value("#{properties['latest.handdle.file']}")
-	private String latestHanddleFile;	
+	private String packageHandleFile;	
 
 	@Override
 	public void doLogAnalyse() throws Exception {
@@ -62,7 +62,7 @@ public class PackageInfoAnalyser implements ILogAnalyser{
         String currentFileName = "";
 
   		try {
-            List<String> currentFileNameList = FileUtils.readFileByRow(latestHanddleFile);
+            List<String> currentFileNameList = FileUtils.readFileByRow(packageHandleFile);
             if (currentFileNameList.size() > 0) {
                 currentFileName = currentFileNameList.get(0);
             }
@@ -92,7 +92,7 @@ public class PackageInfoAnalyser implements ILogAnalyser{
   			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
   			e.printStackTrace();
   		} finally{
-  			 FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
+  			 FileUtils.writeFileOverWrite(packageHandleFile, currentFileName);
   			ftpHelper.disConnectFtpServer();
   		}
   		

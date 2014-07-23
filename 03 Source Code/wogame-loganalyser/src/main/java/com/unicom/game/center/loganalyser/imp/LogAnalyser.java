@@ -22,7 +22,6 @@ import com.unicom.game.center.business.LoginInfoBusiness;
 import com.unicom.game.center.business.PageTrafficBusiness;
 import com.unicom.game.center.business.ProductBusiness;
 import com.unicom.game.center.db.domain.KeywordDomain;
-import com.unicom.game.center.log.model.DownLoadInfo;
 import com.unicom.game.center.log.model.GameTraffic;
 import com.unicom.game.center.log.model.KeyWord;
 import com.unicom.game.center.log.model.PageTraffic;
@@ -45,8 +44,6 @@ public class LogAnalyser implements ILogAnalyser {
     private KeywordBusiness keywordBusiness;
     @Autowired
     private ProductBusiness productBusiness;
-//    @Autowired
-//    private DownLoadInfoBusiness downLoadInfoBusiness;
 
     @Value("#{properties['log.file.path']}")
     private String logFilePath;
@@ -301,9 +298,8 @@ public class LogAnalyser implements ILogAnalyser {
         gameTrafficMap.clear();
     }
 
-    private void woGameInfoParse(String tempString, Date fileDate, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate, Map<String,Product> productMap,Map<String,DownLoadInfo> downLoadInfoMap){
+    private void woGameInfoParse(String tempString, Date fileDate, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate, Map<String,Product> productMap){
         Product product = null;
-        DownLoadInfo downLoadInfo = null;
         String surplus = null;
         String firstTwoCharacters = tempString.substring(0, 2);
         if(firstTwoCharacters.equalsIgnoreCase("40")){
@@ -328,19 +324,6 @@ public class LogAnalyser implements ILogAnalyser {
                 product.setProduct_icon(product_icon);
                 product.setDateCreated(fileDate);
                 productMap.put(product_id,product);
-            }
-            if(Integer.parseInt(channel_id) != 0) {
-                if(downLoadInfoMap.containsKey(channel_id)){
-                    downLoadInfo = downLoadInfoMap.get(channel_id);
-                    downLoadInfo.setDownload_count(downLoadInfo.getDownload_count() + 1);
-                }else{
-                    downLoadInfo = new DownLoadInfo();
-                    downLoadInfo.setDownload_count(1);
-                }
-                downLoadInfo.setChannel_id(Integer.parseInt(channel_id));
-                downLoadInfo.setProduct_id(product_id);
-                downLoadInfo.setDateCreated(fileDate);
-                downLoadInfoMap.put(channel_id, downLoadInfo);
             }
         }
     }
@@ -388,7 +371,6 @@ public class LogAnalyser implements ILogAnalyser {
         Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
         Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
         Map<String,Product> productMap = new HashMap<String, Product>();
-        Map<String,DownLoadInfo> downLoadInfoMap = new HashMap<String,DownLoadInfo>();
         String currentFileName = "wogamecenter_info."+fileDate+".log";
         try {
             List<String> currentFileList = FileUtils.readFileByRow(logInfoFile);
@@ -410,7 +392,7 @@ public class LogAnalyser implements ILogAnalyser {
 
                     String tempString = null;
                     while ((tempString = reader.readLine()) != null){
-                        woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap,downLoadInfoMap);
+                        woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap);
                     }
                     break;
                 case 1:
@@ -423,15 +405,12 @@ public class LogAnalyser implements ILogAnalyser {
             }
             productBusiness.typeConversion(productMap);
             
-            //TODO : DownloadCountAnalyser save download info
-//            downLoadInfoBusiness.typeConversion(downLoadInfoMap);
         } catch (Exception e) {
             Logging.logError("Error occurs in doLogAnalyse2 ", e);
         } finally {
             keyMapSave.clear();
             keyMapUpdate.clear();
             productMap.clear();
-            downLoadInfoMap.clear();
         }
     }
 
