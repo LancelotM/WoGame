@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.business.AdTrafficBusiness;
-import com.unicom.game.center.business.DownLoadInfoBusiness;
 import com.unicom.game.center.business.KeywordBusiness;
 import com.unicom.game.center.business.LoginInfoBusiness;
 import com.unicom.game.center.business.PageTrafficBusiness;
@@ -46,8 +45,8 @@ public class LogAnalyser implements ILogAnalyser {
     private KeywordBusiness keywordBusiness;
     @Autowired
     private ProductBusiness productBusiness;
-    @Autowired
-    private DownLoadInfoBusiness downLoadInfoBusiness;
+//    @Autowired
+//    private DownLoadInfoBusiness downLoadInfoBusiness;
 
     @Value("#{properties['log.file.path']}")
     private String logFilePath;
@@ -423,7 +422,9 @@ public class LogAnalyser implements ILogAnalyser {
                 keywordBusiness.typeConversionUpdate(keyMapUpdate);
             }
             productBusiness.typeConversion(productMap);
-            downLoadInfoBusiness.typeConversion(downLoadInfoMap);
+            
+            //TODO : DownloadCountAnalyser save download info
+//            downLoadInfoBusiness.typeConversion(downLoadInfoMap);
         } catch (Exception e) {
             Logging.logError("Error occurs in doLogAnalyse2 ", e);
         } finally {
