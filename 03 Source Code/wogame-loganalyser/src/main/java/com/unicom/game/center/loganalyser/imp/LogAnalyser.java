@@ -135,7 +135,7 @@ public class LogAnalyser implements ILogAnalyser {
         BufferedReader reader = null;
         Map<String,Integer> numberCountMap = new HashMap<String, Integer>();
         try {
-            reader = new BufferedReader(new FileReader(file));
+            reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
             while ((contentTemp = reader.readLine()) !=  null){
                 if(fileContent.equals("")){
                     fileContent = contentTemp;
@@ -170,6 +170,7 @@ public class LogAnalyser implements ILogAnalyser {
         UserCount userCount = null;
         PageTraffic pageTraffic = null;
         GameTraffic gameTraffic = null;
+        Integer channelId = null;
         int id = 0;
         int clickThrough = 0;
         int adType = 0;
@@ -180,8 +181,8 @@ public class LogAnalyser implements ILogAnalyser {
             String key = entry.getKey().toString();
             int val = Integer.parseInt(entry.getValue().toString());
             String firstTwoCharacters = key.substring(0,2);
-            int channelId = Integer.parseInt(key.substring(2,key.length()));
             if(firstTwoCharacters.equalsIgnoreCase("80")||firstTwoCharacters.equalsIgnoreCase("81")){
+                channelId = Integer.parseInt(key.substring(2,key.length()).trim());
                 if(channelId != 0){
                     if (userCountMap.containsKey(channelId)){
                         userCount = userCountMap.get(channelId);
@@ -212,6 +213,7 @@ public class LogAnalyser implements ILogAnalyser {
                     userCountMap.put(channelId,userCount);
                 }
             } else if(firstTwoCharacters.equalsIgnoreCase("61")||firstTwoCharacters.equalsIgnoreCase("62")||firstTwoCharacters.equalsIgnoreCase("63")||firstTwoCharacters.equalsIgnoreCase("64")){
+                channelId = Integer.parseInt(key.substring(2,key.length()).trim());
                 if(channelId != 0){
                     if (pageTrafficMap.containsKey(channelId)){
                         pageTraffic = pageTrafficMap.get(channelId);
@@ -255,7 +257,7 @@ public class LogAnalyser implements ILogAnalyser {
                 }
             }else if(firstTwoCharacters.equalsIgnoreCase("50")||firstTwoCharacters.equalsIgnoreCase("51")){
                 if (firstTwoCharacters.equalsIgnoreCase("50")){
-                    channelId = Integer.parseInt(key.substring(8,key.length()));
+                    channelId = Integer.parseInt(key.substring(8,key.length()).trim().replaceAll("^(0+)", ""));
                     if(channelId != 0){
                         gameTraffic = new GameTraffic();
                         gameTraffic.setSort(Integer.parseInt(key.substring(6,8)));
@@ -269,7 +271,7 @@ public class LogAnalyser implements ILogAnalyser {
                         gameTrafficMap.put(++id, gameTraffic);
                     }
                 } else if(firstTwoCharacters.equalsIgnoreCase("51")){
-                    channelId = Integer.parseInt(key.substring(4,key.length()));
+                    channelId = Integer.parseInt(key.substring(4,key.length()).trim().replaceAll("^(0+)", ""));
                     if(channelId != 0){
                         if(!gameTrafficMap.containsKey(channelId)){
                             gameTraffic = new GameTraffic();
