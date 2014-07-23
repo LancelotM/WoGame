@@ -127,7 +127,7 @@ a{
 .main_block{
 	background-color: #f7f7f7;
 	width:1280px;
-	height:2500px;
+	min-height:2500px;
 	/*height:100%;*/
 	margin:0px auto;
 }

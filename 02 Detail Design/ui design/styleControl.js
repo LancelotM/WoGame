@@ -13,3 +13,6 @@ function show_hidden(id){
         obj.style.display='block';
     }
 }
+$(function(){
+	alert($('.main').scrollHeight);
+});
