@@ -57,7 +57,7 @@ public class PackageReportTest {
 
     @Test
     public void testFetchReceipt(){
-        ReportInfo info = service.fetchReceiptInfo("1325", "2014-07-10", "2014-07-10");
+        ReportInfo info = service.fetchReceiptInfo(null, "2014-07-10", "2014-07-10");
         System.out.println(info.getFailSum()+""+info.getPackageSum()+""+info.getSucessSum());
     }
 

@@ -40,10 +40,10 @@ public class KeywordBusinessTest {
         Random r = new Random();
         for(int i = 0;i<50;i++){
             KeywordDomain hotword = new KeywordDomain();
-            hotword.setKeyword("植物大战僵尸v"+i);
-            hotword.setCount(r.nextInt(500));
+            hotword.setKeyword("天天跑酷v"+i);
+            hotword.setCount(r.nextInt(300));
             hotword.setDateCreated(DateUtils.getDayByInterval(new Date(), -i));
-            hotword.setChannelId(34);
+            hotword.setChannelId(11);
             hotword.setDateModified(new Date());
             dao.save(hotword);
 

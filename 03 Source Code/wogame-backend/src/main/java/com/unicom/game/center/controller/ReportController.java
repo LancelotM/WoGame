@@ -40,9 +40,9 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/reportInfo", method = {RequestMethod.POST})
-    public ModelAndView getPackageReport(@RequestParam(value="channelId",required = true) String channelId,
-                                         @RequestParam(value="startDate",required = true) String startDate,
-                                         @RequestParam(value="endDate",required = true) String endDate){
+    public ModelAndView getPackageReport(@RequestParam(value="channelId",required = false) String channelId,
+                                         @RequestParam(value="startDate",required = false) String startDate,
+                                         @RequestParam(value="endDate",required = false) String endDate,HttpSession session){
 
         ModelMap map = new ModelMap();
         ReportInfo packageReportInfo = packageReport.fetchPackageReport(channelId, startDate, endDate);
@@ -54,6 +54,11 @@ public class ReportController {
         map.put("packageReportInfo",packageReportInfo);
         map.put("receiptReportInfo",receiptReportInfo);
         map.put("zteReportInfo",zteReportInfo);
-        return new ModelAndView("/report",map);
+        Boolean adminFlag = (Boolean)session.getAttribute("admin");
+        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+            return new ModelAndView("/report",map);
+        }else{
+            return new ModelAndView("/index");
+        }
     }
 }

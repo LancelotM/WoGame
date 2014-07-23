@@ -31,8 +31,8 @@ public class DownloadInfoDao extends HibernateDao<DownloadInfoDomain>{
 //            sb.append(productId);
 //            sb.append("'");
 //        }
-        if(channelId != null){
-            sb.append("and downInfoDomain.channel_id = ");
+        if(null != channelId && 0 != channelId.intValue()){
+            sb.append(" and downInfoDomain.channel_id = ");
             sb.append(channelId);
         }
         if(!Utility.isEmpty(startDate) && !Utility.isEmpty(endDate)){

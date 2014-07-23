@@ -1,10 +1,12 @@
 package com.unicom.game.center.business;
 
+import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.dao.ZTEReportDao;
 import com.unicom.game.center.db.domain.ZTEReportDomain;
 import com.unicom.game.center.model.ReportInfo;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
+import com.unicom.game.center.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,9 +30,9 @@ public class ZTEReportBusiness {
         dao.save(domain);
     }
 
-    public ReportInfo fetchZTEInfo(String channelId,String start,String end){
-        int successPackage = dao.getReportInfo(channelId,start,end,0);
-        int packageSum = dao.getReportInfo(channelId,start,end,null);
+    public ReportInfo fetchZTEInfo(String channelCode,String start,String end){
+        int successPackage = dao.getReportInfo(channelCode,start,end,0);
+        int packageSum = dao.getReportInfo(channelCode,start,end,null);
         ReportInfo reportInfo = new ReportInfo();
         reportInfo.setFailSum(packageSum - successPackage);
         reportInfo.setPackageSum(packageSum);

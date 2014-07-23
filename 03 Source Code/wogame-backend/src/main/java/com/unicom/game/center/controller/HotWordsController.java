@@ -55,7 +55,7 @@ public class HotWordsController {
     }
 
     @RequestMapping(value="/getDownloadInfo",method={RequestMethod.POST})
-    public @ResponseBody DownloadInfoModel getDownloadInfo(@RequestParam(value="channelId",required = false) Integer channelId,
+    public @ResponseBody DownloadInfoModel getDownloadInfo(@RequestParam(value="channelId",required = false) String channelId,
                                                     @RequestParam(value="startDate",required = false) String startDate,
                                                     @RequestParam(value="endDate",required = false) String endDate,
                                                     @RequestParam(value="page",required = true) int page,
