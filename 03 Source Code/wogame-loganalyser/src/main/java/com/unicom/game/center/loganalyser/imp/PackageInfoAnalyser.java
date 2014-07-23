@@ -28,7 +28,10 @@ public class PackageInfoAnalyser implements ILogAnalyser{
     private PackageInfoBusiness packageInfoBusiness;
    
     @Autowired
-    private FTPHelper ftpHelper;    
+    private FTPHelper ftpHelper;  
+    
+//    @Autowired
+//    private SFTPHelper sftpHelper;    
     
 	@Value("#{properties['response.file.path']}")
 	private String responseFilePath;
@@ -38,24 +41,17 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 
 	@Override
 	public void doLogAnalyse() throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 
     @Override
-    public void doPackageReportDomainsSave() throws Exception {
-        // TODO Auto-generated method stub
+    public void doReportDomainsSave() throws Exception {
 
     }
 
     @Override
     public void doDownloadCountDomainsSave() throws Exception{
-        // TODO Auto-generated method stub
-    }
 
-    @Override
-    public void doExtractReportDomainsSave() throws Exception{
-        // TODO Auto-generated method stub
     }
 
 	@Override
@@ -104,4 +100,45 @@ public class PackageInfoAnalyser implements ILogAnalyser{
   		Logging.logDebug("----- doPackageInfoDomainsSave end -----");
   	}
 	
+/**	
+    @Override
+    public void doPackageInfoDomainsSave() throws Exception {
+        Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+
+        String currentFileName = "";
+        ChannelSftp sftp = null;
+        try {
+            List<String> currentFileNameList = FileUtils.readFileByRow(latestHanddleFile);
+            if (currentFileNameList.size() > 0) {
+                currentFileName = currentFileNameList.get(0);
+            }
+
+            List<String> fileList = sftpHelper.getFileList(responseFilePath);
+            fileList = Utility.getSubStringList(fileList, currentFileName);
+
+            sftp = sftpHelper.connectServer();
+            for (String fileName : fileList) {
+                List<PackageInfoDomain> packageInfoDomains = new ArrayList<PackageInfoDomain>();
+                List<String> contentList = sftpHelper.readRemoteFileByRow(responseFilePath, fileName, sftp);
+
+                for (String content : contentList) {
+                    String[] contentArr = Utility.splitString(content, Constant.RESPONSE_FIEL_SEPARATOR);
+                    PackageInfoDomain domain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
+                    packageInfoDomains.add(domain);
+                }
+
+                packageInfoBusiness.savePackageInfoList(packageInfoDomains, Constant.HIBERNATE_FLUSH_NUM);
+                currentFileName = fileName;
+            }
+        } catch(Exception e){
+            Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
+        } finally{
+            FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
+            if (sftp != null) {
+                sftpHelper.closeChannel(sftp.getSession(), sftp);
+            }
+        }
+        Logging.logDebug("----- doPackageInfoDomainsSave end -----");
+    }	
+**/	
 }

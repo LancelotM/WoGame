@@ -1,25 +1,28 @@
 package com.unicom.game.center.loganalyser.imp;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.jcraft.jsch.ChannelSftp;
-import com.unicom.game.center.business.DownLoadInfoBusiness;
 import com.unicom.game.center.business.AdTrafficBusiness;
+import com.unicom.game.center.business.DownLoadInfoBusiness;
 import com.unicom.game.center.business.KeywordBusiness;
 import com.unicom.game.center.business.LoginInfoBusiness;
-import com.unicom.game.center.business.PackageInfoBusiness;
 import com.unicom.game.center.business.PageTrafficBusiness;
 import com.unicom.game.center.business.ProductBusiness;
 import com.unicom.game.center.db.domain.KeywordDomain;
-import com.unicom.game.center.db.domain.PackageInfoDomain;
 import com.unicom.game.center.log.model.DownLoadInfo;
 import com.unicom.game.center.log.model.GameTraffic;
 import com.unicom.game.center.log.model.KeyWord;
@@ -27,12 +30,9 @@ import com.unicom.game.center.log.model.PageTraffic;
 import com.unicom.game.center.log.model.Product;
 import com.unicom.game.center.log.model.UserCount;
 import com.unicom.game.center.loganalyser.ILogAnalyser;
-import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.FileUtils;
 import com.unicom.game.center.utils.Logging;
-import com.unicom.game.center.utils.SFTPHelper;
-import com.unicom.game.center.utils.Utility;
 
 @Component
 public class LogAnalyser implements ILogAnalyser {
@@ -48,16 +48,6 @@ public class LogAnalyser implements ILogAnalyser {
     private ProductBusiness productBusiness;
     @Autowired
     private DownLoadInfoBusiness downLoadInfoBusiness;
-    @Autowired
-    private PackageInfoBusiness packageInfoBusiness;
-    @Autowired
-    private SFTPHelper sftpHelper;
-
-    @Value("#{properties['response.file.path']}")
-    private String responseFilePath;
-
-    @Value("#{properties['latest.handdle.file']}")
-    private String latestHanddleFile;
 
     @Value("#{properties['log.file.path']}")
     private String logFilePath;
@@ -69,20 +59,31 @@ public class LogAnalyser implements ILogAnalyser {
     private String logInfoFile;
 
     @Override
-    public void doPackageReportDomainsSave() throws Exception {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void doDownloadCountDomainsSave() throws Exception{
-        // TODO Auto-generated method stub
+
     }
 
     @Override
-    public void doExtractReportDomainsSave() throws Exception{
-        // TODO Auto-generated method stub
+    public void doReportDomainsSave() throws Exception{
+
     }
+    
+    @Override
+    public void doLogAnalyse(){
+        Logging.logDebug("----- doLogAnaylyse start -----");
+        try{
+            doLogAnalyse1();
+            doLogAnalyse2();
+        }catch(Exception e){
+            Logging.logError("Error occurs in doLogAnaylyse ", e);
+        }
+        Logging.logDebug("----- doLogAnaylyse end -----");
+    }
+
+    @Override
+    public void doPackageInfoDomainsSave() throws Exception {
+    	
+    }    
 
     private void  keyWordDispose(String value, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate){
         KeyWord keyWord = null;
@@ -432,56 +433,6 @@ public class LogAnalyser implements ILogAnalyser {
             downLoadInfoMap.clear();
         }
     }
-    @Override
-    public void doLogAnalyse(){
-        Logging.logDebug("----- doLogAnaylyse start -----");
-        try{
-            doLogAnalyse1();
-            doLogAnalyse2();
-        }catch(Exception e){
-            Logging.logError("Error occurs in doLogAnaylyse ", e);
-        }
-        Logging.logDebug("----- doLogAnaylyse end -----");
-    }
 
-    @Override
-    public void doPackageInfoDomainsSave() throws Exception {
-        Logging.logDebug("----- doPackageInfoDomainsSave start -----");
-
-        String currentFileName = "";
-        ChannelSftp sftp = null;
-        try {
-            List<String> currentFileNameList = FileUtils.readFileByRow(latestHanddleFile);
-            if (currentFileNameList.size() > 0) {
-                currentFileName = currentFileNameList.get(0);
-            }
-
-            List<String> fileList = sftpHelper.getFileList(responseFilePath);
-            fileList = Utility.getSubStringList(fileList, currentFileName);
-
-            sftp = sftpHelper.connectServer();
-            for (String fileName : fileList) {
-                List<PackageInfoDomain> packageInfoDomains = new ArrayList<PackageInfoDomain>();
-                List<String> contentList = sftpHelper.readRemoteFileByRow(responseFilePath, fileName, sftp);
-
-                for (String content : contentList) {
-                    String[] contentArr = Utility.splitString(content, Constant.RESPONSE_FIEL_SEPARATOR);
-                    PackageInfoDomain domain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
-                    packageInfoDomains.add(domain);
-                }
-
-                packageInfoBusiness.savePackageInfoList(packageInfoDomains, Constant.HIBERNATE_FLUSH_NUM);
-                currentFileName = fileName;
-            }
-        } catch(Exception e){
-            Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
-        } finally{
-            FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
-            if (sftp != null) {
-                sftpHelper.closeChannel(sftp.getSession(), sftp);
-            }
-        }
-        Logging.logDebug("----- doPackageInfoDomainsSave end -----");
-    }
 
 }
