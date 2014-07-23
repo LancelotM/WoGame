@@ -92,8 +92,10 @@ public class PackageReportAnalyser implements ILogAnalyser {
                     List<PackageReportDomain> packageReportDomains = new ArrayList<PackageReportDomain>();
                     while ((tempString = reader.readLine()) != null){
                         String[] contentArr = Utility.splitString(tempString, Constant.RESPONSE_FIEL_SEPARATOR);
-                        PackageReportDomain domain = packageReportBusiness.convertPackageReportFromFile(contentArr);
-                        packageReportDomains.add(domain);
+                        if(Integer.parseInt(contentArr[3].trim()) != 0) {
+                            PackageReportDomain domain = packageReportBusiness.convertPackageReportFromFile(contentArr);
+                            packageReportDomains.add(domain);
+                        }
                     }
                     packageReportBusiness.savePackageReportList(packageReportDomains, Constant.HIBERNATE_FLUSH_NUM);
                     break;

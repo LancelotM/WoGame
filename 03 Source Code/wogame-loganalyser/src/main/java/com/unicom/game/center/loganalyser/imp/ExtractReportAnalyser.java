@@ -100,10 +100,12 @@ public class ExtractReportAnalyser implements ILogAnalyser {
                     List<PackageInfoDomain> packageInfoDomains = new ArrayList<PackageInfoDomain>();
                     while ((tempString = reader.readLine()) != null){
                         String[] contentArr = Utility.splitString(tempString, Constant.RESPONSE_FIEL_SEPARATOR);
-                        ZTEReportDomain zteReportDomain = zteReportBusiness.convertZTEReportFromFile(contentArr);
-                        zteReportDomains.add(zteReportDomain);
-                        PackageInfoDomain packageInfoDomain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
-                        packageInfoDomains.add(packageInfoDomain);
+                        if(Integer.parseInt(contentArr[8].trim()) != 0){
+                            ZTEReportDomain zteReportDomain = zteReportBusiness.convertZTEReportFromFile(contentArr);
+                            zteReportDomains.add(zteReportDomain);
+                            PackageInfoDomain packageInfoDomain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
+                            packageInfoDomains.add(packageInfoDomain);
+                        }
                     }
                     zteReportBusiness.saveZTEReportList(zteReportDomains, Constant.HIBERNATE_FLUSH_NUM);
                     packageInfoBusiness.savePackageInfoList(packageInfoDomains, Constant.HIBERNATE_FLUSH_NUM);

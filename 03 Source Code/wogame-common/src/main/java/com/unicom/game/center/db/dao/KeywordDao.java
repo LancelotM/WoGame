@@ -10,11 +10,11 @@ import com.unicom.game.center.model.KeywordInfo;
 
 @Component
 public class KeywordDao extends HibernateDao<KeywordDomain>{
-	
-	public KeywordDomain getByKeyWord(String keyword){
-		String hql = "from KeywordDomain where keyword = '" +keyword+"'";
-		return (KeywordDomain)getSession().createQuery(hql).uniqueResult();
-	}
+
+    public KeywordDomain getByKeyWord(String keyword,int channelId){
+        String hql = "from KeywordDomain where keyword = '" +keyword+"' and channel_id = '"+channelId+"'";
+        return (KeywordDomain)getSession().createQuery(hql).uniqueResult();
+    }
 	
 	public void save(KeywordDomain keyWord){
 		getSession().save(keyWord);

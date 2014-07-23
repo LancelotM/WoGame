@@ -45,6 +45,7 @@ public class KeywordBusiness {
             Map.Entry<Integer, KeyWord> entry = (Map.Entry)iterator.next();
             KeyWord keyWord = entry.getValue();
             keywordDomain.setKeyword(keyWord.getKeyword());
+            keywordDomain.setChannelId(keyWord.getChannelId());
             keywordDomain.setCount(keyWord.getCount());
             keywordDomain.setDateCreated(keyWord.getDateCreated());
             keywordDomain.setDateModified(keyWord.getDateModified());
@@ -62,6 +63,7 @@ public class KeywordBusiness {
             KeyWord keyWord = entry.getValue();
             keywordDomain.setId(keyWord.getId());
             keywordDomain.setKeyword(keyWord.getKeyword());
+            keywordDomain.setChannelId(keyWord.getChannelId());
             keywordDomain.setCount(keyWord.getCount());
             keywordDomain.setDateCreated(keyWord.getDateCreated());
             keywordDomain.setDateModified(keyWord.getDateModified());
@@ -70,8 +72,8 @@ public class KeywordBusiness {
         keywordDao.saveKeywordDomainList(list,Constant.HIBERNATE_FLUSH_NUM);
     }
     
-    public KeywordDomain getKeyWord(String keyword){
-      KeywordDomain keywordDomain = keywordDao.getByKeyWord(keyword);
+    public KeywordDomain getKeyWord(String keyword,int channelId){
+      KeywordDomain keywordDomain = keywordDao.getByKeyWord(keyword,channelId);
       return keywordDomain;
     }
 

@@ -94,17 +94,19 @@ public class DownloadCountAnalyser implements ILogAnalyser {
                     String tempString = null;
                     while ((tempString = reader.readLine()) != null){
                         String[] contentArr = Utility.splitString(tempString, Constant.RESPONSE_FIEL_SEPARATOR);
-                        if(!downLoadInfoMap.containsKey(contentArr[1])){
-                            downLoadInfo = new DownLoadInfo();
-                            downLoadInfo.setDownload_count(Integer.parseInt(contentArr[2]));
-                        }else{
-                            downLoadInfo = downLoadInfoMap.get(contentArr[1]);
-                            downLoadInfo.setDownload_count(downLoadInfo.getDownload_count() + Integer.parseInt(contentArr[2]));
+                        if(Integer.parseInt(contentArr[1].trim()) != 0){
+                            if(!downLoadInfoMap.containsKey(contentArr[1])){
+                                downLoadInfo = new DownLoadInfo();
+                                downLoadInfo.setDownload_count(Integer.parseInt(contentArr[2]));
+                            }else{
+                                downLoadInfo = downLoadInfoMap.get(contentArr[1]);
+                                downLoadInfo.setDownload_count(downLoadInfo.getDownload_count() + Integer.parseInt(contentArr[2]));
+                            }
+                            downLoadInfo.setChannel_id(Integer.parseInt(contentArr[1]));
+                            downLoadInfo.setProduct_id(contentArr[0]);
+                            downLoadInfo.setDateCreated(DateUtils.getDayByInterval(new Date(), -1));
+                            downLoadInfoMap.put(contentArr[1], downLoadInfo);
                         }
-                        downLoadInfo.setChannel_id(Integer.parseInt(contentArr[1]));
-                        downLoadInfo.setProduct_id(contentArr[0]);
-                        downLoadInfo.setDateCreated(DateUtils.getDayByInterval(new Date(), -1));
-                        downLoadInfoMap.put(contentArr[1], downLoadInfo);
                     }
                     downloadInfoBusiness.typeConversion(downLoadInfoMap);
                     downLoadInfoMap.clear();
