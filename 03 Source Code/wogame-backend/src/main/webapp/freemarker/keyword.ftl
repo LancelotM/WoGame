@@ -14,7 +14,7 @@
                 <div class="keyword">
                     <#if keywords?exists>
                         <#list keywords as hotword>
-                            <div id="keyword_span">${hotword.keyword!}(${hotword.count!})</div>
+                            <div class="keyword_div">${hotword.keyword!}(${hotword.count!})</div>
                         </#list>
                     </#if>
                 </div>
@@ -33,7 +33,7 @@
                     </form>
                 </div>
                 <table id="download_info_left" class="detail_tb left">
-                    <caption class="table_title" style="border-right-width: 0px"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>游戏下载详情&nbsp;&nbsp;共<span id="totalRecord"></span>条记录</span></caption>
+                    <caption class="table_title" style="border-right-width: 0px"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>游戏下载详情&nbsp;&nbsp;<#--共<span id="totalRecord"></span>条记录</span>--></caption>
                     <tr class="first_tr">
                         <td>游戏名称</td>
                         <td>下载次数</td>

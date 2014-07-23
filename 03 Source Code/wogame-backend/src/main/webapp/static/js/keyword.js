@@ -1,5 +1,6 @@
 $(function(){
     var pages = 0;
+    var keyword;
     $('#downloadinfo_search').click(function(page){
         var basePath = getBasePath();
         var startDateVal = $('#startDateStr').val().trim();
@@ -71,7 +72,6 @@ $(function(){
         buttonImage: getBasePath()+'/static/images/calendar.gif',
         buttonImageOnly: true
     });
-
 });
 
 function AJAXRequest(downloadChaidVal,startDateVal,endDateVal,pageVal,rowsPerPage){

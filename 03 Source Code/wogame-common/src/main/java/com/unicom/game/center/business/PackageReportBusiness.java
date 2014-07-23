@@ -1,13 +1,10 @@
 package com.unicom.game.center.business;
 
-import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.dao.PackageReportDao;
 import com.unicom.game.center.db.domain.PackageReportDomain;
 import com.unicom.game.center.model.ReportInfo;
-import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
-import com.unicom.game.center.utils.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

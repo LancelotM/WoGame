@@ -384,7 +384,7 @@ a{
     width:965px;
     height: 350px;
 }
-#keyword_span {
+.keyword_div {
     float:left;
     width:173px;
     height:34px;
@@ -392,9 +392,17 @@ a{
     padding-left: 20px;
     vertical-align: middle;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
 }
-.keyword span{
-
+.keyword_show_content{
+    float:left;
+    width:173px;
+    height:34px;
+    line-height:34px;
+    padding-left: 20px;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 .numberal_format{
 	font-size:26px;
