@@ -42,7 +42,7 @@ public class DownLoadInfoBusiness {
             Map.Entry<Integer, DownLoadInfo> entry = (Map.Entry)iterator.next();
             DownLoadInfo downLoadInfo = entry.getValue();
             downloadInfoDomain.setProductId(downLoadInfo.getProduct_id());
-            downloadInfoDomain.setChannelId(downLoadInfo.getChannel_id());
+            downloadInfoDomain.setChannelCode(String.valueOf(downLoadInfo.getChannel_id()));
             downloadInfoDomain.setDownloadCount(downLoadInfo.getDownload_count());
             downloadInfoDomain.setDateCreated(downLoadInfo.getDateCreated());
             list.add(downloadInfoDomain);
@@ -58,16 +58,7 @@ public class DownLoadInfoBusiness {
 //            startDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[0],"yyyy.MM.dd"),"yyyy-MM-dd");
 //            endDate = DateUtils.formatDateToString(DateUtils.stringToDate(date[1],"yyyy.MM.dd"),"yyyy-MM-dd");
 //        }
-            Integer channelId = 0;
-            if(!Utility.isEmpty(channelCode)){
-                ChannelInfoDomain channelInfoDomain = channelInfoDao.fetchChannelByCode(channelCode);
-                if(channelInfoDomain != null){
-                    channelId = channelInfoDomain.getChannelId();
-                }else {
-                    return new DownloadInfoModel();
-                }
-            }
-            List<DownloadDiaplayModel> downloadInfoDomains = downloadInfoDao.getByProductOrChaOrDate(channelId,startDate,endDate);
+            List<DownloadDiaplayModel> downloadInfoDomains = downloadInfoDao.getByProductOrChaOrDate(channelCode,startDate,endDate);
             if(downloadInfoDomains != null){
                 if(downloadInfoDomains.size()%2 !=0){
                     DownloadDiaplayModel diaplayModel = new DownloadDiaplayModel();
@@ -98,7 +89,7 @@ public class DownLoadInfoBusiness {
     public DownloadInfoDomain convertDownloadCountFromFile(String[] contentArr){
         DownloadInfoDomain downloadInfoDomain = new DownloadInfoDomain();
         downloadInfoDomain.setProductId(contentArr[0]);
-        downloadInfoDomain.setChannelId(Integer.parseInt(contentArr[1]));
+        downloadInfoDomain.setChannelCode(contentArr[1]);
         downloadInfoDomain.setDownloadCount(Integer.parseInt(contentArr[2]));
         downloadInfoDomain.setDateCreated(DateUtils.getDayByInterval(new Date(), -1));
         return downloadInfoDomain;

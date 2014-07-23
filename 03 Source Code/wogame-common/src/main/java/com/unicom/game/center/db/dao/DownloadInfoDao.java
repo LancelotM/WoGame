@@ -22,18 +22,14 @@ public class DownloadInfoDao extends HibernateDao<DownloadInfoDomain>{
 		getSession().flush();
 	}
 
-	public List<DownloadDiaplayModel> getByProductOrChaOrDate(Integer channelId,String startDate,String endDate){
+	public List<DownloadDiaplayModel> getByProductOrChaOrDate(String channelId,String startDate,String endDate){
 		StringBuffer sb = new StringBuffer();
 		sb.append("select min(game.product_name) as name,sum(downInfoDomain.download_count) as count from ");
         sb.append(" download_info as downInfoDomain inner join product as game on downInfoDomain.product_id = game.product_id where 1 = 1 ");
-//        if(!Utility.isEmpty(productId)){
-//            sb.append("and game.product_name like '");
-//            sb.append(productId);
-//            sb.append("'");
-//        }
-        if(null != channelId && 0 != channelId.intValue()){
-            sb.append(" and downInfoDomain.channel_id = ");
+        if(!Utility.isEmpty(channelId)){
+            sb.append(" and downInfoDomain.channel_id = '");
             sb.append(channelId);
+            sb.append("'");
         }
         if(!Utility.isEmpty(startDate) && !Utility.isEmpty(endDate)){
            if(startDate.equals(endDate)){
