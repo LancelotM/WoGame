@@ -46,7 +46,7 @@ public class PackageReportDao extends HibernateDao<PackageReportDomain>{
             hql.append(" and package.packageStatus = "+packageCode);
         }
         if(receiptCode != null){
-            hql.append(" and package.receiptStatus = "+receiptCode);
+            hql.append(" and package.receiptStatus != "+receiptCode);
         }
         List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();

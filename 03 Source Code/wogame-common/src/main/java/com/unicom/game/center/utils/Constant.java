@@ -15,4 +15,8 @@ public class Constant
 	public static final String RESPONSE_FIEL_SEPARATOR = "|";
 	
 	public static final int HIBERNATE_FLUSH_NUM = 20;
+	
+	public static final int PACKAGE_SUCCESS_STATUS = 20;
+	
+	public static final int EXTRACT_SUCCESS_STATUS = 0;
 }
