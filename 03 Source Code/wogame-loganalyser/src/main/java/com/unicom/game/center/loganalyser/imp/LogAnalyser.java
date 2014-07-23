@@ -355,10 +355,10 @@ public class LogAnalyser implements ILogAnalyser {
             if(currentFileList.size()>0){
                 dateBefore = currentFileList.get(0);
             }else{
-                dateBefore = new SimpleDateFormat("yyyyMMddHHmmss").format(DateUtils.getDayByInterval(today,-2));
+                dateBefore = new SimpleDateFormat("yyyy-MM-dd").format(DateUtils.getDayByInterval(today,-2));
             }
-            String dateNow = new SimpleDateFormat("yyyyMMddHHmmss").format(yesterday);
-            int compareDateNum = DateUtils.compareDate(dateBefore,dateNow);
+            String dateNow = new SimpleDateFormat("yyyy-MM-dd").format(yesterday);
+            int compareDateNum = DateUtils.compareLogDate(dateBefore,dateNow);
             switch (compareDateNum){
                 case -1:
                     FileUtils.writeFileOverWrite(logInfoNumberFile,dateNow);
@@ -393,10 +393,10 @@ public class LogAnalyser implements ILogAnalyser {
             if(currentFileList.size()>0){
                 dateBefore = currentFileList.get(0);
             }else{
-                dateBefore = new SimpleDateFormat("yyyyMMddHHmmss").format(DateUtils.getDayByInterval(today,-2));
+                dateBefore = new SimpleDateFormat("yyyy-MM-dd").format(DateUtils.getDayByInterval(today,-2));
             }
-            String dateNow = new SimpleDateFormat("yyyyMMddHHmmss").format(yesterday);
-            int compareDateNum = DateUtils.compareDate(dateBefore,dateNow);
+            String dateNow = new SimpleDateFormat("yyyy-MM-dd").format(yesterday);
+            int compareDateNum = DateUtils.compareLogDate(dateBefore,dateNow);
             switch (compareDateNum){
                 case -1:
                     FileUtils.writeFileOverWrite(logInfoFile,dateNow);

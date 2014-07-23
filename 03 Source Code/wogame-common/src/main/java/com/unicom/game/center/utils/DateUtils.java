@@ -142,6 +142,25 @@ public class DateUtils {
         return 0;    	
     }
 
+
+    public static int compareLogDate(String date1, String date2){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date dt1 = df.parse(date1);
+            Date dt2 = df.parse(date2);
+            if (dt1.getTime() > dt2.getTime()) {
+                return 1;
+            } else if (dt1.getTime() < dt2.getTime()) {
+                return -1;
+            } else {
+                return 0;
+            }
+        } catch (Exception ex) {
+            Logging.logError("Error occurs in compareDate.", ex);
+        }
+        return 0;
+    }
+
     /**
      *
      * @param startDay
