@@ -69,26 +69,26 @@ alter table wogamecenter.ad_traffic add constraint Ad_Traffic_Channel_FK foreign
 --热词
 create table wogamecenter.keyword(
 	id int(20) primary key auto_increment,
+	channel_id int(20) not null,
 	keyword varchar(512) not null,
 	count int(20) not null default 0,
 	date_modified date not null,
 	date_created date not null
 )engine=innodb default charset=utf8;
+alter table wogamecenter.keyword add constraint Keyword_Channel_FK foreign key (channel_id) references wogamecenter.channel_info(channel_id); 
 
 
 --下载游戏统计
 create table wogamecenter.download_info(
 	id int(20) primary key auto_increment,
 	product_id varchar(40) not null,
-	channel_id int(20) not null,
+	channel_code varchar(40) not null,
 	download_count int(20) default 0,
 	date_created date not null
 )engine=innodb default charset=utf8;
 
 
 alter table wogamecenter.download_info add constraint Download_Product_FK foreign key (product_id) references  wogamecenter.product(product_id);
-alter table wogamecenter.download_info add constraint Download_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
-
 
 --用户
 create table wogamecenter.account(
@@ -138,12 +138,9 @@ create table wogamecenter.package_report(
 	appname varchar(30) not null,
 	channel_code varchar(40) not null,
 	package_status int(8) not null,
-	receipt_status int(8) not null,
+	receipt_status int(8),
 	date_created date not null
-)engine=innodb default charset=utf8;
-
-alter table wogamecenter.package_report add constraint package_report_chnanel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
-alter table package_report modify receipt_status int(20) null; 
+)engine=innodb default charset=utf8; 
 
 create table wogamecenter.zte_report(
 	id int(20) primary key auto_increment,
@@ -154,13 +151,7 @@ create table wogamecenter.zte_report(
 	date_created date not null
 )engine=innodb default charset=utf8;
 
-alter table wogamecenter.zte_report add constraint zte_report_channel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
-
-
 grant all privileges on wogamecenter.* to 'front_user'@'%' identified by 'Pass4front' with grant option;
-
-CREATE USER 'package'@'%' IDENTIFIED BY 'Pass4package';
-GRANT SELECT ON wogamecenter.channel_info TO 'package'@'%';
 
 flush privileges;
 
@@ -169,10 +160,3 @@ flush privileges;
 
 现网IP：172.16.18.8
 
---2014/07/22
-alter table wogamecenter.keyword add channel_id int(20) not null;
-alter table wogamecenter.keyword add constraint Keyword_Channel_FK foreign key (channel_id) references wogamecenter.channel_info(channel_id); 
-
-alter table wogamecenter.package_report drop foreign key package_report_chnanel_fk;
-alter table wogamecenter.zte_report drop foreign key zte_report_channel_fk;
-ALTER TABLE wogamecenter.package_report CHANGE receipt_status receipt_status INT(8) NULL;
