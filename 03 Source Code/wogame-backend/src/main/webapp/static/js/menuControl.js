@@ -26,7 +26,8 @@ $(function($){
         window.location.href = getBasePath()+"/exit";
     });
 
-    //$('.menu').height($('.main').scrollHeight);
+    $('.menu').height($('.main').height());
+
     $("#report_detail").click(function(){
         var infoForm = document.createElement("form");
         infoForm.method="POST" ;

@@ -92,8 +92,11 @@ $(function(){
                     '</td><td>'+comment['last4TimeData']+'</td></tr>'
             });
             $('#top30Game').append(html);
+            $('.menu').height($('.main').height());
         }
     });
+
+
 });
 
 function createForm(url,value,type){

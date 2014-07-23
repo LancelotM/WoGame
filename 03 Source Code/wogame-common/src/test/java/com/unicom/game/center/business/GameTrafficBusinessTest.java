@@ -50,13 +50,13 @@ public class GameTrafficBusinessTest {
     public void save(){
         AdTrafficDomain adTrafficDomain = null;
         Random r = new Random();
-        for(int i = 0;i<4;i++){
+        for(int i = 0;i<50;i++){
             adTrafficDomain = new AdTrafficDomain();
             adTrafficDomain.setDateCreated(DateUtils.stringToDate("2014-07-21","yyyy-MM-dd"));
-            adTrafficDomain.setChannelId(17);
-            adTrafficDomain.setAdId(0);
+            adTrafficDomain.setChannelId(1);
+            adTrafficDomain.setAdId(i+1);
             adTrafficDomain.setAdType(0);
-            adTrafficDomain.setSort(i+1);
+            adTrafficDomain.setSort(0);
             adTrafficDomain.setClickThrough(r.nextInt(700));
             gameTrafficDao.save(adTrafficDomain);
         }

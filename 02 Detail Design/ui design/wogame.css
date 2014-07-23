@@ -127,7 +127,7 @@ a{
 .main_block{
 	background-color: #f7f7f7;
 	width:1280px;
-	min-height:2500px;
+	/*min-height:2500px;*/
 	/*height:100%;*/
 	margin:0px auto;
 }
@@ -174,7 +174,7 @@ a{
 }
 .menu{
 	float:left;
-	height:100%;
+	min-height:2410px;
 	width:242px;
 	border-right:8px solid #ed6d02;
 	background-color:#757575;
@@ -201,7 +201,7 @@ a{
 }
 .main{
 	float:left;
-	height:100%;
+	min-height:2410px;
 	width:1030px;
 }
 .main_info{
