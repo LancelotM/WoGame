@@ -19,4 +19,8 @@ public class Constant
 	public static final int PACKAGE_SUCCESS_STATUS = 20;
 	
 	public static final int EXTRACT_SUCCESS_STATUS = 0;
+
+    public static final int EXTRACT_SYNC_STATUS = 10;
+
+    public static final int EXTRACT_NOSYNC_STATUS = 30;
 }

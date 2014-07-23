@@ -36,11 +36,15 @@
                         <td>提取个数</td>
                         <td>成功个数</td>
                         <td>失败个数</td>
+                        <#--<td>同步中个数</td>-->
+                        <#--<td>未同步个数</td>-->
                     </tr>
                     <tr>
                         <td>${(receiptReportInfo.packageSum)!'0'}</td>
                         <td>${(receiptReportInfo.sucessSum)!'0'}</td>
                         <td>${(receiptReportInfo.failSum)!'0'}</td>
+                        <#--<td>${(receiptReportInfo.syncSum)!'0'}</td>-->
+                        <#--<td>${(receiptReportInfo.noSyncSum)!'0'}</td>-->
                     </tr>
                 </table>
                 <table class="detail_tb">

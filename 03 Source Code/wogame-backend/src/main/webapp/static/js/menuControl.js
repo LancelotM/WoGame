@@ -25,6 +25,20 @@ $(function($){
     $('#exit_id').click(function(){
         window.location.href = getBasePath()+"/exit";
     });
+
+    $("#report_detail").click(function(){
+        var infoForm = document.createElement("form");
+        infoForm.method="POST" ;
+        infoForm.action = getBasePath()+"/reportInfo";
+        var channelIdInput = document.createElement("input") ;
+        channelIdInput.setAttribute("name", "channelId") ;
+        infoForm.appendChild(channelIdInput) ;
+
+        document.body.appendChild(infoForm) ;
+        infoForm.submit() ;
+        document.body.removeChild(infoForm) ;
+    });
+
     $.datepicker.regional['zh-CN'] = {
         closeText: '关闭',
         prevText: '&#x3c;上月',

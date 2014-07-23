@@ -143,6 +143,7 @@ create table wogamecenter.package_report(
 )engine=innodb default charset=utf8;
 
 alter table wogamecenter.package_report add constraint package_report_chnanel_fk foreign key (channel_code) references wogamecenter.channel_info(channel_code);
+alter table package_report modify receipt_status int(20) null; 
 
 create table wogamecenter.zte_report(
 	id int(20) primary key auto_increment,

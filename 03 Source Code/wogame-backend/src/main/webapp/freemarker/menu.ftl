@@ -25,7 +25,7 @@
 							</ul>
                             <a href="#" class="margin_top45" onclick="show_hidden('report_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png"/>&nbsp;报表</a>
                             <ul id="report_ul" class="son_ul" style="display:none">
-                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/getReport">报表详情</a></li>
+                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a id="report_detail" href="javascript:;">报表详情</a></li>
                             </ul>
                         </#if>
                         </div>

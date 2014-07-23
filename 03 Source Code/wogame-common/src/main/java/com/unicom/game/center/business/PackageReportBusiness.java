@@ -3,6 +3,7 @@ package com.unicom.game.center.business;
 import com.unicom.game.center.db.dao.PackageReportDao;
 import com.unicom.game.center.db.domain.PackageReportDomain;
 import com.unicom.game.center.model.ReportInfo;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class PackageReportBusiness {
     public ReportInfo fetchPackageReport(String channelCode,String start,String end){
         ReportInfo reportInfo = null;
         try{
-            int successPackage = dao.getPackageInfo(channelCode,start,end,0,null);
+            int successPackage = dao.getPackageInfo(channelCode,start,end, Constant.PACKAGE_SUCCESS_STATUS,null);
             int packageSum = dao.getPackageInfo(channelCode,start,end,null,null);
             reportInfo = new ReportInfo();
             reportInfo.setFailSum(packageSum - successPackage);
@@ -43,13 +44,17 @@ public class PackageReportBusiness {
 
     public ReportInfo fetchReceiptInfo(String channelCode,String start,String end){
         ReportInfo reportInfo = null;
-        try {
-            int successPackage = dao.getPackageInfo(channelCode,start,end,0,2);
-            int failPackage = dao.getPackageInfo(channelCode,start,end,0,1);
+        try {  //EXTRACT_NOSYNC_STATUS
+            int successPackage = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_SUCCESS_STATUS);
+            int syncing = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_SYNC_STATUS);
+            int noSync = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_NOSYNC_STATUS);
+            int failReceiptPackage = dao.getFailPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS);
             reportInfo = new ReportInfo();
-            reportInfo.setFailSum(failPackage);
-            reportInfo.setPackageSum(failPackage+successPackage);
+            reportInfo.setFailSum(failReceiptPackage);
+            reportInfo.setPackageSum(failReceiptPackage+successPackage+noSync+syncing);
             reportInfo.setSucessSum(successPackage);
+            reportInfo.setNoSyncSum(noSync);
+            reportInfo.setSyncSum(syncing);
         }catch(Exception e){
             Logging.logError("Error occur in fetchReceiptInfo", e);
             e.printStackTrace();

@@ -11,6 +11,8 @@ public class ReportInfo {
     private int packageSum;
     private int sucessSum;
     private int failSum;
+    private int syncSum;
+    private int noSyncSum;
 
     public int getPackageSum() {
         return packageSum;
@@ -34,5 +36,21 @@ public class ReportInfo {
 
     public void setFailSum(int failSum) {
         this.failSum = failSum;
+    }
+
+    public int getSyncSum() {
+        return syncSum;
+    }
+
+    public void setSyncSum(int syncSum) {
+        this.syncSum = syncSum;
+    }
+
+    public int getNoSyncSum() {
+        return noSyncSum;
+    }
+
+    public void setNoSyncSum(int noSyncSum) {
+        this.noSyncSum = noSyncSum;
     }
 }
