@@ -17,7 +17,7 @@ public class ReportAnalyserJobStarter {
                 "classpath:applicationContext_dao.xml"};
         ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
 
-        ReportAnalyser reportAnalyser = (ReportAnalyser) ctx.getBean("extractReportAnalyser");
+        ReportAnalyser reportAnalyser = (ReportAnalyser) ctx.getBean("reportAnalyser");
         reportAnalyser.doReportDomainsSave();
     }
 

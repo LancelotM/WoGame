@@ -171,3 +171,7 @@ flush privileges;
 --2014/07/22
 alter table wogamecenter.keyword add channel_id int(20) not null;
 alter table wogamecenter.keyword add constraint Keyword_Channel_FK foreign key (channel_id) references wogamecenter.channel_info(channel_id); 
+
+alter table wogamecenter.package_report drop foreign key package_report_chnanel_fk;
+alter table wogamecenter.zte_report drop foreign key zte_report_channel_fk;
+ALTER TABLE wogamecenter.package_report CHANGE receipt_status receipt_status INT(8) NULL;
