@@ -4,7 +4,7 @@
 
 		<div class="login_img" style="background:url(${basePath}/static/images/login_bg.png)  no-repeat center bottom;">
 			<div class="login_box" style="background-image: url(${basePath}/static/images/login_blackframe.png);">
-				<form action="${basePath}/login" id="form" method="post">
+				<form action="${basePath}/login" id="form" method="post" autocomplete="off" spellcheck="false">
 					<table class="login_table">
 						<tr>
 							<td class="title_td">用户名</td>
