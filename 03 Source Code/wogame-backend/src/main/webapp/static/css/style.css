@@ -179,7 +179,7 @@ a{
 }
 .menu{
 	float:left;
-	min-height:1910px;
+	min-height:1410px;
 	width:242px;
 	border-right:8px solid #ed6d02;
 	background-color:#757575;
@@ -206,7 +206,7 @@ a{
 }
 .main{
 	float:left;
-	min-height:1910px;
+	min-height:1410px;
 	width:1030px;
 }
 .main_info{

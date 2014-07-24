@@ -8,12 +8,12 @@
 					<table class="login_table">
 						<tr>
 							<td class="title_td">用户名</td>
-							<td class="enter_td"><input type="text" id="username" name="username" onblur="checkBlank(this.id,'check_username')"/></td>
+							<td class="enter_td"><input type="text" id="username" name="username" /></td>
 							<td id="check_username" class="error_info"></td>
 						</tr>
 						<tr>
 							<td class="title_td">密码</td>
-							<td class="enter_td"><input type="password" id="password" name="password" onblur="checkBlank(this.id,'check_password')"/></td>
+							<td class="enter_td"><input type="password" id="password" name="password" /></td>
 							<td id="check_password" class="error_info"></td>
 						</tr>
 						<tr>
