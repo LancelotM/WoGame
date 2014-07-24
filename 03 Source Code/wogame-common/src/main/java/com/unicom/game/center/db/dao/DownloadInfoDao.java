@@ -27,7 +27,7 @@ public class DownloadInfoDao extends HibernateDao<DownloadInfoDomain>{
 		sb.append("select min(game.product_name) as name,sum(downInfoDomain.download_count) as count from ");
         sb.append(" download_info as downInfoDomain inner join product as game on downInfoDomain.product_id = game.product_id where 1 = 1 ");
         if(!Utility.isEmpty(channelId)){
-            sb.append(" and downInfoDomain.channel_id = '");
+            sb.append(" and downInfoDomain.channel_code = '");
             sb.append(channelId);
             sb.append("'");
         }

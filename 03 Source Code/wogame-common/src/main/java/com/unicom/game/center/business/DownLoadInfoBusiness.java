@@ -53,9 +53,10 @@ public class DownLoadInfoBusiness {
     }
 
     public DownloadInfoModel getDownloadInfos(String channelCode,String startDate,String endDate,int page,Integer rowsPerPage){
-        DownloadInfoModel downloadInfoModel = null;
+        DownloadInfoModel downloadInfoModel = new DownloadInfoModel();;
         try{
             List<DownloadDiaplayModel> downloadInfoDomains = downloadInfoDao.getByProductOrChaOrDate(channelCode,startDate,endDate);
+            int totalSize = downloadInfoDomains.size();
             if(downloadInfoDomains != null){
                 if(downloadInfoDomains.size()%2 !=0){
                     DownloadDiaplayModel diaplayModel = new DownloadDiaplayModel();
@@ -68,8 +69,7 @@ public class DownLoadInfoBusiness {
                 if(end > downloadInfoDomains.size()){
                     end = downloadInfoDomains.size();
                 }
-                downloadInfoModel = new DownloadInfoModel();
-                downloadInfoModel.setTotalRecords(downloadInfoDomains.size());
+                downloadInfoModel.setTotalRecords(totalSize);
                 downloadInfoModel.setDownloadInfomodels(downloadInfoDomains.subList(start,end));
             }
         }catch(Exception e){

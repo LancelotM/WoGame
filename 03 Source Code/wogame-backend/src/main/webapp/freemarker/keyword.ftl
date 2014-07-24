@@ -14,7 +14,7 @@
                 <div class="keyword">
                     <#if keywords?exists>
                         <#list keywords as hotword>
-                            <div class="keyword_div">${hotword.keyword!}(${hotword.count!})</div>
+                            <div class="keyword_show_content">${hotword.keyword!}(${hotword.count!})</div>
                         </#list>
                     </#if>
                 </div>
