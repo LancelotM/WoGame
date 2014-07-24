@@ -22,6 +22,11 @@ function switch_className(id){
     }
 }
 $(function($){
+    if(!String.prototype.trim) {
+        String.prototype.trim = function () {
+            return this.replace(/^\s+|\s+$/g,'');
+        };
+    }
     $('#exit_id').click(function(){
         window.location.href = getBasePath()+"/exit";
     });
