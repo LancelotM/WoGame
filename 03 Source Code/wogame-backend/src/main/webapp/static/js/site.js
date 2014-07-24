@@ -22,6 +22,7 @@ $(function(){
 
     $('#province_div a').click(function(){
             var basePath = getBasePath();
+            $('.launch_img').remove();
             $.ajax({
                 url:basePath+"/getChaByName?"+Math.random(),
                 data:{channelName:$(this).text()},
@@ -30,14 +31,16 @@ $(function(){
                 success:function(data,status){
                     if(data.flag){
                         submitFlag = false;
-                        $('#launch_img').attr('src',basePath+'/static/images/launched.png');
+//                        $('#launch_img').attr('src',basePath+'/static/images/launched.png');
+                        $('#launch').append('<img class="launch_img" src="'+basePath+'/static/images/launched.png" alt="launched"/>');
                         $('#channelId_input').val(data.channelCode);
                         $('#cpid_input').val(data.cpId);
                         $('#wapURL').text(data.wapToken) ;
                         $('#logURL').text(data.logToken);
                     }else{
                         submitFlag = true;
-                        $('#launch_img').attr('src',basePath+'/static/images/launch.png');
+                        $('#launch').append('<img class="launch_img" src="'+basePath+'/static/images/launch.png" alt="launch"/>');
+//                        $('#launch_img').attr('src',basePath+'/static/images/launch.png');
                         $('#channelId_input').val("channelID");
                         $('#cpid_input').val("CPID");
                         $('#wapURL').text("") ;

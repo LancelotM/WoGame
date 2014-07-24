@@ -68,7 +68,7 @@
                                         </td>
                                         <td><input id="channelId_input" type="text" name="channelCode" value="${(channelInfoDomain.channelCode)!''}" title="请输入channelID"/></td>
                                         <td><input id="cpid_input" type="text" name="cpid" value="${(channelInfoDomain.cpId)!''}"  title="请输入CPID"/></td>
-                                        <td><a id="launch" href="javascript:;" style="text-align:right"><img id="launch_img" src="" alt=""/></a></td>
+                                        <td><a id="launch" href="javascript:;" style="text-align:right"></a></td>
                                         <input type="hidden" id="channelId" value="${(channelInfoDomain.channelId)!}"/>
                                     </tr>
                                     <tr class="first_tr">
