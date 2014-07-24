@@ -89,8 +89,10 @@ public class ChannelInfoBusiness {
 	}
 	
 	public boolean updateChannel(int channelId, String channelCode, String cpId){
+        if(channelCode.trim().length() != 8 && channelCode.trim().length() == 5){
+            channelCode = "000"+channelCode;
+        }
 		boolean flag = false;
-		
 		try{
 			ChannelInfoDomain channel = channelInfoDao.getById(channelId);
 			if(null != channel){

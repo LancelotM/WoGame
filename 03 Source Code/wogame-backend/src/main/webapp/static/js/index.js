@@ -1,12 +1,12 @@
 
-function checkBlank(id,checkInfo){
-     var value = document.getElementById(id).value.trim();
-     if(isEmpty(value)){
-		document.getElementById(checkInfo).innerHTML = "内容不能为空!";
-     }else{
-         document.getElementById(checkInfo).innerHTML = "";
-     }
-}
+//function checkBlank(id,checkInfo){
+//     var value = $('#'+id).value.trim();
+//     if(isEmpty(value)){
+//		document.getElementById(checkInfo).innerHTML = "内容不能为空!";
+//     }else{
+//         document.getElementById(checkInfo).innerHTML = "";
+//     }
+//}
 function checkForm(){
     var basePath = getBasePath();
     var username = $('#username').val().trim();
@@ -26,16 +26,16 @@ function checkForm(){
                     }
                     $('#form').submit();
                 }else if(data == 1){
-                    $('#check_username').text("用户不存在！");
+                    $('#check_username').text("用户不存在!");
                 }else if(data == 2){
-                    $('#check_password').text("密码错误！");
+                    $('#check_password').text("密码错误!");
                 }else if(data == 3){
-                    $('#check_username').text("登录失败！");
+                    $('#check_username').text("登录失败!");
                 }
             }
         });
     }else if(isEmpty(username) || isEmpty(password)){
-        $('#check_username').text("用户或密码不能为空！！");
+        $('#check_username').text("用户或密码不能为空!");
     }
 }
 
@@ -61,7 +61,18 @@ $(function(){
     if(!isEmpty(loginCode)&& !isEmpty(pwd)){
         $('#submit').trigger('click');
     }
+
+    $('.enter_td input').blur(function(){
+        if(isEmpty($(this).val().trim())){
+            $('#check_username').text("用户或密码不能为空!");
+        }else{
+            $('#check_username').text("");
+        }
+    });
+
 });
+
+
 
 
 
