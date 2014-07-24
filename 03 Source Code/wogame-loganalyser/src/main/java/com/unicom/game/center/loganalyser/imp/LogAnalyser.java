@@ -54,6 +54,9 @@ public class LogAnalyser implements ILogAnalyser {
     @Value("#{properties['latest.log.fileInfo']}")
     private String logInfoFile;
 
+    @Value("#{properties['change.file.path']}")
+    private String changeFilePath;
+
     @Override
     public void doDownloadCountDomainsSave() throws Exception{
 
@@ -85,42 +88,44 @@ public class LogAnalyser implements ILogAnalyser {
         KeyWord keyWord = null;
         Date today = new Date();
         Date yesterday = DateUtils.getDayByInterval(today,-1);
-        int channelId = Integer.parseInt(value.substring(0,3).trim());
-        if(channelId != 0){
-            String keywordValue = value.substring(3,value.length());
-            KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keywordValue,channelId);
-            if (keywordDomain == null) {
-                if(keyMapSave.containsKey(value)){
-                    keyWord = keyMapSave.get(value) ;
-                    keyWord.setCount(keyWord.getCount() + 1);
-                }else{
-                    keyWord = new KeyWord();
-                    keyWord.setCount(1);
-                }
-                keyWord.setKeyword(keywordValue);
-                keyWord.setChannelId(channelId);
-                keyWord.setDateCreated(yesterday);
-                keyWord.setDateModified(today);
-                keyMapSave.put(value, keyWord);
-            }else{
-                if(!keyMapUpdate.containsKey(value)){
-                    keyWord = new KeyWord();
-                    keyWord.setId(keywordDomain.getId());
+        if(!value.substring(0,3).trim().equals("")){
+            int channelId = Integer.parseInt(value.substring(0,3).trim());
+            if(channelId != 0){
+                String keywordValue = value.substring(3,value.length());
+                KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keywordValue,channelId);
+                if (keywordDomain == null) {
+                    if(keyMapSave.containsKey(value)){
+                        keyWord = keyMapSave.get(value) ;
+                        keyWord.setCount(keyWord.getCount() + 1);
+                    }else{
+                        keyWord = new KeyWord();
+                        keyWord.setCount(1);
+                    }
                     keyWord.setKeyword(keywordValue);
                     keyWord.setChannelId(channelId);
-                    keyWord.setCount(keywordDomain.getCount());
-                    keyMapUpdate.put(value,keyWord);
-                    keyWord = keyMapUpdate.get(value);
-                } else {
-                    keyWord = keyMapUpdate.get(value) ;
-                    keyWord.setId(keyWord.getId());
+                    keyWord.setDateCreated(yesterday);
+                    keyWord.setDateModified(today);
+                    keyMapSave.put(value, keyWord);
+                }else{
+                    if(!keyMapUpdate.containsKey(value)){
+                        keyWord = new KeyWord();
+                        keyWord.setId(keywordDomain.getId());
+                        keyWord.setKeyword(keywordValue);
+                        keyWord.setChannelId(channelId);
+                        keyWord.setCount(keywordDomain.getCount());
+                        keyMapUpdate.put(value,keyWord);
+                        keyWord = keyMapUpdate.get(value);
+                    } else {
+                        keyWord = keyMapUpdate.get(value) ;
+                        keyWord.setId(keyWord.getId());
+                    }
+                    keyWord.setKeyword(keywordValue);
+                    keyWord.setChannelId(channelId);
+                    keyWord.setCount(keyWord.getCount() + 1);
+                    keyWord.setDateCreated(yesterday);
+                    keyWord.setDateModified(today);
+                    keyMapUpdate.put(value, keyWord);
                 }
-                keyWord.setKeyword(keywordValue);
-                keyWord.setChannelId(channelId);
-                keyWord.setCount(keyWord.getCount() + 1);
-                keyWord.setDateCreated(yesterday);
-                keyWord.setDateModified(today);
-                keyMapUpdate.put(value, keyWord);
             }
         }
     }
@@ -179,17 +184,26 @@ public class LogAnalyser implements ILogAnalyser {
             int val = Integer.parseInt(entry.getValue().toString());
             String firstTwoCharacters = key.substring(0,2);
             if(firstTwoCharacters.equalsIgnoreCase("80")||firstTwoCharacters.equalsIgnoreCase("81")){
-                channelId = Integer.parseInt(key.substring(2,key.length()).trim());
-                if(channelId != 0){
-                    if (userCountMap.containsKey(channelId)){
-                        userCount = userCountMap.get(channelId);
-                        if(userCount != null){
-                            if(firstTwoCharacters.equalsIgnoreCase("80")){
-                                userCount.setNew_user_count(userCount.getNew_user_count() + val);
-                            } else if(firstTwoCharacters.equalsIgnoreCase("81")){
-                                userCount.setOld_user_count(userCount.getOld_user_count() + val);
+                if(!key.substring(2,key.length()).trim().equals("")){
+                    channelId = Integer.parseInt(key.substring(2,key.length()).trim());
+                    if(channelId != 0){
+                        if (userCountMap.containsKey(channelId)){
+                            userCount = userCountMap.get(channelId);
+                            if(userCount != null){
+                                if(firstTwoCharacters.equalsIgnoreCase("80")){
+                                    userCount.setNew_user_count(userCount.getNew_user_count() + val);
+                                } else if(firstTwoCharacters.equalsIgnoreCase("81")){
+                                    userCount.setOld_user_count(userCount.getOld_user_count() + val);
+                                }
+                            } else{
+                                userCount = new UserCount();
+                                if(firstTwoCharacters.equalsIgnoreCase("80")){
+                                    userCount.setNew_user_count(val);
+                                } else if(firstTwoCharacters.equalsIgnoreCase("81")){
+                                    userCount.setOld_user_count(val);
+                                }
                             }
-                        } else{
+                        } else {
                             userCount = new UserCount();
                             if(firstTwoCharacters.equalsIgnoreCase("80")){
                                 userCount.setNew_user_count(val);
@@ -197,32 +211,38 @@ public class LogAnalyser implements ILogAnalyser {
                                 userCount.setOld_user_count(val);
                             }
                         }
-                    } else {
-                        userCount = new UserCount();
-                        if(firstTwoCharacters.equalsIgnoreCase("80")){
-                            userCount.setNew_user_count(val);
-                        } else if(firstTwoCharacters.equalsIgnoreCase("81")){
-                            userCount.setOld_user_count(val);
-                        }
+                        userCount.setChannelId(channelId);
+                        userCount.setDateCreated(fileDate);
+                        userCountMap.put(channelId,userCount);
                     }
-                    userCount.setChannelId(channelId);
-                    userCount.setDateCreated(fileDate);
-                    userCountMap.put(channelId,userCount);
                 }
             } else if(firstTwoCharacters.equalsIgnoreCase("61")||firstTwoCharacters.equalsIgnoreCase("62")||firstTwoCharacters.equalsIgnoreCase("63")||firstTwoCharacters.equalsIgnoreCase("64")){
-                channelId = Integer.parseInt(key.substring(2,key.length()).trim());
-                if(channelId != 0){
-                    if (pageTrafficMap.containsKey(channelId)){
-                        pageTraffic = pageTrafficMap.get(channelId);
-                        if(pageTraffic != null){
-                            if (firstTwoCharacters.equalsIgnoreCase("61")){
-                                pageTraffic.setHomepage(pageTraffic.getHomepage() + val);
-                            } else if (firstTwoCharacters.equalsIgnoreCase("62")){
-                                pageTraffic.setCategory(pageTraffic.getCategory() + val);
-                            } else if (firstTwoCharacters.equalsIgnoreCase("63")){
-                                pageTraffic.setHotlist(pageTraffic.getHotlist() + val);
-                            } else if (firstTwoCharacters.equalsIgnoreCase("64")){
-                                pageTraffic.setLatest(pageTraffic.getLatest() + val);
+                if(!key.substring(2,key.length()).trim().equals("")){
+                    channelId = Integer.parseInt(key.substring(2,key.length()).trim());
+                    if(channelId != 0){
+                        if (pageTrafficMap.containsKey(channelId)){
+                            pageTraffic = pageTrafficMap.get(channelId);
+                            if(pageTraffic != null){
+                                if (firstTwoCharacters.equalsIgnoreCase("61")){
+                                    pageTraffic.setHomepage(pageTraffic.getHomepage() + val);
+                                } else if (firstTwoCharacters.equalsIgnoreCase("62")){
+                                    pageTraffic.setCategory(pageTraffic.getCategory() + val);
+                                } else if (firstTwoCharacters.equalsIgnoreCase("63")){
+                                    pageTraffic.setHotlist(pageTraffic.getHotlist() + val);
+                                } else if (firstTwoCharacters.equalsIgnoreCase("64")){
+                                    pageTraffic.setLatest(pageTraffic.getLatest() + val);
+                                }
+                            } else {
+                                pageTraffic = new PageTraffic();
+                                if (firstTwoCharacters.equalsIgnoreCase("61")){
+                                    pageTraffic.setHomepage(val);
+                                } else if (firstTwoCharacters.equalsIgnoreCase("62")){
+                                    pageTraffic.setCategory(val);
+                                } else if (firstTwoCharacters.equalsIgnoreCase("63")){
+                                    pageTraffic.setHotlist(val);
+                                } else if (firstTwoCharacters.equalsIgnoreCase("64")){
+                                    pageTraffic.setLatest(val);
+                                }
                             }
                         } else {
                             pageTraffic = new PageTraffic();
@@ -236,55 +256,48 @@ public class LogAnalyser implements ILogAnalyser {
                                 pageTraffic.setLatest(val);
                             }
                         }
-                    } else {
-                        pageTraffic = new PageTraffic();
-                        if (firstTwoCharacters.equalsIgnoreCase("61")){
-                            pageTraffic.setHomepage(val);
-                        } else if (firstTwoCharacters.equalsIgnoreCase("62")){
-                            pageTraffic.setCategory(val);
-                        } else if (firstTwoCharacters.equalsIgnoreCase("63")){
-                            pageTraffic.setHotlist(val);
-                        } else if (firstTwoCharacters.equalsIgnoreCase("64")){
-                            pageTraffic.setLatest(val);
-                        }
+                        pageTraffic.setChannelId(channelId);
+                        pageTraffic.setDateCreated(fileDate);
+                        pageTrafficMap.put(channelId,pageTraffic);
                     }
-                    pageTraffic.setChannelId(channelId);
-                    pageTraffic.setDateCreated(fileDate);
-                    pageTrafficMap.put(channelId,pageTraffic);
                 }
             }else if(firstTwoCharacters.equalsIgnoreCase("50")||firstTwoCharacters.equalsIgnoreCase("51")){
                 if (firstTwoCharacters.equalsIgnoreCase("50")){
-                    channelId = Integer.parseInt(key.substring(8,key.length()).trim().replaceAll("^(0+)", ""));
-                    if(channelId != 0){
-                        gameTraffic = new GameTraffic();
-                        gameTraffic.setSort(Integer.parseInt(key.substring(6,8)));
-                        gameTraffic.setAdType(Integer.parseInt(key.substring(4,6)));
-                        gameTraffic.setAdId(Integer.parseInt(key.substring(2, 4)));
-                        gameTraffic.setClickThrough(clickThrough);
-                        gameTraffic.setChannelId(channelId);
-                        gameTraffic.setDateCreated(fileDate);
-                        adId = gameTraffic.getAdId();
-                        adType = gameTraffic.getAdType();
-                        gameTrafficMap.put(++id, gameTraffic);
+                    if(!key.substring(8,key.length()).trim().equals("")){
+                        channelId = Integer.parseInt(key.substring(8,key.length()).trim().replaceAll("^(0+)", ""));
+                        if(channelId != 0){
+                            gameTraffic = new GameTraffic();
+                            gameTraffic.setSort(Integer.parseInt(key.substring(6,8)));
+                            gameTraffic.setAdType(Integer.parseInt(key.substring(4,6)));
+                            gameTraffic.setAdId(Integer.parseInt(key.substring(2, 4)));
+                            gameTraffic.setClickThrough(clickThrough);
+                            gameTraffic.setChannelId(channelId);
+                            gameTraffic.setDateCreated(fileDate);
+                            adId = gameTraffic.getAdId();
+                            adType = gameTraffic.getAdType();
+                            gameTrafficMap.put(++id, gameTraffic);
+                        }
                     }
                 } else if(firstTwoCharacters.equalsIgnoreCase("51")){
-                    channelId = Integer.parseInt(key.substring(4,key.length()).trim().replaceAll("^(0+)", ""));
-                    if(channelId != 0){
-                        if(!gameTrafficMap.containsKey(channelId)){
-                            gameTraffic = new GameTraffic();
-                            gameTraffic.setClickThrough(val);
-                            clickThrough = gameTraffic.getClickThrough();
-                        } else{
-                            gameTraffic = new GameTraffic();
-                            gameTraffic.setClickThrough(gameTraffic.getClickThrough() + val);
-                            clickThrough = gameTraffic.getClickThrough();
+                    if(!key.substring(4,key.length()).trim().equals("")){
+                        channelId = Integer.parseInt(key.substring(4,key.length()).trim().replaceAll("^(0+)", ""));
+                        if(channelId != 0){
+                            if(!gameTrafficMap.containsKey(channelId)){
+                                gameTraffic = new GameTraffic();
+                                gameTraffic.setClickThrough(val);
+                                clickThrough = gameTraffic.getClickThrough();
+                            } else{
+                                gameTraffic = new GameTraffic();
+                                gameTraffic.setClickThrough(gameTraffic.getClickThrough() + val);
+                                clickThrough = gameTraffic.getClickThrough();
+                            }
+                            gameTraffic.setSort(Integer.parseInt(key.substring(2,4)));
+                            gameTraffic.setAdType(adType);
+                            gameTraffic.setAdId(adId);
+                            gameTraffic.setChannelId(channelId);
+                            gameTraffic.setDateCreated(fileDate);
+                            gameTrafficMap.put(++id,gameTraffic);
                         }
-                        gameTraffic.setSort(Integer.parseInt(key.substring(2,4)));
-                        gameTraffic.setAdType(adType);
-                        gameTraffic.setAdId(adId);
-                        gameTraffic.setChannelId(channelId);
-                        gameTraffic.setDateCreated(fileDate);
-                        gameTrafficMap.put(++id,gameTraffic);
                     }
                 }
             }
@@ -330,6 +343,7 @@ public class LogAnalyser implements ILogAnalyser {
 
     private void doLogAnalyse1(){
         Map<String,Integer> numberCountMap = null;
+        File file = null;
         String dateBefore = null;
         Date today = new Date();
         Date yesterday = DateUtils.getDayByInterval(today,-1);
@@ -347,12 +361,26 @@ public class LogAnalyser implements ILogAnalyser {
             switch (compareDateNum){
                 case -1:
                     FileUtils.writeFileOverWrite(logInfoNumberFile,dateNow);
-                    File file = new File(logFilePath+"/"+currentFileName);
+                    file = new File(logFilePath+"/"+currentFileName);
                     if(!file.exists()){
-                        file.createNewFile();
+                        file = new File(logFilePath+"/"+"wogamecenter_info_number.log");
+                        if(file.exists()){
+                            String loseFileDate = new SimpleDateFormat("yyyy-MM-dd").format(file.lastModified());
+                            if(loseFileDate.equals(dateNow)){
+                                numberCountMap = woGameInfoNumberReader(file);
+                                woGameInfoNumberParse(numberCountMap, yesterday);
+                            }
+                        }
+                    }else {
+                        numberCountMap = woGameInfoNumberReader(file);
+                        woGameInfoNumberParse(numberCountMap, yesterday);
                     }
-                    numberCountMap = woGameInfoNumberReader(file);
-                    woGameInfoNumberParse(numberCountMap, yesterday);
+                    File newPath = new File(changeFilePath);
+                    if(!newPath.exists()){
+                        newPath.mkdirs();
+                    }
+                    org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
+                    file.getAbsoluteFile().delete();
                     break;
                 case 1:
                 case 0:
@@ -365,14 +393,17 @@ public class LogAnalyser implements ILogAnalyser {
 
     private void doLogAnalyse2(){
         String dateBefore = null;
+        String tempString = null;
+        File file = null;
         Date today = new Date();
-        Date yesterday = DateUtils.getDayByInterval(today,-1);
+        Date yesterday = DateUtils.getDayByInterval(today, -1);
         String fileDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
         Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
         Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
         Map<String,Product> productMap = new HashMap<String, Product>();
         String currentFileName = "wogamecenter_info."+fileDate+".log";
         try {
+
             List<String> currentFileList = FileUtils.readFileByRow(logInfoFile);
             if(currentFileList.size()>0){
                 dateBefore = currentFileList.get(0);
@@ -384,15 +415,23 @@ public class LogAnalyser implements ILogAnalyser {
             switch (compareDateNum){
                 case -1:
                     FileUtils.writeFileOverWrite(logInfoFile,dateNow);
-                    File file = new File(logFilePath+"/"+currentFileName);
+                    file = new File(logFilePath+"/"+currentFileName);
                     if(!file.exists()){
-                        file.createNewFile();
-                    }
-                    BufferedReader reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
-
-                    String tempString = null;
-                    while ((tempString = reader.readLine()) != null){
-                        woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap);
+                        file = new File(logFilePath+"/"+"wogamecenter_info.log");
+                        if(file.exists()){
+                            String loseFileDate = new SimpleDateFormat("yyyy-MM-dd").format(file.lastModified());
+                            if(loseFileDate.equals(dateNow)){
+                                BufferedReader reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+                                while ((tempString = reader.readLine()) != null){
+                                    woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap);
+                                }
+                            }
+                        }
+                    } else {
+                        BufferedReader reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+                        while ((tempString = reader.readLine()) != null){
+                            woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap);
+                        }
                     }
                     break;
                 case 1:
@@ -404,7 +443,13 @@ public class LogAnalyser implements ILogAnalyser {
                 keywordBusiness.typeConversionUpdate(keyMapUpdate);
             }
             productBusiness.typeConversion(productMap);
-            
+
+            File newPath = new File(changeFilePath);
+            if(!newPath.exists()){
+                newPath.mkdirs();
+            }
+            org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
+            file.getAbsoluteFile().delete();
         } catch (Exception e) {
             Logging.logError("Error occurs in doLogAnalyse2 ", e);
         } finally {
