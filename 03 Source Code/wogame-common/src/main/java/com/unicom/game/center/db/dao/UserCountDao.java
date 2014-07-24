@@ -29,7 +29,11 @@ public class UserCountDao extends HibernateDao<UserCountDomain>{
 			hql += " and channelId = " + channelId;
 		}
 		
-		return (Long)getSession().createQuery(hql).list().get(0);
+		Query query = getSession().createQuery(hql);
+		
+		Object obj = query.list().get(0);
+		
+		return (null != obj) ? (Long)obj : 0;
 	}
 	
 	public long fetchTotalUserCount(Integer channelId){
@@ -38,7 +42,11 @@ public class UserCountDao extends HibernateDao<UserCountDomain>{
 			hql += " where channelId = " + channelId;
 		}
 		
-		return (Long)getSession().createQuery(hql).list().get(0);
+		Query query = getSession().createQuery(hql);
+		
+		Object obj = query.list().get(0);
+		
+		return (null != obj) ? (Long)obj : 0;
 	}	
 	
 	public List<LoginInfo> fetchLoginInfoByDate(String startDate, String endDate, Integer channelId){

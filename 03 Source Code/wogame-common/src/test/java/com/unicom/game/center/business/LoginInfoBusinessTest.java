@@ -35,7 +35,7 @@ public class LoginInfoBusinessTest {
 	public void testFetchNewUserCount(){
 		long count = loginInfo.fetchNewUserCount(null);
 		System.out.println(count);
-		count = loginInfo.fetchNewUserCount(18085);
+		count = loginInfo.fetchNewUserCount(7);
 		System.out.println(count);
 	}
 	
@@ -43,7 +43,7 @@ public class LoginInfoBusinessTest {
 	public void testFetchTotalUserCount(){
 		long count = loginInfo.fetchTotalUserCount(null);
 		System.out.println(count);
-		count = loginInfo.fetchTotalUserCount(18082);
+		count = loginInfo.fetchTotalUserCount(7);
 		System.out.println(count);
 	}
 	
