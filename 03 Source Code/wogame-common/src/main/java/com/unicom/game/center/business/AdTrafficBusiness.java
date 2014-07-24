@@ -116,10 +116,16 @@ public class AdTrafficBusiness {
         }
         List<List<AdInfo>> gameByDate = new ArrayList<List<AdInfo>>();
         List<AdInfo> games = null;
-        for(String key : map.keySet()){
-            games = map.get(key);
-            gameByDate.add(games);
+        
+        if(null != map){
+            for(String key : map.keySet()){
+                games = map.get(key);
+                gameByDate.add(games);
+            }
+            
+            map.clear();
         }
+
         return gameByDate;
     }
 
