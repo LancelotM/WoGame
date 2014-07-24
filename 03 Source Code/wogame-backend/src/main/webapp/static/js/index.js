@@ -1,12 +1,3 @@
-
-//function checkBlank(id,checkInfo){
-//     var value = $('#'+id).value.trim();
-//     if(isEmpty(value)){
-//		document.getElementById(checkInfo).innerHTML = "内容不能为空!";
-//     }else{
-//         document.getElementById(checkInfo).innerHTML = "";
-//     }
-//}
 function checkForm(){
     var basePath = getBasePath();
     var username = $('#username').val().trim();
@@ -35,7 +26,11 @@ function checkForm(){
             }
         });
     }else if(isEmpty(username) || isEmpty(password)){
-        $('#check_username').text("用户或密码不能为空!");
+        if(isEmpty($('#username').val())){
+            $('#check_username').text("用户名为空!");
+        }else if(isEmpty($('#password').val())){
+            $('#check_password').text("密码为空!");
+        }
     }
 }
 
@@ -62,15 +57,29 @@ $(function(){
         $('#submit').trigger('click');
     }
 
-    $('.enter_td input').blur(function(){
-        if(isEmpty($(this).val().trim())){
-            $('#check_username').text("用户或密码不能为空!");
-        }else{
-            $('#check_username').text("");
-        }
-    });
-
+    checkInput();
 });
+
+function checkInput(){
+    $('.enter_td input').each(function(){
+        $(this).blur(function(){
+            if(isEmpty($(this).val().trim())){
+                if($(this).attr('name') == "username"){
+                    $('#check_username').text("用户名为空!");
+                }else if($(this).attr('name') == "password"){
+                    $('#check_password').text("密码为空!");
+                }
+            }else{
+                if($(this).attr('name') == "username"){
+                    $('#check_username').text("");
+                }else if($(this).attr('name') == "password"){
+                    $('#check_password').text("");
+                }
+            }
+        });
+
+    });
+}
 
 
 
