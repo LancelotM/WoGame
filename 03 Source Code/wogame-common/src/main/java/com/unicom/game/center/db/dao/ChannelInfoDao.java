@@ -106,4 +106,15 @@ public class ChannelInfoDao extends HibernateDao<ChannelInfoDomain>{
 		return channelInfos;
 	}
 
+	
+	public List<ChannelInfoDomain> fetchSyncFaiureChannels(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("from ChannelInfoDomain channel where channel.sync_status = false");
+		
+		@SuppressWarnings("unchecked")
+		List<ChannelInfoDomain> channelInfos= getSession().createQuery(sb.toString())
+									.list();
+		
+		return channelInfos;
+	}	
 }

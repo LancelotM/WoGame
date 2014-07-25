@@ -127,6 +127,8 @@ public class ChannelInfoBusiness {
 					channel.setChannelName(channelName);
 					channel.setCpId(cpId);
 					channel.setChannelCode(channelCode);
+					channel.setSync_type(0);
+					channel.setSync_status(true);
 					channelInfoDao.update(channel);					
 				}
 			}else{
@@ -138,6 +140,8 @@ public class ChannelInfoBusiness {
 				channel.setChannelName(channelName);
 				channel.setCpId(cpId);
 				channel.setChannelCode(channelCode);
+				channel.setSync_type(0);
+				channel.setSync_status(true);
 				channelInfoDao.save(channel);
 				
 				channel = channelInfoDao.fetchChannelByCode(channelCode);
@@ -149,6 +153,7 @@ public class ChannelInfoBusiness {
 			}
 		}catch(Exception e){
 			Logging.logError("Error occur in startChannel", e);
+			channel = null;
 		}
 		
 		return channel;		

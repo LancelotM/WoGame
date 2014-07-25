@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.business.PackageInfoBusiness;
+import com.unicom.game.center.business.SyncChannelClient;
 import com.unicom.game.center.db.domain.PackageInfoDomain;
 import com.unicom.game.center.loganalyser.ILogAnalyser;
 import com.unicom.game.center.utils.Constant;
@@ -26,6 +27,9 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 	
     @Autowired
     private PackageInfoBusiness packageInfoBusiness;
+    
+    @Autowired
+    private SyncChannelClient syncChannelClient;
    
     @Autowired
     private FTPHelper ftpHelper;  
@@ -57,6 +61,14 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 	@Override
 	public void doPackageInfoDomainsSave() throws Exception {
   		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+  		
+  		try{
+  			System.out.println("=====syncFailureChannels========");
+  			syncChannelClient.syncFailureChannels();
+  		}catch(Exception e){
+  			Logging.logError("Error occurs in syncFailureChannels ", e);
+  		}
+  		
   		System.out.println("=====doPackageInfoDomainsSave start========");
 
         String currentFileName = "";
