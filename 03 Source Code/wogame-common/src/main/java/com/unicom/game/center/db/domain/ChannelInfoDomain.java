@@ -21,6 +21,8 @@ public class ChannelInfoDomain implements Serializable{
 	private String wapToken;
 	private String logToken;
 	private boolean status;
+	private Integer sync_type;
+	private boolean sync_status;
 	private Date dateCreated;
 	private Date dateModified;
 	
@@ -104,6 +106,24 @@ public class ChannelInfoDomain implements Serializable{
 	}
 	public void setDateModified(Date dateModified) {
 		this.dateModified = dateModified;
+	}
+
+	@Column(name="sync_type")
+	public Integer getSync_type() {
+		return sync_type;
+	}
+
+	public void setSync_type(Integer sync_type) {
+		this.sync_type = sync_type;
+	}
+
+	@Column(name="sync_status")
+	public boolean isSync_status() {
+		return sync_status;
+	}
+
+	public void setSync_status(boolean sync_status) {
+		this.sync_status = sync_status;
 	}
 	
 }

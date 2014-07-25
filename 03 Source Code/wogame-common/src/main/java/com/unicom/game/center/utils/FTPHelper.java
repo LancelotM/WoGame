@@ -42,6 +42,7 @@ public class FTPHelper {
 			try {
 				ftpClient.changeWorkingDirectory(path);
 				ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+				ftpClient.enterLocalPassiveMode();
 				return ftpClient.retrieveFileStream(filename);
 			} catch (Exception e) {
                 Logging.logError("exception",e);

@@ -54,8 +54,8 @@ public class LogAnalyser implements ILogAnalyser {
     @Value("#{properties['latest.log.fileInfo']}")
     private String logInfoFile;
 
-    @Value("#{properties['change.file.path']}")
-    private String changeFilePath;
+    @Value("#{properties['log.bak.path']}")
+    private String logBakPath;
 
     @Override
     public void doDownloadCountDomainsSave() throws Exception{
@@ -375,7 +375,7 @@ public class LogAnalyser implements ILogAnalyser {
                         numberCountMap = woGameInfoNumberReader(file);
                         woGameInfoNumberParse(numberCountMap, yesterday);
                     }
-                    File newPath = new File(changeFilePath);
+                    File newPath = new File(logBakPath);
                     if(!newPath.exists()){
                         newPath.mkdirs();
                     }
@@ -444,7 +444,7 @@ public class LogAnalyser implements ILogAnalyser {
             }
             productBusiness.typeConversion(productMap);
 
-            File newPath = new File(changeFilePath);
+            File newPath = new File(logBakPath);
             if(!newPath.exists()){
                 newPath.mkdirs();
             }

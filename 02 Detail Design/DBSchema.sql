@@ -7,6 +7,8 @@ create table wogamecenter.channel_info(
 	channel_code varchar(40) not null,
 	cp_id varchar(40),
 	status boolean not null default false, 
+	sync_type int(8) not null default 0,
+	sync_status boolean not null default true,
 	wap_token varchar(128),
 	log_token varchar(128),
 	date_modified date not null,
