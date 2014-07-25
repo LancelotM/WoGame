@@ -320,40 +320,40 @@ public class LogAnalyser implements ILogAnalyser {
     }
 
     private void woGameInfoParse(String tempString, Date fileDate, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate, Map<String,Product> productMap){
-        Product product = null;
-        String surplus = null;
-        String firstTwoCharacters = tempString.substring(0, 2);
-        if(firstTwoCharacters.equalsIgnoreCase("40")){
-            surplus = tempString.substring(2,tempString.length());
-            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
-                keyWordDispose(surplus,keyMapSave,keyMapUpdate);
-            }
-        } else if(firstTwoCharacters.equalsIgnoreCase("30")){
-            String product_id = tempString.substring(5,15).trim();
-            String channel_id = tempString.substring(2,5).trim();
-            String product_name = tempString.substring(15,257).trim();
-            String product_icon = tempString.substring(257,tempString.length()).trim();
-            surplus = tempString.substring(2,5) + product_name;
-            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
-                keyWordDispose(surplus,keyMapSave,keyMapUpdate);
-            }
-            boolean flag =  productBusiness.checkId(product_id);
-            
-            try{
-                if(flag && Integer.parseInt(product_id) != 0){
-                    product = new Product();
-                    product.setProduct_id(product_id);
-                    product.setProduct_name(product_name);
-                    product.setProduct_icon(product_icon);
-                    product.setDateCreated(fileDate);
-                    productMap.put(product_id,product);
-                }            	
-            }catch(Exception e){
-            	e.printStackTrace();
-            	 Logging.logError("Error occurs in parse product_id to Int ", e);
-            }
-
-        }
+        try{
+	    	Product product = null;
+	        String surplus = null;
+	        String firstTwoCharacters = tempString.substring(0, 2);
+	        if(firstTwoCharacters.equalsIgnoreCase("40")){
+	            surplus = tempString.substring(2,tempString.length());
+	            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
+	                keyWordDispose(surplus,keyMapSave,keyMapUpdate);
+	            }
+	        } else if(firstTwoCharacters.equalsIgnoreCase("30")){
+	            String product_id = tempString.substring(5,15).trim();
+	            String channel_id = tempString.substring(2,5).trim();
+	            String product_name = tempString.substring(15,257).trim();
+	            String product_icon = tempString.substring(257,tempString.length()).trim();
+	            surplus = tempString.substring(2,5) + product_name;
+	            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
+	                keyWordDispose(surplus,keyMapSave,keyMapUpdate);
+	            }
+	            boolean flag =  productBusiness.checkId(product_id);
+	            
+	
+	                if(flag && Integer.parseInt(product_id) != 0){
+	                    product = new Product();
+	                    product.setProduct_id(product_id);
+	                    product.setProduct_name(product_name);
+	                    product.setProduct_icon(product_icon);
+	                    product.setDateCreated(fileDate);
+	                    productMap.put(product_id,product);
+	                }            		
+	        }        
+        }catch(Exception e){
+        	e.printStackTrace();
+        	Logging.logError("Error occurs in parse product_id to Int ", e);
+        }        
     }
 
     private void doNumberLogAnalyse(){
