@@ -47,8 +47,13 @@ public class SyncChannelClient {
 			syc = new SyncChannels_Service(new URL(syncChannelWSDL),
 					new QName("http://cm.com/", "SyncChannels"));
 			SyncChannels msyn = syc.getSyncChannelsPort();
-			
+
+	        if(channelCode.trim().length() != 8 && channelCode.trim().length() == 5){
+	            channelCode = "000"+channelCode;
+	        }
+	        
 			ChannelInfoDomain domain = channelInfoDao.getById(id);
+			
 			
 	        List<ChannelInfo> m_clist = new ArrayList<ChannelInfo>();
 	        ChannelInfo channelInfo = new ChannelInfo();

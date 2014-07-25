@@ -71,8 +71,8 @@ public class LogAnalyser implements ILogAnalyser {
     public void doLogAnalyse(){
         Logging.logDebug("----- doLogAnaylyse start -----");
         try{
-            doLogAnalyse1();
-            doLogAnalyse2();
+            doNumberLogAnalyse();
+            doInfoLogAnalyse();
         }catch(Exception e){
             Logging.logError("Error occurs in doLogAnaylyse ", e);
         }
@@ -147,6 +147,14 @@ public class LogAnalyser implements ILogAnalyser {
             }
         } catch (IOException e) {
             Logging.logError("Error occurs in woGameInfoNumberReader", e);
+        }finally{
+        	if(null != reader){
+        		try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+        	}
         }
         if(fileContent.equals("")){
             return numberCountMap;
@@ -330,18 +338,26 @@ public class LogAnalyser implements ILogAnalyser {
                 keyWordDispose(surplus,keyMapSave,keyMapUpdate);
             }
             boolean flag =  productBusiness.checkId(product_id);
-            if(flag && Integer.parseInt(product_id) != 0){
-                product = new Product();
-                product.setProduct_id(product_id);
-                product.setProduct_name(product_name);
-                product.setProduct_icon(product_icon);
-                product.setDateCreated(fileDate);
-                productMap.put(product_id,product);
+            
+            try{
+                if(flag && Integer.parseInt(product_id) != 0){
+                    product = new Product();
+                    product.setProduct_id(product_id);
+                    product.setProduct_name(product_name);
+                    product.setProduct_icon(product_icon);
+                    product.setDateCreated(fileDate);
+                    productMap.put(product_id,product);
+                }            	
+            }catch(Exception e){
+            	e.printStackTrace();
+            	 Logging.logError("Error occurs in parse product_id to Int ", e);
             }
+
         }
     }
 
-    private void doLogAnalyse1(){
+    private void doNumberLogAnalyse(){
+    	System.out.println("=====doNumberLogAnalyse start========");
         Map<String,Integer> numberCountMap = null;
         File file = null;
         String dateBefore = null;
@@ -387,14 +403,19 @@ public class LogAnalyser implements ILogAnalyser {
                     break;
             }
         } catch (Exception e) {
-            Logging.logError("Error occurs in doLogAnalyse1 ", e);
+            Logging.logError("Error occurs in doNumberLogAnalyse ", e);
+            e.printStackTrace();
+        }finally{
+        	System.out.println("=====doNumberLogAnalyse end========");
         }
     }
 
-    private void doLogAnalyse2(){
+    private void doInfoLogAnalyse(){
+    	System.out.println("=====doInfoLogAnalyse start========");
         String dateBefore = null;
         String tempString = null;
         File file = null;
+        BufferedReader reader = null;
         Date today = new Date();
         Date yesterday = DateUtils.getDayByInterval(today, -1);
         String fileDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
@@ -421,14 +442,14 @@ public class LogAnalyser implements ILogAnalyser {
                         if(file.exists()){
                             String loseFileDate = new SimpleDateFormat("yyyy-MM-dd").format(file.lastModified());
                             if(loseFileDate.equals(dateNow)){
-                                BufferedReader reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+                                reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
                                 while ((tempString = reader.readLine()) != null){
                                     woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap);
                                 }
                             }
                         }
                     } else {
-                        BufferedReader reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+                        reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
                         while ((tempString = reader.readLine()) != null){
                             woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap);
                         }
@@ -451,11 +472,21 @@ public class LogAnalyser implements ILogAnalyser {
             org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
             file.getAbsoluteFile().delete();
         } catch (Exception e) {
-            Logging.logError("Error occurs in doLogAnalyse2 ", e);
+            Logging.logError("Error occurs in doInfoLogAnalyse ", e);
+            e.printStackTrace();
         } finally {
             keyMapSave.clear();
             keyMapUpdate.clear();
             productMap.clear();
+            if(null != reader){
+            	try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+            }
+            
+            System.out.println("=====doInfoLogAnalyse end========");
         }
     }
 
