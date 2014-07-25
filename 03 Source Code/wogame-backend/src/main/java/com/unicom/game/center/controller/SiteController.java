@@ -46,6 +46,9 @@ public class SiteController {
     @RequestMapping(value = "/site", method = {RequestMethod.GET})
     public ModelAndView site(HttpServletRequest request, HttpSession session) {
         ModelMap model = new ModelMap();
+        if(session == null){
+            request.getSession(true);
+        }
         Boolean adminFlag = (Boolean)session.getAttribute("admin");
         if(null != session && null != adminFlag && adminFlag.booleanValue()){
             List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();

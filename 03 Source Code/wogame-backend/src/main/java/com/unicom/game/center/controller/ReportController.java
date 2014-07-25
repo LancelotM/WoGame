@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -29,20 +30,20 @@ public class ReportController {
     @Autowired
     private ZTEReportBusiness zteReport;
 
-    @RequestMapping(value = "/getReport", method = {RequestMethod.GET})
-    public ModelAndView getReport(HttpSession session){
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
-            return new ModelAndView("/report");
-        }else{
-            return new ModelAndView("/index");
-        }
-    }
+//    @RequestMapping(value = "/getReport", method = {RequestMethod.GET})
+//    public ModelAndView getReport(HttpSession session){
+//        Boolean adminFlag = (Boolean)session.getAttribute("admin");
+//        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+//            return new ModelAndView("/report");
+//        }else{
+//            return new ModelAndView("/index");
+//        }
+//    }
 
     @RequestMapping(value = "/reportInfo", method = {RequestMethod.POST})
     public ModelAndView getPackageReport(@RequestParam(value="channelId",required = false) String channelId,
                                          @RequestParam(value="startDate",required = false) String startDate,
-                                         @RequestParam(value="endDate",required = false) String endDate,HttpSession session){
+                                         @RequestParam(value="endDate",required = false) String endDate,HttpServletRequest request,HttpSession session){
 
         ModelMap map = new ModelMap();
         ReportInfo packageReportInfo = packageReport.fetchPackageReport(channelId, startDate, endDate);
@@ -54,6 +55,9 @@ public class ReportController {
         map.put("packageReportInfo",packageReportInfo);
         map.put("receiptReportInfo",receiptReportInfo);
         map.put("zteReportInfo",zteReportInfo);
+        if(null == session){
+            session = request.getSession(true);
+        }
         Boolean adminFlag = (Boolean)session.getAttribute("admin");
         if(null != session && null != adminFlag && adminFlag.booleanValue()){
             return new ModelAndView("/report",map);

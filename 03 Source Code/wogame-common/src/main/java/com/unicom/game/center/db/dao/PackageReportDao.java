@@ -56,11 +56,7 @@ public class PackageReportDao extends HibernateDao<PackageReportDomain>{
         }
         List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();
-        String result = "0";
-        for(Object obj : list){
-            result = String.valueOf(obj);
-        }
-
+        String result = (list != null && list.size() >0)?String.valueOf(list.get(0)):"0";
         return Integer.parseInt(result);
     }
 
@@ -94,11 +90,7 @@ public class PackageReportDao extends HibernateDao<PackageReportDomain>{
         hql.append(Constant.EXTRACT_SYNC_STATUS);
         List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();
-        String result = "0";
-        for(Object obj : list){
-            result = String.valueOf(obj);
-        }
-
+        String result = (list != null && list.size() >0)?String.valueOf(list.get(0)):"0";
         return Integer.parseInt(result);
     }
 
