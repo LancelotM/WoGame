@@ -28,6 +28,9 @@ public class UsageLoggerController {
     @ResponseBody
     public String businessLog(@RequestParam("data") String data, HttpSession session) {
         String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+        if(null == channel){
+        	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        }
 
         String[] logData = new String[]{data, channel};
 
@@ -40,6 +43,9 @@ public class UsageLoggerController {
     @ResponseBody
     public String numberLog(@RequestParam("data") String data, HttpSession session) {
         String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+        if(null == channel){
+        	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        }
 
         String[] logData = new String[]{data, channel};
         statisticsLogger.number(StringUtils.join(logData, ""));

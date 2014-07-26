@@ -72,6 +72,9 @@ public class GameDownloadController {
         HttpSession session = request.getSession();
         // 记录Log
         String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+        if(null == channel){
+        	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        }
 
         //30 channelId（3位） productId（10位） productName（256位） productIcon
         String[] logData = new String[]{
@@ -90,8 +93,7 @@ public class GameDownloadController {
             info.setFileName(utf8ProductName);
             info.setContext(request.getContextPath());
             // 取得channel code
-            String channelId = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
-            String channelCode = packageInfoBusiness.checkPackageExist(channelId, productId, info.getOnlineTime());
+            String channelCode = packageInfoBusiness.checkPackageExist(channel, productId, info.getOnlineTime());
 
             logDownloadUrl(productId, info, getClientIp(request), channelCode);
             info.setDownloadUrl(wrapDownloadUrl(productId, info.getDownloadUrl(), info.getOnlineTime(), channelCode));

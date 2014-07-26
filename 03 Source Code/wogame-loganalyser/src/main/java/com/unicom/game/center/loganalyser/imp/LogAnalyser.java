@@ -48,12 +48,6 @@ public class LogAnalyser implements ILogAnalyser {
     @Value("#{properties['log.file.path']}")
     private String logFilePath;
 
-    @Value("#{properties['latest.log.fileInfoNumber']}")
-    private String logInfoNumberFile;
-
-    @Value("#{properties['latest.log.fileInfo']}")
-    private String logInfoFile;
-
     @Value("#{properties['log.bak.path']}")
     private String logBakPath;
 
@@ -68,21 +62,199 @@ public class LogAnalyser implements ILogAnalyser {
     }
     
     @Override
-    public void doLogAnalyse(){
-        Logging.logDebug("----- doLogAnaylyse start -----");
-        try{
-            doNumberLogAnalyse();
-            doInfoLogAnalyse();
-        }catch(Exception e){
-            Logging.logError("Error occurs in doLogAnaylyse ", e);
-        }
-        Logging.logDebug("----- doLogAnaylyse end -----");
-    }
-
-    @Override
     public void doPackageInfoDomainsSave() throws Exception {
     	
-    }    
+    }       
+    
+    @Override
+    public void doLogAnalyse(){
+        Logging.logDebug("----- doLogAnaylyse start -----");
+        System.out.println("=====doLogAnaylyse start========");
+        try{                   
+            List<String> fileList = FileUtils.getFileList(logFilePath);
+            System.out.println("Files size :" + fileList.size());
+            
+            Date yesterday = DateUtils.getDayByInterval(new Date(),-1);
+            String formatDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
+            
+            if(null != fileList && !fileList.isEmpty()){
+                for(String fileName : fileList){
+                	int flag = validateFile(fileName, formatDate);
+                	
+                	if(1 == flag){
+                    	if(fileName.contains("number")){
+                            doNumberLogAnalyse(fileName, null);                		
+                    	}else{
+                            doInfoLogAnalyse(fileName, null);                		
+                    	}                 		
+                	}else if(2 == flag){
+                    	if(fileName.contains("number")){
+                            doNumberLogAnalyse(fileName, formatDate);                		
+                    	}else{
+                            doInfoLogAnalyse(fileName, formatDate);                		
+                    	}                		
+                	}
+                }            	
+            }
+        }catch(Exception e){
+            Logging.logError("Error occurs in doLogAnaylyse ", e);
+            e.printStackTrace();
+        }
+        
+        Logging.logDebug("----- doLogAnaylyse end -----");
+        System.out.println("=====doLogAnaylyse end========");
+    }
+    
+    /**
+     * 
+     * @param fileName
+     * @param yesterday
+     * @return 0:today log file	 	1: old log file		 2: log file need to rename 
+     */
+    private int validateFile(String fileName, String yesterday){
+    	int flag = 0;
+        try {       
+        	String[] nameInfos = (fileName.split("\\."));
+        	File file = new File(logFilePath+"/"+fileName);
+        	if(3 == nameInfos.length){
+        		flag = 1;
+        	}else{
+        		String modifyDate = new SimpleDateFormat("yyyy-MM-dd").format(file.lastModified());
+        		if(yesterday.equals(modifyDate)){
+        			flag = 2;
+        		}
+        	}
+        } catch (Exception e) {
+            Logging.logError("Error occurs in validateFile ", e);
+        }
+
+        return flag;
+    } 
+    
+    private void doNumberLogAnalyse(String fileName, String renameDate){
+        Map<String,Integer> numberCountMap = null;
+        File file = null;
+        File newFile = null;
+        
+        try {
+        	String[] nameInfos = (fileName.split("\\."));
+        	String strDate = renameDate;
+        	System.out.println("file name is : " + fileName);
+        	file = new File(logFilePath+"/"+fileName);
+        	
+            if(null != renameDate){
+            	
+            	String newFileName = nameInfos[0] + "." + renameDate + "." + nameInfos[1];
+            	newFile = new File(logFilePath+"/"+newFileName);
+            	file.renameTo(newFile);
+            	
+            	numberCountMap = woGameInfoNumberReader(newFile);
+            }else{
+            	strDate = nameInfos[1];
+            	numberCountMap = woGameInfoNumberReader(file);
+            }    
+            
+            Date fileDate = DateUtils.stringToDate(strDate, "yyyy-MM-dd");
+            
+            woGameInfoNumberParse(numberCountMap, fileDate);
+            
+            File newPath = new File(logBakPath);
+            if(!newPath.exists()){
+                newPath.mkdirs();
+            }
+            
+          if(null != renameDate){
+              org.apache.commons.io.FileUtils.copyFileToDirectory(newFile, newPath);
+              newFile.getAbsoluteFile().delete();
+          }else{
+              org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
+              file.getAbsoluteFile().delete();
+          }
+                   
+        } catch (Exception e) {
+            Logging.logError("Error occurs in doNumberLogAnalyse ", e);
+            e.printStackTrace();
+        }
+    }
+    
+    private void doInfoLogAnalyse(String fileName, String renameDate){
+        File file = null;
+        File newFile = null;
+        BufferedReader reader = null;
+        
+        Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
+        Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
+        Map<String,Product> productMap = new HashMap<String, Product>();
+        
+        String tempString = null;
+
+        try {
+        	String[] nameInfos = (fileName.split("\\."));
+        	String strDate = renameDate;
+        	
+        	System.out.println("file name is : " + fileName);
+        	file = new File(logFilePath+"/"+fileName);
+        	
+            if(null != renameDate){
+            	String newFileName = nameInfos[0] + "." + renameDate + "." + nameInfos[1];
+            	newFile = new File(logFilePath+"/"+newFileName);
+            	file.renameTo(newFile);
+            	
+            	reader = new BufferedReader(new UnicodeReader(new FileInputStream(newFile), "UTF-8"));
+            }else{
+            	strDate = nameInfos[1];
+            	reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+            }
+            
+            Date fileDate = DateUtils.stringToDate(strDate, "yyyy-MM-dd");
+        	
+            while ((tempString = reader.readLine()) != null){
+                woGameInfoParse(tempString,fileDate,keyMapSave,keyMapUpdate,productMap);
+            }
+        	
+            keywordBusiness.typeConversionSave(keyMapSave);
+            if(keyMapUpdate.size()>=1){
+                keywordBusiness.typeConversionUpdate(keyMapUpdate);
+            }
+            productBusiness.typeConversion(productMap);
+
+
+        } catch (Exception e) {
+            Logging.logError("Error occurs in doInfoLogAnalyse ", e);
+            e.printStackTrace();
+        } finally {
+            keyMapSave.clear();
+            keyMapUpdate.clear();
+            productMap.clear();
+            if(null != reader){
+            	try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+            }
+            
+            File newPath = new File(logBakPath);
+            if(!newPath.exists()){
+                newPath.mkdirs();
+            }
+            try{
+                if(null != renameDate){
+                    org.apache.commons.io.FileUtils.copyFileToDirectory(newFile, newPath);
+                    newFile.getAbsoluteFile().delete();
+                }else{
+                    org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
+                    file.getAbsoluteFile().delete();
+                }             	
+            }catch(Exception ex){
+            	ex.printStackTrace();
+            }
+           
+        }
+    }
+    
+
+ 
 
     private void  keyWordDispose(String value, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate){
         KeyWord keyWord = null;
@@ -131,7 +303,7 @@ public class LogAnalyser implements ILogAnalyser {
     }
 
 
-    private static Map woGameInfoNumberReader(File file){
+    private static Map<String,Integer> woGameInfoNumberReader(File file){
         String fileContent = "";
         String contentTemp = "";
         BufferedReader reader = null;
@@ -331,7 +503,6 @@ public class LogAnalyser implements ILogAnalyser {
 	            }
 	        } else if(firstTwoCharacters.equalsIgnoreCase("30")){
 	            String product_id = tempString.substring(5,15).trim();
-	            String channel_id = tempString.substring(2,5).trim();
 	            String product_name = tempString.substring(15,257).trim();
 	            String product_icon = tempString.substring(257,tempString.length()).trim();
 	            surplus = tempString.substring(2,5) + product_name;
@@ -355,140 +526,4 @@ public class LogAnalyser implements ILogAnalyser {
         	Logging.logError("Error occurs in parse product_id to Int ", e);
         }        
     }
-
-    private void doNumberLogAnalyse(){
-    	System.out.println("=====doNumberLogAnalyse start========");
-        Map<String,Integer> numberCountMap = null;
-        File file = null;
-        String dateBefore = null;
-        Date today = new Date();
-        Date yesterday = DateUtils.getDayByInterval(today,-1);
-        String fileDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
-        String currentFileName = "wogamecenter_info_number."+fileDate+".log";
-        try {
-            List<String> currentFileList = FileUtils.readFileByRow(logInfoNumberFile);
-            if(currentFileList.size()>0){
-                dateBefore = currentFileList.get(0);
-            }else{
-                dateBefore = new SimpleDateFormat("yyyy-MM-dd").format(DateUtils.getDayByInterval(today,-2));
-            }
-            String dateNow = new SimpleDateFormat("yyyy-MM-dd").format(yesterday);
-            int compareDateNum = DateUtils.compareLogDate(dateBefore,dateNow);
-            switch (compareDateNum){
-                case -1:
-                    FileUtils.writeFileOverWrite(logInfoNumberFile,dateNow);
-                    file = new File(logFilePath+"/"+currentFileName);
-                    if(!file.exists()){
-                        file = new File(logFilePath+"/"+"wogamecenter_info_number.log");
-                        if(file.exists()){
-                            String loseFileDate = new SimpleDateFormat("yyyy-MM-dd").format(file.lastModified());
-                            if(loseFileDate.equals(dateNow)){
-                                numberCountMap = woGameInfoNumberReader(file);
-                                woGameInfoNumberParse(numberCountMap, yesterday);
-                            }
-                        }
-                    }else {
-                        numberCountMap = woGameInfoNumberReader(file);
-                        woGameInfoNumberParse(numberCountMap, yesterday);
-                    }
-                    File newPath = new File(logBakPath);
-                    if(!newPath.exists()){
-                        newPath.mkdirs();
-                    }
-                    org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
-                    file.getAbsoluteFile().delete();
-                    break;
-                case 1:
-                case 0:
-                    break;
-            }
-        } catch (Exception e) {
-            Logging.logError("Error occurs in doNumberLogAnalyse ", e);
-            e.printStackTrace();
-        }finally{
-        	System.out.println("=====doNumberLogAnalyse end========");
-        }
-    }
-
-    private void doInfoLogAnalyse(){
-    	System.out.println("=====doInfoLogAnalyse start========");
-        String dateBefore = null;
-        String tempString = null;
-        File file = null;
-        BufferedReader reader = null;
-        Date today = new Date();
-        Date yesterday = DateUtils.getDayByInterval(today, -1);
-        String fileDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
-        Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
-        Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
-        Map<String,Product> productMap = new HashMap<String, Product>();
-        String currentFileName = "wogamecenter_info."+fileDate+".log";
-        try {
-
-            List<String> currentFileList = FileUtils.readFileByRow(logInfoFile);
-            if(currentFileList.size()>0){
-                dateBefore = currentFileList.get(0);
-            }else{
-                dateBefore = new SimpleDateFormat("yyyy-MM-dd").format(DateUtils.getDayByInterval(today,-2));
-            }
-            String dateNow = new SimpleDateFormat("yyyy-MM-dd").format(yesterday);
-            int compareDateNum = DateUtils.compareLogDate(dateBefore,dateNow);
-            switch (compareDateNum){
-                case -1:
-                    FileUtils.writeFileOverWrite(logInfoFile,dateNow);
-                    file = new File(logFilePath+"/"+currentFileName);
-                    if(!file.exists()){
-                        file = new File(logFilePath+"/"+"wogamecenter_info.log");
-                        if(file.exists()){
-                            String loseFileDate = new SimpleDateFormat("yyyy-MM-dd").format(file.lastModified());
-                            if(loseFileDate.equals(dateNow)){
-                                reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
-                                while ((tempString = reader.readLine()) != null){
-                                    woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap);
-                                }
-                            }
-                        }
-                    } else {
-                        reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
-                        while ((tempString = reader.readLine()) != null){
-                            woGameInfoParse(tempString,yesterday,keyMapSave,keyMapUpdate,productMap);
-                        }
-                    }
-                    break;
-                case 1:
-                case 0:
-                    break;
-            }
-            keywordBusiness.typeConversionSave(keyMapSave);
-            if(keyMapUpdate.size()>=1){
-                keywordBusiness.typeConversionUpdate(keyMapUpdate);
-            }
-            productBusiness.typeConversion(productMap);
-
-            File newPath = new File(logBakPath);
-            if(!newPath.exists()){
-                newPath.mkdirs();
-            }
-            org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
-            file.getAbsoluteFile().delete();
-        } catch (Exception e) {
-            Logging.logError("Error occurs in doInfoLogAnalyse ", e);
-            e.printStackTrace();
-        } finally {
-            keyMapSave.clear();
-            keyMapUpdate.clear();
-            productMap.clear();
-            if(null != reader){
-            	try {
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-            }
-            
-            System.out.println("=====doInfoLogAnalyse end========");
-        }
-    }
-
-
 }

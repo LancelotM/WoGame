@@ -65,7 +65,10 @@ public class GameSearchController {
 
         // 记录Log
         HttpSession session = request.getSession();
-        String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);        
+        String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID); 
+        if(null == channel){
+        	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        }        
         String[] logData = new String[]{"40", StringUtils.rightPad(channel, 3, " "), utf8Keyword};
         statisticsLogger.info(StringUtils.join(logData, ""));
 
