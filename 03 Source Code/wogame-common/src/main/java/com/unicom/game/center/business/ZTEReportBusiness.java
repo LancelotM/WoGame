@@ -1,17 +1,15 @@
 package com.unicom.game.center.business;
 
-import com.unicom.game.center.db.dao.ChannelInfoDao;
-import com.unicom.game.center.db.dao.ZTEReportDao;
-import com.unicom.game.center.db.domain.ZTEReportDomain;
-import com.unicom.game.center.model.ReportInfo;
-import com.unicom.game.center.utils.DateUtils;
-import com.unicom.game.center.utils.Logging;
-import com.unicom.game.center.utils.Utility;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.List;
+import com.unicom.game.center.db.dao.ZTEReportDao;
+import com.unicom.game.center.db.domain.ZTEReportDomain;
+import com.unicom.game.center.model.ReportInfo;
+import com.unicom.game.center.utils.Logging;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,13 +42,13 @@ public class ZTEReportBusiness {
      *
      * @param contentArr
      */
-    public ZTEReportDomain convertZTEReportFromFile(String[] contentArr){
+    public ZTEReportDomain convertZTEReportFromFile(String[] contentArr, Date date){
         ZTEReportDomain zteReportDomain = new ZTEReportDomain();
         zteReportDomain.setAppid(contentArr[3]);
         zteReportDomain.setAppname(contentArr[4]);
         zteReportDomain.setChannelId(contentArr[8]);
         zteReportDomain.setOperateResult(Integer.parseInt(contentArr[11]));
-        zteReportDomain.setDateCreate(DateUtils.getDayByInterval(new Date(), -1));
+        zteReportDomain.setDateCreate(date);
         return zteReportDomain;
     }
 

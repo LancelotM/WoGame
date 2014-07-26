@@ -1,16 +1,16 @@
 package com.unicom.game.center.business;
 
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.unicom.game.center.db.dao.PackageReportDao;
 import com.unicom.game.center.db.domain.PackageReportDomain;
 import com.unicom.game.center.model.ReportInfo;
 import com.unicom.game.center.utils.Constant;
-import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -67,14 +67,17 @@ public class PackageReportBusiness {
      *
      * @param contentArr
      */
-    public PackageReportDomain convertPackageReportFromFile(String[] contentArr){
+    public PackageReportDomain convertPackageReportFromFile(String[] contentArr, Date date){
         PackageReportDomain packageReportDomain = new PackageReportDomain();
         packageReportDomain.setAppid(contentArr[1]);
         packageReportDomain.setAppname(contentArr[2]);
         packageReportDomain.setChannelId(contentArr[3]);
         packageReportDomain.setPackageStatus(Integer.parseInt(contentArr[4]));
-        packageReportDomain.setReceiptStatus(Integer.parseInt(contentArr[5]));
-        packageReportDomain.setDateCreated(DateUtils.getDayByInterval(new Date(), -1));
+        if(!"null".equalsIgnoreCase(contentArr[5])){
+            packageReportDomain.setReceiptStatus(Integer.parseInt(contentArr[5]));        	
+        }
+
+        packageReportDomain.setDateCreated(date);
         return packageReportDomain;
     }
 

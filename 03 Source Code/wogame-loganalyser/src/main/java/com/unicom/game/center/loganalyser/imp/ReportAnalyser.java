@@ -1,6 +1,7 @@
 package com.unicom.game.center.loganalyser.imp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.unicom.game.center.db.domain.PackageReportDomain;
 import com.unicom.game.center.db.domain.ZTEReportDomain;
 import com.unicom.game.center.loganalyser.ILogAnalyser;
 import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.FTPHelper;
 import com.unicom.game.center.utils.FileUtils;
 import com.unicom.game.center.utils.Logging;
@@ -96,12 +98,14 @@ public class ReportAnalyser implements ILogAnalyser {
             
             for (String fileName : fileList) {
             	System.out.println(fileName);
+            	String strDate = (fileName.split("\\."))[1];
+            	Date date = DateUtils.stringToDate(strDate, "yyyy-MM-dd");            	
             	List<ZTEReportDomain> zteReportDomains = new ArrayList<ZTEReportDomain>();
                 List<String> contentList = ftpHelper.readRemoteFileByRow(extractFilePath, fileName);
 
                 for (String content : contentList) {
                     String[] contentArr = Utility.splitString(content, Constant.RESPONSE_FIEL_SEPARATOR);
-                    ZTEReportDomain zteReportDomain = zteReportBusiness.convertZTEReportFromFile(contentArr);
+                    ZTEReportDomain zteReportDomain = zteReportBusiness.convertZTEReportFromFile(contentArr, date);
                     zteReportDomains.add(zteReportDomain);
                 }
 
@@ -140,12 +144,15 @@ public class ReportAnalyser implements ILogAnalyser {
             
             for (String fileName : fileList) {
             	System.out.println(fileName);
+            	String strDate = (fileName.split("\\."))[1];
+            	Date date = DateUtils.stringToDate(strDate, "yyyy-MM-dd");
+            	
             	List<PackageReportDomain> packageReportDomains = new ArrayList<PackageReportDomain>();
                 List<String> contentList = ftpHelper.readRemoteFileByRow(packagesFilePath, fileName);
 
                 for (String content : contentList) {
                     String[] contentArr = Utility.splitString(content, Constant.RESPONSE_FIEL_SEPARATOR);
-                    PackageReportDomain domain = packageReportBusiness.convertPackageReportFromFile(contentArr);
+                    PackageReportDomain domain = packageReportBusiness.convertPackageReportFromFile(contentArr, date);
                     packageReportDomains.add(domain);
                 }
 

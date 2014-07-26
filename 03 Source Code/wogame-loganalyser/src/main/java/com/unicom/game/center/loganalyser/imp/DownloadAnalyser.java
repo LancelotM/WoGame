@@ -71,10 +71,12 @@ public class DownloadAnalyser implements ILogAnalyser {
             System.out.println("Files size :" + fileList.size());
             fileList = Utility.getSubStringList(fileList, currentFileName);
             
-            Date yesterday = DateUtils.getDayByInterval(new Date(), -1);
-            
             for (String fileName : fileList) {
             	System.out.println(fileName);
+            	
+            	String strDate = (fileName.split("\\_"))[2];
+            	Date date = DateUtils.stringToDate(strDate.substring(0, 8), "yyyyMMdd"); 
+            	
                 Map<String,DownLoadInfo>downLoadInfoMap = new HashMap<String, DownLoadInfo>();
                 DownLoadInfo downLoadInfo = null;
                 File file = new File(responseFilePath+"/"+fileName);
@@ -92,7 +94,7 @@ public class DownloadAnalyser implements ILogAnalyser {
                     }
                     downLoadInfo.setChannel_code(contentArr[1]);
                     downLoadInfo.setProduct_id(contentArr[0]);
-                    downLoadInfo.setDateCreated(yesterday);
+                    downLoadInfo.setDateCreated(date);
                     downLoadInfoMap.put(contentArr[1], downLoadInfo);
 
                 }

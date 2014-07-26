@@ -3,12 +3,6 @@ package com.unicom.game.center.controller;
 import java.util.Date;
 import java.util.List;
 
-import com.unicom.game.center.business.ChannelInfoBusiness;
-import com.unicom.game.center.business.DownLoadInfoBusiness;
-import com.unicom.game.center.db.domain.DownloadInfoDomain;
-import com.unicom.game.center.log.model.DownloadInfoModel;
-import com.unicom.game.center.model.ChannelInfo;
-import com.unicom.game.center.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.unicom.game.center.business.ChannelInfoBusiness;
+import com.unicom.game.center.business.DownLoadInfoBusiness;
 import com.unicom.game.center.business.KeywordBusiness;
+import com.unicom.game.center.log.model.DownloadInfoModel;
 import com.unicom.game.center.model.KeywordInfo;
+import com.unicom.game.center.utils.DateUtils;
 
 /**
  * Created with IntelliJ IDEA.

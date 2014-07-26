@@ -1,13 +1,11 @@
 package com.unicom.game.center.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.unicom.game.center.model.ChannelModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -22,6 +20,7 @@ import com.unicom.game.center.business.ChannelInfoBusiness;
 import com.unicom.game.center.business.SyncChannelClient;
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.model.ChannelInfo;
+import com.unicom.game.center.model.ChannelModel;
 
 /**
  * @author Alex Yin
@@ -72,12 +71,13 @@ public class SiteController {
            channelInfo = channelService.startChannel(channelCode,channelName,cpid);
 
            if(channelInfo != null){
+               syncChannelClient.syncChannel(0, channelInfo.getChannelId(), channelCode, channelName);
+               
                String wapURL = wapLink + channelInfo.getWapToken();
                String logURL = logLink + channelInfo.getLogToken();
                channelInfo.setWapToken(wapURL);
                channelInfo.setLogToken(logURL);
                modelMap.put("channelInfoDomain", channelInfo);
-               syncChannelClient.syncChannel(0, channelInfo.getChannelId(), channelCode, channelName);
            }
         }
         List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
