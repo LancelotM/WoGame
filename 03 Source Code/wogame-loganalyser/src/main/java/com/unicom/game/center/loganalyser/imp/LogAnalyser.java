@@ -111,10 +111,9 @@ public class LogAnalyser implements ILogAnalyser {
         return date;
     }
 
-    private void compareWithKeyWord(Map<String,KeyWord> keyWordMap, Map<String,KeyWord> keyMapUpdate){
+    private void compareWithKeyWord(Map<String,KeyWord> keyWordMap, Map<String,KeyWord> keyMapUpdate, Date fileDate){
         KeyWord keyWord = null;
-        Date today = new Date();
-        Date yesterday = DateUtils.getDayByInterval(today,-1);
+
         List<String> list = new ArrayList<String>();
 
         Iterator iterator = keyWordMap.entrySet().iterator();
@@ -130,8 +129,8 @@ public class LogAnalyser implements ILogAnalyser {
                 keyWord.setChannelId(channelId);
                 keyWord.setKeyword(keywordValue);
                 keyWord.setCount(keywordDomain.getCount() + ((KeyWord) entry.getValue()).getCount());
-                keyWord.setDateCreated(yesterday);
-                keyWord.setDateModified(today);
+                keyWord.setDateCreated(keywordDomain.getDateCreated());
+                keyWord.setDateModified(fileDate);
                 keyMapUpdate.put(key,keyWord);
                 list.add(key);
             }
@@ -200,7 +199,7 @@ public class LogAnalyser implements ILogAnalyser {
                 woGameInfoParse(tempString,date,keyWordMap,productMap);
             }
 
-            compareWithKeyWord(keyWordMap,keyMapUpdate);
+            compareWithKeyWord(keyWordMap,keyMapUpdate, date);
 
             keywordBusiness.typeConversionSave(keyWordMap);
             if(keyMapUpdate.size()>=1){
@@ -240,10 +239,8 @@ public class LogAnalyser implements ILogAnalyser {
     }
 
 
-    private void  keyWordDispose(String value,Map<String,KeyWord> keyWordMap){
+    private void  keyWordDispose(String value,Map<String,KeyWord> keyWordMap,  Date fileDate){
         KeyWord keyWord = null;
-        Date today = new Date();
-        Date yesterday = DateUtils.getDayByInterval(today,-1);
         if(!value.substring(0,3).trim().equals("")){
             int channelId = Integer.parseInt(value.substring(0,3).trim());
             if(channelId != 0){
@@ -257,8 +254,8 @@ public class LogAnalyser implements ILogAnalyser {
                 }
                 keyWord.setKeyword(keywordValue);
                 keyWord.setChannelId(channelId);
-                keyWord.setDateCreated(yesterday);
-                keyWord.setDateModified(today);
+                keyWord.setDateCreated(fileDate);
+                keyWord.setDateModified(fileDate);
                 keyWordMap.put(value, keyWord);
             }
         }
@@ -461,7 +458,7 @@ public class LogAnalyser implements ILogAnalyser {
 	        if(firstTwoCharacters.equalsIgnoreCase("40")){
 	            surplus = tempString.substring(2,tempString.length());
 	            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
-                    keyWordDispose(surplus,keyWordMap);
+                    keyWordDispose(surplus,keyWordMap, fileDate);
 	            }
 	        } else if(firstTwoCharacters.equalsIgnoreCase("30")){
 	            String product_id = tempString.substring(5,15).trim();
