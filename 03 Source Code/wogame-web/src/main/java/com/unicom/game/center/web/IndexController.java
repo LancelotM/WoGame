@@ -41,6 +41,7 @@ public class IndexController {
     	try {
     		channel = AESEncryptionHelper.decrypt(token, siteKey);
 		} catch (Exception e) {
+			channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
 			e.printStackTrace();
 			logger.error("Error channel token!");
 		}

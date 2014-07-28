@@ -4,13 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,27 +66,18 @@ public class LogAnalyser implements ILogAnalyser {
         System.out.println("=====doLogAnaylyse start========");
         try{                   
             List<String> fileList = FileUtils.getFileList(logFilePath);
-            System.out.println("Files size :" + fileList.size());
-            
-            Date yesterday = DateUtils.getDayByInterval(new Date(),-1);
-            String formatDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
+            System.out.println("Files size :" + fileList.size());            
             
             if(null != fileList && !fileList.isEmpty()){
                 for(String fileName : fileList){
-                	int flag = validateFile(fileName, formatDate);
+                	String fileDate = validateLogDate(fileName);
                 	
-                	if(1 == flag){
+                	if(null != fileDate){
                     	if(fileName.contains("number")){
-                            doNumberLogAnalyse(fileName, null);                		
+                            doNumberLogAnalyse(fileName, fileDate);                		
                     	}else{
-                            doInfoLogAnalyse(fileName, null);                		
+                            doInfoLogAnalyse(fileName, fileDate);                		
                     	}                 		
-                	}else if(2 == flag){
-                    	if(fileName.contains("number")){
-                            doNumberLogAnalyse(fileName, formatDate);                		
-                    	}else{
-                            doInfoLogAnalyse(fileName, formatDate);                		
-                    	}                		
                 	}
                 }            	
             }
@@ -108,111 +93,115 @@ public class LogAnalyser implements ILogAnalyser {
     /**
      * 
      * @param fileName
-     * @param yesterday
-     * @return 0:today log file	 	1: old log file		 2: log file need to rename 
+     * @return
+     *  wogamecenter_info_number.2014-07-26.log			: 			2014-07-26
+     *  wogamecenter_info_number.log					:			null
      */
-    private int validateFile(String fileName, String yesterday){
-    	int flag = 0;
+    private String validateLogDate(String fileName){
+    	String date = null;
         try {       
         	String[] nameInfos = (fileName.split("\\."));
-        	File file = new File(logFilePath+"/"+fileName);
         	if(3 == nameInfos.length){
-        		flag = 1;
-        	}else{
-        		String modifyDate = new SimpleDateFormat("yyyy-MM-dd").format(file.lastModified());
-        		if(yesterday.equals(modifyDate)){
-        			flag = 2;
-        		}
+        		date = nameInfos[1];
         	}
         } catch (Exception e) {
-            Logging.logError("Error occurs in validateFile ", e);
+            Logging.logError("Error occurs in validateLogDate ", e);
         }
 
-        return flag;
-    } 
+        return date;
+    }
+
+    private void compareWithKeyWord(Map<String,KeyWord> keyWordMap, Map<String,KeyWord> keyMapUpdate, Date fileDate){
+        KeyWord keyWord = null;
+
+        List<String> list = new ArrayList<String>();
+
+        Iterator iterator = keyWordMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = entry.getKey().toString();
+            String keywordValue = key.substring(3,key.length());
+            int channelId = Integer.parseInt(key.substring(0,3).trim());
+            KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keywordValue,channelId);
+            if(keywordDomain != null){
+                keyWord = new KeyWord();
+                keyWord.setId(keywordDomain.getId());
+                keyWord.setChannelId(channelId);
+                keyWord.setKeyword(keywordValue);
+                keyWord.setCount(keywordDomain.getCount() + ((KeyWord) entry.getValue()).getCount());
+                keyWord.setDateCreated(keywordDomain.getDateCreated());
+                keyWord.setDateModified(fileDate);
+                keyMapUpdate.put(key,keyWord);
+                list.add(key);
+            }
+        }
+        for(String mapKey: list){
+            keyWordMap.remove(mapKey);
+        }
+    }
     
-    private void doNumberLogAnalyse(String fileName, String renameDate){
+    /**
+     * parse number log file(wogamecenter_info_number.2014-07-26.log)
+     * @param fileName
+     * @param fileDate
+     */
+    private void doNumberLogAnalyse(String fileName, String fileDate){
         Map<String,Integer> numberCountMap = null;
         File file = null;
-        File newFile = null;
-        
+     
         try {
-        	String[] nameInfos = (fileName.split("\\."));
-        	String strDate = renameDate;
         	System.out.println("file name is : " + fileName);
         	file = new File(logFilePath+"/"+fileName);
-        	
-            if(null != renameDate){
-            	
-            	String newFileName = nameInfos[0] + "." + renameDate + "." + nameInfos[1];
-            	newFile = new File(logFilePath+"/"+newFileName);
-            	file.renameTo(newFile);
-            	
-            	numberCountMap = woGameInfoNumberReader(newFile);
-            }else{
-            	strDate = nameInfos[1];
-            	numberCountMap = woGameInfoNumberReader(file);
-            }    
             
-            Date fileDate = DateUtils.stringToDate(strDate, "yyyy-MM-dd");
+            numberCountMap = woGameInfoNumberReader(file);
             
-            woGameInfoNumberParse(numberCountMap, fileDate);
+            Date date = DateUtils.stringToDate(fileDate, "yyyy-MM-dd");
             
-            File newPath = new File(logBakPath);
-            if(!newPath.exists()){
-                newPath.mkdirs();
+            woGameInfoNumberParse(numberCountMap, date);
+            
+            File bakPath = new File(logBakPath);
+            if(!bakPath.exists()){
+                bakPath.mkdirs();
             }
             
-          if(null != renameDate){
-              org.apache.commons.io.FileUtils.copyFileToDirectory(newFile, newPath);
-              newFile.getAbsoluteFile().delete();
-          }else{
-              org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
-              file.getAbsoluteFile().delete();
-          }
-                   
+          org.apache.commons.io.FileUtils.copyFileToDirectory(file, bakPath);
+          file.getAbsoluteFile().delete();
         } catch (Exception e) {
             Logging.logError("Error occurs in doNumberLogAnalyse ", e);
             e.printStackTrace();
         }
     }
     
-    private void doInfoLogAnalyse(String fileName, String renameDate){
+    /**
+     * parse number log file(wogamecenter_info.2014-07-26.log)
+     * @param fileName
+     * @param fileDate
+     */
+    private void doInfoLogAnalyse(String fileName, String fileDate){
         File file = null;
-        File newFile = null;
         BufferedReader reader = null;
-        
-        Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
+
         Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
         Map<String,Product> productMap = new HashMap<String, Product>();
-        
+        Map<String,KeyWord> keyWordMap = new HashMap<String, KeyWord>();
+
         String tempString = null;
 
         try {
-        	String[] nameInfos = (fileName.split("\\."));
-        	String strDate = renameDate;
-        	
         	System.out.println("file name is : " + fileName);
-        	file = new File(logFilePath+"/"+fileName);
-        	
-            if(null != renameDate){
-            	String newFileName = nameInfos[0] + "." + renameDate + "." + nameInfos[1];
-            	newFile = new File(logFilePath+"/"+newFileName);
-            	file.renameTo(newFile);
-            	
-            	reader = new BufferedReader(new UnicodeReader(new FileInputStream(newFile), "UTF-8"));
-            }else{
-            	strDate = nameInfos[1];
-            	reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
-            }
+        	file = new File(logFilePath+"/"+fileName);        	
             
-            Date fileDate = DateUtils.stringToDate(strDate, "yyyy-MM-dd");
+            reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+            
+            Date date = DateUtils.stringToDate(fileDate, "yyyy-MM-dd");
         	
             while ((tempString = reader.readLine()) != null){
-                woGameInfoParse(tempString,fileDate,keyMapSave,keyMapUpdate,productMap);
+                woGameInfoParse(tempString,date,keyWordMap,productMap);
             }
-        	
-            keywordBusiness.typeConversionSave(keyMapSave);
+
+            compareWithKeyWord(keyWordMap,keyMapUpdate, date);
+
+            keywordBusiness.typeConversionSave(keyWordMap);
             if(keyMapUpdate.size()>=1){
                 keywordBusiness.typeConversionUpdate(keyMapUpdate);
             }
@@ -223,7 +212,7 @@ public class LogAnalyser implements ILogAnalyser {
             Logging.logError("Error occurs in doInfoLogAnalyse ", e);
             e.printStackTrace();
         } finally {
-            keyMapSave.clear();
+            keyWordMap.clear();
             keyMapUpdate.clear();
             productMap.clear();
             if(null != reader){
@@ -234,70 +223,40 @@ public class LogAnalyser implements ILogAnalyser {
 				}
             }
             
-            File newPath = new File(logBakPath);
-            if(!newPath.exists()){
-                newPath.mkdirs();
+            File bakPath = new File(logBakPath);
+            if(!bakPath.exists()){
+                bakPath.mkdirs();
             }
+            
             try{
-                if(null != renameDate){
-                    org.apache.commons.io.FileUtils.copyFileToDirectory(newFile, newPath);
-                    newFile.getAbsoluteFile().delete();
-                }else{
-                    org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
-                    file.getAbsoluteFile().delete();
-                }             	
+                org.apache.commons.io.FileUtils.copyFileToDirectory(file, bakPath);
+                file.getAbsoluteFile().delete();            	
             }catch(Exception ex){
             	ex.printStackTrace();
             }
            
         }
     }
-    
 
- 
 
-    private void  keyWordDispose(String value, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate){
+    private void  keyWordDispose(String value,Map<String,KeyWord> keyWordMap,  Date fileDate){
         KeyWord keyWord = null;
-        Date today = new Date();
-        Date yesterday = DateUtils.getDayByInterval(today,-1);
         if(!value.substring(0,3).trim().equals("")){
             int channelId = Integer.parseInt(value.substring(0,3).trim());
             if(channelId != 0){
                 String keywordValue = value.substring(3,value.length());
-                KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keywordValue,channelId);
-                if (keywordDomain == null) {
-                    if(keyMapSave.containsKey(value)){
-                        keyWord = keyMapSave.get(value) ;
-                        keyWord.setCount(keyWord.getCount() + 1);
-                    }else{
-                        keyWord = new KeyWord();
-                        keyWord.setCount(1);
-                    }
-                    keyWord.setKeyword(keywordValue);
-                    keyWord.setChannelId(channelId);
-                    keyWord.setDateCreated(yesterday);
-                    keyWord.setDateModified(today);
-                    keyMapSave.put(value, keyWord);
-                }else{
-                    if(!keyMapUpdate.containsKey(value)){
-                        keyWord = new KeyWord();
-                        keyWord.setId(keywordDomain.getId());
-                        keyWord.setKeyword(keywordValue);
-                        keyWord.setChannelId(channelId);
-                        keyWord.setCount(keywordDomain.getCount());
-                        keyMapUpdate.put(value,keyWord);
-                        keyWord = keyMapUpdate.get(value);
-                    } else {
-                        keyWord = keyMapUpdate.get(value) ;
-                        keyWord.setId(keyWord.getId());
-                    }
-                    keyWord.setKeyword(keywordValue);
-                    keyWord.setChannelId(channelId);
+                if(keyWordMap.containsKey(value)){
+                    keyWord = keyWordMap.get(value) ;
                     keyWord.setCount(keyWord.getCount() + 1);
-                    keyWord.setDateCreated(yesterday);
-                    keyWord.setDateModified(today);
-                    keyMapUpdate.put(value, keyWord);
+                }else{
+                    keyWord = new KeyWord();
+                    keyWord.setCount(1);
                 }
+                keyWord.setKeyword(keywordValue);
+                keyWord.setChannelId(channelId);
+                keyWord.setDateCreated(fileDate);
+                keyWord.setDateModified(fileDate);
+                keyWordMap.put(value, keyWord);
             }
         }
     }
@@ -491,7 +450,7 @@ public class LogAnalyser implements ILogAnalyser {
         gameTrafficMap.clear();
     }
 
-    private void woGameInfoParse(String tempString, Date fileDate, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate, Map<String,Product> productMap){
+    private void woGameInfoParse(String tempString, Date fileDate,Map<String,KeyWord> keyWordMap, Map<String,Product> productMap){
         try{
 	    	Product product = null;
 	        String surplus = null;
@@ -499,28 +458,19 @@ public class LogAnalyser implements ILogAnalyser {
 	        if(firstTwoCharacters.equalsIgnoreCase("40")){
 	            surplus = tempString.substring(2,tempString.length());
 	            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
-	                keyWordDispose(surplus,keyMapSave,keyMapUpdate);
+                    keyWordDispose(surplus,keyWordMap, fileDate);
 	            }
 	        } else if(firstTwoCharacters.equalsIgnoreCase("30")){
 	            String product_id = tempString.substring(5,15).trim();
 	            String product_name = tempString.substring(15,257).trim();
 	            String product_icon = tempString.substring(257,tempString.length()).trim();
-	            surplus = tempString.substring(2,5) + product_name;
-	            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
-	                keyWordDispose(surplus,keyMapSave,keyMapUpdate);
-	            }
-	            boolean flag =  productBusiness.checkId(product_id);
-	            
-	
-	                if(flag && Integer.parseInt(product_id) != 0){
-	                    product = new Product();
-	                    product.setProduct_id(product_id);
-	                    product.setProduct_name(product_name);
-	                    product.setProduct_icon(product_icon);
-	                    product.setDateCreated(fileDate);
-	                    productMap.put(product_id,product);
-	                }            		
-	        }        
+                product = new Product();
+                product.setProduct_id(product_id);
+                product.setProduct_name(product_name);
+                product.setProduct_icon(product_icon);
+                product.setDateCreated(fileDate);
+                productMap.put(product_id,product);
+            }
         }catch(Exception e){
         	e.printStackTrace();
         	Logging.logError("Error occurs in parse product_id to Int ", e);
