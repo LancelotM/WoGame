@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -72,27 +71,18 @@ public class LogAnalyser implements ILogAnalyser {
         System.out.println("=====doLogAnaylyse start========");
         try{                   
             List<String> fileList = FileUtils.getFileList(logFilePath);
-            System.out.println("Files size :" + fileList.size());
-            
-            Date yesterday = DateUtils.getDayByInterval(new Date(),-1);
-            String formatDate = DateUtils.formatDateToString(yesterday,"yyyy-MM-dd");
+            System.out.println("Files size :" + fileList.size());            
             
             if(null != fileList && !fileList.isEmpty()){
                 for(String fileName : fileList){
-                	int flag = validateFile(fileName, formatDate);
+                	String fileDate = validateLogDate(fileName);
                 	
-                	if(1 == flag){
+                	if(null != fileDate){
                     	if(fileName.contains("number")){
-                            doNumberLogAnalyse(fileName, null);                		
+                            doNumberLogAnalyse(fileName, fileDate);                		
                     	}else{
-                            doInfoLogAnalyse(fileName, null);                		
+                            doInfoLogAnalyse(fileName, fileDate);                		
                     	}                 		
-                	}else if(2 == flag){
-                    	if(fileName.contains("number")){
-                            doNumberLogAnalyse(fileName, formatDate);                		
-                    	}else{
-                            doInfoLogAnalyse(fileName, formatDate);                		
-                    	}                		
                 	}
                 }            	
             }
@@ -108,78 +98,63 @@ public class LogAnalyser implements ILogAnalyser {
     /**
      * 
      * @param fileName
-     * @param yesterday
-     * @return 0:today log file	 	1: old log file		 2: log file need to rename 
+     * @return
+     *  wogamecenter_info_number.2014-07-26.log			: 			2014-07-26
+     *  wogamecenter_info_number.log					:			null
      */
-    private int validateFile(String fileName, String yesterday){
-    	int flag = 0;
+    private String validateLogDate(String fileName){
+    	String date = null;
         try {       
         	String[] nameInfos = (fileName.split("\\."));
-        	File file = new File(logFilePath+"/"+fileName);
         	if(3 == nameInfos.length){
-        		flag = 1;
-        	}else{
-        		String modifyDate = new SimpleDateFormat("yyyy-MM-dd").format(file.lastModified());
-        		if(yesterday.equals(modifyDate)){
-        			flag = 2;
-        		}
+        		date = nameInfos[1];
         	}
         } catch (Exception e) {
-            Logging.logError("Error occurs in validateFile ", e);
+            Logging.logError("Error occurs in validateLogDate ", e);
         }
 
-        return flag;
+        return date;
     } 
     
-    private void doNumberLogAnalyse(String fileName, String renameDate){
+    /**
+     * parse number log file(wogamecenter_info_number.2014-07-26.log)
+     * @param fileName
+     * @param fileDate
+     */
+    private void doNumberLogAnalyse(String fileName, String fileDate){
         Map<String,Integer> numberCountMap = null;
         File file = null;
-        File newFile = null;
-        
+     
         try {
-        	String[] nameInfos = (fileName.split("\\."));
-        	String strDate = renameDate;
         	System.out.println("file name is : " + fileName);
         	file = new File(logFilePath+"/"+fileName);
-        	
-            if(null != renameDate){
-            	
-            	String newFileName = nameInfos[0] + "." + renameDate + "." + nameInfos[1];
-            	newFile = new File(logFilePath+"/"+newFileName);
-            	file.renameTo(newFile);
-            	
-            	numberCountMap = woGameInfoNumberReader(newFile);
-            }else{
-            	strDate = nameInfos[1];
-            	numberCountMap = woGameInfoNumberReader(file);
-            }    
             
-            Date fileDate = DateUtils.stringToDate(strDate, "yyyy-MM-dd");
+            numberCountMap = woGameInfoNumberReader(file);
             
-            woGameInfoNumberParse(numberCountMap, fileDate);
+            Date date = DateUtils.stringToDate(fileDate, "yyyy-MM-dd");
             
-            File newPath = new File(logBakPath);
-            if(!newPath.exists()){
-                newPath.mkdirs();
+            woGameInfoNumberParse(numberCountMap, date);
+            
+            File bakPath = new File(logBakPath);
+            if(!bakPath.exists()){
+                bakPath.mkdirs();
             }
             
-          if(null != renameDate){
-              org.apache.commons.io.FileUtils.copyFileToDirectory(newFile, newPath);
-              newFile.getAbsoluteFile().delete();
-          }else{
-              org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
-              file.getAbsoluteFile().delete();
-          }
-                   
+          org.apache.commons.io.FileUtils.copyFileToDirectory(file, bakPath);
+          file.getAbsoluteFile().delete();
         } catch (Exception e) {
             Logging.logError("Error occurs in doNumberLogAnalyse ", e);
             e.printStackTrace();
         }
     }
     
-    private void doInfoLogAnalyse(String fileName, String renameDate){
+    /**
+     * parse number log file(wogamecenter_info.2014-07-26.log)
+     * @param fileName
+     * @param fileDate
+     */
+    private void doInfoLogAnalyse(String fileName, String fileDate){
         File file = null;
-        File newFile = null;
         BufferedReader reader = null;
         
         Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
@@ -189,27 +164,15 @@ public class LogAnalyser implements ILogAnalyser {
         String tempString = null;
 
         try {
-        	String[] nameInfos = (fileName.split("\\."));
-        	String strDate = renameDate;
-        	
         	System.out.println("file name is : " + fileName);
-        	file = new File(logFilePath+"/"+fileName);
-        	
-            if(null != renameDate){
-            	String newFileName = nameInfos[0] + "." + renameDate + "." + nameInfos[1];
-            	newFile = new File(logFilePath+"/"+newFileName);
-            	file.renameTo(newFile);
-            	
-            	reader = new BufferedReader(new UnicodeReader(new FileInputStream(newFile), "UTF-8"));
-            }else{
-            	strDate = nameInfos[1];
-            	reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
-            }
+        	file = new File(logFilePath+"/"+fileName);        	
             
-            Date fileDate = DateUtils.stringToDate(strDate, "yyyy-MM-dd");
+            reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+            
+            Date date = DateUtils.stringToDate(fileDate, "yyyy-MM-dd");
         	
             while ((tempString = reader.readLine()) != null){
-                woGameInfoParse(tempString,fileDate,keyMapSave,keyMapUpdate,productMap);
+                woGameInfoParse(tempString,date,keyMapSave,keyMapUpdate,productMap);
             }
         	
             keywordBusiness.typeConversionSave(keyMapSave);
@@ -234,18 +197,14 @@ public class LogAnalyser implements ILogAnalyser {
 				}
             }
             
-            File newPath = new File(logBakPath);
-            if(!newPath.exists()){
-                newPath.mkdirs();
+            File bakPath = new File(logBakPath);
+            if(!bakPath.exists()){
+                bakPath.mkdirs();
             }
+            
             try{
-                if(null != renameDate){
-                    org.apache.commons.io.FileUtils.copyFileToDirectory(newFile, newPath);
-                    newFile.getAbsoluteFile().delete();
-                }else{
-                    org.apache.commons.io.FileUtils.copyFileToDirectory(file, newPath);
-                    file.getAbsoluteFile().delete();
-                }             	
+                org.apache.commons.io.FileUtils.copyFileToDirectory(file, bakPath);
+                file.getAbsoluteFile().delete();            	
             }catch(Exception ex){
             	ex.printStackTrace();
             }
