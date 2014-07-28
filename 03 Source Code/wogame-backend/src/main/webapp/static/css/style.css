@@ -31,18 +31,13 @@ a{
 	width:1280px;
 	height:800px;
 	margin:0px auto;
-	/*background-image: url(${basePath}/static/images/login_bg.png);*/
-    /*background-position: center bottom;*/
-	/*background-color:#f7f7f7;*/
-    /*background-repeat: no-repeat;*/
+	background: url(../images/login_bg.png) #f7f7f7 no-repeat center bottom;
 }
 .login_box{
 	width:524px;
 	height:394px;
 	margin:107px auto;
-	/*background-image: url(${basePath}/static/images/login_blackframe.png);*/
-	background-position: center top;
-    background-repeat: no-repeat;
+	background: url(../images/login_blackframe.png) no-repeat center top;
 	position:relative;
 }
 .login_table{
@@ -67,9 +62,7 @@ a{
 	float:left;
 	width:22px;
 	height:22px;
-	/*background-image:url(${basePath}/static/images/check_back.png);*/
-	background-repeat:no-repeat;
-	background-position:left center;
+	background:url(../images/check_back.png) no-repeat left center;
 	position:relative;
 }
 .login_checkbox img{
@@ -95,7 +88,7 @@ a{
 	left:358px;
 	width:135px;
 	height:134px;
-	/*background-image:url(images/login_btn.png);*/
+	background-image:url(../images/login_btn.png);
 	background-repeat:no-repeat;
 	line-height:135px;
 	font-size:30px;
@@ -129,11 +122,10 @@ a{
     padding-left: 22px;
     width: 90px;
 }
-/*日志管理*/
+/*主界面*/
 .main_block{
 	background-color: #f7f7f7;
 	width:1280px;
-	/*height:100%;*/
 	margin:0px auto;
 }
 .header{
@@ -166,8 +158,6 @@ a{
 	margin-right:20px;
 }
 .info span{
-	/*display:black;
-	float:left;*/
 	font-weight:bold;
 	height:100%;
 	margin-right:20px;
@@ -175,7 +165,7 @@ a{
 .menu_main{
 	width:100%;
 	height:100%;
-	overflow:hidden;
+	/*overflow:hidden;*/
 }
 .menu{
 	float:left;
@@ -217,7 +207,7 @@ a{
 	position:relative;
 }
 .log_title{
-	width:100%;
+	width:982px;
 	height:38px;
 	background-color:#e3e3e3;
 	font-weight:bold;
@@ -300,11 +290,6 @@ a{
     text-align:center;
     vertical-align:middle;
 }
-
-/*.operate_td a{*/
-    /*margin-right:10px;*/
-    /*margin-left:0px;*/
-/*}*/
 
 .table_title{
 	background:#fff4d3;
@@ -403,6 +388,7 @@ a{
     padding-left: 20px;
     vertical-align: middle;
     white-space: nowrap;
+    overflow: visible;
 }
 .numberal_format{
 	font-size:26px;

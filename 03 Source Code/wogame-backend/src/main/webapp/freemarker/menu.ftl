@@ -1,5 +1,5 @@
 			<div class="header">
-				<img class="logo" src="${basePath}/static/images/logo.png" alt=""/>
+				<img class="left" src="${basePath}/static/images/logo.png" alt="logo"/>
 				<div class="info">
                     <#if admin?exists && admin>
                          <span>管理员，你好</span>
