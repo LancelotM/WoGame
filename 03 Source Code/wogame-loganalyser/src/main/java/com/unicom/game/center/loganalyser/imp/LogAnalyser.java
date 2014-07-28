@@ -4,12 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -114,7 +109,37 @@ public class LogAnalyser implements ILogAnalyser {
         }
 
         return date;
-    } 
+    }
+
+    private void compareWithKeyWord(Map<String,KeyWord> keyWordMap, Map<String,KeyWord> keyMapUpdate){
+        KeyWord keyWord = null;
+        Date today = new Date();
+        Date yesterday = DateUtils.getDayByInterval(today,-1);
+        List<String> list = new ArrayList<String>();
+
+        Iterator iterator = keyWordMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = entry.getKey().toString();
+            String keywordValue = key.substring(3,key.length());
+            int channelId = Integer.parseInt(key.substring(0,3).trim());
+            KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keywordValue,channelId);
+            if(keywordDomain != null){
+                keyWord = new KeyWord();
+                keyWord.setId(keywordDomain.getId());
+                keyWord.setChannelId(channelId);
+                keyWord.setKeyword(keywordValue);
+                keyWord.setCount(keywordDomain.getCount() + ((KeyWord) entry.getValue()).getCount());
+                keyWord.setDateCreated(yesterday);
+                keyWord.setDateModified(today);
+                keyMapUpdate.put(key,keyWord);
+                list.add(key);
+            }
+        }
+        for(String mapKey: list){
+            keyWordMap.remove(mapKey);
+        }
+    }
     
     /**
      * parse number log file(wogamecenter_info_number.2014-07-26.log)
@@ -156,11 +181,11 @@ public class LogAnalyser implements ILogAnalyser {
     private void doInfoLogAnalyse(String fileName, String fileDate){
         File file = null;
         BufferedReader reader = null;
-        
-        Map<String,KeyWord> keyMapSave = new HashMap<String, KeyWord>();
+
         Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
         Map<String,Product> productMap = new HashMap<String, Product>();
-        
+        Map<String,KeyWord> keyWordMap = new HashMap<String, KeyWord>();
+
         String tempString = null;
 
         try {
@@ -172,10 +197,12 @@ public class LogAnalyser implements ILogAnalyser {
             Date date = DateUtils.stringToDate(fileDate, "yyyy-MM-dd");
         	
             while ((tempString = reader.readLine()) != null){
-                woGameInfoParse(tempString,date,keyMapSave,keyMapUpdate,productMap);
+                woGameInfoParse(tempString,date,keyWordMap,productMap);
             }
-        	
-            keywordBusiness.typeConversionSave(keyMapSave);
+
+            compareWithKeyWord(keyWordMap,keyMapUpdate);
+
+            keywordBusiness.typeConversionSave(keyWordMap);
             if(keyMapUpdate.size()>=1){
                 keywordBusiness.typeConversionUpdate(keyMapUpdate);
             }
@@ -186,7 +213,7 @@ public class LogAnalyser implements ILogAnalyser {
             Logging.logError("Error occurs in doInfoLogAnalyse ", e);
             e.printStackTrace();
         } finally {
-            keyMapSave.clear();
+            keyWordMap.clear();
             keyMapUpdate.clear();
             productMap.clear();
             if(null != reader){
@@ -211,11 +238,9 @@ public class LogAnalyser implements ILogAnalyser {
            
         }
     }
-    
 
- 
 
-    private void  keyWordDispose(String value, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate){
+    private void  keyWordDispose(String value,Map<String,KeyWord> keyWordMap){
         KeyWord keyWord = null;
         Date today = new Date();
         Date yesterday = DateUtils.getDayByInterval(today,-1);
@@ -223,40 +248,18 @@ public class LogAnalyser implements ILogAnalyser {
             int channelId = Integer.parseInt(value.substring(0,3).trim());
             if(channelId != 0){
                 String keywordValue = value.substring(3,value.length());
-                KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keywordValue,channelId);
-                if (keywordDomain == null) {
-                    if(keyMapSave.containsKey(value)){
-                        keyWord = keyMapSave.get(value) ;
-                        keyWord.setCount(keyWord.getCount() + 1);
-                    }else{
-                        keyWord = new KeyWord();
-                        keyWord.setCount(1);
-                    }
-                    keyWord.setKeyword(keywordValue);
-                    keyWord.setChannelId(channelId);
-                    keyWord.setDateCreated(yesterday);
-                    keyWord.setDateModified(today);
-                    keyMapSave.put(value, keyWord);
-                }else{
-                    if(!keyMapUpdate.containsKey(value)){
-                        keyWord = new KeyWord();
-                        keyWord.setId(keywordDomain.getId());
-                        keyWord.setKeyword(keywordValue);
-                        keyWord.setChannelId(channelId);
-                        keyWord.setCount(keywordDomain.getCount());
-                        keyMapUpdate.put(value,keyWord);
-                        keyWord = keyMapUpdate.get(value);
-                    } else {
-                        keyWord = keyMapUpdate.get(value) ;
-                        keyWord.setId(keyWord.getId());
-                    }
-                    keyWord.setKeyword(keywordValue);
-                    keyWord.setChannelId(channelId);
+                if(keyWordMap.containsKey(value)){
+                    keyWord = keyWordMap.get(value) ;
                     keyWord.setCount(keyWord.getCount() + 1);
-                    keyWord.setDateCreated(yesterday);
-                    keyWord.setDateModified(today);
-                    keyMapUpdate.put(value, keyWord);
+                }else{
+                    keyWord = new KeyWord();
+                    keyWord.setCount(1);
                 }
+                keyWord.setKeyword(keywordValue);
+                keyWord.setChannelId(channelId);
+                keyWord.setDateCreated(yesterday);
+                keyWord.setDateModified(today);
+                keyWordMap.put(value, keyWord);
             }
         }
     }
@@ -450,7 +453,7 @@ public class LogAnalyser implements ILogAnalyser {
         gameTrafficMap.clear();
     }
 
-    private void woGameInfoParse(String tempString, Date fileDate, Map<String,KeyWord> keyMapSave, Map<String,KeyWord> keyMapUpdate, Map<String,Product> productMap){
+    private void woGameInfoParse(String tempString, Date fileDate,Map<String,KeyWord> keyWordMap, Map<String,Product> productMap){
         try{
 	    	Product product = null;
 	        String surplus = null;
@@ -458,28 +461,19 @@ public class LogAnalyser implements ILogAnalyser {
 	        if(firstTwoCharacters.equalsIgnoreCase("40")){
 	            surplus = tempString.substring(2,tempString.length());
 	            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
-	                keyWordDispose(surplus,keyMapSave,keyMapUpdate);
+                    keyWordDispose(surplus,keyWordMap);
 	            }
 	        } else if(firstTwoCharacters.equalsIgnoreCase("30")){
 	            String product_id = tempString.substring(5,15).trim();
 	            String product_name = tempString.substring(15,257).trim();
 	            String product_icon = tempString.substring(257,tempString.length()).trim();
-	            surplus = tempString.substring(2,5) + product_name;
-	            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
-	                keyWordDispose(surplus,keyMapSave,keyMapUpdate);
-	            }
-	            boolean flag =  productBusiness.checkId(product_id);
-	            
-	
-	                if(flag && Integer.parseInt(product_id) != 0){
-	                    product = new Product();
-	                    product.setProduct_id(product_id);
-	                    product.setProduct_name(product_name);
-	                    product.setProduct_icon(product_icon);
-	                    product.setDateCreated(fileDate);
-	                    productMap.put(product_id,product);
-	                }            		
-	        }        
+                product = new Product();
+                product.setProduct_id(product_id);
+                product.setProduct_name(product_name);
+                product.setProduct_icon(product_icon);
+                product.setDateCreated(fileDate);
+                productMap.put(product_id,product);
+            }
         }catch(Exception e){
         	e.printStackTrace();
         	Logging.logError("Error occurs in parse product_id to Int ", e);
