@@ -31,18 +31,13 @@ a{
 	width:1280px;
 	height:800px;
 	margin:0px auto;
-	/*background-image: url(${basePath}/static/images/login_bg.png);*/
-    /*background-position: center bottom;*/
-	/*background-color:#f7f7f7;*/
-    /*background-repeat: no-repeat;*/
+	background: url(../images/login_bg.png) #f7f7f7 no-repeat center bottom;
 }
 .login_box{
 	width:524px;
 	height:394px;
 	margin:107px auto;
-	/*background-image: url(${basePath}/static/images/login_blackframe.png);*/
-	background-position: center top;
-    background-repeat: no-repeat;
+	background: url(../images/login_blackframe.png) no-repeat center top;
 	position:relative;
 }
 .login_table{
@@ -67,9 +62,7 @@ a{
 	float:left;
 	width:22px;
 	height:22px;
-	/*background-image:url(${basePath}/static/images/check_back.png);*/
-	background-repeat:no-repeat;
-	background-position:left center;
+	background:url(../images/check_back.png) no-repeat left center;
 	position:relative;
 }
 .login_checkbox img{
@@ -95,7 +88,7 @@ a{
 	left:358px;
 	width:135px;
 	height:134px;
-	/*background-image:url(images/login_btn.png);*/
+	background-image:url(../images/login_btn.png);
 	background-repeat:no-repeat;
 	line-height:135px;
 	font-size:30px;
@@ -129,12 +122,10 @@ a{
     padding-left: 22px;
     width: 90px;
 }
-/*日志管理*/
+/*主界面*/
 .main_block{
 	background-color: #f7f7f7;
 	width:1280px;
-	height:2500px;
-	/*height:100%;*/
 	margin:0px auto;
 }
 .header{
@@ -163,11 +154,10 @@ a{
 .info{
 	float:right;
 	height:100%;
+	height:100%;
 	margin-right:20px;
 }
 .info span{
-	/*display:black;
-	float:left;*/
 	font-weight:bold;
 	height:100%;
 	margin-right:20px;
@@ -175,11 +165,11 @@ a{
 .menu_main{
 	width:100%;
 	height:100%;
-	overflow:hidden;
+	/*overflow:hidden;*/
 }
 .menu{
 	float:left;
-	height:100%;
+	min-height:1410px;
 	width:242px;
 	border-right:8px solid #ed6d02;
 	background-color:#757575;
@@ -206,7 +196,7 @@ a{
 }
 .main{
 	float:left;
-	height:100%;
+	min-height:1410px;
 	width:1030px;
 }
 .main_info{
@@ -217,7 +207,7 @@ a{
 	position:relative;
 }
 .log_title{
-	width:100%;
+	width:982px;
 	height:38px;
 	background-color:#e3e3e3;
 	font-weight:bold;
@@ -230,6 +220,11 @@ a{
 .title_image{
 	vertical-align:-10%;
 	margin-right:5px;
+}
+
+.search_count{
+    vertical-align:-45%;
+    margin-right:5px;
 }
 
 .main_info table{
@@ -295,11 +290,6 @@ a{
     text-align:center;
     vertical-align:middle;
 }
-
-/*.operate_td a{*/
-    /*margin-right:10px;*/
-    /*margin-left:0px;*/
-/*}*/
 
 .table_title{
 	background:#fff4d3;
@@ -379,7 +369,7 @@ a{
     width:965px;
     height: 350px;
 }
-#keyword_span {
+.keyword_div {
     float:left;
     width:173px;
     height:34px;
@@ -387,9 +377,18 @@ a{
     padding-left: 20px;
     vertical-align: middle;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
 }
-.keyword span{
-
+.keyword_show_content{
+    float:left;
+    width:173px;
+    height:34px;
+    line-height:34px;
+    padding-left: 20px;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: visible;
 }
 .numberal_format{
 	font-size:26px;
@@ -522,7 +521,7 @@ a{
 {
     width: 280px;
     text-align: right;
-    height: 22px;
+    height: 29px;
     line-height: 22px;
     float: right;
 }

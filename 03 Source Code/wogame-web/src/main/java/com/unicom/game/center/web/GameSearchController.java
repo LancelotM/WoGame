@@ -3,6 +3,7 @@ package com.unicom.game.center.web;
 import com.google.common.collect.Maps;
 import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.service.ZTEService;
+import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.vo.SearchKeywordItemVo;
 import com.unicom.game.center.vo.SearchKeywordsVo;
 import com.unicom.game.center.vo.SearchResultItemVo;
@@ -20,6 +21,9 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * 管理员管理用户的Controller.
@@ -54,12 +58,18 @@ public class GameSearchController {
     @RequestMapping(value = "/ajaxSearch", method = RequestMethod.GET)
     @ResponseBody
     public List<SearchResultItemVo> ajaxSearch(@RequestParam("keyword") String keyword,
-                                               @RequestParam("pageNum") Integer pageNum) throws Exception {
+                                               @RequestParam("pageNum") Integer pageNum,
+                                               HttpServletRequest request) throws Exception {
 
         String utf8Keyword = URLDecoder.decode(URLDecoder.decode(keyword, "UTF-8"), "UTF-8");
 
         // 记录Log
-        String[] logData = new String[]{"40", utf8Keyword};
+        HttpSession session = request.getSession();
+        String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID); 
+        if(null == channel){
+        	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        }        
+        String[] logData = new String[]{"40", StringUtils.rightPad(channel, 3, " "), utf8Keyword};
         statisticsLogger.info(StringUtils.join(logData, ""));
 
         //根据搜索字搜索游戏

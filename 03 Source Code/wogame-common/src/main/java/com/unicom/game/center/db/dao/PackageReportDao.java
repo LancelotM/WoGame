@@ -2,6 +2,7 @@ package com.unicom.game.center.db.dao;
 
 import java.util.List;
 
+import com.unicom.game.center.utils.Constant;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.PackageReportDomain;
@@ -24,33 +25,72 @@ public class PackageReportDao extends HibernateDao<PackageReportDomain>{
 
     public int getPackageInfo(String channelID,String startDate,String endDate,Integer packageCode,Integer receiptCode){
         StringBuilder hql = new StringBuilder();
-        hql.append("select count(*) from PackageReportDomain package where package.channelId = '");
-        hql.append(channelID);
+        hql.append("select count(*) from PackageReportDomain package where 1 = 1");
+        if(!Utility.isEmpty(channelID)){
+            hql.append(" and package.channelId = '");
+            hql.append(channelID);
+            hql.append("'");
+        }
         if(!Utility.isEmpty(startDate)&&!Utility.isEmpty(endDate)){
             if(!startDate.equals(endDate)){
-                hql.append("' and package.dateCreated >= '");
+                hql.append(" and package.dateCreated >= '");
                 hql.append(startDate);
                 hql.append("' and package.dateCreated <= '");
                 hql.append(endDate);
             }else {
-                hql.append("' and package.dateCreated = '");
+                hql.append(" and package.dateCreated = '");
                 hql.append(startDate);
             }
+            hql.append(" '");
         }
-        hql.append(" '");
         if(packageCode != null){
             hql.append(" and package.packageStatus = "+packageCode);
         }
         if(receiptCode != null){
-            hql.append(" and package.receiptStatus = "+receiptCode);
+            if(receiptCode != Constant.EXTRACT_NOSYNC_STATUS){
+                hql.append(" and package.receiptStatus = "+receiptCode);
+            }else {
+                hql.append(" and package.receiptStatus is null");
+            }
+
         }
         List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();
-        String result = null;
-        for(Object obj : list){
-            result = String.valueOf(obj);
-        }
+        String result = (list != null && list.size() >0)?String.valueOf(list.get(0)):"0";
+        return Integer.parseInt(result);
+    }
 
+    public int getFailPackageInfo(String channelID,String startDate,String endDate,Integer packageCode){
+        StringBuilder hql = new StringBuilder();
+        hql.append("select count(*) from PackageReportDomain package where 1 = 1");
+        if(!Utility.isEmpty(channelID)){
+            hql.append(" and package.channelId = '");
+            hql.append(channelID);
+            hql.append("'");
+        }
+        if(!Utility.isEmpty(startDate)&&!Utility.isEmpty(endDate)){
+            if(!startDate.equals(endDate)){
+                hql.append(" and package.dateCreated >= '");
+                hql.append(startDate);
+                hql.append("' and package.dateCreated <= '");
+                hql.append(endDate);
+            }else {
+                hql.append(" and package.dateCreated = '");
+                hql.append(startDate);
+            }
+            hql.append(" '");
+        }
+        if(packageCode != null){
+            hql.append(" and package.packageStatus = "+packageCode);
+        }
+        hql.append(" and package.receiptStatus is not null ");
+        hql.append(" and package.receiptStatus <> ");
+        hql.append(Constant.EXTRACT_SUCCESS_STATUS);
+        hql.append(" and package.receiptStatus <> ");
+        hql.append(Constant.EXTRACT_SYNC_STATUS);
+        List list = getSession().createQuery(hql.toString()).list();
+        getSession().flush();
+        String result = (list != null && list.size() >0)?String.valueOf(list.get(0)):"0";
         return Integer.parseInt(result);
     }
 

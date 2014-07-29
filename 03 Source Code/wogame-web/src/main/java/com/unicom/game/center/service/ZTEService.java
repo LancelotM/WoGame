@@ -286,7 +286,7 @@ public class ZTEService {
             downloadVo.setResult(Integer.valueOf(rowData.getColumnData("result").getValue()));
             downloadVo.setDescription(rowData.getColumnData("desc").getValue());
             downloadVo.setDownloadUrl(rowData.getColumnData("downurl").getValue());
-            downloadVo.setIsFitApp(rowData.getColumnData("isFitApp").getValue());
+//            downloadVo.setIsFitApp(rowData.getColumnData("isFitApp").getValue());
             downloadVo.setOnlineTime(parseOnlineTimeFromDownloadUrl(downloadVo.getDownloadUrl()));
 
             return downloadVo;

@@ -87,7 +87,7 @@ public class ChannelInfoDao extends HibernateDao<ChannelInfoDomain>{
 									.setResultTransformer(Transformers.aliasToBean(ChannelInfo.class))
 									.list();
 		
-		return (null != channelInfos) ? channelInfos.get(0) : null;		
+		return (null != channelInfos && !channelInfos.isEmpty()) ? channelInfos.get(0) : null;		
 	}
 	
 	public List<ChannelInfo> fetchActiveChannels(){
@@ -106,4 +106,15 @@ public class ChannelInfoDao extends HibernateDao<ChannelInfoDomain>{
 		return channelInfos;
 	}
 
+	
+	public List<ChannelInfoDomain> fetchSyncFaiureChannels(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("from ChannelInfoDomain channel where channel.sync_status = false");
+		
+		@SuppressWarnings("unchecked")
+		List<ChannelInfoDomain> channelInfos= getSession().createQuery(sb.toString())
+									.list();
+		
+		return channelInfos;
+	}	
 }

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.unicom.game.center.db.dao.KeywordDao;
 import com.unicom.game.center.db.domain.KeywordDomain;
+import com.unicom.game.center.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class KeywordBusinessTest {
 	
 	@Test
 	public void testFetchTopSearchKeyword(){
-		List<KeywordInfo> keywords = keyword.fetchTopSearchKeyword();
+		List<KeywordInfo> keywords = keyword.fetchTopSearchKeyword(34);
 		System.out.println((null != keywords) ? keywords.size() : null);
 	}
 
@@ -39,15 +40,27 @@ public class KeywordBusinessTest {
         Random r = new Random();
         for(int i = 0;i<50;i++){
             KeywordDomain hotword = new KeywordDomain();
-            hotword.setKeyword("植物大战僵尸v"+i);
-            hotword.setCount(r.nextInt(500));
-            hotword.setDateCreated(new Date());
+            if(i%2 == 0){
+                hotword.setKeyword("天天跑酷植物大战僵尸v"+i);
+            }else {
+                hotword.setKeyword("天天跑酷v"+i);
+            }
+
+            hotword.setCount(r.nextInt(300));
+            hotword.setDateCreated(DateUtils.getDayByInterval(new Date(), -i));
+            hotword.setChannelId(39);
             hotword.setDateModified(new Date());
             dao.save(hotword);
 
         }
+    }
 
-
+    @Test
+    public void get(){
+        int todayCount = keyword.getDayCount(1,DateUtils.formatDateToString(new Date(),"yyyy-MM-dd"));
+        int yesterdayCount = keyword.getDayCount(1,DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -1),"yyyy-MM-dd"));
+        int totalCount = keyword.getThirtyDayCount(1);
+        System.out.println(todayCount+"   "+yesterdayCount+"  "+totalCount);
     }
 
 }

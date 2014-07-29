@@ -24,30 +24,32 @@ public class ZTEReportDao extends HibernateDao<ZTEReportDomain>{
 
     public int getReportInfo(String channelId,String startDate,String endDate,Integer isSuccess){
         StringBuilder hql = new StringBuilder();
-        hql.append("select count(*) from ZTEReportDomain zteReport where zteReport.channelId = '");
-        hql.append(channelId);
+        hql.append("select count(*) from ZTEReportDomain zteReport where 1 = 1");
+        if(!Utility.isEmpty(channelId)){
+            hql.append(" and zteReport.channelId = '");
+            hql.append(channelId);
+            hql.append("'");
+        }
+
         if(!Utility.isEmpty(startDate)&&!Utility.isEmpty(endDate)){
             if(!startDate.equals(endDate)){
-                hql.append("' and zteReport.dateCreate >= '");
+                hql.append(" and zteReport.dateCreate >= '");
                 hql.append(startDate);
                 hql.append("' and zteReport.dateCreate <= '");
                 hql.append(endDate);
             }else {
-                hql.append("' and zteReport.dateCreate = '");
+                hql.append(" and zteReport.dateCreate = '");
                 hql.append(startDate);
             }
+            hql.append("'");
         }
-        hql.append("'");
+
         if(isSuccess != null){
             hql.append(" and zteReport.operateResult = "+isSuccess);
         }
         List list = getSession().createQuery(hql.toString()).list();
         getSession().flush();
-        String result = null;
-        for(Object obj : list){
-            result = String.valueOf(obj);
-        }
-
+        String result = (list != null && list.size() >0)?String.valueOf(list.get(0)):"0";
         return Integer.parseInt(result);
     }
 

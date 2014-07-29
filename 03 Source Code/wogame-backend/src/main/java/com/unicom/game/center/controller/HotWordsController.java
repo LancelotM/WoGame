@@ -1,12 +1,8 @@
 package com.unicom.game.center.controller;
 
+import java.util.Date;
 import java.util.List;
 
-import com.unicom.game.center.business.ChannelInfoBusiness;
-import com.unicom.game.center.business.DownLoadInfoBusiness;
-import com.unicom.game.center.db.domain.DownloadInfoDomain;
-import com.unicom.game.center.log.model.DownloadInfoModel;
-import com.unicom.game.center.model.ChannelInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.unicom.game.center.business.ChannelInfoBusiness;
+import com.unicom.game.center.business.DownLoadInfoBusiness;
 import com.unicom.game.center.business.KeywordBusiness;
+import com.unicom.game.center.log.model.DownloadInfoModel;
 import com.unicom.game.center.model.KeywordInfo;
+import com.unicom.game.center.utils.DateUtils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -40,19 +40,20 @@ public class HotWordsController {
 
 
     @RequestMapping(value = "/getAllKeyWowrd", method = {RequestMethod.GET})
-    public ModelAndView getAllKeyWowrd(){
+    public ModelAndView getAllKeyWowrd(@RequestParam(value="channelId",required = true) Integer channelId){
     	ModelMap model = new ModelMap();
 
-        List<KeywordInfo> keywords = keywordService.fetchTopSearchKeyword();
-//        DownloadInfoModel downloadModel = downLoadService.getDownloadInfos(null, null, null, 1);
-//        model.put("totalPage", downloadModel.getTotalPages());
+        List<KeywordInfo> keywords = keywordService.fetchTopSearchKeyword(channelId);
+        int yesterdayCount = keywordService.getDayCount(channelId,DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -1),"yyyy-MM-dd"));
+        int totalCount = keywordService.getThirtyDayCount(channelId);
+        model.put("yesterdayCount",yesterdayCount);
+        model.put("totalCount",totalCount);
         model.put("keywords",keywords);
-//        model.put("downloadInfoDomains",downloadModel.getDownloadInfomodels());
         return new ModelAndView("/keyword", model); 
     }
 
     @RequestMapping(value="/getDownloadInfo",method={RequestMethod.POST})
-    public @ResponseBody DownloadInfoModel getDownloadInfo(@RequestParam(value="channelId",required = false) Integer channelId,
+    public @ResponseBody DownloadInfoModel getDownloadInfo(@RequestParam(value="channelId",required = false) String channelId,
                                                     @RequestParam(value="startDate",required = false) String startDate,
                                                     @RequestParam(value="endDate",required = false) String endDate,
                                                     @RequestParam(value="page",required = true) int page,

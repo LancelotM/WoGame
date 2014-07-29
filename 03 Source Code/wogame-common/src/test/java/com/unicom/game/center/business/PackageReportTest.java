@@ -39,8 +39,8 @@ public class PackageReportTest {
             domain.setAppid("\""+i+"\"");
             domain.setAppname("天天跑酷");
             domain.setChannelId("1325");
-            domain.setPackageStatus(r.nextInt(2));
-            domain.setReceiptStatus(r.nextInt(2));
+            domain.setPackageStatus(20);
+            domain.setReceiptStatus(r.nextInt(10));
             domain.setDateCreated(DateUtils.stringToDate("2014-07-10","yyyy-MM-dd"));
             dao.save(domain);
         }
@@ -50,15 +50,15 @@ public class PackageReportTest {
 
     @Test
     public void testfetch(){
-        ReportInfo info = service.fetchPackageReport("1325", "2014-07-09", "2014-07-10");
+        ReportInfo info = service.fetchPackageReport("1325", "2013-07-09", "2014-07-23");
 //        ReportInfo info = service.fetchReceiptInfo("1325", "2014-07-10", "2014-07-10");
-        System.out.println(info.getFailSum()+""+info.getPackageSum()+""+info.getSucessSum());
+        System.out.println("失败："+info.getFailSum()+"总数："+info.getPackageSum()+"成功："+info.getSucessSum());
     }
 
     @Test
     public void testFetchReceipt(){
-        ReportInfo info = service.fetchReceiptInfo("1325", "2014-07-10", "2014-07-10");
-        System.out.println(info.getFailSum()+""+info.getPackageSum()+""+info.getSucessSum());
+        ReportInfo info = service.fetchReceiptInfo("1325", "2013-03-10", "2014-07-23");
+        System.out.println("失败："+info.getFailSum()+"总数："+info.getPackageSum()+"成功："+info.getSucessSum()+"同步："+info.getSyncSum()+"未同步："+info.getNoSyncSum());
     }
 
 }

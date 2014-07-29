@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.business.PackageInfoBusiness;
+import com.unicom.game.center.business.SyncChannelClient;
 import com.unicom.game.center.db.domain.PackageInfoDomain;
 import com.unicom.game.center.loganalyser.ILogAnalyser;
 import com.unicom.game.center.utils.Constant;
@@ -26,47 +27,54 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 	
     @Autowired
     private PackageInfoBusiness packageInfoBusiness;
+    
+    @Autowired
+    private SyncChannelClient syncChannelClient;
    
     @Autowired
-    private FTPHelper ftpHelper;    
+    private FTPHelper ftpHelper;  
+    
+//    @Autowired
+//    private SFTPHelper sftpHelper;    
     
 	@Value("#{properties['response.file.path']}")
 	private String responseFilePath;
 	
 	@Value("#{properties['latest.handdle.file']}")
-	private String latestHanddleFile;	
+	private String packageHandleFile;	
 
 	@Override
 	public void doLogAnalyse() throws Exception {
-		// TODO Auto-generated method stub
 		
 	}
 
     @Override
-    public void doPackageReportDomainsSave() throws Exception {
-        // TODO Auto-generated method stub
+    public void doReportDomainsSave() throws Exception {
 
     }
 
     @Override
     public void doDownloadCountDomainsSave() throws Exception{
-        // TODO Auto-generated method stub
-    }
 
-    @Override
-    public void doExtractReportDomainsSave() throws Exception{
-        // TODO Auto-generated method stub
     }
 
 	@Override
 	public void doPackageInfoDomainsSave() throws Exception {
   		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+  		
+  		try{
+  			System.out.println("=====syncFailureChannels========");
+  			syncChannelClient.syncFailureChannels();
+  		}catch(Exception e){
+  			Logging.logError("Error occurs in syncFailureChannels ", e);
+  		}
+  		
   		System.out.println("=====doPackageInfoDomainsSave start========");
 
         String currentFileName = "";
 
   		try {
-            List<String> currentFileNameList = FileUtils.readFileByRow(latestHanddleFile);
+            List<String> currentFileNameList = FileUtils.readFileByRow(packageHandleFile);
             if (currentFileNameList.size() > 0) {
                 currentFileName = currentFileNameList.get(0);
             }
@@ -96,7 +104,7 @@ public class PackageInfoAnalyser implements ILogAnalyser{
   			Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
   			e.printStackTrace();
   		} finally{
-  			 FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
+  			 FileUtils.writeFileOverWrite(packageHandleFile, currentFileName);
   			ftpHelper.disConnectFtpServer();
   		}
   		
@@ -104,4 +112,45 @@ public class PackageInfoAnalyser implements ILogAnalyser{
   		Logging.logDebug("----- doPackageInfoDomainsSave end -----");
   	}
 	
+/**	
+    @Override
+    public void doPackageInfoDomainsSave() throws Exception {
+        Logging.logDebug("----- doPackageInfoDomainsSave start -----");
+
+        String currentFileName = "";
+        ChannelSftp sftp = null;
+        try {
+            List<String> currentFileNameList = FileUtils.readFileByRow(latestHanddleFile);
+            if (currentFileNameList.size() > 0) {
+                currentFileName = currentFileNameList.get(0);
+            }
+
+            List<String> fileList = sftpHelper.getFileList(responseFilePath);
+            fileList = Utility.getSubStringList(fileList, currentFileName);
+
+            sftp = sftpHelper.connectServer();
+            for (String fileName : fileList) {
+                List<PackageInfoDomain> packageInfoDomains = new ArrayList<PackageInfoDomain>();
+                List<String> contentList = sftpHelper.readRemoteFileByRow(responseFilePath, fileName, sftp);
+
+                for (String content : contentList) {
+                    String[] contentArr = Utility.splitString(content, Constant.RESPONSE_FIEL_SEPARATOR);
+                    PackageInfoDomain domain = packageInfoBusiness.convertPackageInfoFromFile(contentArr);
+                    packageInfoDomains.add(domain);
+                }
+
+                packageInfoBusiness.savePackageInfoList(packageInfoDomains, Constant.HIBERNATE_FLUSH_NUM);
+                currentFileName = fileName;
+            }
+        } catch(Exception e){
+            Logging.logError("Error occurs in doPackageInfoDomainsSave ", e);
+        } finally{
+            FileUtils.writeFileOverWrite(latestHanddleFile, currentFileName);
+            if (sftp != null) {
+                sftpHelper.closeChannel(sftp.getSession(), sftp);
+            }
+        }
+        Logging.logDebug("----- doPackageInfoDomainsSave end -----");
+    }	
+**/	
 }

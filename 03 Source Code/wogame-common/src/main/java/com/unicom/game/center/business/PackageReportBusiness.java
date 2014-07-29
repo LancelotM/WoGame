@@ -1,17 +1,16 @@
 package com.unicom.game.center.business;
 
-import com.unicom.game.center.db.dao.PackageReportDao;
-import com.unicom.game.center.db.dao.ZTEReportDao;
-import com.unicom.game.center.db.domain.PackageReportDomain;
-import com.unicom.game.center.db.domain.ZTEReportDomain;
-import com.unicom.game.center.model.ReportInfo;
-import com.unicom.game.center.utils.DateUtils;
-import com.unicom.game.center.utils.Logging;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.List;
+import com.unicom.game.center.db.dao.PackageReportDao;
+import com.unicom.game.center.db.domain.PackageReportDomain;
+import com.unicom.game.center.model.ReportInfo;
+import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.Logging;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,11 +25,11 @@ public class PackageReportBusiness {
     @Autowired
     private PackageReportDao dao;
 
-    public ReportInfo fetchPackageReport(String channelId,String start,String end){
+    public ReportInfo fetchPackageReport(String channelCode,String start,String end){
         ReportInfo reportInfo = null;
         try{
-            int successPackage = dao.getPackageInfo(channelId,start,end,0,null);
-            int packageSum = dao.getPackageInfo(channelId,start,end,null,null);
+            int successPackage = dao.getPackageInfo(channelCode,start,end, Constant.PACKAGE_SUCCESS_STATUS,null);
+            int packageSum = dao.getPackageInfo(channelCode,start,end,null,null);
             reportInfo = new ReportInfo();
             reportInfo.setFailSum(packageSum - successPackage);
             reportInfo.setPackageSum(packageSum);
@@ -43,15 +42,20 @@ public class PackageReportBusiness {
         return null;
     }
 
-    public ReportInfo fetchReceiptInfo(String channelId,String start,String end){
+    public ReportInfo fetchReceiptInfo(String channelCode,String start,String end){
         ReportInfo reportInfo = null;
-        try {
-            int successPackage = dao.getPackageInfo(channelId,start,end,0,2);
-            int failPackage = dao.getPackageInfo(channelId,start,end,0,1);
+        try {  //EXTRACT_NOSYNC_STATUS
+            int successPackage = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_SUCCESS_STATUS);
+//            int syncing = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_SYNC_STATUS);
+//            int noSync = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,Constant.EXTRACT_NOSYNC_STATUS);
+            int failReceiptPackage = dao.getFailPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS);
+            int total = dao.getPackageInfo(channelCode,start,end,Constant.PACKAGE_SUCCESS_STATUS,null);
             reportInfo = new ReportInfo();
-            reportInfo.setFailSum(failPackage);
-            reportInfo.setPackageSum(failPackage+successPackage);
+            reportInfo.setFailSum(failReceiptPackage);
+            reportInfo.setPackageSum(total);
             reportInfo.setSucessSum(successPackage);
+//            reportInfo.setNoSyncSum(noSync);
+//            reportInfo.setSyncSum(syncing);
         }catch(Exception e){
             Logging.logError("Error occur in fetchReceiptInfo", e);
             e.printStackTrace();
@@ -63,14 +67,17 @@ public class PackageReportBusiness {
      *
      * @param contentArr
      */
-    public PackageReportDomain convertPackageReportFromFile(String[] contentArr){
+    public PackageReportDomain convertPackageReportFromFile(String[] contentArr, Date date){
         PackageReportDomain packageReportDomain = new PackageReportDomain();
         packageReportDomain.setAppid(contentArr[1]);
         packageReportDomain.setAppname(contentArr[2]);
         packageReportDomain.setChannelId(contentArr[3]);
         packageReportDomain.setPackageStatus(Integer.parseInt(contentArr[4]));
-        packageReportDomain.setReceiptStatus(Integer.parseInt(contentArr[5]));
-        packageReportDomain.setDateCreated(DateUtils.getDayByInterval(new Date(), -1));
+        if(!"null".equalsIgnoreCase(contentArr[5])){
+            packageReportDomain.setReceiptStatus(Integer.parseInt(contentArr[5]));        	
+        }
+
+        packageReportDomain.setDateCreated(date);
         return packageReportDomain;
     }
 

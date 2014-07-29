@@ -1,12 +1,3 @@
-
-function checkBlank(id,checkInfo){
-     var value = document.getElementById(id).value.trim();
-     if(isEmpty(value)){
-		document.getElementById(checkInfo).innerHTML = "内容不能为空!";
-     }else{
-         document.getElementById(checkInfo).innerHTML = "";
-     }
-}
 function checkForm(){
     var basePath = getBasePath();
     var username = $('#username').val().trim();
@@ -26,14 +17,20 @@ function checkForm(){
                     }
                     $('#form').submit();
                 }else if(data == 1){
-                    $('#check_username').text("用户不存在！");
+                    $('#check_username').text("用户不存在!");
                 }else if(data == 2){
-                    $('#check_password').text("密码错误！");
+                    $('#check_password').text("密码错误!");
                 }else if(data == 3){
-                    $('#check_username').text("登录失败！");
+                    $('#check_username').text("登录失败!");
                 }
             }
         });
+    }else if(isEmpty(username) || isEmpty(password)){
+        if(isEmpty($('#username').val())){
+            $('#check_username').text("用户名为空!");
+        }else if(isEmpty($('#password').val())){
+            $('#check_password').text("密码为空!");
+        }
     }
 }
 
@@ -59,7 +56,32 @@ $(function(){
     if(!isEmpty(loginCode)&& !isEmpty(pwd)){
         $('#submit').trigger('click');
     }
+
+    checkInput();
 });
+
+function checkInput(){
+    $('.enter_td input').each(function(){
+        $(this).blur(function(){
+            if(isEmpty($(this).val().trim())){
+                if($(this).attr('name') == "username"){
+                    $('#check_username').text("用户名为空!");
+                }else if($(this).attr('name') == "password"){
+                    $('#check_password').text("密码为空!");
+                }
+            }else{
+                if($(this).attr('name') == "username"){
+                    $('#check_username').text("");
+                }else if($(this).attr('name') == "password"){
+                    $('#check_password').text("");
+                }
+            }
+        });
+
+    });
+}
+
+
 
 
 

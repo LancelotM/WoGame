@@ -51,7 +51,7 @@ public class LogController {
 	private String backendKey;
 
     @RequestMapping(value = "/log", method = {RequestMethod.GET})
-    public ModelAndView ShowLogInfo(@RequestParam(value="token",required = false) String token,
+    public ModelAndView showLogInfo(@RequestParam(value="token",required = false) String token,
     		@RequestParam(value="type",required=false) String type,
     		HttpSession session){
     	ModelMap model = new ModelMap();
@@ -63,6 +63,7 @@ public class LogController {
                 ChannelInfo channelInfo = channelService.fetchChannelInfoById(Integer.parseInt(channelId));
                 if(null != channelInfo){
                     session.setAttribute("ChannelName", channelInfo.getChannelName());
+                    session.setAttribute("developer_channelCode", channelInfo.getChannelCode());
                 }
 				session.setAttribute("admin", false);
 				session.setAttribute("developer_channel", channelId);

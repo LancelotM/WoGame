@@ -46,33 +46,46 @@ public class FileUtils {
      * @param path
      * @return
      */
-    public static List<String> readFileByRow(String path) throws Exception {
+    public static List<String> readFileByRow(String path) {    	
+    	FileReader reader = null;
+    	BufferedReader br = null;
+    	List<String> list = new ArrayList<String>();
         try {
             File file = new File(path);
-            List<String> list = new ArrayList<String>();
+            
             if (!file.exists()) {
                 return list;
             }
 
-            FileReader reader = new FileReader(path);
-            BufferedReader br = new BufferedReader(reader);
+            reader = new FileReader(path);
+            br = new BufferedReader(reader);
 
             String str = null;
 
             while ((str = br.readLine()) != null) {
                 list.add(str);
             }
-            br.close();
-            reader.close();
-
-            return list;
         } catch (FileNotFoundException e) {
-            throw e;
+            Logging.logError("FileNotFoundException occur in readFileByRow.", e);
         } catch (IOException e) {
-            throw e;
+        	Logging.logError("IOException occur in readFileByRow.", e);
         } catch (Exception e){
-        	throw e;
+        	Logging.logError("Exception occur in readFileByRow.", e);
+        } finally{
+            try {
+            	if(null != br){
+            		br.close();
+            	}
+            	
+            	if(null != reader){
+            		reader.close();
+            	}
+			} catch (Exception e) {
+				Logging.logError("Exception occur in readFileByRow.", e);
+			}            
         }
+        
+        return list;
     }
 
 
@@ -83,20 +96,18 @@ public class FileUtils {
      * @param path
      * @return
      */
-    public static boolean writeFileOverWrite(String path, String filename) throws IOException {
+    public static boolean writeFileOverWrite(String path, String filename) {
+    	FileWriter writer = null;
+    	BufferedWriter bw = null;    	
         try {
             File file = new File(path);
             if (!file.exists()) {
                 file.createNewFile();
             }
 
-            FileWriter writer = new FileWriter(path);
-            BufferedWriter bw = new BufferedWriter(writer);
+            writer = new FileWriter(path);
+            bw = new BufferedWriter(writer);
             bw.write(filename);
-
-            bw.close();
-            writer.close();
-
             return true;
         } catch (FileNotFoundException e) {
             Logging.logError("FileNotFoundException occur in writeFileOverWrite", e);
@@ -107,6 +118,18 @@ public class FileUtils {
         }catch (Exception e){
         	Logging.logError("Error occur in writeFileOverWrite", e);
         	return false;
+        } finally{
+            try {
+            	if(null != bw){
+            		bw.close();
+            	}
+            	
+            	if(null != writer){
+            		writer.close();
+            	}
+			} catch (Exception e) {
+				Logging.logError("Exception occur in writeFileOverWrite.", e);
+			}
         }
     }
 }

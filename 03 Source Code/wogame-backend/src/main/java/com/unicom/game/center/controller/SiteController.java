@@ -20,6 +20,7 @@ import com.unicom.game.center.business.ChannelInfoBusiness;
 import com.unicom.game.center.business.SyncChannelClient;
 import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.model.ChannelInfo;
+import com.unicom.game.center.model.ChannelModel;
 
 /**
  * @author Alex Yin
@@ -44,6 +45,9 @@ public class SiteController {
     @RequestMapping(value = "/site", method = {RequestMethod.GET})
     public ModelAndView site(HttpServletRequest request, HttpSession session) {
         ModelMap model = new ModelMap();
+        if(session == null){
+            request.getSession(true);
+        }
         Boolean adminFlag = (Boolean)session.getAttribute("admin");
         if(null != session && null != adminFlag && adminFlag.booleanValue()){
             List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
@@ -67,12 +71,13 @@ public class SiteController {
            channelInfo = channelService.startChannel(channelCode,channelName,cpid);
 
            if(channelInfo != null){
+               syncChannelClient.syncChannel(0, channelInfo.getChannelId(), channelCode, channelName);
+               
                String wapURL = wapLink + channelInfo.getWapToken();
                String logURL = logLink + channelInfo.getLogToken();
                channelInfo.setWapToken(wapURL);
                channelInfo.setLogToken(logURL);
                modelMap.put("channelInfoDomain", channelInfo);
-               syncChannelClient.syncChannel(0, channelInfo.getChannelId(), channelCode, channelName);
            }
         }
         List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
@@ -122,6 +127,11 @@ public class SiteController {
             modelMap.put("channelInfos", channelInfos);
         }
         return new ModelAndView("/site",modelMap);
+    }
+
+    @RequestMapping(value="/getChannels",method = {RequestMethod.GET})
+    public @ResponseBody List<ChannelModel> getChannel(){
+        return channelService.getChannelMap();
     }
 
 

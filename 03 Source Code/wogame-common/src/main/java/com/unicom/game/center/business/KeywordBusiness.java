@@ -1,12 +1,9 @@
 package com.unicom.game.center.business;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,14 +25,15 @@ public class KeywordBusiness {
 	@Autowired
 	private KeywordDao keywordDao;
 	
-	public List<KeywordInfo> fetchTopSearchKeyword(){
+	public List<KeywordInfo> fetchTopSearchKeyword(Integer channelId){
 		List<KeywordInfo> keywords = null;
 		
 		try{
-			keywords = keywordDao.getTop50Keyword();
+			keywords = keywordDao.getTop50Keyword(channelId);
 		}catch(Exception ex){
 			Logging.logError("Error occur in fetchTopKeyword", ex);
-		}
+            ex.printStackTrace();
+        }
 		return keywords;
 	}
 
@@ -47,6 +45,7 @@ public class KeywordBusiness {
             Map.Entry<Integer, KeyWord> entry = (Map.Entry)iterator.next();
             KeyWord keyWord = entry.getValue();
             keywordDomain.setKeyword(keyWord.getKeyword());
+            keywordDomain.setChannelId(keyWord.getChannelId());
             keywordDomain.setCount(keyWord.getCount());
             keywordDomain.setDateCreated(keyWord.getDateCreated());
             keywordDomain.setDateModified(keyWord.getDateModified());
@@ -64,6 +63,7 @@ public class KeywordBusiness {
             KeyWord keyWord = entry.getValue();
             keywordDomain.setId(keyWord.getId());
             keywordDomain.setKeyword(keyWord.getKeyword());
+            keywordDomain.setChannelId(keyWord.getChannelId());
             keywordDomain.setCount(keyWord.getCount());
             keywordDomain.setDateCreated(keyWord.getDateCreated());
             keywordDomain.setDateModified(keyWord.getDateModified());
@@ -72,8 +72,19 @@ public class KeywordBusiness {
         keywordDao.saveKeywordDomainList(list,Constant.HIBERNATE_FLUSH_NUM);
     }
     
-    public KeywordDomain getKeyWord(String keyword){
-      KeywordDomain keywordDomain = keywordDao.getByKeyWord(keyword);
+    public KeywordDomain getKeyWord(String keyword,int channelId){
+      KeywordDomain keywordDomain = keywordDao.getByKeyWord(keyword,channelId);
       return keywordDomain;
-  }    
+    }
+
+    public int getDayCount(Integer channelId,String date){
+        return  keywordDao.getDayCount(date,channelId);
+    }
+
+    public int getThirtyDayCount(Integer channelId){
+        String endDate = DateUtils.formatDateToString(new Date(),"yyyy-MM-dd");
+        String startDate = DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -30), "yyyy-MM-dd");
+        return keywordDao.getThirtyCount(startDate,endDate,channelId);
+    }
+
 }

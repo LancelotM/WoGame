@@ -2,15 +2,7 @@ package com.unicom.game.center.business;
 
 import java.text.CollationKey;
 import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,20 +108,26 @@ public class AdTrafficBusiness {
         }
         List<List<AdInfo>> gameByDate = new ArrayList<List<AdInfo>>();
         List<AdInfo> games = null;
-        for(String key : map.keySet()){
-            games = map.get(key);
-            gameByDate.add(games);
+        
+        if(null != map){
+            for(String key : map.keySet()){
+                games = map.get(key);
+                gameByDate.add(games);
+            }
+            
+            map.clear();
         }
+
         return gameByDate;
     }
 
     public List<GameDisplayModel> getGameDisplayModel(List<AdInfo> gameInfos,String dateType){
-        Map<String,List<AdInfo>>  data = new HashMap<String, List<AdInfo>>();
+        TreeMap<String,List<AdInfo>>  data = new TreeMap<String, List<AdInfo>>();
         GameDisplayModel gameDisplayModel = null;
         List<String> dateList = new ArrayList<String>();
         for(int i = 0;i<5;i++){
             if("month".equals(dateType)){
-                dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(), -(i + 1)), "yy-MM"));
+                dateList.add(DateUtils.formatDateToString(DateUtils.stringToDate(DateUtils.getMonthFirstByInterval(new Date(), -i),"yyyy-MM-dd"),"yyyy-MM"));
             }else if("day".equals(dateType)){
                 dateList.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"yyyy-MM-dd"));
             }
@@ -141,6 +139,7 @@ public class AdTrafficBusiness {
             }
         }
         List<List<AdInfo>> dataList = new ArrayList<List<AdInfo>>();
+        Map<String,AdInfo> dateKeyGameinfo =  null;
         for(String name : data.keySet()){
             List<AdInfo> list = new ArrayList<AdInfo>();
             if(data.get(name) != null && data.get(name).size()>0){
@@ -148,10 +147,12 @@ public class AdTrafficBusiness {
                     list.add(gameInfo);
                 }
             }
-            Map<String,List<AdInfo>> dateKeyGameinfo = new HashMap<String, List<AdInfo>>();
+
+            dateKeyGameinfo =  new HashMap<String, AdInfo>();
             for(AdInfo game : data.get(name)){
-                getMap(dateKeyGameinfo,game.getDate(),game);
+                dateKeyGameinfo.put(game.getDate(),game);
             }
+
             for(String dateStr : dateList){
                 if(!dateKeyGameinfo.keySet().contains(dateStr)){
                     AdInfo gameModel = new AdInfo();
@@ -163,8 +164,10 @@ public class AdTrafficBusiness {
             }
             sortList(list);
             dataList.add(list);
+            dateKeyGameinfo.clear();
         }
 
+        data.clear();
         for(List<AdInfo> games : dataList){
             gameDisplayModel = new GameDisplayModel();
             gameDisplayModel.setGameName(games.get(0).getAdId());

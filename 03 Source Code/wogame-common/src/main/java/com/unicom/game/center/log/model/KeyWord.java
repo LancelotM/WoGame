@@ -15,6 +15,7 @@ public class KeyWord implements Serializable{
 	private static final long serialVersionUID = 1L;
     private Integer id;
     private String keyword;
+    private int channelId;
     private int count;
     private Date dateCreated;
     private Date dateModified;
@@ -22,10 +23,11 @@ public class KeyWord implements Serializable{
     public KeyWord() {
         super();
     }
-    public KeyWord(Integer id, String keyword, int count, Date dateCreated, Date dateModified) {
+    public KeyWord(Integer id, String keyword,int channelId, int count, Date dateCreated, Date dateModified) {
         super();
         this.id = id;
         this.keyword = keyword;
+        this.channelId = channelId;
         this.count = count;
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
@@ -42,6 +44,15 @@ public class KeyWord implements Serializable{
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
+
+    public int getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(int channelId) {
+        this.channelId = channelId;
+    }
+
     public int getCount() {
         return count;
     }
