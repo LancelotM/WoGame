@@ -1,12 +1,3 @@
-function getContextPath() {
-    var pathName = document.location.pathname;
-    var index = pathName.substr(1).indexOf("/");
-    var result = pathName.substr(0, index + 1);
-    return result;
-}
-
-var contextPath = getContextPath();
-
 /**
  * 画面点击出现等待效果
  */
@@ -98,20 +89,20 @@ function download_file(url) {
     return false;
     /*
      var form = $("#downloadForm");
-    if (form.length > 0) {
-        form.attr("target", "");
-        form.attr("action", url);
-    } else {
-        form = $("<form>");//定义一个form表单
-        form.attr("style", "display:none");
-        form.attr("id", "downloadForm");
-        form.attr("target", "");
-        form.attr("method", "post");
-        form.attr("action", url);
-        $("body").append(form);//将表单放置在web中
-    }
+     if (form.length > 0) {
+     form.attr("target", "");
+     form.attr("action", url);
+     } else {
+     form = $("<form>");//定义一个form表单
+     form.attr("style", "display:none");
+     form.attr("id", "downloadForm");
+     form.attr("target", "");
+     form.attr("method", "post");
+     form.attr("action", url);
+     $("body").append(form);//将表单放置在web中
+     }
 
-    form.submit();//表单提交
+     form.submit();//表单提交
      */
 }
 

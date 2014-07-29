@@ -18,7 +18,9 @@
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
-
+    <script type="text/javascript">
+        var contextPath = ${ctx};
+    </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>

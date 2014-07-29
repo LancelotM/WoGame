@@ -12,6 +12,9 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
     <title>一周热榜</title>
+    <script type="text/javascript">
+        var contextPath = ${ctx};
+    </script>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -56,7 +59,6 @@
 <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
-    $('#pullDown, #pullUp').hide();
     var myScroll,
             pullDownEl, pullDownOffset,
             pullUpEl, pullUpOffset,

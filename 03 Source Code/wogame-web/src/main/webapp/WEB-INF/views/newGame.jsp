@@ -12,6 +12,9 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
     <title>最新</title>
+    <script type="text/javascript">
+        var contextPath = ${ctx};
+    </script>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 </head>
