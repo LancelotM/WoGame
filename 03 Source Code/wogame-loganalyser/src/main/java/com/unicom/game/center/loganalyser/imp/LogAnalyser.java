@@ -156,9 +156,9 @@ public class LogAnalyser implements ILogAnalyser {
             numberCountMap = woGameInfoNumberReader(file);
             
             Date date = DateUtils.stringToDate(fileDate, "yyyy-MM-dd");
-            
+
             woGameInfoNumberParse(numberCountMap, date);
-            
+
             File bakPath = new File(logBakPath);
             if(!bakPath.exists()){
                 bakPath.mkdirs();
@@ -312,10 +312,8 @@ public class LogAnalyser implements ILogAnalyser {
         PageTraffic pageTraffic = null;
         GameTraffic gameTraffic = null;
         Integer channelId = null;
+        String keyValueTemp = null;
         int id = 0;
-        int clickThrough = 0;
-        int adType = 0;
-        int adId = 0;
         Iterator iterator = numberCountMap.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry entry =(Map.Entry) iterator.next();
@@ -402,41 +400,28 @@ public class LogAnalyser implements ILogAnalyser {
                 }
             }else if(firstTwoCharacters.equalsIgnoreCase("50")||firstTwoCharacters.equalsIgnoreCase("51")){
                 if (firstTwoCharacters.equalsIgnoreCase("50")){
-                    if(!key.substring(8,key.length()).trim().equals("")){
-                        channelId = Integer.parseInt(key.substring(8,key.length()).trim().replaceAll("^(0+)", ""));
-                        if(channelId != 0){
-                            gameTraffic = new GameTraffic();
-                            gameTraffic.setSort(Integer.parseInt(key.substring(6,8)));
-                            gameTraffic.setAdType(Integer.parseInt(key.substring(4,6)));
-                            gameTraffic.setAdId(Integer.parseInt(key.substring(2, 4)));
-                            gameTraffic.setClickThrough(clickThrough);
-                            gameTraffic.setChannelId(channelId);
-                            gameTraffic.setDateCreated(fileDate);
-                            adId = gameTraffic.getAdId();
-                            adType = gameTraffic.getAdType();
-                            gameTrafficMap.put(++id, gameTraffic);
-                        }
+                    keyValueTemp = key.substring(8,key.length()).trim().replaceAll("^(0+)", "");
+                    if(!keyValueTemp.equals("")){
+                        gameTraffic = new GameTraffic();
+                        gameTraffic.setSort(Integer.parseInt(key.substring(6,8)));
+                        gameTraffic.setAdType(Integer.parseInt(key.substring(4,6)));
+                        gameTraffic.setAdId(Integer.parseInt(key.substring(2, 4)));
+                        gameTraffic.setClickThrough(val);
+                        gameTraffic.setChannelId(Integer.parseInt(keyValueTemp));
+                        gameTraffic.setDateCreated(fileDate);
+                        gameTrafficMap.put(++id, gameTraffic);
                     }
                 } else if(firstTwoCharacters.equalsIgnoreCase("51")){
-                    if(!key.substring(4,key.length()).trim().equals("")){
-                        channelId = Integer.parseInt(key.substring(4,key.length()).trim().replaceAll("^(0+)", ""));
-                        if(channelId != 0){
-                            if(!gameTrafficMap.containsKey(channelId)){
-                                gameTraffic = new GameTraffic();
-                                gameTraffic.setClickThrough(val);
-                                clickThrough = gameTraffic.getClickThrough();
-                            } else{
-                                gameTraffic = new GameTraffic();
-                                gameTraffic.setClickThrough(gameTraffic.getClickThrough() + val);
-                                clickThrough = gameTraffic.getClickThrough();
-                            }
-                            gameTraffic.setSort(Integer.parseInt(key.substring(2,4)));
-                            gameTraffic.setAdType(adType);
-                            gameTraffic.setAdId(adId);
-                            gameTraffic.setChannelId(channelId);
-                            gameTraffic.setDateCreated(fileDate);
-                            gameTrafficMap.put(++id,gameTraffic);
-                        }
+                    keyValueTemp = key.substring(4,key.length()).trim().replaceAll("^(0+)", "");
+                    if(!keyValueTemp.equals("")){
+                        gameTraffic = new GameTraffic();
+                        gameTraffic.setClickThrough(val);
+                        gameTraffic.setSort(Integer.parseInt(key.substring(2,4)));
+                        gameTraffic.setAdType(0);
+                        gameTraffic.setAdId(0);
+                        gameTraffic.setChannelId(Integer.parseInt(keyValueTemp));
+                        gameTraffic.setDateCreated(fileDate);
+                        gameTrafficMap.put(++id,gameTraffic);
                     }
                 }
             }
