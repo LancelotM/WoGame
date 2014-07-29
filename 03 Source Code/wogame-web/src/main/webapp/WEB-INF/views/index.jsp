@@ -90,6 +90,12 @@
 <div class="w-header">
     <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 </div>
+<div id="info-container"
+     style="display:none;position:fixed;top:40%;left:10%;z-index:9999;text-align:center;background-color: white;width:200px;height:100px;border: 1px solid gray">
+    <div style="height:40px;line-height: 40px;">温馨提示</div>
+    <div style="height:4px;background-color: orange;"></div>
+    <div style="height:60px;line-height: 60px;">文件下载中...</div>
+</div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
     <!--选中状态-->
