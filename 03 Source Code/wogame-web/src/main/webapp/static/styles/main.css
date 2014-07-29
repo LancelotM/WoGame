@@ -122,8 +122,12 @@ a.bai14zt:hover {
     margin-bottom: 4px;
 }
 
+.w_new_01 a, .w_new_011 a, .w_new_02 a, .w_new_022 a, .w_new_03 a, .w_new_033 a, .w_new_04 a, .w_new_044 a {
+    font-size: 1.2em;
+}
+
 .w_new_01 {
-    width: 60px;
+    width: 25%;
     height: 37px;
     background-position: -260px 7px;
     border-bottom: #FF9C00 5px solid;
@@ -135,36 +139,36 @@ a.bai14zt:hover {
 }
 
 .w_new_02 {
-    width: 60px;
+    width: 25%;
     height: 37px;
     background-position: -260px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 60px;
+    left: 25%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_03 {
-    width: 89px;
+    width: 25%;
     height: 37px;
     background-position: -231px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 120px;
+    left: 50%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_04 {
-    width: 89px;
+    width: 25%;
     height: 37px;
     background-position: -231px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 209px;
+    left: 75%;
     top: 0px;
     text-align: center;
     line-height: 38px;
@@ -207,7 +211,7 @@ a.bai14zt:hover {
 }
 
 .w_new_011 {
-    width: 60px;
+    width: 25%;
     height: 42px;
     background-position: -260px 7px;
     position: absolute;
@@ -218,33 +222,33 @@ a.bai14zt:hover {
 }
 
 .w_new_022 {
-    width: 60px;
+    width: 25%;
     height: 42px;
     background-position: -260px 7px;
     position: absolute;
-    left: 60px;
+    left: 25%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_033 {
-    width: 89px;
+    width: 25%;
     height: 42px;
     background-position: -231px 7px;
     position: absolute;
-    left: 120px;
+    left: 50%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_044 {
-    width: 89px;
+    width: 25%;
     height: 42px;
     background-position: -231px 7px;
     position: absolute;
-    left: 209px;
+    left: 75%;
     top: 0px;
     text-align: center;
     line-height: 38px;
