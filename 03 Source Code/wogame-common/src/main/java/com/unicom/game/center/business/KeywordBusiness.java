@@ -1,17 +1,23 @@
 package com.unicom.game.center.business;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import com.unicom.game.center.utils.Constant;
-import com.unicom.game.center.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.dao.KeywordDao;
+import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.db.domain.KeywordDomain;
 import com.unicom.game.center.log.model.KeyWord;
 import com.unicom.game.center.model.KeywordInfo;
+import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 
 /**
@@ -24,6 +30,9 @@ import com.unicom.game.center.utils.Logging;
 public class KeywordBusiness {
 	@Autowired
 	private KeywordDao keywordDao;
+		
+	@Autowired
+	private ChannelInfoDao channelInfoDao;		
 	
 	public List<KeywordInfo> fetchTopSearchKeyword(Integer channelId){
 		List<KeywordInfo> keywords = null;
@@ -37,7 +46,7 @@ public class KeywordBusiness {
 		return keywords;
 	}
 
-    public void typeConversionSave(Map<String,KeyWord> keyWordHashMap){
+    public void typeConversionSave(Map<String,KeyWord> keyWordHashMap, boolean validateChannel){
         List<KeywordDomain> list = new ArrayList<KeywordDomain>();
         Iterator iterator = keyWordHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -49,12 +58,21 @@ public class KeywordBusiness {
             keywordDomain.setCount(keyWord.getCount());
             keywordDomain.setDateCreated(keyWord.getDateCreated());
             keywordDomain.setDateModified(keyWord.getDateModified());
-            list.add(keywordDomain);
+            
+            if(validateChannel){
+            	ChannelInfoDomain channelInfoDomain = channelInfoDao.getById(keyWord.getChannelId());
+            	if(null != channelInfoDomain){
+            		list.add(keywordDomain);
+            	}
+            }else{
+            	list.add(keywordDomain);
+            }            
         }
-        keywordDao.saveKeywordDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
+        
+        keywordDao.saveKeywordDomainList(list, Constant.HIBERNATE_FLUSH_NUM); 
     }
 
-    public void typeConversionUpdate(Map<String,KeyWord> keyWordHashMap){
+    public void typeConversionUpdate(Map<String,KeyWord> keyWordHashMap, boolean validateChannel){
         List<KeywordDomain> list = new ArrayList<KeywordDomain>();
         Iterator iterator = keyWordHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -67,9 +85,18 @@ public class KeywordBusiness {
             keywordDomain.setCount(keyWord.getCount());
             keywordDomain.setDateCreated(keyWord.getDateCreated());
             keywordDomain.setDateModified(keyWord.getDateModified());
-            list.add(keywordDomain);
+            
+            if(validateChannel){
+            	ChannelInfoDomain channelInfoDomain = channelInfoDao.getById(keyWord.getChannelId());
+            	if(null != channelInfoDomain){
+            		list.add(keywordDomain);
+            	}
+            }else{
+            	list.add(keywordDomain);
+            } 
         }
-        keywordDao.saveKeywordDomainList(list,Constant.HIBERNATE_FLUSH_NUM);
+        
+        keywordDao.saveKeywordDomainList(list, Constant.HIBERNATE_FLUSH_NUM);        
     }
     
     public KeywordDomain getKeyWord(String keyword,int channelId){

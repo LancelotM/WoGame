@@ -3,22 +3,23 @@ package com.unicom.game.center.business;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.dao.PageTrafficDao;
+import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.db.domain.PageTrafficDomain;
 import com.unicom.game.center.log.model.PageTraffic;
 import com.unicom.game.center.model.JsonModel;
 import com.unicom.game.center.model.JsonParent;
 import com.unicom.game.center.model.PageTrafficInfo;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 
@@ -33,6 +34,9 @@ public class PageTrafficBusiness {
 	
 	@Autowired
 	private PageTrafficDao pageTrafficDao;
+		
+	@Autowired
+	private ChannelInfoDao channelInfoDao;	
 	
 	public JsonParent fetchTrafficInfoByDate(Integer channelId){
 		List<PageTrafficInfo> loginInfoList = null;
@@ -123,7 +127,7 @@ public class PageTrafficBusiness {
     }
 
 
-    public void typeConversion(Map<Integer,PageTraffic> pageTrafficHashMap){
+    public void typeConversion(Map<Integer,PageTraffic> pageTrafficHashMap, boolean validateChannel){
         List<PageTrafficDomain> list = new ArrayList<PageTrafficDomain>();
         Iterator iterator = pageTrafficHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -136,8 +140,18 @@ public class PageTrafficBusiness {
             pageTrafficDomain.setLatest(pageTraffic.getLatest());
             pageTrafficDomain.setChannelId(pageTraffic.getChannelId());
             pageTrafficDomain.setDateCreated(pageTraffic.getDateCreated());
-            list.add(pageTrafficDomain);
+            
+            if(validateChannel){
+            	ChannelInfoDomain channelInfoDomain = channelInfoDao.getById(pageTraffic.getChannelId());
+            	if(null != channelInfoDomain){
+            		list.add(pageTrafficDomain);
+            	}
+            }else{
+            	list.add(pageTrafficDomain);
+            }             
+
         }
-        pageTrafficDao.savePageTrafficDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
+                
+        pageTrafficDao.savePageTrafficDomainList(list, Constant.HIBERNATE_FLUSH_NUM);               
     }
 }

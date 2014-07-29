@@ -4,7 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -201,9 +207,23 @@ public class LogAnalyser implements ILogAnalyser {
 
             compareWithKeyWord(keyWordMap,keyMapUpdate, date);
 
-            keywordBusiness.typeConversionSave(keyWordMap);
+            try{
+            	keywordBusiness.typeConversionSave(keyWordMap, false);	
+            }catch(Exception e){
+            	e.printStackTrace();
+            	Logging.logError("Error occur in typeConversion.", e);
+            	keywordBusiness.typeConversionSave(keyWordMap, true);
+            }            
+            
             if(keyMapUpdate.size()>=1){
-                keywordBusiness.typeConversionUpdate(keyMapUpdate);
+                try{
+                	keywordBusiness.typeConversionUpdate(keyMapUpdate, false);	
+                }catch(Exception e){
+                	e.printStackTrace();
+                	Logging.logError("Error occur in typeConversion.", e);
+                	keywordBusiness.typeConversionUpdate(keyMapUpdate, true);
+                }             	
+                
             }
             productBusiness.typeConversion(productMap);
 
@@ -427,11 +447,37 @@ public class LogAnalyser implements ILogAnalyser {
             }
         }
         numberCountMap.clear();
-        userCountBusiness.typeConversion(userCountMap);
+        
+        
+        try{
+        	userCountBusiness.typeConversion(userCountMap, false);
+        }catch(Exception e){
+        	e.printStackTrace();
+        	Logging.logError("Error occur in typeConversion.", e);
+        	userCountBusiness.typeConversion(userCountMap, true);
+        }
+        
         userCountMap.clear();
-        pageTrafficBusiness.typeConversion(pageTrafficMap);
+        
+        try{
+        	pageTrafficBusiness.typeConversion(pageTrafficMap, false);
+        }catch(Exception e){
+        	e.printStackTrace();
+        	Logging.logError("Error occur in typeConversion.", e);
+        	pageTrafficBusiness.typeConversion(pageTrafficMap, true);
+        }        
+        
         pageTrafficMap.clear();
-        gameTrafficBusiness.typeConversion(gameTrafficMap);
+        
+        
+        try{
+        	gameTrafficBusiness.typeConversion(gameTrafficMap, false);
+        }catch(Exception e){
+        	e.printStackTrace();
+        	Logging.logError("Error occur in typeConversion.", e);
+        	gameTrafficBusiness.typeConversion(gameTrafficMap, true);
+        }        
+        
         gameTrafficMap.clear();
     }
 
