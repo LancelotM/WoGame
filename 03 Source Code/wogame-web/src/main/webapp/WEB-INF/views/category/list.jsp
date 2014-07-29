@@ -34,8 +34,8 @@
 
     <!--<div class="w_new_077"><a href="#">分类</a></div>-->
 </div>
-<div id="pageContent">
-    <!--列表-->
+<div id="pageContent" style="margin-bottom: 10px;">
+<!--列表-->
     <c:forEach items="${list}" var="item">
         <c:if test="${item.source == 'UUC'}">
             <a href="javascript:listDetail('${item.categoryId}','${item.categoryTitle}');">
@@ -56,7 +56,7 @@
 <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
 <script type="text/javascript">
     $(function () {
-        $("#pageContent").touchwipe({
+        $("#pageContent .w_list_fenlei").touchwipe({
 
             wipeLeft: function (e) {
                 e.preventDefault();
@@ -66,7 +66,7 @@
                 e.preventDefault();
                 location.href = "${ctx}/main;jsessionid=${sessionid}";
             },
-            preventDefaultEvents: true
+            preventDefaultEvents: false
         });
     })
     ;
