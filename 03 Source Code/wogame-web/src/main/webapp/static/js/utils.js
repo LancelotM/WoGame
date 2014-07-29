@@ -80,7 +80,10 @@ function doDownload(url, id, name, icon) {
         })
 }
 function download_file(url) {
-
+	location.href=url;
+	return false;
+	
+	/*
     var form = $("#downloadForm");
     if (form.length > 0) {
         form.attr("target", "");
@@ -96,7 +99,7 @@ function download_file(url) {
     }
 
     form.submit();//表单提交
-
+	*/
 }
 
 var pageNum = 1;
