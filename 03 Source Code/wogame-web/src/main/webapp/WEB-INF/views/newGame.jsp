@@ -103,7 +103,7 @@
                     stringBuffer.push('<div class="w_list">');
                     stringBuffer.push('<div class="w_list_img">');
                     stringBuffer.push('<a href="' + urlBase + entry.id + '">');
-                    stringBuffer.push('<img src="' + entry.icon + '" width="48" height="48"/></a></div>');
+                    stringBuffer.push('<img src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon + '" width="48" height="48"/></a></div>');
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="' + urlBase + entry.id + '">' + entry.name + '</a>');
                     stringBuffer.push('</div>');
@@ -123,6 +123,7 @@
 
                     el.append(stringBuffer.join(""));
                 });
+                $("img[data-src]").scrollLoading();
             }
             if (callback) {
                 callback();

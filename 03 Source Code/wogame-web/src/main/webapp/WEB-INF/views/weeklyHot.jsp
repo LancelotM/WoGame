@@ -89,7 +89,7 @@
 //                    stringBuffer.push(' onclick="logdata(\'' + entry.product_id + '\',\''
 //                            + entry.title + '\',\'' + entry.icon_url + '\',\'' + index + '\')"');
                     stringBuffer.push('>');
-                    stringBuffer.push('<img src="' + entry.icon_url + '" width="48" height="48"/></a></div>');
+                    stringBuffer.push('<img src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon_url + '" width="48" height="48"/></a></div>');
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '"');
 //                    stringBuffer.push(' onclick="logdata(\'' + entry.product_id + '\',\''
@@ -113,6 +113,7 @@
 
                     el.append(stringBuffer.join(""));
                 });
+                $("img[data-src]").scrollLoading();
             }
 
             if (callback) {

@@ -172,6 +172,7 @@ function loaded() {
                 pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Pull up to load more...';
                 this.maxScrollY = pullUpOffset;
             }
+            $("img[data-src]").scrollLoading();
         },
         onScrollEnd: function () {
             if (pullDownEl.className.match('flip')) {
@@ -183,6 +184,7 @@ function loaded() {
                 pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Loading...';
                 pullUpAction();	// Execute custom function (ajax call?)
             }
+            $("img[data-src]").scrollLoading();
         }
     });
 
@@ -237,7 +239,7 @@ $(function () {
 (function ($) {
     $.fn.scrollLoading = function (options) {
         var defaults = {
-            attr: "data-url",
+            attr: "data-src",
             container: $(window),
             callback: $.noop
         };
@@ -304,3 +306,6 @@ $(function () {
     };
 })(jQuery);
 
+$(function () {
+    $("img[data-src]").scrollLoading();
+})

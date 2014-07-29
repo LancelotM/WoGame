@@ -133,7 +133,8 @@
                         </c:if>
                         <div class="w_img_bg">
                             <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">
-                                <img width="60" height="60" src="${appItem.iconUrl}">
+                                <img width="60" height="60" src="${ctx}/static/images/gameicon.png"
+                                     data-src="${appItem.iconUrl}">
                             </a>
                         </div>
                         <div class="w_img_count">
@@ -159,7 +160,8 @@
                             </c:if>
                             <div class="w_img_bg">
                                 <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.adId}', '${item.adType}', '${item.apps[idx.index+1].sort}');">
-                                    <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
+                                    <img width="60" height="60" src="${ctx}/static/images/gameicon.png"
+                                         data-src="${item.apps[idx.index+1].iconUrl}">
                                 </a>
                             </div>
                             <div class="w_img_count">
