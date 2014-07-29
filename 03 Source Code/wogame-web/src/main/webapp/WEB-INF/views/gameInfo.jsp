@@ -21,7 +21,7 @@
     </script>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <script src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <%--<script src="${ctx}/static/js/utils.js?20140715092223"></script>--%>
 
 </head>
 
@@ -141,6 +141,57 @@
 
     function toSearch() {
         location.href = "${ctx}/search/init;jsessionid=${sessionid}";
+    }
+
+    function doDownload(url, id, name, icon) {
+
+        $.getJSON(url,
+                {"productId": id, "productName": encodeURI(encodeURI(name)), "productIcon": icon},
+                function (data) {
+                    if (data.downloadUrl) {
+                        if (data.downloadUrl == "") {
+                            alert(data.description);
+                        } else {
+                            download_file(data.downloadUrl);
+                        }
+                    } else {
+                        alert("服务器错误。");
+                    }
+                })
+    }
+
+    $(function () {
+        $(window).resize(function () {
+            $('#info-container').css({
+                position: 'fixed',
+                left: ($(window).width() - $('#info-container').outerWidth()) / 2,
+                top: ($(window).height() - $('#info-container').outerHeight()) / 2 + $(document).scrollTop()
+            });
+        });
+        $(window).resize();
+    })
+    function download_file(url) {
+
+        $("#info-container").show(300).delay(2000).hide(300);
+        location.href = url;
+        return false;
+        /*
+         var form = $("#downloadForm");
+         if (form.length > 0) {
+         form.attr("target", "");
+         form.attr("action", url);
+         } else {
+         form = $("<form>");//定义一个form表单
+         form.attr("style", "display:none");
+         form.attr("id", "downloadForm");
+         form.attr("target", "");
+         form.attr("method", "post");
+         form.attr("action", url);
+         $("body").append(form);//将表单放置在web中
+         }
+
+         form.submit();//表单提交
+         */
     }
 </script>
 
