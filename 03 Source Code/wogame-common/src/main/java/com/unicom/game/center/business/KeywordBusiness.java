@@ -61,9 +61,22 @@ public class KeywordBusiness {
     }
 
 
-    public void saveKeywordInfoList(List<KeywordDomain> list, int num){
+    public void saveKeywordInfoList(List<KeywordDomain> list, int num, boolean validateChannel){
+        List<KeywordDomain> domains = new ArrayList<KeywordDomain>();
+
         try{
-            keywordDao.saveKeywordDomainList(list, num);
+            for(KeywordDomain keywordDomain : list){
+                if(validateChannel){
+                    ChannelInfoDomain channelInfoDomain = channelInfoDao.getById(keywordDomain.getChannelId());
+                    if(null != channelInfoDomain){
+                        domains.add(keywordDomain);
+                    }
+                }else{
+                    domains.add(keywordDomain);
+                }
+            }
+
+            keywordDao.saveKeywordDomainList(domains, num);
         }catch(Exception ex){
             Logging.logError("Error occur in saveKeywordInfoList.", ex);
         }

@@ -172,7 +172,15 @@ public class LogAnalyser implements ILogAnalyser {
             }
         }
         keyWordListSave.addAll(keyWordListUpdate);
-        keywordBusiness.saveKeywordInfoList(keyWordListSave, Constant.HIBERNATE_FLUSH_NUM);
+
+        try{
+            keywordBusiness.saveKeywordInfoList(keyWordListSave, Constant.HIBERNATE_FLUSH_NUM, false);
+        }catch(Exception e){
+            e.printStackTrace();
+            Logging.logError("Error occur in saveKeywordInfoList.", e);
+            keywordBusiness.saveKeywordInfoList(keyWordListSave, Constant.HIBERNATE_FLUSH_NUM, true);
+        }
+
     }
     
     /**
