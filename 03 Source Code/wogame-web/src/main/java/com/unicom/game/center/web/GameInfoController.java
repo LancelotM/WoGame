@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
 /**
  * 管理员管理用户的Controller.
  *
@@ -26,8 +29,9 @@ public class GameInfoController {
     private Logger logger = LoggerFactory.getLogger(GameInfoController.class);
 
     @RequestMapping(method = RequestMethod.GET)
-    public String info(@RequestParam("productId") String productId, Model model) {
+    public String info(@RequestParam("productId") String productId, Model model, HttpServletRequest request) {
         model.addAttribute("error", "");
+        model.addAttribute("referUrl", request.getHeader("Referer") + "&" + new Date().getTime());
         try {
             GameInfoVo info = gameService.readGameInfo(productId);
             if (info == null) {

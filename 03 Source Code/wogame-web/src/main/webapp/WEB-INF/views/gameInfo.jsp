@@ -28,8 +28,9 @@
 <body class="ibody_bg">
 <!--top-->
 <div data-role="header" data-position="fixed" data-theme="a" class="w-header" style="background:#404040;">
-    <div class="w-sousuo_icon"><a data-rel="back">后退</a></div>
-    <div class="w-sousuo"><a data-rel="back" style="color:#FF9C00;text-shadow: none;">${info.name}</a></div>
+    <div class="w-sousuo_icon"><a href="javascript:location.href='${referUrl}'">后退</a></div>
+    <div class="w-sousuo"><a href="javascript:location.href='${referUrl}'"
+                             style="color:#FF9C00;text-shadow: none;">${info.name}</a></div>
     <div class="w_search2"><a href="javascript:toSearch();" onclick="toSearch();">搜索</a></div>
 
 </div>
