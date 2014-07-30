@@ -12,6 +12,9 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
     <title>分类</title>
+    <script type="text/javascript">
+        var contextPath = '${ctx}';
+    </script>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
 </head>
 
@@ -31,8 +34,8 @@
 
     <!--<div class="w_new_077"><a href="#">分类</a></div>-->
 </div>
-<div id="pageContent">
-    <!--列表-->
+<div id="pageContent" style="margin-bottom: 10px;">
+<!--列表-->
     <c:forEach items="${list}" var="item">
         <c:if test="${item.source == 'UUC'}">
             <a href="javascript:listDetail('${item.categoryId}','${item.categoryTitle}');">
@@ -40,7 +43,8 @@
                     <c:if test="${item.recommendType>0}">
                         <div class="index_xiejiao index_xiejiao_${item.recommendType}"></div>
                     </c:if>
-                    <div class="w_list_img"><img src="${item.iconUrl}" width="60" height="60"/></div>
+                    <div class="w_list_img"><img src="${ctx}/static/images/gameicon.png"
+                                                 data-src="${item.iconUrl}" width="60" height="60"/></div>
                     <div class="w_list_title">${item.categoryTitle}</div>
                     <div class="w_list_category" style="top:35px;">${item.description}</div>
                 </div>
@@ -53,7 +57,7 @@
 <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
 <script type="text/javascript">
     $(function () {
-        $("#pageContent").touchwipe({
+        $("#pageContent .w_list_fenlei").touchwipe({
 
             wipeLeft: function (e) {
                 e.preventDefault();
@@ -63,7 +67,7 @@
                 e.preventDefault();
                 location.href = "${ctx}/main;jsessionid=${sessionid}";
             },
-            preventDefaultEvents: true
+            preventDefaultEvents: false
         });
     })
     ;

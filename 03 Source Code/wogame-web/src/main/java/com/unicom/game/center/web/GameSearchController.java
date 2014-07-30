@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.service.ZTEService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.UrlUtil;
 import com.unicom.game.center.vo.SearchKeywordItemVo;
 import com.unicom.game.center.vo.SearchKeywordsVo;
 import com.unicom.game.center.vo.SearchResultItemVo;
@@ -17,13 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * 管理员管理用户的Controller.
@@ -34,15 +34,25 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "/search")
 public class GameSearchController {
 
+
+    private Logger logger = LoggerFactory.getLogger(GameSearchController.class);
+    private static final String SESSION_KEY_REFERER = "Referer";
+
     @Autowired
     private StatisticsLogger statisticsLogger;
-    private Logger logger = LoggerFactory.getLogger(GameSearchController.class);
     @Autowired
     private ZTEService zteService;
 
     @RequestMapping(value = "init", method = RequestMethod.GET)
-    public String list(Model model) {
+    public String list(Model model, HttpServletRequest request) {
         SearchKeywordsVo vo = zteService.readSearchAllKeywords();
+        String refer = request.getHeader("Referer");
+        if (refer.contains("/gameInfo")) {
+            model.addAttribute("referUrl", request.getContextPath() + "/main;jsessionid=" + request.getSession().getId());
+        } else {
+            request.getSession().setAttribute(SESSION_KEY_REFERER, refer);
+            model.addAttribute("referUrl", UrlUtil.buildUrlWithRandomKey(refer));
+        }
         model.addAttribute("list", vo == null ? new ArrayList<SearchKeywordItemVo>() : vo.getHotwordList());
         return "search";
     }

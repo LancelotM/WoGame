@@ -104,9 +104,12 @@ a.bai14zt:hover {
 }
 
 /*图片*/
-.w_user, .w_download, .w_download2, .w_search, .w_search2, .w_new_02, .w_new_03, .w_new_04, .w_new_011, .w_new_022, .w_new_033, .w_new_044, .w_list_img, .w_list_download, dl.z_paihang dt, dl.z_paihang2 dt, dl.z_paihang3 dt, dl.z_paihang4 dt, dl.z_paihang5 dt, dl.no_paihang dt, dl.no_paihang2 dt, dl.no_paihang3 dt, dl.no_paihang4 dt, dl.no_paihang5 dt, .w_new_05, .w_new_06, .w_new_07, .w_new_055, .w_new_066, .w_new_077, .w-sousuo_icon, .w_in_01, .w_in_02, .w_start_01, .w_start_02, .w_start_03, .w_start_04, .w_start_05, .w_new_i3, .w_new_i4, .w_new_i5, .w_new_i33, .w_new_i44, .w_new_i55, .w_start_011, .w_start_022, .w_start_033, .w_start_044, .w_start_055 {
+.w_user,.w_search, .w_search2, .w_download, .w_list_download, .w_download2,  .w-sousuo_icon, .w_in_01, .w_in_02, .w_start_01, .w_start_02, .w_start_03, .w_start_04, .w_start_05, .w_new_i3, .w_new_i4, .w_new_i5, .w_new_i33, .w_new_i44, .w_new_i55, .w_start_011, .w_start_022, .w_start_033, .w_start_044, .w_start_055 {
     background: url(../images/icon.png) no-repeat 0 0;
     background-size: 320px 150px;
+}
+.w_img_bg, .w_new_02, .w_new_03, .w_new_04, .w_new_011, .w_new_022, .w_new_033, .w_new_044, .w_list_img, dl.z_paihang dt, dl.z_paihang2 dt, dl.z_paihang3 dt, dl.z_paihang4 dt, dl.z_paihang5 dt, dl.no_paihang dt, dl.no_paihang2 dt, dl.no_paihang3 dt, dl.no_paihang4 dt, dl.no_paihang5 dt, .w_new_05, .w_new_06, .w_new_07, .w_new_055, .w_new_066, .w_new_077, .w_new_i3, .w_new_i4, .w_new_i5, .w_new_i33, .w_new_i44, .w_new_i55 {
+    /*background: url(../images/gameicon.png) no-repeat 0 0;*/
 }
 
 /*排行*/
@@ -119,8 +122,12 @@ a.bai14zt:hover {
     margin-bottom: 4px;
 }
 
+.w_new_01 a, .w_new_011 a, .w_new_02 a, .w_new_022 a, .w_new_03 a, .w_new_033 a, .w_new_04 a, .w_new_044 a {
+    font-size: 1.2em;
+}
+
 .w_new_01 {
-    width: 60px;
+    width: 25%;
     height: 37px;
     background-position: -260px 7px;
     border-bottom: #FF9C00 5px solid;
@@ -132,36 +139,36 @@ a.bai14zt:hover {
 }
 
 .w_new_02 {
-    width: 60px;
+    width: 25%;
     height: 37px;
     background-position: -260px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 60px;
+    left: 25%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_03 {
-    width: 89px;
+    width: 25%;
     height: 37px;
     background-position: -231px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 120px;
+    left: 50%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_04 {
-    width: 89px;
+    width: 25%;
     height: 37px;
     background-position: -231px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 209px;
+    left: 75%;
     top: 0px;
     text-align: center;
     line-height: 38px;
@@ -204,7 +211,7 @@ a.bai14zt:hover {
 }
 
 .w_new_011 {
-    width: 60px;
+    width: 25%;
     height: 42px;
     background-position: -260px 7px;
     position: absolute;
@@ -215,33 +222,33 @@ a.bai14zt:hover {
 }
 
 .w_new_022 {
-    width: 60px;
+    width: 25%;
     height: 42px;
     background-position: -260px 7px;
     position: absolute;
-    left: 60px;
+    left: 25%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_033 {
-    width: 89px;
+    width: 25%;
     height: 42px;
     background-position: -231px 7px;
     position: absolute;
-    left: 120px;
+    left: 50%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_044 {
-    width: 89px;
+    width: 25%;
     height: 42px;
     background-position: -231px 7px;
     position: absolute;
-    left: 209px;
+    left: 75%;
     top: 0px;
     text-align: center;
     line-height: 38px;

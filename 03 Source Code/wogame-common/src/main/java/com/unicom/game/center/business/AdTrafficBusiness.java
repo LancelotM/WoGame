@@ -1,20 +1,27 @@
 package com.unicom.game.center.business;
 
-import java.text.CollationKey;
-import java.text.Collator;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.AdTrafficDao;
+import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.domain.AdTrafficDomain;
-import com.unicom.game.center.db.domain.ProductDomain;
+import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.log.model.GameTraffic;
-import com.unicom.game.center.model.GameDisplayModel;
 import com.unicom.game.center.model.AdInfo;
+import com.unicom.game.center.model.GameDisplayModel;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 
@@ -29,6 +36,9 @@ public class AdTrafficBusiness {
 
 	@Autowired
 	private AdTrafficDao gameTrafficDao;
+		
+	@Autowired
+	private ChannelInfoDao channelInfoDao;	
 	
 	/**
 	 * 
@@ -242,7 +252,7 @@ public class AdTrafficBusiness {
         }
     }
 
-    public void typeConversion(Map<Integer,GameTraffic> gameTrafficHashMap){
+    public void typeConversion(Map<Integer,GameTraffic> gameTrafficHashMap, boolean validateChannel){
         List<AdTrafficDomain> list = new ArrayList<AdTrafficDomain>();
         Iterator iterator = gameTrafficHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -255,8 +265,18 @@ public class AdTrafficBusiness {
             gameTrafficDomain.setSort(gameTraffic.getSort());
             gameTrafficDomain.setClickThrough(gameTraffic.getClickThrough());
             gameTrafficDomain.setDateCreated(gameTraffic.getDateCreated());
-            list.add(gameTrafficDomain);
+            
+            if(validateChannel){
+            	ChannelInfoDomain channelInfoDomain = channelInfoDao.getById(gameTraffic.getChannelId());
+            	if(null != channelInfoDomain){
+            		list.add(gameTrafficDomain);
+            	}
+            }else{
+            	list.add(gameTrafficDomain);
+            }             
         }
+        
+
         gameTrafficDao.saveAdTrafficDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
     }
 

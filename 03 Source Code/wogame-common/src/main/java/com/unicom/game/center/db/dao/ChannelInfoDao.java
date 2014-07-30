@@ -12,7 +12,9 @@ import com.unicom.game.center.model.ChannelInfo;
 public class ChannelInfoDao extends HibernateDao<ChannelInfoDomain>{
 	
 	public ChannelInfoDomain getById(int channelId){
-		return (ChannelInfoDomain)getSession().get(ChannelInfoDomain.class, channelId);
+		Object obj = getSession().get(ChannelInfoDomain.class, channelId);
+		
+		return (null != obj) ? (ChannelInfoDomain)obj : null;
 	}
 	
 	public void save(ChannelInfoDomain channelInfo){
