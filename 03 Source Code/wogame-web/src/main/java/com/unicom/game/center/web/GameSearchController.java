@@ -48,7 +48,7 @@ public class GameSearchController {
         SearchKeywordsVo vo = zteService.readSearchAllKeywords();
         String refer = request.getHeader("Referer");
         if (refer.contains("/gameInfo")) {
-            model.addAttribute("referUrl", UrlUtil.buildUrlWithRandomKey((String) request.getSession().getAttribute(SESSION_KEY_REFERER)));
+            model.addAttribute("referUrl", request.getContextPath() + "/main;jsessionid=" + request.getSession().getId());
         } else {
             request.getSession().setAttribute(SESSION_KEY_REFERER, refer);
             model.addAttribute("referUrl", UrlUtil.buildUrlWithRandomKey(refer));
