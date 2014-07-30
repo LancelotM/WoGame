@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,6 @@ import com.unicom.game.center.business.PageTrafficBusiness;
 import com.unicom.game.center.business.ProductBusiness;
 import com.unicom.game.center.db.domain.KeywordDomain;
 import com.unicom.game.center.log.model.GameTraffic;
-import com.unicom.game.center.log.model.KeyWord;
 import com.unicom.game.center.log.model.PageTraffic;
 import com.unicom.game.center.log.model.Product;
 import com.unicom.game.center.log.model.UserCount;
@@ -117,34 +117,6 @@ public class LogAnalyser implements ILogAnalyser {
         return date;
     }
 
-    private void compareWithKeyWord(Map<String,KeyWord> keyWordMap, Map<String,KeyWord> keyMapUpdate, Date fileDate){
-        KeyWord keyWord = null;
-
-        List<String> list = new ArrayList<String>();
-
-        Iterator iterator = keyWordMap.entrySet().iterator();
-        while (iterator.hasNext()){
-            Map.Entry entry = (Map.Entry) iterator.next();
-            String key = entry.getKey().toString();
-            String keywordValue = key.substring(3,key.length());
-            int channelId = Integer.parseInt(key.substring(0,3).trim());
-            KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keywordValue,channelId);
-            if(keywordDomain != null){
-                keyWord = new KeyWord();
-                keyWord.setId(keywordDomain.getId());
-                keyWord.setChannelId(channelId);
-                keyWord.setKeyword(keywordValue);
-                keyWord.setCount(keywordDomain.getCount() + ((KeyWord) entry.getValue()).getCount());
-                keyWord.setDateCreated(keywordDomain.getDateCreated());
-                keyWord.setDateModified(fileDate);
-                keyMapUpdate.put(key,keyWord);
-                list.add(key);
-            }
-        }
-        for(String mapKey: list){
-            keyWordMap.remove(mapKey);
-        }
-    }
     
     /**
      * parse number log file(wogamecenter_info_number.2014-07-26.log)
@@ -177,6 +149,31 @@ public class LogAnalyser implements ILogAnalyser {
             e.printStackTrace();
         }
     }
+
+    private void compareWithKeyWord(Map<String,KeywordDomain> keyWordMap, Date fileDate){
+        List<KeywordDomain> keyWordListSave = new ArrayList<KeywordDomain>();
+        List<KeywordDomain> keyWordListUpdate = new ArrayList<KeywordDomain>();
+
+        Iterator iterator = keyWordMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = entry.getKey().toString();
+            String keywordValue = key.substring(3,key.length());
+            int channelId = Integer.parseInt(key.substring(0,3).trim());
+            KeywordDomain keywordDomain = keywordBusiness.getKeyWord(keywordValue,channelId);
+            if(keywordDomain != null){
+                ((KeywordDomain)entry.getValue()).setId(keywordDomain.getId());
+                ((KeywordDomain)entry.getValue()).setCount(keywordDomain.getCount() + ((KeywordDomain) entry.getValue()).getCount());
+                ((KeywordDomain)entry.getValue()).setDateCreated(keywordDomain.getDateCreated());
+                ((KeywordDomain)entry.getValue()).setDateModified(fileDate);
+                keyWordListUpdate.add((KeywordDomain)entry.getValue());
+            }else{
+                keyWordListSave.add((KeywordDomain)entry.getValue());
+            }
+        }
+        keyWordListSave.addAll(keyWordListUpdate);
+        keywordBusiness.saveKeywordInfoList(keyWordListSave, Constant.HIBERNATE_FLUSH_NUM);
+    }
     
     /**
      * parse number log file(wogamecenter_info.2014-07-26.log)
@@ -187,9 +184,8 @@ public class LogAnalyser implements ILogAnalyser {
         File file = null;
         BufferedReader reader = null;
 
-        Map<String,KeyWord> keyMapUpdate = new HashMap<String, KeyWord>();
         Map<String,Product> productMap = new HashMap<String, Product>();
-        Map<String,KeyWord> keyWordMap = new HashMap<String, KeyWord>();
+        Map<String,KeywordDomain> keyWordMap = new HashMap<String, KeywordDomain>();
 
         String tempString = null;
 
@@ -205,26 +201,8 @@ public class LogAnalyser implements ILogAnalyser {
                 woGameInfoParse(tempString,date,keyWordMap,productMap);
             }
 
-            compareWithKeyWord(keyWordMap,keyMapUpdate, date);
+            compareWithKeyWord(keyWordMap, date);
 
-            try{
-            	keywordBusiness.typeConversionSave(keyWordMap, false);	
-            }catch(Exception e){
-            	e.printStackTrace();
-            	Logging.logError("Error occur in typeConversion.", e);
-            	keywordBusiness.typeConversionSave(keyWordMap, true);
-            }            
-            
-            if(keyMapUpdate.size()>=1){
-                try{
-                	keywordBusiness.typeConversionUpdate(keyMapUpdate, false);	
-                }catch(Exception e){
-                	e.printStackTrace();
-                	Logging.logError("Error occur in typeConversion.", e);
-                	keywordBusiness.typeConversionUpdate(keyMapUpdate, true);
-                }             	
-                
-            }
             productBusiness.typeConversion(productMap);
 
 
@@ -233,7 +211,6 @@ public class LogAnalyser implements ILogAnalyser {
             e.printStackTrace();
         } finally {
             keyWordMap.clear();
-            keyMapUpdate.clear();
             productMap.clear();
             if(null != reader){
             	try {
@@ -259,24 +236,24 @@ public class LogAnalyser implements ILogAnalyser {
     }
 
 
-    private void  keyWordDispose(String value,Map<String,KeyWord> keyWordMap,  Date fileDate){
-        KeyWord keyWord = null;
+    private void  keyWordDispose(String value,Map<String,KeywordDomain> keyWordMap,  Date fileDate){
+        KeywordDomain keywordDomain = null;
         if(!value.substring(0,3).trim().equals("")){
             int channelId = Integer.parseInt(value.substring(0,3).trim());
             if(channelId != 0){
                 String keywordValue = value.substring(3,value.length());
                 if(keyWordMap.containsKey(value)){
-                    keyWord = keyWordMap.get(value) ;
-                    keyWord.setCount(keyWord.getCount() + 1);
+                    keywordDomain = keyWordMap.get(value) ;
+                    keywordDomain.setCount(keywordDomain.getCount() + 1);
                 }else{
-                    keyWord = new KeyWord();
-                    keyWord.setCount(1);
+                    keywordDomain = new KeywordDomain();
+                    keywordDomain.setCount(1);
                 }
-                keyWord.setKeyword(keywordValue);
-                keyWord.setChannelId(channelId);
-                keyWord.setDateCreated(fileDate);
-                keyWord.setDateModified(fileDate);
-                keyWordMap.put(value, keyWord);
+                keywordDomain.setKeyword(keywordValue);
+                keywordDomain.setChannelId(channelId);
+                keywordDomain.setDateCreated(fileDate);
+                keywordDomain.setDateModified(fileDate);
+                keyWordMap.put(value, keywordDomain);
             }
         }
     }
@@ -481,16 +458,14 @@ public class LogAnalyser implements ILogAnalyser {
         gameTrafficMap.clear();
     }
 
-    private void woGameInfoParse(String tempString, Date fileDate,Map<String,KeyWord> keyWordMap, Map<String,Product> productMap){
+    private void woGameInfoParse(String tempString, Date fileDate,Map<String,KeywordDomain> keyWordMap, Map<String,Product> productMap){
         try{
 	    	Product product = null;
 	        String surplus = null;
 	        String firstTwoCharacters = tempString.substring(0, 2);
 	        if(firstTwoCharacters.equalsIgnoreCase("40")){
 	            surplus = tempString.substring(2,tempString.length());
-	            if(Integer.parseInt(surplus.substring(0,3).trim()) != 0) {
-                    keyWordDispose(surplus,keyWordMap, fileDate);
-	            }
+                keyWordDispose(surplus,keyWordMap, fileDate);
 	        } else if(firstTwoCharacters.equalsIgnoreCase("30")){
 	            String product_id = tempString.substring(5,15).trim();
 	            String product_name = tempString.substring(15,257).trim();
