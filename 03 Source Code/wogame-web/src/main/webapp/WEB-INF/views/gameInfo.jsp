@@ -73,7 +73,8 @@
 <c:if test="${error == ''}">
     <!--列表-->
     <div class="youxi_lr_01">
-        <div class="w_img_bg_large"><img src="${info.iconUrl}" width="80" height="80"/></div>
+        <div class="w_img_bg_large"><img src="${ctx}/static/images/gameicon.png"
+                                         data-src="${info.iconUrl}" width="80" height="80"/></div>
         <div class="w_start_0${info.rate}"></div>
         <div class="w_img_txt">
             <ul>
@@ -162,6 +163,9 @@
     }
 
     $(function () {
+        var imgUrl = $("img[data-src]").attr("data-src");
+        $("img[data-src]").attr("src", imgUrl);
+
         $(window).resize(function () {
             $('#info-container').css({
                 position: 'fixed',
