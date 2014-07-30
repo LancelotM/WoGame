@@ -14,7 +14,9 @@
     <title>${categoryName}</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
-
+    <script type="text/javascript">
+        var contextPath = '${ctx}';
+    </script>
 </head>
 
 <body class="ibody_bg">
@@ -26,6 +28,12 @@
 </div>
 <input type="hidden" id="categoryId" value="${categoryId}"/>
 
+<div id="info-container"
+     style="display:none;position:fixed;top:40%;left:10%;z-index:9999;text-align:center;background-color: white;width:200px;height:100px;border: 1px solid gray">
+    <div style="height:40px;line-height: 40px;">温馨提示</div>
+    <div style="height:4px;background-color: orange;"></div>
+    <div style="height:60px;line-height: 60px;">文件下载中...</div>
+</div>
 <div id="wrapper" style="top:45px;">
     <div id="scroller">
         <div id="pullDown">
@@ -78,7 +86,7 @@
                     stringBuffer.push('<div class="w_list">');
                     stringBuffer.push('<div class="w_list_img">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                    stringBuffer.push('<img src="' + entry.icon_url + '" width="48" height="48"/></a></div>');
+                    stringBuffer.push('<img src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon_url + '" width="48" height="48"/></a></div>');
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '">' + entry.app_name + '</a>');
                     stringBuffer.push('</div>');
@@ -99,6 +107,8 @@
 
                     el.append(stringBuffer.join(""));
                 });
+
+                $("img[data-src]").scrollLoading();
             }
 
             if (callback) {

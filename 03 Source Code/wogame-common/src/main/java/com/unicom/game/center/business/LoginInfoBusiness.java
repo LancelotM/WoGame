@@ -3,22 +3,24 @@ package com.unicom.game.center.business;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.unicom.game.center.utils.Constant;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unicom.game.center.db.dao.ChannelInfoDao;
 import com.unicom.game.center.db.dao.UserCountDao;
+import com.unicom.game.center.db.domain.ChannelInfoDomain;
 import com.unicom.game.center.db.domain.UserCountDomain;
 import com.unicom.game.center.log.model.UserCount;
 import com.unicom.game.center.model.JsonModel;
 import com.unicom.game.center.model.JsonParent;
 import com.unicom.game.center.model.LoginInfo;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.Logging;
 
@@ -33,6 +35,9 @@ public class LoginInfoBusiness {
 	
 	@Autowired
 	private UserCountDao userCountDao;
+	
+	@Autowired
+	private ChannelInfoDao channelInfoDao;
 	
 	public long fetchNewUserCount(Integer channelId){
 		long count = 0;
@@ -139,7 +144,7 @@ public class LoginInfoBusiness {
     }
 
 
-    public void typeConversion(Map<Integer,UserCount> userCountHashMap){
+    public void typeConversion(Map<Integer,UserCount> userCountHashMap, boolean validateChannel){
         List<UserCountDomain> list = new ArrayList<UserCountDomain>();
         Iterator iterator = userCountHashMap.entrySet().iterator();
         while (iterator.hasNext()){
@@ -150,8 +155,16 @@ public class LoginInfoBusiness {
             userCountDomain.setOldUserCount(userCount.getOld_user_count());
             userCountDomain.setChannelId(userCount.getChannelId());
             userCountDomain.setDateCreated(userCount.getDateCreated());
-            list.add(userCountDomain);
+            if(validateChannel){
+            	ChannelInfoDomain channelInfoDomain = channelInfoDao.getById(userCount.getChannelId());
+            	if(null != channelInfoDomain){
+            		list.add(userCountDomain);
+            	}
+            }else{
+            	list.add(userCountDomain);
+            }            
         }
+
         userCountDao.saveUserCountDomainList(list, Constant.HIBERNATE_FLUSH_NUM);
     }
 

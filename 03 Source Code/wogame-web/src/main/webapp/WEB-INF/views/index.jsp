@@ -18,7 +18,9 @@
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
-
+    <script type="text/javascript">
+        var contextPath = '${ctx}';
+    </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
@@ -90,6 +92,12 @@
 <div class="w-header">
     <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
 </div>
+<div id="info-container"
+     style="display:none;position:fixed;top:40%;left:10%;z-index:9999;text-align:center;background-color: white;width:200px;height:100px;border: 1px solid gray">
+    <div style="height:40px;line-height: 40px;">温馨提示</div>
+    <div style="height:4px;background-color: orange;"></div>
+    <div style="height:60px;line-height: 60px;">文件下载中...</div>
+</div>
 <!--分类筛选-->
 <div class="w_paihangtitle" id="w_paihangtitle">
     <!--选中状态-->
@@ -127,7 +135,8 @@
                         </c:if>
                         <div class="w_img_bg">
                             <a href="javascript:toAppDetail('${appItem.productId}','${item.adId}', '${item.adType}', '${appItem.sort}');">
-                                <img width="60" height="60" src="${appItem.iconUrl}">
+                                <img width="60" height="60" src="${ctx}/static/images/gameicon.png"
+                                     data-src="${appItem.iconUrl}">
                             </a>
                         </div>
                         <div class="w_img_count">
@@ -153,7 +162,8 @@
                             </c:if>
                             <div class="w_img_bg">
                                 <a href="javascript:toAppDetail('${item.apps[idx.index+1].productId}','${item.adId}', '${item.adType}', '${item.apps[idx.index+1].sort}');">
-                                    <img width="60" height="60" src="${item.apps[idx.index+1].iconUrl}">
+                                    <img width="60" height="60" src="${ctx}/static/images/gameicon.png"
+                                         data-src="${item.apps[idx.index+1].iconUrl}">
                                 </a>
                             </div>
                             <div class="w_img_count">

@@ -12,6 +12,9 @@
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
     <title>搜索</title>
+    <script type="text/javascript">
+        var contextPath = '${ctx}';
+    </script>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -19,8 +22,8 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w-sousuo_icon"><a data-rel="back"></a></div>
-    <div class="w-sousuo"><a data-rel="back">搜索</a></div>
+    <div class="w-sousuo_icon"><a href="javascript:location.href='${referUrl}'"></a></div>
+    <div class="w-sousuo"><a href="javascript:location.href='${referUrl}'">搜索</a></div>
 </div>
 <!--分类筛选-->
 <div class="w_search_box">
@@ -40,6 +43,12 @@
             <dt>重试</dt>
         </a>
     </dl>
+</div>
+<div id="info-container"
+     style="display:none;position:fixed;top:40%;left:10%;z-index:9999;text-align:center;background-color: white;width:200px;height:100px;border: 1px solid gray">
+    <div style="height:40px;line-height: 40px;">温馨提示</div>
+    <div style="height:4px;background-color: orange;"></div>
+    <div style="height:60px;line-height: 60px;">文件下载中...</div>
 </div>
 <div id="wrapper">
     <div id="scroller">
@@ -64,7 +73,6 @@
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
 <script type="text/javascript">
-    $('#pullDown, #pullUp').hide();
     var myScroll,
             pullDownEl, pullDownOffset,
             pullUpEl, pullUpOffset,
@@ -125,7 +133,7 @@
                     stringBuffer.push('<div class="w_list">');
                     stringBuffer.push('<div class="w_list_img">');
                     stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\')">');
-                    stringBuffer.push('<img src="' + entry.icon + '" width="48" height="48"/></a></div>');
+                    stringBuffer.push('<img src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon + '" width="48" height="48"/></a></div>');
                     stringBuffer.push('<div class="w_list_title">');
                     stringBuffer.push('<a href="javascript:toDetail(\'' + entry.id + '\')">' + entry.name + '</a>');
                     stringBuffer.push('</div>');
@@ -146,6 +154,7 @@
 
                     el.append(stringBuffer.join(""));
                 });
+                $("img[data-src]").scrollLoading();
 
             } else {
                 $('#pullDown, #pullUp').hide();

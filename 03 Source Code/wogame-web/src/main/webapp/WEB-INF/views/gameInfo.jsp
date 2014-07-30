@@ -16,19 +16,29 @@
     <title>${title}</title>
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css"/>
+    <script type="text/javascript">
+        var contextPath = '${ctx}';
+    </script>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-    <script src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <%--<script src="${ctx}/static/js/utils.js?20140715092223"></script>--%>
 
 </head>
 
 <body class="ibody_bg">
 <!--top-->
 <div data-role="header" data-position="fixed" data-theme="a" class="w-header" style="background:#404040;">
-    <div class="w-sousuo_icon"><a data-rel="back">后退</a></div>
-    <div class="w-sousuo"><a data-rel="back" style="color:#FF9C00;text-shadow: none;">${info.name}</a></div>
+    <div class="w-sousuo_icon"><a href="javascript:location.href='${referUrl}'">后退</a></div>
+    <div class="w-sousuo"><a href="javascript:location.href='${referUrl}'"
+                             style="color:#FF9C00;text-shadow: none;">${info.name}</a></div>
     <div class="w_search2"><a href="javascript:toSearch();" onclick="toSearch();">搜索</a></div>
 
+</div>
+<div id="info-container"
+     style="display:none;position:fixed;top:40%;left:10%;z-index:9999;text-align:center;background-color: white;width:200px;height:100px;border: 1px solid gray">
+    <div style="height:40px;line-height: 40px;">温馨提示</div>
+    <div style="height:4px;background-color: orange;"></div>
+    <div style="height:60px;line-height: 60px;">文件下载中...</div>
 </div>
 <!--分类筛选-->
 <div class="w_paihangtitle">
@@ -63,7 +73,8 @@
 <c:if test="${error == ''}">
     <!--列表-->
     <div class="youxi_lr_01">
-        <div class="w_img_bg_large"><img src="${info.iconUrl}" width="80" height="80"/></div>
+        <div class="w_img_bg_large"><img src="${ctx}/static/images/gameicon.png"
+                                         data-src="${info.iconUrl}" width="80" height="80"/></div>
         <div class="w_start_0${info.rate}"></div>
         <div class="w_img_txt">
             <ul>
@@ -132,6 +143,60 @@
 
     function toSearch() {
         location.href = "${ctx}/search/init;jsessionid=${sessionid}";
+    }
+
+    function doDownload(url, id, name, icon) {
+
+        $.getJSON(url,
+                {"productId": id, "productName": encodeURI(encodeURI(name)), "productIcon": icon},
+                function (data) {
+                    if (data.downloadUrl) {
+                        if (data.downloadUrl == "") {
+                            alert(data.description);
+                        } else {
+                            download_file(data.downloadUrl);
+                        }
+                    } else {
+                        alert("服务器错误。");
+                    }
+                })
+    }
+
+    $(function () {
+        var imgUrl = $("img[data-src]").attr("data-src");
+        $("img[data-src]").attr("src", imgUrl);
+
+        $(window).resize(function () {
+            $('#info-container').css({
+                position: 'fixed',
+                left: ($(window).width() - $('#info-container').outerWidth()) / 2,
+                top: ($(window).height() - $('#info-container').outerHeight()) / 2 + $(document).scrollTop()
+            });
+        });
+        $(window).resize();
+    })
+    function download_file(url) {
+
+        $("#info-container").show(300).delay(2000).hide(300);
+        location.href = url;
+        return false;
+        /*
+         var form = $("#downloadForm");
+         if (form.length > 0) {
+         form.attr("target", "");
+         form.attr("action", url);
+         } else {
+         form = $("<form>");//定义一个form表单
+         form.attr("style", "display:none");
+         form.attr("id", "downloadForm");
+         form.attr("target", "");
+         form.attr("method", "post");
+         form.attr("action", url);
+         $("body").append(form);//将表单放置在web中
+         }
+
+         form.submit();//表单提交
+         */
     }
 </script>
 
