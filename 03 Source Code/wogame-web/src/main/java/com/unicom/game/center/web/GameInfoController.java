@@ -1,6 +1,7 @@
 package com.unicom.game.center.web;
 
 import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.util.UrlUtil;
 import com.unicom.game.center.vo.GameInfoVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 /**
  * 管理员管理用户的Controller.
@@ -31,7 +31,7 @@ public class GameInfoController {
     @RequestMapping(method = RequestMethod.GET)
     public String info(@RequestParam("productId") String productId, Model model, HttpServletRequest request) {
         model.addAttribute("error", "");
-        model.addAttribute("referUrl", request.getHeader("Referer") + "&" + new Date().getTime());
+        model.addAttribute("referUrl", UrlUtil.buildUrlWithRandomKey(request.getHeader("Referer")));
         try {
             GameInfoVo info = gameService.readGameInfo(productId);
             if (info == null) {

@@ -22,8 +22,8 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w-sousuo_icon"><a data-rel="back"></a></div>
-    <div class="w-sousuo"><a data-rel="back">搜索</a></div>
+    <div class="w-sousuo_icon"><a href="javascript:location.href='${referUrl}'"></a></div>
+    <div class="w-sousuo"><a href="javascript:location.href='${referUrl}'">搜索</a></div>
 </div>
 <!--分类筛选-->
 <div class="w_search_box">
