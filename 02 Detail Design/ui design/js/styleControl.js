@@ -13,8 +13,7 @@ function show_hidden(id){
         obj.style.display='block';
     }
 }
-$(function(){
-	alert("pageloadfinish!");
+/*$(function(){
 	$('#create_manager_tb input').focus(function(){
 		if($('#channelId_input').val() == "channelID"){
 			$('#channelId_input').val('');
@@ -34,4 +33,4 @@ $(function(){
 	});
 	
 	
-});
+});*/

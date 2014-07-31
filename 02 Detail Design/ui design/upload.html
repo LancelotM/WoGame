@@ -5,6 +5,24 @@
         <title>热词统计</title>
 		<script type="text/javascript" src="js/styleControl.js"></script>
         <link type="text/css" rel="stylesheet" media="all" href="wogame.css"/>
+		<link type="text/css" rel="stylesheet" media="all" href="uploadify.css"/>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.uploadify.js"></script>
+		<script type="text/javascript" src="js/jquery.uploadify.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('#file_upload').uploadify({
+					'height'        : 27,
+					'width'         : 80,
+					'buttonText'    : '上传文件',
+					'swf'           : 'uploadify/uploadify.swf?ver=' + Math.random(),
+					'uploader'      : 'uploadify/uploadify.php',
+					'auto'          : false,
+					'fileTypeExts'  : '*.*',
+					'uploadLimit' : 8,
+			  });
+			});
+		</script>
 		<style type="text/css">
 			.min_td,.max_td{
 				text-align:left;
@@ -17,6 +35,30 @@
 				width:836px;
 				border-bottom:1px solid #ffc821;
 				
+			}
+			#upload_table tr{
+				height:34px;
+				border: 1px solid #ed6d02;
+			}
+			#upload_table td{
+				width:200px;
+			}
+			#upload_table input{
+				height: 23px;
+				line-height: 23px;
+				padding-left: 20px;
+				width: 200px;
+				border-radius: 5px;
+				border: 1px solid #e3e3e3;
+			}
+			#upload_table select{
+				border: 1px solid #e3e3e3;
+				border-radius: 5px;
+				padding-left: 15px;
+				font-size: 15px;
+				height: 23px;
+				vertical-align:center;
+				width: 150px;
 			}
 		</style>
     </head>
@@ -49,13 +91,38 @@
 							<img class="title_image" src="images/upload.png"/>上传文件
 						</div>
 						<div type="text-align:right">
-							<select id="updateType" >
-								<option>增加</option>
-								<option>修改</option>
-								<option>删除</option>
-							</select>
-							appid:<input type="text" value="" name="appid"/>
-							channelID:<input type="text" value="" name="channelId"/>
+							<form action="" method="">
+								<table id="upload_table" cellpadding="0" cellspacing="0" style="width:400px;background-color:#f7f7f7;margin:30px auto;">
+									<tr>
+										<td>更新类型：</td>
+										<td>
+											<select id="updateType" >
+												<option>增加</option>
+												<option>修改</option>
+												<option>删除</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>APPID:</td>
+										<td>
+											<input type="text" value="" name="appid" />
+										</td>
+									</tr>
+									<tr>
+										<td>channelID:</td>
+										<td>
+											<input type="text" value="" name="channelID" />
+										</td>
+									</tr>
+									<tr style="height:24px;border:0px">
+										<td></td>
+										<td style="padding-top:10px;padding-left:130px">
+											<input id="file_upload"　type="file" value="" name="file" />
+										</td>
+									</tr>
+								</table>
+							</form>	
 						</div>
 						
 					</div>
