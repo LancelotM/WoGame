@@ -10,55 +10,101 @@
 		<script type="text/javascript" src="js/jquery.uploadify.js"></script>
 		<script type="text/javascript" src="js/jquery.uploadify.min.js"></script>
 		<script type="text/javascript">
+		
 			$(function(){
-				$('#file_upload').uploadify({
-					'height'        : 27,
-					'width'         : 80,
-					'buttonText'    : '上传文件',
-					'swf'           : 'uploadify/uploadify.swf?ver=' + Math.random(),
-					'uploader'      : 'uploadify/uploadify.php',
-					'auto'          : false,
-					'fileTypeExts'  : '*.*',
-					'uploadLimit' : 8,
-			  });
+				$('#cancel').click(function(){
+					document.body.removeChild(Dialog.maskLayer);
+					$('#dialog').hide();
+				});
+				$('#fileField').change(function(){
+					 mask('#dialog');
+				});
+				
 			});
+			var Dialog = {};
+			
+			mask = function(dialogId,absoluteHeight){
+				buildMask();
+				var dialog = $(dialogId);
+				$(dialog).show();
+			}
+
+			buildMask = function(zIndex){
+				Dialog.maskLayer = document.createElement("div");
+				Dialog.maskLayer.style.position = "absolute";
+				if(zIndex){
+					Dialog.maskLayer.style.zIndex = zIndex;
+				}else{
+					Dialog.maskLayer.style.zIndex = "999999";
+				}
+				var _scrollWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
+				var _scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+				Dialog.maskLayer.style.width = _scrollWidth + "px";
+				Dialog.maskLayer.style.height = _scrollHeight + "px";
+				Dialog.maskLayer.style.top = "0px";
+				Dialog.maskLayer.style.left = "0px";
+				Dialog.maskLayer.style.background = "#33393C";
+				Dialog.maskLayer.style.filter = "alpha(opacity=40)";
+				Dialog.maskLayer.style.opacity = "0.40";
+				document.body.appendChild(Dialog.maskLayer);
+			}
 		</script>
 		<style type="text/css">
-			.min_td,.max_td{
-				text-align:left;
-				vertical-align:bottom;
+			input{ vertical-align:middle; margin:0; padding:0}
+			.file-box{ position:relative;width:340px;margin-top:20px;}
+			.txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
+			.btn{ background-color:#FFF; border:1px solid #CDCDCD;height:24px; width:70px;}
+			.file{ position:absolute; top:0; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
+			
+			#dialog{
+				min-height:325px;
+				width:718px;
+				border:1px solid #626262;
+				background-color:#ffffff;
+				position:relative;
+				border-radius:2px;
+				z-index: 10000010012;
 			}
-			.min_td{
-				width:121px;
+			
+			#dialog_head{
+				width:698px;
+				height:37px;
+				background-color:#626262;
+				line-height:37px;
+				padding-left:20px;
+				overflow:hidden;
 			}
-			.max_td{
-				width:836px;
-				border-bottom:1px solid #ffc821;
-				
+			#dialog_titile{
+				color:#ffffff;
+				font-size:18px;
 			}
-			#upload_table tr{
-				height:34px;
-				border: 1px solid #ed6d02;
+			#dialog_table{
+				width:613px;
+				margin:20px auto;
 			}
-			#upload_table td{
-				width:200px;
+			#dialog_table tr{
+				border:1px solid #e3e3e3;
+				height:20px;
 			}
-			#upload_table input{
-				height: 23px;
-				line-height: 23px;
-				padding-left: 20px;
-				width: 200px;
-				border-radius: 5px;
-				border: 1px solid #e3e3e3;
+			#dialog_table td{
+				text-align:center;
 			}
-			#upload_table select{
-				border: 1px solid #e3e3e3;
-				border-radius: 5px;
-				padding-left: 15px;
-				font-size: 15px;
-				height: 23px;
-				vertical-align:center;
-				width: 150px;
+			#dialog_table input{
+				width:505px;
+				height:26px;
+				border:1px solid #e3e3e3;
+				border-radius:4px;
+				line-height: 26px;
+			}
+			.footer{
+				width:718px;
+				height:37px;
+				text-align:right;
+				border-top:1px solid #626262;
+				line-height:37px;
+				position:absolute;
+				bottom:0px;
+				left:0px;
 			}
 		</style>
     </head>
@@ -90,41 +136,101 @@
 						<div class="log_title" style="margin-top:20px;">
 							<img class="title_image" src="images/upload.png"/>上传文件
 						</div>
-						<div type="text-align:right">
-							<form action="" method="">
-								<table id="upload_table" cellpadding="0" cellspacing="0" style="width:400px;background-color:#f7f7f7;margin:30px auto;">
-									<tr>
-										<td>更新类型：</td>
-										<td>
-											<select id="updateType" >
-												<option>增加</option>
-												<option>修改</option>
-												<option>删除</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td>APPID:</td>
-										<td>
-											<input type="text" value="" name="appid" />
-										</td>
-									</tr>
-									<tr>
-										<td>channelID:</td>
-										<td>
-											<input type="text" value="" name="channelID" />
-										</td>
-									</tr>
-									<tr style="height:24px;border:0px">
-										<td></td>
-										<td style="padding-top:10px;padding-left:130px">
-											<input id="file_upload"　type="file" value="" name="file" />
-										</td>
-									</tr>
-								</table>
-							</form>	
+						<div class="file-box">
+							<input type='text' name='textfield' id='textfield' class='txt' />  
+							<input type='button' class='btn' value='浏览...' />
+							<input type="file" name="fileField" class="file" id="fileField" size="28" multiple="multiple" onchange="document.getElementById('textfield').value=this.value" />
 						</div>
-						
+						<div id="dialog" style="display:none;">
+                            <div id="dialog_head">
+                                <span id="dialog_titile">上传文件</span>
+                            </div>
+                            <form id="update_form" action="" method="post">
+                                <table id="dialog_table">
+                                    <tr class="first_tr">
+										<td>appid</td>
+										<td>channelID</td>
+										<td>文件名</td>
+										<td>操作</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>321</td>
+										<td>258</td>
+										<td>植物大战僵尸</td>
+										<td><a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传文件</a></td>
+										<td></td>
+									</tr>
+                                </table>
+								<div class="footer">
+									<a href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">开始上传</a>
+									<a id="cancel" href="javascript:void(0);" style="padding:2px 24px;background: url(images/state_gray.png) no-repeat;color:#f7f7f7;font-weight: bold;">取消上传</a>
+								</div>
+                            </form>
+                        </div>
 					</div>
 					
 				</div>
