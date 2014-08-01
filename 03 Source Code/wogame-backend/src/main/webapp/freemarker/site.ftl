@@ -82,7 +82,7 @@
                                 </table>
                             </form>
 						</div>
-                        <div id="dialog" style="display:none;">
+                        <div id="dialog" style="display:none;" class="height288">
                             <div id="dialog_head">
                                 <span id="dialog_titile">修改已建站点信息</span>
                             </div>

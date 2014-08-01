@@ -1,4 +1,4 @@
-var Dialog = {};
+
 var submitFlag = true;
 $(function(){
 //    $.ajax({
@@ -139,33 +139,6 @@ function getUpdateInfo(channelId){
         $('#dialog_chaId').attr('value',data.channelCode);
         $('#dialog_cpid').attr('value',data.cpId);
     });
-}
-
-
-mask = function(dialogId,absoluteHeight){
-    buildMask();
-    var dialog = $(dialogId);
-    $(dialog).show();
-}
-
-buildMask = function(zIndex){
-    Dialog.maskLayer = document.createElement("div");
-    Dialog.maskLayer.style.position = "absolute";
-    if(zIndex){
-        Dialog.maskLayer.style.zIndex = zIndex;
-    }else{
-        Dialog.maskLayer.style.zIndex = "999999";
-    }
-    var _scrollWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
-    var _scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-    Dialog.maskLayer.style.width = _scrollWidth + "px";
-    Dialog.maskLayer.style.height = _scrollHeight + "px";
-    Dialog.maskLayer.style.top = "0px";
-    Dialog.maskLayer.style.left = "0px";
-    Dialog.maskLayer.style.background = "#33393C";
-    Dialog.maskLayer.style.filter = "alpha(opacity=40)";
-    Dialog.maskLayer.style.opacity = "0.40";
-    document.body.appendChild(Dialog.maskLayer);
 }
 
 //设置input,textarea默认值

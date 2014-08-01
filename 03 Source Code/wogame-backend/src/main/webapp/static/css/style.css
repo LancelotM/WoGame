@@ -465,7 +465,7 @@ a{
 }
 
 #dialog{
-    height:288px;
+
     width:718px;
     border:1px solid #626262;
     background-color:#ffffff;
@@ -474,6 +474,12 @@ a{
     right:197px;
     border-radius:2px;
     z-index: 10000010012;
+}
+.height288{
+    height:288px;
+}
+.min_height325{
+    min-height: 325px;
 }
 #dialog_head{
     width:698px;
@@ -525,6 +531,65 @@ a{
     line-height: 22px;
     float: right;
 }
+#upload_table tr{
+    height:34px;
+    border: 1px solid #ed6d02;
+}
+#upload_table td{
+    width:200px;
+}
+#upload_table input{
+    height: 23px;
+    line-height: 23px;
+    padding-left: 20px;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #e3e3e3;
+}
+#upload_table select{
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+    padding-left: 15px;
+    font-size: 15px;
+    height: 23px;
+    vertical-align:center;
+    width: 150px;
+}
+
+#footer{
+    width:718px;
+    height:37px;
+    text-align:right;
+    border-top:1px solid #626262;
+    line-height:37px;
+    position:absolute;
+    bottom:0px;
+    left:0px;
+}
+
+#upload_table{
+    width:613px;
+    margin:20px auto;
+}
+#upload_table tr{
+    border:1px solid #e3e3e3;
+    height:34px;
+}
+#upload_table input{
+    width:120px;
+    height:23px;
+    border:0.5px solid #f7f7f7;
+    border-radius:4px;
+    line-height: 26px;
+}
+#upload_table td{
+    text-align:center;
+}
+.file-box{ position:relative;width:340px;margin-top:20px;}
+.txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
+.btn{ background-color:#FFF; border:1px solid #CDCDCD;height:24px; width:70px;}
+.file{ position:absolute; top:0; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
+
 
 
 

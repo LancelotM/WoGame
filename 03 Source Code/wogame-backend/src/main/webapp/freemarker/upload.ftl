@@ -8,43 +8,30 @@
                 <div class="log_title" style="margin-top:20px;">
                     <img class="title_image" src="${basePath}/static/images/upload.png"/>上传文件
                 </div>
-                <div type="text-align:right">
-                    <form action="" method="">
-                        <table id="upload_table" cellpadding="0" cellspacing="0" style="width:400px;background-color:#f7f7f7;margin:30px auto;">
-                            <tr>
-                                <td>更新类型：</td>
-                                <td>
-                                    <select id="updateType" >
-                                        <option value="add">增加</option>
-                                        <option value="update">修改</option>
-                                        <option value="delete">删除</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>APPID:</td>
-                                <td>
-                                    <input id="upload_appid" type="text" value="" name="appid" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>channelID:</td>
-                                <td>
-                                    <input id="upload_channelId" type="text" value="" name="channelID" />
-                                </td>
-                            </tr>
-                            <tr style="height:24px;border:0px">
-                                <td colspan="2" style="padding-top:5px;padding-left:3px">
-                                    <input id="file_upload" type="file" value="" name="file"/>
-
-                                    <a href="javascript:$('#file_upload').uploadifyClearQueue()"
-                                       style="padding:2px 24px;background: url(${basePath}/static/images/state_gray.png) no-repeat;color:#f7f7f7;font-weight: bold;float: right">取消上传</a>
-                                    <a class="easyui-linkbutton" onclick="startUpload();" href="javascript:void(0);"
-                                       style="padding:2px 24px;background: url(${basePath}/static/images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;float: right">开始上传</a>
-                                </td>
+                <div class="file-box">
+                    <input type='text' name='textfield' id='textfield' class='txt' />
+                    <input type='button' class='btn' value='浏览...' />
+                    <input type="file" name="fileField" class="file" id="fileField" size="28" multiple="multiple" />
+                </div>
+                <div id="dialog" style="display:none;" class="min_height325">
+                    <div id="dialog_head">
+                        <span id="dialog_titile">上传文件</span>
+                    </div>
+                    <form action="" enctype="multipart/form-data" method="post" id="upload_form">
+                        <table id="upload_table">
+                            <tr class="first_tr">
+                                <td>文件名</td>
+                                <td>appid</td>
+                                <td>channelID</td>
+                                <td>操作</td>
+                                <td></td>
                             </tr>
                         </table>
                     </form>
+                    <div id="footer">
+                        <a id="start_upload" href="javascript:void(0);" style="padding:2px 24px;background: url(${basePath}/static/images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">开始上传</a>
+                        <a id="cancel" href="javascript:void(0);" style="padding:2px 24px;background: url(${basePath}/static/images/state_gray.png) no-repeat;color:#f7f7f7;font-weight: bold;">取消上传</a>
+                    </div>
                 </div>
 
             </div>
