@@ -38,13 +38,13 @@ public class UploadFileControl {
     }
 
     @RequestMapping(value="/uploadFileHandel",method ={RequestMethod.POST})
-    public @ResponseBody String fileHandel(String updateType, String appid, String channelId, HttpServletRequest request){
+    public @ResponseBody boolean fileHandel(String updateType, String appid, String channelId, HttpServletRequest request){
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
         System.out.println(updateType+"=="+appid+"=="+channelId);
         // 存储fileUrl
         List<String> uploadPaths = new ArrayList<String>();
-        String fileUrl = null;
+        boolean fileUrl = false;
         try {
             for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet())
             {
@@ -55,15 +55,14 @@ public class UploadFileControl {
 
                 byte[] fileByte = file.getBytes();
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream("E:\\xin\\soft\\testImg\\"+file.getOriginalFilename()));
+                        new BufferedOutputStream(new FileOutputStream("F:\\xin\\soft\\testImg\\"+file.getOriginalFilename()));
                 stream.write(fileByte);
                 stream.close();
 
             }
-            fileUrl =  "上传成功！";
+            fileUrl =  true;
         } catch (IOException e) {
             e.printStackTrace();
-            fileUrl =  "上传失败！";
         }
         return fileUrl;
     }
