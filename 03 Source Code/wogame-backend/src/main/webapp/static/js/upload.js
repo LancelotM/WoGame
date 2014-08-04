@@ -1,7 +1,7 @@
 $(function(){
     var f;
     var files = new Array();
-    var alertVal;
+    var alertVal = new Array();
     var basepath = getBasePath();
     $('#cancel').click(function(){
         document.body.removeChild(Dialog.maskLayer);
@@ -42,7 +42,7 @@ $(function(){
             $('#upload_table').append(html);
             mask('#dialog');
             $('#upload_table a').each(function(){
-                $(this).click(function(type){
+                $(this).click(function(event,type){
                     var input = $(this).parent().siblings().children().filter("input");
                     var appidVal = input[0].value;
                     if(isEmpty(appidVal.trim())){
@@ -61,19 +61,19 @@ $(function(){
 
                     var index = input[2].value;
                     var fileVal = files[index];
-                    alertVal = sendForm(fileVal,appidVal,channelVal);
-                    if(type != 'allFile' && alertVal){
+                    alertVal[index] = sendForm(fileVal,appidVal,channelVal);
+                    if(type != 'allFile' && alertVal[index]){
                        alert("上传成功！");
+                    }else if(type != 'allFile' && !alertVal[index]){
+                        alert("上传失败！");
                     }
                 });
             });
         }
     });
     $('#start_upload').click(function(){
-        $('#upload_table a').trigger('click','allFile');
-        if(alertVal){
-           alert("上传成功！");
-        }
+        $('#upload_table a').trigger('click',['allFile']);
+        alert("上传成功！");
     });
 });
 
@@ -91,42 +91,15 @@ function sendForm(file,appid,channelid) {
     oReq.open("POST", getBasePath()+"/uploadFileHandel", true);
     oReq.onload = function(oEvent) {
         if (oReq.status == 200 && oReq.readyState==4) {
-            returnVal = oReq.responseText;
+            if(oReq.responseText == "true"){
+                returnVal = true;
+            }else if(oReq.responseText == "false"){
+                returnVal = false;
+            }
+
         }
     };
     oReq.send(oData);
-//    $.ajax({
-//        url: getBasePath()+"/uploadFileHandel",
-//        type: "POST",
-//        data: oData,
-//        processData: false,  // 告诉jQuery不要去处理发送的数据
-//        contentType: false   // 告诉jQuery不要去设置Content-Type请求头
-//    });
+
     return returnVal;
-}
-
-function uploadFile(path,channel,appid){
-    var infoForm = document.createElement("form");
-    infoForm.method="POST" ;
-    infoForm.enctype="multipart/form-data";
-    infoForm.action = getBasePath()+"/uploadFileHandel";
-    var channelIdInput = document.createElement("input") ;
-    channelIdInput.setAttribute("name", "channelId") ;
-    channelIdInput.setAttribute("value", channel);
-    infoForm.appendChild(channelIdInput) ;
-
-    var dateInput = document.createElement("input") ;
-    dateInput.setAttribute("name", "appid") ;
-    dateInput.setAttribute("value", appid);
-    infoForm.appendChild(dateInput) ;
-
-    var fileInput = document.createElement("input") ;
-    fileInput.setAttribute("type","file");
-    fileInput.setAttribute("name", "appid") ;
-    fileInput.setAttribute("value", path);
-    fileInput.appendChild(fileInput) ;
-
-    document.body.appendChild(infoForm) ;
-    infoForm.submit() ;
-    document.body.removeChild(infoForm) ;
 }

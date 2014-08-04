@@ -1,5 +1,6 @@
 package com.unicom.game.center.controller;
 
+import com.unicom.game.center.model.ChannelInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,8 +35,17 @@ import java.util.Map;
 public class UploadFileControl {
 
     @RequestMapping(value = "/uploadPage", method = {RequestMethod.GET})
-    public ModelAndView getAllKeyWowrd(){
-        return new ModelAndView("/upload");
+    public ModelAndView getAllKeyWowrd(HttpServletRequest request,HttpSession session){
+        if(null == session){
+            session = request.getSession(true);
+        }
+        Boolean adminFlag = (Boolean)session.getAttribute("admin");
+        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+            return new ModelAndView("/upload");
+        }else{
+            return new ModelAndView("/index");
+        }
+
     }
 
     @RequestMapping(value="/uploadFileHandel",method ={RequestMethod.POST})
@@ -60,9 +71,10 @@ public class UploadFileControl {
                 stream.close();
 
             }
-            fileUrl =  true;
+            throw new NullPointerException();
         } catch (IOException e) {
             e.printStackTrace();
+            fileUrl = false;
         }
         return fileUrl;
     }
