@@ -1,11 +1,16 @@
 package com.unicom.game.center.controller;
 
-import java.util.List;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.unicom.game.center.utils.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,6 +40,9 @@ public class SiteController {
     
     @Autowired
     private SyncChannelClient syncChannelClient;
+
+    @Autowired
+    private ChannelInfoBusiness channelInfoBusiness;
 
     @Value("#{properties['wogame.wap.link']}")
     private String wapLink;
@@ -135,4 +143,38 @@ public class SiteController {
     }
 
 
+    @RequestMapping(value="/getProperties",method = {RequestMethod.POST})
+    public @ResponseBody List<ChannelModel> getProperties(){
+        List<String> list = null;
+        ChannelModel channelModel = null;
+        List<ChannelModel> channelModels = new ArrayList<ChannelModel>();
+        TreeMap<String,List<String>> data = new TreeMap<String, List<String>>();
+        List<String> ranges = new ArrayList<String>();
+        ranges.add("A-G");
+        ranges.add("H-J");
+        ranges.add("L-S");
+        ranges.add("T-Z");
+
+        list = channelInfoBusiness.getPropertiesList();
+        for(String siteName : list){
+            char firstChar = channelInfoBusiness.getPinYinHeadChar(siteName);
+            for(String range : ranges){
+                char first = range.charAt(0);
+                char end = range.charAt(range.length()-1);
+                if(firstChar>=first && firstChar <= end){
+                    channelInfoBusiness.getMap(data,range,siteName);
+                }
+            }
+        }
+         Iterator iterator = data.entrySet().iterator();
+         while(iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            channelModel = new ChannelModel();
+            channelModel.setKey(entry.getKey().toString());
+            channelModel.setChannels((List<String>)entry.getValue());
+            channelModels.add(channelModel);
+         }
+
+        return channelModels;
+    }
 }

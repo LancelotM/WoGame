@@ -19,7 +19,7 @@
                                                 [ <b></b>切换地区<label>▼</label>]
                                             </a>
                                             <div id="province_div" class="myCity" style="display:none">
-                                                <ul>
+   <#--                                             <ul>
                                                     <li>
                                                         <span>A-G</span>
                                                         <a name="18130" href="javascript:;">北京联通</a>
@@ -63,7 +63,7 @@
                                                         <a name="18184" href="javascript:;">云南联通</a>
                                                         <a name="18185" href="javascript:;">浙江联通</a>
                                                     </li>
-                                                </ul>
+                                                </ul>-->
                                             </div>
                                         </td>
                                         <td><input id="channelId_input" type="text" name="channelCode" value="${(channelInfoDomain.channelCode)!''}" title="请输入channelID"/></td>
