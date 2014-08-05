@@ -40,23 +40,28 @@ $(function(){
         $('#upload_tb .upload_file').each(function(){
             $(this).click(function(event,type){
                 var input = $(this).parent().siblings().children().filter("input");
+                var index = input[2].value;
+                var fileVal = files[index];
+                var fileName = fileVal.name;
+                if(fileName.indexOf("@") != -1){
+                    var array = fileName.split("@")
+                    fileName = array[1];
+                }
+
                 var appidVal = input[0].value;
                 if(isEmpty(appidVal.trim())){
-                    alert("appid不能为空！");
-                    return;
+                    alert(fileName+" appid不能为空！");
+                    return false;
                 }
 
                 var channelVal = input[1].value;
                 if(isEmpty(channelVal.trim())){
-                    alert("channelId不能为空！");
-                    return;
+                    alert(fileName+" channelId不能为空！");
+                    return false;
                 }else if(channelVal.trim().length != 5 && channelVal.trim().length != 8){
-                    alert("channelID必须是5字符或8字符！");
-                    return;
+                    alert(fileName+" channelID必须是5字符或8字符！");
+                    return false;
                 }
-
-                var index = input[2].value;
-                var fileVal = files[index];
                 alertVal[index] = sendForm(fileVal,appidVal,channelVal);
                 if(type != 'allFile' && alertVal[index]){
                     alert("上传成功！");
@@ -73,24 +78,29 @@ $(function(){
         });
     });
     $('#start_upload').click(function(){
-        $('#upload_tb .upload_file').trigger('click',['allFile']);
-        var alertStr = '';
-        for(var i = 0;i<alertVal.length;i++){
-            if(!alertVal[i]){
-                var failFile = files[i];
-                var fileName = failFile.name;
-                if(fileName.indexOf("@") != -1){
-                    var array = fileName.split("@")
-                    alertStr += array[1]+" ";
-                }else{
-                    alertStr += fileName+" ";
+        var flag = $('#upload_tb .upload_file').trigger('click',['allFile']);
+        if(alertVal != null && alertVal.length>0){
+            var alertStr = '';
+            for(var i = 0;i<alertVal.length;i++){
+                if(!alertVal[i]){
+                    var failFile = files[i];
+                    getFileName(failFile);
+                    var fileName = failFile.name;
+                    if(fileName.indexOf("@") != -1){
+                        var array = fileName.split("@")
+                        alertStr += array[1]+" ";
+                    }else{
+                        alertStr += fileName+" ";
+                    }
                 }
             }
-        }
-        if(!isEmpty(alertStr)){
-            alert(alertStr+"上传失败！");
+            if(!isEmpty(alertStr)){
+                alert(alertStr+"上传失败！");
+            }else{
+                alert("上传成功！");
+            }
         }else{
-            alert("上传成功！");
+            return;
         }
     });
 });
@@ -117,3 +127,4 @@ function sendForm(file,appid,channelid) {
 
     return returnVal;
 }
+
