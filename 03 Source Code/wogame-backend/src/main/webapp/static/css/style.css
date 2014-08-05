@@ -54,7 +54,7 @@ a{
 .login_table input{
 	height:40px;
 	width:250px;
-	border:0.5px solid #ffc821;
+	border:1px solid #ffc821;
     line-height: 40px;
 	border-radius:10px;
 }
@@ -567,24 +567,28 @@ a{
     left:0px;
 }
 
-#upload_table{
-    width:613px;
-    margin:20px auto;
+#upload_tb td{
+    text-align: center;
 }
-#upload_table tr{
-    border:1px solid #e3e3e3;
-    height:34px;
-}
-#upload_table input{
+
+/*#upload_table{*/
+    /*width:613px;*/
+    /*margin:20px auto;*/
+/*}*/
+/*#upload_table tr{*/
+    /*border:1px solid #e3e3e3;*/
+    /*height:34px;*/
+/*}*/
+#upload_tb input{
     width:120px;
     height:23px;
-    border:0.5px solid #f7f7f7;
+    border:1px solid #f7f7f7;
     border-radius:4px;
     line-height: 26px;
 }
-#upload_table td{
-    text-align:center;
-}
+/*#upload_table td{*/
+    /*text-align:center;*/
+/*}*/
 .file-box{ position:relative;width:340px;margin-top:20px;}
 .txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
 .btn{ background-color:#FFF; border:1px solid #CDCDCD;height:24px; width:70px;}
