@@ -3,9 +3,6 @@ $(function(){
     var files = new Array();
     var alertVal = new Array();
     var basepath = getBasePath();
-    $('#cancel_all').click(function(){
-
-    });
     $('#fileField').change(function(){
         $('.add_info').remove();
         var html = '';
@@ -74,17 +71,20 @@ $(function(){
         $('#upload_tb .cancel_upload').each(function(){
             $(this).click(function(){
                 $(this).parent().parent().remove();
+                if($('#upload_tb tbody tr').length < 1){
+                    $('#upload_tb').hide();
+                }
+
             });
         });
     });
     $('#start_upload').click(function(){
-        var flag = $('#upload_tb .upload_file').trigger('click',['allFile']);
+        $('#upload_tb .upload_file').trigger('click',['allFile']);
         if(alertVal != null && alertVal.length>0){
             var alertStr = '';
             for(var i = 0;i<alertVal.length;i++){
                 if(!alertVal[i]){
                     var failFile = files[i];
-                    getFileName(failFile);
                     var fileName = failFile.name;
                     if(fileName.indexOf("@") != -1){
                         var array = fileName.split("@")
@@ -110,9 +110,9 @@ function sendForm(file,appid,channelid) {
     var oData = new FormData(document.getElementById("upload_form"));
     oData.append("file", file);
     oData.append("appid", appid);
-    oData.append("channelid", channelid);
+    oData.append("channelId", channelid);
     var oReq = new XMLHttpRequest();
-    oReq.open("POST", getBasePath()+"/uploadFileHandel", true);
+    oReq.open("POST", getBasePath()+"/uploadFileHandel?"+Math.random(), true);
     oReq.onload = function(oEvent) {
         if (oReq.status == 200 && oReq.readyState==4) {
             if(oReq.responseText == "true"){
@@ -124,7 +124,6 @@ function sendForm(file,appid,channelid) {
         }
     };
     oReq.send(oData);
-
     return returnVal;
 }
 

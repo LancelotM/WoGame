@@ -1,6 +1,7 @@
 package com.unicom.game.center.controller;
 
 import com.unicom.game.center.model.ChannelInfo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,9 @@ import java.util.Map;
 @Controller
 public class UploadFileControl {
 
+    @Value("#{properties['upload.path']}")
+    private String uploadPath;
+
     @RequestMapping(value = "/uploadPage", method = {RequestMethod.GET})
     public ModelAndView getAllKeyWowrd(HttpServletRequest request,HttpSession session){
         if(null == session){
@@ -52,7 +56,6 @@ public class UploadFileControl {
     public @ResponseBody boolean fileHandel(String updateType, String appid, String channelId, HttpServletRequest request){
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-        System.out.println(updateType+"=="+appid+"=="+channelId);
         // 存储fileUrl
         List<String> uploadPaths = new ArrayList<String>();
         boolean fileUrl = false;
@@ -60,18 +63,14 @@ public class UploadFileControl {
             for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet())
             {
                 MultipartFile file = entity.getValue();
-                System.out.println(file.getName());
-                System.out.println(file.getContentType());
-                System.out.println(file.getOriginalFilename());
 
                 byte[] fileByte = file.getBytes();
                 BufferedOutputStream stream =
-                        new BufferedOutputStream(new FileOutputStream("F:\\xin\\soft\\testImg\\"+file.getOriginalFilename()));
+                        new BufferedOutputStream(new FileOutputStream(uploadPath+File.separator+file.getOriginalFilename()));
                 stream.write(fileByte);
                 stream.close();
-
             }
-            throw new NullPointerException();
+            fileUrl = true;
         } catch (IOException e) {
             e.printStackTrace();
             fileUrl = false;
