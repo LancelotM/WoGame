@@ -53,12 +53,12 @@ public class UploadFileControl {
     }
 
     @RequestMapping(value="/uploadFileHandel",method ={RequestMethod.POST})
-    public @ResponseBody boolean fileHandel(String updateType, String appid, String channelId, HttpServletRequest request){
+    public @ResponseBody String fileHandel(String updateType, String appid, String channelId, HttpServletRequest request){
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
         // 存储fileUrl
         List<String> uploadPaths = new ArrayList<String>();
-        boolean fileUrl = false;
+        String fileUrl = "";
         try {
             for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet())
             {
@@ -70,10 +70,10 @@ public class UploadFileControl {
                 stream.write(fileByte);
                 stream.close();
             }
-            fileUrl = true;
+            fileUrl = "true";
         } catch (IOException e) {
             e.printStackTrace();
-            fileUrl = false;
+            fileUrl = "false";
         }
         return fileUrl;
     }

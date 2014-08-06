@@ -48,22 +48,27 @@ $(function(){
                 var appidVal = input[0].value;
                 if(isEmpty(appidVal.trim())){
                     alert(fileName+" appid不能为空！");
-                    return false;
+                    return;
                 }
 
                 var channelVal = input[1].value;
                 if(isEmpty(channelVal.trim())){
                     alert(fileName+" channelId不能为空！");
-                    return false;
+                    return;
                 }else if(channelVal.trim().length != 5 && channelVal.trim().length != 8){
                     alert(fileName+" channelID必须是5字符或8字符！");
-                    return false;
+                    return;
                 }
-                alertVal[index] = sendForm(fileVal,appidVal,channelVal);
-                if(type != 'allFile' && alertVal[index]){
-                    alert("上传成功！");
-                }else if(type != 'allFile' && !alertVal[index]){
-                    alert("上传失败！");
+                var flag = sendForm(fileVal,appidVal,channelVal);
+                alertVal[index] = flag;
+                if(isEmpty(type)){
+                   if(flag){
+                       alert("上传成功！");
+                       return;
+                   }else{
+                       alert("上传失败！");
+                       return;
+                   }
                 }
             });
         });
