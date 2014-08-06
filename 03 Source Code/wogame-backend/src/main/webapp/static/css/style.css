@@ -579,12 +579,17 @@ a{
     /*border:1px solid #e3e3e3;*/
     /*height:34px;*/
 /*}*/
-#upload_tb input{
+#upload_tb .text{
     width:120px;
     height:23px;
     border:1px solid #f7f7f7;
     border-radius:4px;
     line-height: 26px;
+}
+#upload_tb .check_box{
+    width:29px;
+    vertical-align: center;
+    padding-left: 0px;
 }
 /*#upload_table td{*/
     /*text-align:center;*/

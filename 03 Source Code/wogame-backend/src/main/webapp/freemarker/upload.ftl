@@ -17,15 +17,16 @@
                     <table id="upload_tb" class="detail_tb" style="display: none">
                         <thead>
                         <tr class="table_title">
+                            <td class="check_box"></td>
                             <td>文件名</td>
                             <td>appid</td>
                             <td>channelID</td>
                             <td>操作</td>
-                            <td></td>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
+                            <td class="check_box"><input id="selectAll" type="checkbox" alt="selectAll" /></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -33,7 +34,6 @@
                                 <a id="start_upload" href="javascript:void(0);" style="padding:2px 24px;background: url(${basePath}/static/images/state_yellow.png) no-repeat;color:#f7f7f7;font-weight: bold;">上传全部</a>
                             <#--<a id="cancel_all" href="javascript:void(0);" style="padding:2px 24px;background: url(${basePath}/static/images/state_gray.png) no-repeat;color:#f7f7f7;font-weight: bold;">取消上传</a>-->
                             </td>
-                            <td></td>
                         </tr>
                         </tfoot>
                         <tbody id="upload_tbody">
