@@ -59,17 +59,34 @@ $(function(){
                     alert(fileName+" channelID必须是5字符或8字符！");
                     return;
                 }
-                var flag = sendForm(fileVal,appidVal,channelVal);
-                alertVal[index] = flag;
-                if(isEmpty(type)){
-                   if(flag){
-                       alert("上传成功！");
-                       return;
-                   }else{
-                       alert("上传失败！");
-                       return;
-                   }
-                }
+//                var flag = sendForm(fileVal,appidVal,channelVal);
+                var oData = new FormData(document.getElementById("upload_form"));
+                oData.append("file", fileVal);
+                oData.append("appid", appid);
+                oData.append("channelId", channelVal);
+                var oReq = new XMLHttpRequest();
+                oReq.open("POST", getBasePath()+"/uploadFileHandel?"+Math.random(), true);
+                oReq.onload = function(oEvent) {
+                    if (oReq.status == 200 && oReq.readyState==4) {
+                        var returnVal;
+                        if(oReq.responseText == "true"){
+                            returnVal = true;
+                        }else if(oReq.responseText == "false"){
+                            returnVal = false;
+                        }
+                        alertVal[index] = returnVal;
+                        if(isEmpty(type)){
+                            if(returnVal){
+                                alert("上传成功！");
+                                return;
+                            }else{
+                                alert("single上传失败！");
+                                return;
+                            }
+                        }
+                    }
+                };
+                oReq.send(oData);
             });
         });
 
@@ -121,14 +138,17 @@ function sendForm(file,appid,channelid) {
     oReq.onload = function(oEvent) {
         if (oReq.status == 200 && oReq.readyState==4) {
             if(oReq.responseText == "true"){
+                alert("oReq.responseText"+oReq.responseText);
+                return oReq.responseText;
                 returnVal = true;
             }else if(oReq.responseText == "false"){
                 returnVal = false;
+                return oReq.responseText;
             }
 
         }
     };
     oReq.send(oData);
-    return returnVal;
+
 }
 
