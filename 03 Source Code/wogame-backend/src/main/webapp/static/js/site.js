@@ -71,7 +71,8 @@ $(function(){
                     $.each(coment.channels,function(index,site){
                         html += '<a  href="javascript:;">'+site+'</a>';
                     });
-                     html += '</li></ul>';
+                    html += '</li></ul>';
+                    html += '<div class="clear" style="clear:both"></div>';
                 });
                 $('#province_div').append(html);
 
