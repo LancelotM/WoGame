@@ -21,12 +21,12 @@
                             <td>文件名</td>
                             <td>appid</td>
                             <td>channelID</td>
-                            <td>操作</td>
+                            <td style="text-align: center;">操作</td>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
-                            <td class="check_box"><input id="selectAll" type="checkbox" alt="selectAll" /></td>
+                            <td style="text-align: center" class="check_box"><input id="selectAll" type="checkbox" alt="selectAll" /></td>
                             <td></td>
                             <td></td>
                             <td></td>

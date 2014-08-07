@@ -552,7 +552,7 @@ a{
     padding-left: 15px;
     font-size: 15px;
     height: 23px;
-    vertical-align:center;
+    vertical-align:middle;
     width: 150px;
 }
 
@@ -568,7 +568,8 @@ a{
 }
 
 #upload_tb td{
-    text-align: center;
+    text-align: left;
+    padding-left: 0px
 }
 
 /*#upload_table{*/
@@ -588,8 +589,12 @@ a{
 }
 #upload_tb .check_box{
     width:29px;
-    vertical-align: center;
+    vertical-align: middle;
     padding-left: 0px;
+}
+
+.uploaded:hover{
+   cursor: default;
 }
 /*#upload_table td{*/
     /*text-align:center;*/
