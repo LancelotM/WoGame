@@ -32,7 +32,7 @@ $(function(){
         $('#upload_tbody').append(html);
         $('#upload_tb').show();
         $('#upload_tb .upload_file').each(function(){
-            $(this).click(function(event,type){
+            $(this).click(function(event,type,alertValIndex){
                 var currentObj = $(this);
                 var input = $(this).parent().siblings().children().filter("input");
                 var index = $(this).next().val();
@@ -45,7 +45,7 @@ $(function(){
 
                 var appidVal = input[1].value;
                 if(isEmpty(appidVal.trim())){
-                    alertVal.push(1);
+                    alertVal[alertValIndex] = 1;
                     if(isEmpty(type)){
                         alert(fileName+" appid不能为空！");
                     }
@@ -54,14 +54,14 @@ $(function(){
 
                 var channelVal = input[2].value;
                 if(isEmpty(channelVal.trim())){
-                    alertVal.push(2);
+                    alertVal[alertValIndex] = 2;
                     if(isEmpty(type)){
                         alert(fileName+" channelId不能为空！");
                     }
 
                     return;
                 }else if(channelVal.trim().length != 5 && channelVal.trim().length != 8){
-                    alertVal.push(3);
+                    alertVal[alertValIndex] = 3;
                     if(isEmpty(type)){
                         alert(fileName+" channelID必须是5字符或8字符！");
                     }
@@ -71,7 +71,7 @@ $(function(){
 //                var flag = sendForm(fileVal,appidVal,channelVal);
                 if(type == "allFile"){
                     if(!input[0].checked){
-                        alertVal[index] = 0;
+                        alertVal[index] = 4;
                         return;
                     }
                 }else{
@@ -93,7 +93,7 @@ $(function(){
                         }else if(oReq.responseText == "false"){
                             returnVal = false;
                         }
-                        alertVal.push(returnVal);
+                        alertVal[alertValIndex] = returnVal;
                         if(returnVal){
                             currentObj.replaceWith('<a class="uploaded" href="javascript:void(0);" style="white-space: nowrap;padding:2px 24px;' +
                                 'background: url('+basepath+'/static/images/state_gray.png) no-repeat;color:#f7f7f7;font-weight: bold;">已经上传</a>');
@@ -148,13 +148,13 @@ $(function(){
         var checkeds = new Array();
         for(var i = 0;i<allCheckBox.length;i++){
             if(!allCheckBox[i].checked){
-                noChecked.push(i);
+                noChecked[i] = i;
                 if(allCheckBox[i].disabled){
-                    disableds.push(i);
+                    disableds[i] = i;
                     continue;
                 }
             }else{
-                checkeds.push(i);
+                checkeds[i] = i;
             }
         }
         if(noChecked.length == allCheckBox.length && noChecked.length == disableds.length){
@@ -165,15 +165,17 @@ $(function(){
             return;
         }
         for(var x = 0;x<checkeds.length;x++){
-            $('.upload_file:eq('+checkeds[x]+')').trigger('click',['allFile']);
+            //alert("checkeds["+x+"]:"+checkeds[x]);
+            $('.upload_file:eq('+checkeds[x]+')').trigger('click',['allFile',x]);
         }
 
-       if(alertVal != null && alertVal.length>0){//alertVal:1代表appid是空，2代表channelId为空，3代表channelId字符个数不匹配
+       if(alertVal != null && alertVal.length>0){//alertVal:1代表appid是空，2代表channelId为空，3代表channelId字符个数不匹配,4代表没有选中
            var failStr = '';
            var appStr = '';
            var chaStr = '';
            var chaLength = '';
            for(var i = 0;i<checkeds.length;i++){
+               //alert("alertVal["+i+"]:"+alertVal[i]);
                var fileIndex = checkeds[i];
                var file = files[fileIndex];
                var fileName = file.name;
@@ -183,32 +185,24 @@ $(function(){
                }
                if(alertVal[i] == 1){
                    appStr += fileName + " ";
-                   if(i = checkeds.length-1){
-                       appStr += fileName + " appid不能为空！";
-                   }
                }else if(alertVal[i] == 2){
                    chaStr += fileName + " ";
-                   if(i = checkeds.length-1){
-                       chaStr += fileName + " channelId不能为空！";
-                   }
                }else if(alertVal[i] == 3){
                    chaLength += fileName + " ";
-                   if(i = checkeds.length-1){
-                       chaLength += fileName + " channelID必须是5字符或8字符！";
-                   }
-               }else if(alertVal[i] != 0){
+               }else if(alertVal[i] != 4){
                    if(!alertVal[i]){
                        failStr += fileName + " ";
                    }
                }
                    }
            if(!isEmpty(appStr)){
-               alert(appStr);
-           }else if(!isEmpty(chaStr)){
-               alert(chaStr);
+               alert(appStr+"appid不能为空！");
            }
-           else if(!isEmpty(chaLength)){
-               alert(chaLength);
+           if(!isEmpty(chaStr)){
+               alert(chaStr+"channelId不能为空！");
+           }
+           if(!isEmpty(chaLength)){
+               alert(chaLength+"channelID必须是5字符或8字符！");
            }
            if(!isEmpty(failStr)){
                alert(failStr+"上传失败！");
