@@ -64,14 +64,22 @@ $(function(){
             dataType: "json",
             success:function(data){
                 $('.channel_ul').remove();
+                $('.clear').remove();
                 var html = "";
                 $.each(data,function(index,coment){
+                    var count = 1;
                     html += '<ul class="channel_ul"> <li>';
                     html += '<span>'+coment.key+'</span>';
                     $.each(coment.channels,function(index,site){
+                        if(count == 10){
+                            html += '<a style="width: 40px;"></a>';
+                            count = 1;
+                        }
                         html += '<a  href="javascript:;">'+site+'</a>';
+                        count++;
                     });
-                     html += '</li></ul>';
+                    html += '</li></ul>';
+                    html += '<div class="clear" style="clear:both"></div>';
                 });
                 $('#province_div').append(html);
 
