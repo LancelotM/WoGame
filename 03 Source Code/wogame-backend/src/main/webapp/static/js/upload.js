@@ -3,6 +3,7 @@ $(function(){
     var alertVal = new Array();
     var basepath = getBasePath();
     $('#fileField').change(function(){
+        $('#selectAll').attr('checked',false);
         $('.add_info').remove();
         var html = '';
         files = document.getElementById("fileField").files;
@@ -68,13 +69,7 @@ $(function(){
 
                     return;
                 }
-//                var flag = sendForm(fileVal,appidVal,channelVal);
-                if(type == "allFile"){
-                    if(!input[0].checked){
-                        alertVal[index] = 4;
-                        return;
-                    }
-                }else{
+                if(isEmpty(type)){
                     if(!input[0].checked){
                         input[0].checked = true;
                     }
@@ -84,35 +79,32 @@ $(function(){
                 oData.append("appid", appid);
                 oData.append("channelId", channelVal);
                 var oReq = new XMLHttpRequest();
-                oReq.open("POST", getBasePath()+"/uploadFileHandel?"+Math.random(), true);
-                oReq.onload = function(oEvent) {
-                    if (oReq.status == 200 && oReq.readyState==4) {
-                        var returnVal;
-                        if(oReq.responseText == "true"){
-                            returnVal = true;
-                        }else if(oReq.responseText == "false"){
-                            returnVal = false;
-                        }
-                        alertVal[alertValIndex] = returnVal;
-                        if(returnVal){
-                            currentObj.replaceWith('<a class="uploaded" href="javascript:void(0);" style="white-space: nowrap;padding:2px 24px;' +
-                                'background: url('+basepath+'/static/images/state_gray.png) no-repeat;color:#f7f7f7;font-weight: bold;">已经上传</a>');
-                            input[0].checked = false;
-                            input[0].disabled = true;
-                            input[1].disabled = true;
-                            input[2].disabled = true;
-                            if(isEmpty(type)){
-                                alert("上传成功！");
-                            }
-                            return;
-                        }else{
-                            if(isEmpty(type)){
-                                alert("上传失败！");
-                            }
-                        }
-                    }
-                };
+                oReq.open("POST", getBasePath()+"/uploadFileHandel?"+Math.random(), false);
                 oReq.send(oData);
+                var returnVal;
+                if(oReq.responseText == "true"){
+                    returnVal = true;
+                }else if(oReq.responseText == "false"){
+                    returnVal = false;
+                }
+                alertVal[alertValIndex] = returnVal;
+                if(returnVal){
+                    currentObj.replaceWith('<a id="uploaded" class="upload_file" href="javascript:void(0);" style="white-space: nowrap;padding:2px 24px;' +
+                        'background: url('+basepath+'/static/images/state_gray.png) no-repeat;color:#f7f7f7;font-weight: bold;">已经上传</a>');
+                    input[0].checked = false;
+                    input[0].disabled = true;
+                    input[1].disabled = true;
+                    input[2].disabled = true;
+                    if(isEmpty(type)){
+                        alert("上传成功！");
+                    }
+                    return;
+                }else{
+                    if(isEmpty(type)){
+                        alert("上传失败！");
+                    }
+                }
+
             });
         });
 
@@ -148,28 +140,27 @@ $(function(){
         var checkeds = new Array();
         for(var i = 0;i<allCheckBox.length;i++){
             if(!allCheckBox[i].checked){
-                noChecked[i] = i;
+                noChecked.push(i);
                 if(allCheckBox[i].disabled){
-                    disableds[i] = i;
+                    disableds.push(i);
                     continue;
                 }
             }else{
-                checkeds[i] = i;
+                checkeds.push(i);
             }
         }
-        if(noChecked.length == allCheckBox.length && noChecked.length == disableds.length){
+        if(noChecked.length === allCheckBox.length && noChecked.length === disableds.length){
             alert("没有需要上传的文件！");
             return;
-        }else if(noChecked.length == allCheckBox.length && noChecked.length != disableds.length){
+        }else if(noChecked.length === allCheckBox.length && noChecked.length !== disableds.length){
             alert("请选择文件！");
             return;
         }
         for(var x = 0;x<checkeds.length;x++){
-            //alert("checkeds["+x+"]:"+checkeds[x]);
             $('.upload_file:eq('+checkeds[x]+')').trigger('click',['allFile',x]);
         }
 
-       if(alertVal != null && alertVal.length>0){//alertVal:1代表appid是空，2代表channelId为空，3代表channelId字符个数不匹配,4代表没有选中
+       if(alertVal != null && alertVal.length>0){//alertVal:1代表appid是空，2代表channelId为空，3代表channelId字符个数不匹配,
            var failStr = '';
            var appStr = '';
            var chaStr = '';
@@ -183,67 +174,40 @@ $(function(){
                    var array = fileName.split("@")
                    fileName = array[1];
                }
-               if(alertVal[i] == 1){
-                   appStr += fileName + " ";
-               }else if(alertVal[i] == 2){
-                   chaStr += fileName + " ";
-               }else if(alertVal[i] == 3){
-                   chaLength += fileName + " ";
-               }else if(alertVal[i] != 4){
+               if(alertVal[i] === 1){
+                   appStr += fileName + "\n";
+               }else if(alertVal[i] === 2){
+                   chaStr += fileName + "\n";
+               }else if(alertVal[i] === 3){
+                   chaLength += fileName + "\n";
+               }else{
                    if(!alertVal[i]){
-                       failStr += fileName + " ";
+                       failStr += fileName + "\n";
                    }
                }
-                   }
+
+           }
+           var alertContent = '';
            if(!isEmpty(appStr)){
-               alert(appStr+"appid不能为空！");
+               alertContent += (appStr+"appid不能为空!\n");
            }
            if(!isEmpty(chaStr)){
-               alert(chaStr+"channelId不能为空！");
+               alertContent += (chaStr+"channelId不能为空！\n");
            }
            if(!isEmpty(chaLength)){
-               alert(chaLength+"channelID必须是5字符或8字符！");
+               alertContent += (chaLength+"channelID必须是5字符或8字符！\n");
+           }
+           if(!isEmpty(alertContent)){
+               alert(alertContent);
            }
            if(!isEmpty(failStr)){
                alert(failStr+"上传失败！");
            }
+           $(':checkbox').attr('checked',false);
         }else{
             return;
         }
     });
 });
 
-function sendForm(file,appid,channelid) {
-    var returnVal;
-    var oData = new FormData(document.getElementById("upload_form"));
-    oData.append("file", file);
-    oData.append("appid", appid);
-    oData.append("channelId", channelid);
-    var oReq = new XMLHttpRequest();
-    oReq.open("POST", getBasePath()+"/uploadFileHandel?"+Math.random(), true);
-    oReq.onload = function(oEvent) {
-        if (oReq.status == 200 && oReq.readyState==4) {
-            if(oReq.responseText == "true"){
-                alert("oReq.responseText"+oReq.responseText);
-                return oReq.responseText;
-                returnVal = true;
-            }else if(oReq.responseText == "false"){
-                returnVal = false;
-                return oReq.responseText;
-            }
-
-        }
-    };
-    oReq.send(oData);
-
-}
-
-function getFileName(file){
-    var fileName = file.name;
-    if(fileName.indexOf("@") != -1){
-        var array = fileName.split("@")
-        fileName = array[1];
-    }
-    return fileName;
-}
 

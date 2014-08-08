@@ -593,7 +593,7 @@ a{
     padding-left: 0px;
 }
 
-.uploaded:hover{
+#uploaded:hover{
    cursor: default;
 }
 /*#upload_table td{*/
