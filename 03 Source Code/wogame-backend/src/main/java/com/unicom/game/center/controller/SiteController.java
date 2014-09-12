@@ -1,15 +1,11 @@
 package com.unicom.game.center.controller;
 
-import java.io.*;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.*;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.unicom.game.center.utils.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -40,29 +36,11 @@ public class SiteController {
     @Autowired
     private SyncChannelClient syncChannelClient;
 
-    @Autowired
-    private ChannelInfoBusiness channelInfoBusiness;
-
     @Value("#{properties['wogame.wap.link']}")
     private String wapLink;
 
     @Value("#{properties['wogame.log.link']}")
     private String logLink;
-
-    @Value("#{properties['site.name.AToG']}")
-    private String siteA2G;
-
-    @Value("#{properties['site.name.HToJ']}")
-    private String siteH2J;
-
-    @Value("#{properties['site.name.LToS']}")
-    private String siteL2S;
-
-    @Value("#{properties['site.name.TToZ']}")
-    private String siteT2Z;
-
-    @Value("#{properties['site.name.other']}")
-    private String siteOther;
 
     @RequestMapping(value = "/site", method = {RequestMethod.GET})
     public ModelAndView site(HttpServletRequest request, HttpSession session) {
@@ -157,56 +135,4 @@ public class SiteController {
     }
 
 
-    @RequestMapping(value="/getProperties",method = {RequestMethod.POST})
-    public @ResponseBody List<ChannelModel> getProperties(){
-        ChannelModel channelModel = null;
-        List<ChannelModel> channelModels = new ArrayList<ChannelModel>();
-        String decodeSite = null;
-        try {
-            if(null != siteA2G){
-                decodeSite = new String(siteA2G.getBytes("ISO-8859-1"),"UTF-8");
-                String[] siteNames = decodeSite.split(",");
-                channelModel = new ChannelModel();
-                channelModel.setKey("A-G");
-                channelModel.setChannels(Arrays.asList(siteNames));
-                channelModels.add(channelModel);
-            }
-            if(null != siteH2J){
-                decodeSite = new String(siteH2J.getBytes("ISO-8859-1"),"UTF-8");
-                String[] siteNames = decodeSite.split(",");
-                channelModel = new ChannelModel();
-                channelModel.setKey("H-J");
-                channelModel.setChannels(Arrays.asList(siteNames));
-                channelModels.add(channelModel);
-            }
-            if(null != siteL2S){
-                decodeSite = new String(siteL2S.getBytes("ISO-8859-1"),"UTF-8");
-                String[] siteNames = decodeSite.split(",");
-                channelModel = new ChannelModel();
-                channelModel.setKey("L-S");
-                channelModel.setChannels(Arrays.asList(siteNames));
-                channelModels.add(channelModel);
-            }
-            if(null != siteT2Z){
-                decodeSite = new String(siteT2Z.getBytes("ISO-8859-1"),"UTF-8");
-                String[] siteNames = decodeSite.split(",");
-                channelModel = new ChannelModel();
-                channelModel.setKey("T-Z");
-                channelModel.setChannels(Arrays.asList(siteNames));
-                channelModels.add(channelModel);
-            }
-            if(null != siteOther){
-                decodeSite = new String(siteOther.getBytes("ISO-8859-1"),"UTF-8");
-                String[] siteNames = decodeSite.split(",");
-                channelModel = new ChannelModel();
-                channelModel.setKey("Other");
-                channelModel.setChannels(Arrays.asList(siteNames));
-                channelModels.add(channelModel);
-            }
-        } catch (Exception e) {
-            Logging.logError("Error occurs in getProperties", e);
-        }
-
-        return channelModels;
-    }
 }

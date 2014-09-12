@@ -31,13 +31,18 @@ a{
 	width:1280px;
 	height:800px;
 	margin:0px auto;
-	background: url(../images/login_bg.png) #f7f7f7 no-repeat center bottom;
+	/*background-image: url(${basePath}/static/images/login_bg.png);*/
+    /*background-position: center bottom;*/
+	/*background-color:#f7f7f7;*/
+    /*background-repeat: no-repeat;*/
 }
 .login_box{
 	width:524px;
 	height:394px;
 	margin:107px auto;
-	background: url(../images/login_blackframe.png) no-repeat center top;
+	/*background-image: url(${basePath}/static/images/login_blackframe.png);*/
+	background-position: center top;
+    background-repeat: no-repeat;
 	position:relative;
 }
 .login_table{
@@ -54,7 +59,7 @@ a{
 .login_table input{
 	height:40px;
 	width:250px;
-	border:1px solid #ffc821;
+	border:0.5px solid #ffc821;
     line-height: 40px;
 	border-radius:10px;
 }
@@ -62,7 +67,9 @@ a{
 	float:left;
 	width:22px;
 	height:22px;
-	background:url(../images/check_back.png) no-repeat left center;
+	/*background-image:url(${basePath}/static/images/check_back.png);*/
+	background-repeat:no-repeat;
+	background-position:left center;
 	position:relative;
 }
 .login_checkbox img{
@@ -88,7 +95,7 @@ a{
 	left:358px;
 	width:135px;
 	height:134px;
-	background-image:url(../images/login_btn.png);
+	/*background-image:url(images/login_btn.png);*/
 	background-repeat:no-repeat;
 	line-height:135px;
 	font-size:30px;
@@ -122,10 +129,11 @@ a{
     padding-left: 22px;
     width: 90px;
 }
-/*主界面*/
+/*日志管理*/
 .main_block{
 	background-color: #f7f7f7;
 	width:1280px;
+	/*height:100%;*/
 	margin:0px auto;
 }
 .header{
@@ -158,6 +166,8 @@ a{
 	margin-right:20px;
 }
 .info span{
+	/*display:black;
+	float:left;*/
 	font-weight:bold;
 	height:100%;
 	margin-right:20px;
@@ -165,7 +175,7 @@ a{
 .menu_main{
 	width:100%;
 	height:100%;
-	/*overflow:hidden;*/
+	overflow:hidden;
 }
 .menu{
 	float:left;
@@ -207,7 +217,7 @@ a{
 	position:relative;
 }
 .log_title{
-	width:982px;
+	width:100%;
 	height:38px;
 	background-color:#e3e3e3;
 	font-weight:bold;
@@ -290,6 +300,11 @@ a{
     text-align:center;
     vertical-align:middle;
 }
+
+/*.operate_td a{*/
+    /*margin-right:10px;*/
+    /*margin-left:0px;*/
+/*}*/
 
 .table_title{
 	background:#fff4d3;
@@ -388,7 +403,6 @@ a{
     padding-left: 20px;
     vertical-align: middle;
     white-space: nowrap;
-    overflow: visible;
 }
 .numberal_format{
 	font-size:26px;
@@ -465,7 +479,7 @@ a{
 }
 
 #dialog{
-
+    height:288px;
     width:718px;
     border:1px solid #626262;
     background-color:#ffffff;
@@ -474,12 +488,6 @@ a{
     right:197px;
     border-radius:2px;
     z-index: 10000010012;
-}
-.height288{
-    height:288px;
-}
-.min_height325{
-    min-height: 325px;
 }
 #dialog_head{
     width:698px;
@@ -531,79 +539,6 @@ a{
     line-height: 22px;
     float: right;
 }
-#upload_table tr{
-    height:34px;
-    border: 1px solid #ed6d02;
-}
-#upload_table td{
-    width:200px;
-}
-#upload_table input{
-    height: 23px;
-    line-height: 23px;
-    padding-left: 20px;
-    width: 200px;
-    border-radius: 5px;
-    border: 1px solid #e3e3e3;
-}
-#upload_table select{
-    border: 1px solid #e3e3e3;
-    border-radius: 5px;
-    padding-left: 15px;
-    font-size: 15px;
-    height: 23px;
-    vertical-align:middle;
-    width: 150px;
-}
-
-#footer{
-    width:718px;
-    height:37px;
-    text-align:right;
-    border-top:1px solid #626262;
-    line-height:37px;
-    position:absolute;
-    bottom:0px;
-    left:0px;
-}
-
-#upload_tb td{
-    text-align: left;
-    padding-left: 0px
-}
-
-/*#upload_table{*/
-    /*width:613px;*/
-    /*margin:20px auto;*/
-/*}*/
-/*#upload_table tr{*/
-    /*border:1px solid #e3e3e3;*/
-    /*height:34px;*/
-/*}*/
-#upload_tb .text{
-    width:120px;
-    height:23px;
-    border:1px solid #f7f7f7;
-    border-radius:4px;
-    line-height: 26px;
-}
-#upload_tb .check_box{
-    width:29px;
-    vertical-align: middle;
-    padding-left: 0px;
-}
-
-#uploaded:hover{
-   cursor: default;
-}
-/*#upload_table td{*/
-    /*text-align:center;*/
-/*}*/
-.file-box{ position:relative;width:340px;margin-top:20px;}
-.txt{ height:22px; border:1px solid #cdcdcd; width:180px;}
-.btn{ background-color:#FFF; border:1px solid #CDCDCD;height:24px; width:70px;}
-.file{ position:absolute; top:0; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
-
 
 
 

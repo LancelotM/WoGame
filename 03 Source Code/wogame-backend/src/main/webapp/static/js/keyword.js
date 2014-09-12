@@ -72,35 +72,6 @@ $(function(){
         buttonImage: getBasePath()+'/static/images/calendar.gif',
         buttonImageOnly: true
     });
-
-    $(".keyword div").each(function(){
-        if($(this).text().length > 14){
-            $(this).removeClass("keyword_show_content");
-            $(this).addClass("keyword_div");
-        }
-    });
-
-    $(".keyword div").mouseenter(function(){
-        if($(this).attr("class") == 'keyword_div'){
-            $(this).removeClass("keyword_div");
-            $(this).addClass("keyword_show_content");
-            keyword = $(this).next().text();
-            if(($(this).index()+1)%5 != 0){
-                $(this).next().text("");
-            }
-        }
-
-    });
-    $(".keyword div").mouseleave(function(){
-        if($(this).attr("class") == 'keyword_show_content' && $(this).text().length > 14){
-            $(this).removeClass("keyword_show_content");
-            $(this).addClass("keyword_div");
-            if(($(this).index()+1)%5 != 0){
-                $(this).next().text(keyword);
-            }
-        }
-    });
-
 });
 
 function AJAXRequest(downloadChaidVal,startDateVal,endDateVal,pageVal,rowsPerPage){

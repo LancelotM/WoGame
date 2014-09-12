@@ -31,7 +31,6 @@ public class HibernateDao<T>{
 
                 for (int i = 0; i < list.size(); i++) {
                     domain = list.get(i);
-//                    session.saveOrUpdate(domain);
                     session.merge(domain);
                     if (i % num == 0) {
                         session.flush();

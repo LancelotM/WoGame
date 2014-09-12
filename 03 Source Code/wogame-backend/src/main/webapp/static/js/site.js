@@ -1,4 +1,4 @@
-
+var Dialog = {};
 var submitFlag = true;
 $(function(){
 //    $.ajax({
@@ -20,6 +20,47 @@ $(function(){
 //        }
 //    });
 
+    $('#province_div a').click(function(){
+            var basePath = getBasePath();
+            $('.launch_img').remove();
+            $.ajax({
+                url:basePath+"/getChaByName?"+Math.random(),
+                data:{channelName:$(this).text()},
+                async:false,
+                type:"POST",
+                success:function(data,status){
+                    if(data.flag){
+                        submitFlag = false;
+//                        $('#launch_img').attr('src',basePath+'/static/images/launched.png');
+                        $('#launch').append('<img class="launch_img" src="'+basePath+'/static/images/launched.png" alt="launched"/>');
+                        $('#channelId_input').val(data.channelCode);
+                        $('#cpid_input').val(data.cpId);
+                        $('#wapURL').text(data.wapToken) ;
+                        $('#logURL').text(data.logToken);
+                    }else{
+                        submitFlag = true;
+                        $('#launch').append('<img class="launch_img" src="'+basePath+'/static/images/launch.png" alt="launch"/>');
+//                        $('#launch_img').attr('src',basePath+'/static/images/launch.png');
+                        $('#channelId_input').val("channelID");
+                        $('#cpid_input').val("CPID");
+                        $('#wapURL').text("") ;
+                        $('#logURL').text("");
+                        $("#launch_form input").each(function(){
+                            $(this).setDefauleValue();
+                        });
+                    }
+                    $('#launch_form input').trigger('focus');
+                    $('#launch_form input').trigger('blur');
+                }
+            });
+            var dispayVal = $('#province_div').css('display');
+            if(dispayVal=="block"){
+                $('#province_div').css('display','none');
+            }
+            $('#channel').text($(this).text());
+            $('#channelName').val($(this).text());
+        }
+    );
     $('#launch').click(function(){
         if(submitFlag){
 //            var chaId = $('#channelId_input').val().trim();
@@ -58,75 +99,6 @@ $(function(){
         if($('#province_div').css('display')=="none"){
             $('#province_div').css('display','block');
         }
-        $.ajax({
-            type: "POST",
-            url:getBasePath()+"/getProperties?"+Math.random(),
-            dataType: "json",
-            success:function(data){
-                $('.channel_ul').remove();
-                $('.clear').remove();
-                var html = "";
-                $.each(data,function(index,coment){
-                    var count = 1;
-                    html += '<ul class="channel_ul"> <li>';
-                    html += '<span>'+coment.key+'</span>';
-                    $.each(coment.channels,function(index,site){
-                        if(count == 10){
-                            html += '<a style="width: 40px;"></a>';
-                            count = 1;
-                        }
-                        html += '<a  href="javascript:;">'+site+'</a>';
-                        count++;
-                    });
-                    html += '</li></ul>';
-                    html += '<div class="clear" style="clear:both"></div>';
-                });
-                $('#province_div').append(html);
-
-                $('#province_div a').click(function(){
-                        var basePath = getBasePath();
-                        $('.launch_img').remove();
-                        $.ajax({
-                            url:basePath+"/getChaByName?"+Math.random(),
-                            data:{channelName:$(this).text()},
-                            async:false,
-                            type:"POST",
-                            success:function(data,status){
-                                if(data.flag){
-                                    submitFlag = false;
-//                        $('#launch_img').attr('src',basePath+'/static/images/launched.png');
-                                    $('#launch').append('<img class="launch_img" src="'+basePath+'/static/images/launched.png" alt="launched"/>');
-                                    $('#channelId_input').val(data.channelCode);
-                                    $('#cpid_input').val(data.cpId);
-                                    $('#wapURL').text(data.wapToken) ;
-                                    $('#logURL').text(data.logToken);
-                                }else{
-                                    submitFlag = true;
-                                    $('#launch').append('<img class="launch_img" src="'+basePath+'/static/images/launch.png" alt="launch"/>');
-//                        $('#launch_img').attr('src',basePath+'/static/images/launch.png');
-                                    $('#channelId_input').val("channelID");
-                                    $('#cpid_input').val("CPID");
-                                    $('#wapURL').text("") ;
-                                    $('#logURL').text("");
-                                    $("#launch_form input").each(function(){
-                                        $(this).setDefauleValue();
-                                    });
-                                }
-                                $('#launch_form input').trigger('focus');
-                                $('#launch_form input').trigger('blur');
-                            }
-                        });
-                        var dispayVal = $('#province_div').css('display');
-                        if(dispayVal=="block"){
-                            $('#province_div').css('display','none');
-                        }
-                        $('#channel').text($(this).text());
-                        $('#channelName').val($(this).text());
-                    }
-                );
-            }
-
-        });
     });
 
     $('#switch_region').mouseleave(function(){
@@ -159,9 +131,6 @@ function createForm(url,channel,date){
     document.body.removeChild(infoForm) ;
 }
 
-
-
-
 function getUpdateInfo(channelId){
     mask('#dialog');
     $.get(getBasePath()+"/getChannel?channelId="+channelId,function(data,status){
@@ -170,6 +139,33 @@ function getUpdateInfo(channelId){
         $('#dialog_chaId').attr('value',data.channelCode);
         $('#dialog_cpid').attr('value',data.cpId);
     });
+}
+
+
+mask = function(dialogId,absoluteHeight){
+    buildMask();
+    var dialog = $(dialogId);
+    $(dialog).show();
+}
+
+buildMask = function(zIndex){
+    Dialog.maskLayer = document.createElement("div");
+    Dialog.maskLayer.style.position = "absolute";
+    if(zIndex){
+        Dialog.maskLayer.style.zIndex = zIndex;
+    }else{
+        Dialog.maskLayer.style.zIndex = "999999";
+    }
+    var _scrollWidth = Math.max(document.body.scrollWidth, document.documentElement.scrollWidth);
+    var _scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    Dialog.maskLayer.style.width = _scrollWidth + "px";
+    Dialog.maskLayer.style.height = _scrollHeight + "px";
+    Dialog.maskLayer.style.top = "0px";
+    Dialog.maskLayer.style.left = "0px";
+    Dialog.maskLayer.style.background = "#33393C";
+    Dialog.maskLayer.style.filter = "alpha(opacity=40)";
+    Dialog.maskLayer.style.opacity = "0.40";
+    document.body.appendChild(Dialog.maskLayer);
 }
 
 //设置input,textarea默认值
@@ -204,11 +200,6 @@ function checkChaIdAndCpid(chaId,cpid){
         return true;
     }
 }
-
-
-
-
-
 
 
 

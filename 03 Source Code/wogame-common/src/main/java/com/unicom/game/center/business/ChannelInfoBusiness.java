@@ -1,7 +1,5 @@
 package com.unicom.game.center.business;
 
-import java.io.*;
-import java.net.URLEncoder;
 import java.util.*;
 
 import com.unicom.game.center.model.ChannelModel;
@@ -40,10 +38,7 @@ public class ChannelInfoBusiness {
 	private String backendKey;	
 	
 	@Value("#{properties['channel.info.path']}")
-	private String channelInfoPath;
-
-    @Value("#{properties['wogame.site.path']}")
-    private String woGameSitePath;
+	private String channelInfoPath;	
 	
 	
 	public List<ChannelInfo> fetchActiveChannelInfos(){
@@ -234,37 +229,6 @@ public class ChannelInfoBusiness {
         List<String> gameInfos = new ArrayList<String>();
         gameInfos.add(value);
         map.put(key,gameInfos);
-    }
-
-    public List<String> getPropertiesList(){
-        InputStreamReader in = null;
-        Properties properties = new Properties();
-        File file = new File(woGameSitePath +"site.properties");
-        List<String> list = new ArrayList<String>();
-
-        try {
-            if(file != null){
-                in = new InputStreamReader(new FileInputStream(file), "UTF-8");
-                properties.load(in);
-                Enumeration enumeration = properties.propertyNames();
-                while (enumeration.hasMoreElements()){
-                    String key = (String) enumeration.nextElement();
-                    list.add(properties.getProperty(key));
-                }
-            }
-        } catch (IOException e) {
-            Logging.logError("Error occurs in getProperties ", e);
-            e.printStackTrace();
-        } finally {
-            try {
-                if(in != null){
-                    in.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return list;
     }
 
 }

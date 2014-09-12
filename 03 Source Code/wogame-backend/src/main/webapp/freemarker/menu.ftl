@@ -1,5 +1,5 @@
 			<div class="header">
-				<img class="left" src="${basePath}/static/images/logo.png" alt="logo"/>
+				<img class="logo" src="${basePath}/static/images/logo.png" alt=""/>
 				<div class="info">
                     <#if admin?exists && admin>
                          <span>管理员，你好</span>
@@ -28,9 +28,5 @@
                                 <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a id="report_detail" href="javascript:;">报表详情</a></li>
                             </ul>
                         </#if>
-                        <a href="#" class="margin_top45" onclick="show_hidden('upload_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png" alt=""/>&nbsp;文件上传</a>
-                        <ul id="upload_ul" class="son_ul" style="display:none">
-                            <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" ><a href="${basePath}/uploadPage">上传文件</a></li>
-                        </ul>
                         </div>
 					</div>

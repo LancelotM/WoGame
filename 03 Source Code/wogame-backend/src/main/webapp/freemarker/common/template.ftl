@@ -17,9 +17,6 @@
     <script type="text/javascript" src="${basePath}/static/js/libs/jquery.paginate.js"></script>
 	<script type="text/javascript" src="${basePath}/static/js/menuControl.js"></script>
     <script type="text/javascript" src="${basePath}/static/js/libs/jquery-ui.js"></script>
-    <script type="text/javascript" src="${basePath}/static/js/libs/swfobject.js"></script>
-    <script type="text/javascript" src="${basePath}/static/js/libs/jquery.uploadify.v2.1.0.min.js"></script>
-    <script type="text/javascript" src="${basePath}/static/js/libs/jquery.uploadify.v2.0.3.js"></script>
 
     <!-- css -->
     <link href="${basePath}/static/css/style.css" rel="stylesheet">
