@@ -22,6 +22,8 @@
         var contextPath = '${ctx}';
     </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" name="baidu-tc-cerfication" src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
+    <script type="text/javascript">window.bd && bd._qdc && bd._qdc.init({app_id: 'de7d38f348eeca6894ccf3aa'});</script>
     <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>

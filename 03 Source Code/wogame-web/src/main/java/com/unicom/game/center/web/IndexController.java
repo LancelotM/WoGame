@@ -35,11 +35,13 @@ public class IndexController {
 	private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String list(@RequestParam("token") String token, Model model, HttpSession session) {
+    public String list(@RequestParam(value="token", required=false) String token, Model model, HttpSession session) {
 
     	String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
     	try {
-    		channel = AESEncryptionHelper.decrypt(token, siteKey);
+    		if(null != token && !"".equals(token)){
+    			channel = AESEncryptionHelper.decrypt(token, siteKey);
+    		}    		
 		} catch (Exception e) {
 			channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
 			e.printStackTrace();
