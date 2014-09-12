@@ -1,0 +1,132 @@
+请求
+/newGameList.do?jsondata={"page_num":1,"page_size":10}
+
+
+接口返回
+成功：
+{
+  "result": 0,
+  "data": {
+    "items": [
+      {
+        "intro": "欢乐斗地主，最强大游戏效果，最刺激翻倍欢乐斗体验，最激情游戏音效，最丰富道具体现。",
+        "privilege": {
+          "id": 1,
+          "name": "订购免",
+          "title": "订购流量包后下载免流量",
+          "url": "http://www.baidu.com"
+        },
+        "product_id": "118002",
+        "game_name": "QQ欢乐斗地主",
+        "version_code": "1.0",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90005101/cnt/118002/middle.png",
+        "package_name": "com.tencent.qqgame.hallinstaller.happylord",
+        "apk_size": 319
+      },
+      {
+        "intro": "2012年，手机QQ游戏大厅android客户端全面升级为QQ游戏无线平台，新平台，新起点，更强大的游戏接入能力，涵盖单机/网游/休闲/社交四个大类数百款精品游戏，给玩家更完美的手机客户端体验，必将引领手机游戏平台产品进入一个新高度。 QQ游戏无线平台新特性： 网罗海量精品游戏——更多选择，更多快乐 快速进入最爱游戏——即刻畅玩，极速快感 满足玩家社交需求——边玩边聊，欢乐共享 交互设计全面升级——全心体验，快乐来袭",
+        "product_id": "49023",
+        "game_name": "QQ游戏",
+        "version_code": "1.70.00",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90005101/cnt/49023/large.png",
+        "package_name": "com.tencent.qqgame",
+        "apk_size": 3463
+      },
+      {
+        "intro": "QQ游戏，中国最大的手机游戏平台，一次登录即可畅玩斗地主、欢乐斗地主、麻将、德州扑克、五子棋、象棋、御剑、植物大战僵尸、非仙勿扰、连连看、对对碰、俄罗斯方块等海量精品游戏，还有比赛场等全新玩法独家发布，让你随时随地尽享指尖上的快乐！",
+        "product_id": "148552",
+        "game_name": "QQ游戏大厅",
+        "version_code": "2.00.03",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90005101/cnt/148552/large.png",
+        "package_name": "com.tencent.qqgame",
+        "apk_size": 3213
+      },
+      {
+        "intro": "熟悉的qq表情。记录着我们的喜弄哀乐。这是由我们熟悉的qq表情组成的连连看。看来一块感受下把。",
+        "privilege": {
+          "id": 1,
+          "name": "订购免",
+          "title": "订购流量包后下载免流量",
+          "url": "http://www.baidu.com"
+        },
+        "product_id": "152503",
+        "game_name": "QQ表情连连看",
+        "version_code": "3.2",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/902928963/cnt/152503/large.png",
+        "package_name": "com.android.zhong.qq",
+        "apk_size": 484
+      },
+      {
+        "intro": "史上最经典,最好玩的连连看,不容错过.QQ连连连看是一款休闲益智的娱乐游戏,各种各样的QQ表情,",
+        "product_id": "195488",
+        "game_name": "QQ连连看",
+        "version_code": "2.0",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9061269819/cnt/195488/large.png",
+        "package_name": "qqaoabc.game.sric.android",
+        "apk_size": 1712
+      },
+      {
+        "intro": "QQ鱼，是一款锻炼宝宝注意力和快速反应能力的益智游戏。渔场中的小鱼被泡泡困住，小朋友只要击破水泡泡，就会救出美丽的小鱼，成为拯救的小英雄。游戏中还设计了吓人的鲨鱼，会喷毒的水母，小朋友们可不要拯救错对象哦！●画面清爽，针对宝宝视力保护优化了整个配色。●",
+        "product_id": "131131",
+        "game_name": "QQ鱼",
+        "version_code": "",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/902928963/cnt/131131/middle.png",
+        "package_name": "com.sinyee.babybus.qqfish",
+        "apk_size": 14743
+      },
+      {
+        "intro": "韩国国民第一人气游戏Q兔跑酷(Booto)来咯！Booto作为韩国国民级宠物，深受韩国众多明星的追捧。现在与其同名的游戏Q兔跑酷(Booto)在2014年强势登录中国。",
+        "product_id": "196812",
+        "game_name": "Q兔跑酷",
+        "version_code": "1.0.0",
+        "version_name": "1.0.0",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9095064316/cnt/196812/large.png",
+        "package_name": "com.sxiaoao.flybooto",
+        "apk_size": 37200
+      },
+      {
+        "intro": "Q版火影连连看，一样的游戏，给你不一样的享受，各种火影人物，让你连个够。连连看游戏说明：使用鼠标点击两个能连接的相同图案将其消除，消除所有方块即可过关。所谓能够连接，指得是无论横向或者纵向，从一个图案到另一个图案之间的连线不能超过两个弯，其中，连线不能从尚未消去的图案上经过。",
+        "product_id": "131070",
+        "game_name": "Q版火影连连看",
+        "version_code": "2.4",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/902928963/cnt/131070/middle.png",
+        "package_name": "com.ll.hyllk",
+        "apk_size": 2502
+      },
+      {
+        "intro": "Real Football新赛季重装回归，开启智能手机上的足球游戏新纪元！",
+        "product_id": "60941",
+        "game_name": "RealFootBall 2012 HD+",
+        "version_code": "1.0.8",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/907206872/cnt/60941/large.png",
+        "package_name": "com.gameloft.android.ANMP.GloftR2HM",
+        "apk_size": 10259
+      },
+      {
+        "intro": "paceJump是一款奔跑类游戏，主人公女友被太空变异博士抓走他为了救出女友，从而踏上奔跑的旅程，翻过各种太空障碍,消灭太空变异怪物,测测你的反应力。点击屏幕躲过障碍物,收集能量球,到达一定的能量能加速到无敌状态,看看你能跑多远，游戏通过触屏来进行操作。",
+        "product_id": "192519",
+        "game_name": "Space Jump",
+        "version_code": "1.0",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9088411147/cnt/192519/large.png",
+        "package_name": "com.t3game.template",
+        "apk_size": 15405
+      }
+    ],
+    "total_num": 15
+  }
+}
+
+
+
+
+失败：
+{"result": 1}

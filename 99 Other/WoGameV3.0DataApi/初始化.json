@@ -1,0 +1,23 @@
+请求：
+initialize.do
+
+返回：
+成功：
+{
+    "result": 0,
+    "data": {
+        "loadingBanner": {
+            "link_id": "173618",
+            "res_type": 2,
+            "banner_url": "http://wgfiles.wostore.cn/images/2014/02/7ffea5b1db2c4ae0889025bf14ba6faf",
+            "external_url": ""
+        },
+        "preferences": {
+            "postbar_switch": "0",
+            "recommend_switch": "1"
+        }
+    }
+}
+
+失败：
+{"result": 1}

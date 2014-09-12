@@ -1,0 +1,102 @@
+请求：
+taskList.do
+
+header:
+	user_id
+
+返回：
+成功：
+{
+    "result": 0,
+    "data": [
+        {
+            "title": "今日下载2款游戏",
+            "awards": [
+                {
+                    "unit": "经验值",
+                    "value": 100
+                }
+            ],
+            "finished": 0,
+            "target": 2
+        },
+        {
+            "title": "今日查看1个专题",
+            "awards": [
+                {
+                    "unit": "经验值",
+                    "value": 100
+                }
+            ],
+            "finished": 0,
+            "target": 1
+        },
+        {
+            "title": "今日兑换1个礼包",
+            "awards": [
+                {
+                    "unit": "经验值",
+                    "value": 100
+                }
+            ],
+            "finished": 0,
+            "target": 1
+        },
+        {
+            "title": "完善个人资料",
+            "awards": [
+                {
+                    "unit": "沃币",
+                    "value": 20
+                },
+                {
+                    "unit": "经验值",
+                    "value": 100
+                }
+            ],
+            "finished": 0,
+            "target": 1
+        },
+        {
+            "title": "今日查看1个活动",
+            "awards": [
+                {
+                    "unit": "经验值",
+                    "value": 100
+                }
+            ],
+            "finished": 0,
+            "target": 1
+        },
+        {
+            "title": "订购1个流量包",
+            "awards": [
+                {
+                    "unit": "经验值",
+                    "value": 100
+                }
+            ],
+            "finished": 0,
+            "target": 1
+        },
+        {
+            "title": "每周进入1次对战房间",
+            "awards": [
+                {
+                    "unit": "经验值",
+                    "value": 100
+                }
+            ],
+            "finished": 0,
+            "target": 1
+        }
+    ]
+}
+
+失败：
+{
+"result":1
+}
+
+// "finished":0,"target":1显示如0/1。显示“未完成”
+// finished == target，则不显示1/1，显示“完成啦”

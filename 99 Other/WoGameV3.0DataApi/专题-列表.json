@@ -1,0 +1,52 @@
+请求
+/subjectList.do?jsondata={"page_num":1,"page_size":10}
+
+返回
+成功：
+{
+  "result": 0,
+  "data": {
+    "total_num": 5,
+    "items": [
+      {
+        "id": 3,
+        "title": "7月新上架",
+        "description": "七月新品上架，快乐体验",
+        "banner_url": "http://wgfiles.wostore.cn/images/2014/06/001.jpg",
+        "corner_mark": 4
+      },
+      {
+        "id": 4,
+        "title": "今天，你打飞机了吗？",
+        "description": "今天，你打飞机了吗？那些年我们一起打过的飞机",
+        "banner_url": "http://wgfiles.wostore.cn/images/2014/06/002.jpg",
+        "corner_mark": 3
+      },
+      {
+        "id": 2,
+        "title": "体育运动游戏专区",
+        "description": "运动无处不在，运动随时随地。",
+        "banner_url": "http://wgfiles.wostore.cn/images/2014/02/d9e9979009c749359df3fe31f1e6579d",
+        "corner_mark": 0
+      },
+      {
+        "id": 1,
+        "title": "那些手中的武侠世界",
+        "description": "那些年，我们一起追过了许多“武侠”大作。直到现在，我们的武侠情节依然无法释怀。手机上的武侠巨作，圆你武侠梦。",
+        "banner_url": "http://wgfiles.wostore.cn/images/2014/02/8e0940c353264383a6b86592e1802d40",
+        "corner_mark": 2
+      },
+      {
+        "id": 5,
+        "title": "男人就该玩的游戏",
+        "description": "男人间的游戏就是一场难分伯仲的对决，谁赢这就是谁的地盘。",
+        "banner_url": "http://wgfiles.wostore.cn/images/2014/06/003.jpg",
+        "corner_mark": 1
+      }
+    ]
+  }
+}
+
+
+失败：
+{"result": 1}

@@ -1,0 +1,12 @@
+请求(GET方式)：
+/feedback.do?jsondata={"content":"不错，加油","screen":"768*1184","user_name":"徐星","handphone":"18550044001","model":"Nexus%204","session_id":"c8b961157d6544da850c1d66bab8f08a","package_name":"com.unicom.android.game","brand":"LGE","user_id":"6596109427256890345","qq":"279565536","version_code":20140718}
+
+成功返回：
+{"result":"0"}
+
+
+
+错误返回：
+{"result":"1"}
+
+

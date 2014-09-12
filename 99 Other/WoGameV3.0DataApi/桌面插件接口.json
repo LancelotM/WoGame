@@ -1,0 +1,55 @@
+请求：
+/desktopRecommend.do
+
+返回：
+成功：
+{
+  "result": 0,
+  "data": [
+    {
+      "product_id": "175519",
+      "game_name": "砖石迷阵",
+      "corner_mark": 1,
+      "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9022444216/cnt/175519/large.png",
+      "package_name": "com.houziwukong.games.masonrymaze"
+    },
+    {
+      "product_id": "175820",
+      "game_name": "怪物出没",
+      "corner_mark": 2,
+      "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905432084/cnt/175820/large.png",
+      "package_name": "org.cocos2dx.dadishucn"
+    },
+    {
+      "product_id": "175843",
+      "game_name": "战地前线",
+      "corner_mark": 3,
+      "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9029353878/cnt/175843/large.png",
+      "package_name": "com.liantong.sheji"
+    },
+    {
+      "product_id": "176157",
+      "game_name": "拳皇97",
+      "corner_mark": 4,
+      "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9034682980/cnt/176157/large.png",
+      "package_name": "cn.vszone.mame.kof97"
+    },
+    {
+      "product_id": "176237",
+      "game_name": "萌江湖",
+      "corner_mark": 5,
+      "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9046535608/cnt/176237/20130524142809large.png",
+      "package_name": "air.com.uuzu.mjhapk.gwan"
+    },
+    {
+      "product_id": "177030",
+      "game_name": "丧尸围城",
+      "corner_mark": 6,
+      "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90003507/cnt/177030/large.png",
+      "package_name": "com.artofbytes.gravedefence"
+    }
+  ]
+}
+
+失败：
+{"result": 1}

@@ -1,0 +1,31 @@
+请求：
+/getAllGameByPrivilege.do?jsondata={"id":1, "page_num":1, "page_size":10}
+
+返回：
+成功：
+{
+    "result": 0,
+    "data": [
+    	{
+            "product_id": "102539",
+            "game_name": "二战风云",
+            "version_code": "1.0.14",
+            "version_name": "",
+            "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/906189340/cnt/102539/20121022185202large.png",
+            "package_name": "com.wistone.war2victory",
+            "apk_size": 13251
+        },
+        {
+            "product_id": "102539",
+            "game_name": "二战风云",
+            "version_code": "1.0.14",
+            "version_name": "",
+            "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/906189340/cnt/102539/20121022185202large.png",
+            "package_name": "com.wistone.war2victory",
+            "apk_size": 13251
+        }
+    ]
+}
+
+失败：
+{"result": 1}

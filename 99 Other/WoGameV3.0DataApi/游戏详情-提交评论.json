@@ -1,0 +1,13 @@
+saveComment.do?jsondata={"product_id":"3","comments":"很好玩"}
+header:
+	user_id
+	phone_model
+成功
+{
+    "result": 0
+}
+
+失败
+{
+    "result": 1
+}

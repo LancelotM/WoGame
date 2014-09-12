@@ -1,0 +1,214 @@
+请求：
+/gameInfos.do?jsondata={"product_id":"101611", "page_num":1, "page_size":10}
+
+成功返回：
+{
+  "result": 0,
+  "data": {
+    "total_num": 9,
+    "items": [
+      {
+        "id": 3,
+        "title": "往期活动一",
+        "content": "<p>往期活动一</p>",
+        "intro": "一句话描述3",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9010485671/cnt/107104/middle.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403429491000,
+        "start_time": 1402911094000,
+        "end_time": 1403256698000
+      },
+      {
+        "id": 4,
+        "title": "往期活动二",
+        "content": "<p>往期活动二</p>",
+        "intro": "一句话描述4",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90007757/cnt/108648/large.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403429618000,
+        "start_time": 1403084021000,
+        "end_time": 1403343229000
+      },
+      {
+        "id": 5,
+        "title": "网游活动一",
+        "content": "<p>网游活动一</p>",
+        "intro": "一句话描述5",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90003178/cnt/170699/20130426152804large.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403508611000,
+        "start_time": 1403508651000,
+        "end_time": 1403508653000
+      },
+      {
+        "id": 6,
+        "title": "网游活动二",
+        "content": "<p>网游活动二</p>",
+        "intro": "一句话描述6",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9022444216/cnt/176697/middle.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403597476000,
+        "start_time": 1403424679000,
+        "end_time": 1403597483000
+      },
+      {
+        "id": 1,
+        "title": "近期活动一",
+        "content": "<p>近期活动一</p>",
+        "intro": "一句话描述1",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/103951/middle.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403429362000,
+        "start_time": 1403255425000,
+        "end_time": 1403601032000
+      },
+      {
+        "id": 2,
+        "title": "近期活动二",
+        "content": "<p>近期活动二</p>",
+        "intro": "一句话描述2",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90002486/cnt/104500/middle.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403429274000,
+        "start_time": 1402910890000,
+        "end_time": 1403774897000
+      },
+      {
+        "id": 7,
+        "title": "网游活动三",
+        "content": "<p>网游活动三</p>",
+        "intro": "一句话描述7",
+        "banner": {
+          "banner_url": "http://static.nduoa.com/uploads/poster/1400660441.jpg"
+        },
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9023636866/cnt/194646/large.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403599927000,
+        "start_time": 1403513531000,
+        "end_time": 1403859137000
+      },
+      {
+        "id": 9,
+        "title": "问答活动二",
+        "content": "<p>问答活动二</p>",
+        "intro": "一句话描述9",
+        "banner": {
+          "banner_url": "http://static.nduoa.com/uploads/poster/1400660441.jpg"
+        },
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9060275643/cnt/193270/large.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403609988000,
+        "start_time": 1403782791000,
+        "end_time": 1403869197000
+      },
+      {
+        "id": 8,
+        "title": "问答活动一",
+        "content": "<p>问答活动一</p>",
+        "intro": "一句话描述8",
+        "banner": {
+          "banner_url": "http://static.nduoa.com/uploads/poster/1400660441.jpg"
+        },
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9061269819/cnt/194456/large.png",
+        "corner_mark": 0,
+        "game": {
+          "intro": null,
+          "product_id": "101611",
+          "game_name": "拯救笑脸",
+          "version_code": "2.0",
+          "version_name": "",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905952858/cnt/101611/large.png",
+          "package_name": "org.gzy.xiaolian",
+          "apk_size": 9455
+        },
+        "create_time": 1403605960000,
+        "start_time": 1403692362000,
+        "end_time": 1403951566000
+      }
+    ]
+  }
+}
+
+
+错误返回：
+{ "result": 1 }

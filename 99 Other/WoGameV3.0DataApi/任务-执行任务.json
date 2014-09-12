@@ -1,0 +1,36 @@
+请求：
+tryTask.do?jsondata={"type":"subjectDetail"}
+
+header:
+	user_id
+	version
+	model
+
+返回：
+成功：
+1、完成任务，获奖
+{
+	"result":0,
+	"data":{
+		"user_info":{
+			"user_id":234312455554222323,
+			"score":30,
+			"level":10,
+			"empiric":3000,
+			"lottery_chance":2,
+			"lottery_hint":"机会每日更新，升级至20级可再增多一次",
+			"upgrade_percent":80
+		},
+		"toast_msg":"奖励150个经验值。"
+	}
+}
+
+2、任务未完成，或已完成过
+{
+"result":0
+}
+
+失败：
+{
+"result":1
+}

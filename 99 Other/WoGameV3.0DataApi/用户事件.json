@@ -1,0 +1,13 @@
+addUserEvent.do?jsondata={"product_id":"3","type":1,"action_time":1211123123}
+header:
+	user_id
+	phone_model
+成功
+{
+    "result": 0
+}
+
+失败
+{
+    "result": 1
+}

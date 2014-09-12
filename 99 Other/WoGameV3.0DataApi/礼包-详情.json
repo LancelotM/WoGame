@@ -1,0 +1,46 @@
+/showGift.do?jsondata={"id":1}
+header:
+	user_id=1
+成功
+{
+    "result": 0,
+    "data": {
+        "id": 85,
+        "title": "《爆爆爱丽丝》独家仙境魔法礼包大派送",
+        "description": "道具：熔岩火球 1个\r\n      吞噬蜘蛛 1个\r\n      迷之魔方 1个\r\n      星之魔杖 1个\r\n      雷神之锤 2个",
+        "usage": "1.登录游戏，在游戏选关界面左下角点“礼包按钮”，进入兑换码页面；\r\n \r\n2.在兑换框内输入兑换码；\r\n \r\n3.点击“兑换”，兑换成功后道具将自动添加在道具框内",
+        "game": {
+            "product_id": "102539",
+            "game_name": "二战风云",
+            "version_code": "1.0.14",
+            "version_name": "",
+            "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/906189340/cnt/102539/20121022185202large.png",
+            "package_name": "com.wistone.war2victory",
+            "apk_size": 13251,
+            "tags": [],
+            "pics": []
+        },
+        "qualifications": [
+            {
+                "type": 1,
+                "number": 0,
+                "origNumber": 1,
+                "unit": "级以上"
+            },
+            {
+                "type": 2,
+                "number": 0,
+                "origNumber": 1,
+                "unit": "个积分"
+            }
+        ],
+        "start_time": 1404403200000,
+        "end_time": 1407081600000,
+        "left_percent": 99,
+        "receive_status": 1
+    }
+}
+失败
+{
+    "result": 1
+}

@@ -1,0 +1,10 @@
+voteGameImpress.do?jsondata={"product_id":"3","impress_id":4}
+成功
+{
+    "result": 0
+}
+
+失败
+{
+    "result": 1
+}

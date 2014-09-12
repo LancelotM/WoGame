@@ -1,0 +1,90 @@
+请求：
+/netGameServerList.do?jsondata={"page_num":1,"page_size":10}
+
+
+成功返回：
+{
+  "result": 0,
+  "data": {
+    "total_num": 6,
+    "section_name":"新服预告",
+    "items": [
+      {
+        "intro": "这是一款第一人称射击游戏，游戏中分为战役模式和生化模式供您选择。",
+        "server_name": "新服六区",
+        "open_time": 1403590786000,
+        "product_id": "175843",
+        "game_name": "战地前线",
+        "version_code": "1.0",
+        "version_name": "1.0",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9029353878/cnt/175843/large.png",
+        "package_name": "com.liantong.sheji",
+        "apk_size": 15027
+      },
+      {
+        "intro": "怪物小分队到地球来啦!  一丛怪物小分队在宇宙中四处寻找食物和藏身之处。终于他们发现了我们美丽的地球。",
+        "server_name": "新服五区",
+        "open_time": 1403504360000,
+        "product_id": "175820",
+        "game_name": "怪物出没",
+        "version_code": "1.0",
+        "version_name": "1.0",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905432084/cnt/175820/large.png",
+        "package_name": "org.cocos2dx.dadishucn",
+        "apk_size": 19465
+      },
+      {
+        "intro": "左手能玩，右手也能玩！两只手更好玩！ ",
+        "server_name": "新服四区",
+        "open_time": 1403417940000,
+        "product_id": "175752",
+        "game_name": "弹师傅",
+        "version_code": "1.0",
+        "version_name": "1.0",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905432084/cnt/175752/large.png",
+        "package_name": "org.cocos2dx.fingerjump",
+        "apk_size": 14121
+      },
+      {
+        "intro": "梭哈扑克全称为英文名showhand,它是对玩家牌技,运气,定力、记忆力与判断力的考验,是一款很刺激的游戏.完全真人版对战,聚集全国各地玩友,时时聊天挑战,提供强大的竞技场与比赛场,令数以万计的玩家着迷. ",
+        "server_name": "新服三区",
+        "open_time": 1403331512000,
+        "product_id": "175559",
+        "game_name": "疯狂梭哈",
+        "version_code": "1.1.0618",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90004804/cnt/175559/large.png",
+        "package_name": "",
+        "apk_size": 8663
+      },
+      {
+        "intro": "一只忧郁的树熊。不慎误入了传说中恐怖的幽暗森林，复杂的地形、寂静的氛围让它惊恐万分。危险随时可能降临，帮助树熊逃出森林。你们的冒险之旅即将启程。能否脱逃成功，我们拭目以待。 3大场景，丛林、沙漠、魔界 游戏中设计有奖励关卡，玩家可在奖励关卡中获得惊喜。 重力感应、感应灵敏设计，可随着用户的喜欢开启和关闭。 ",
+        "server_name": "新服二区",
+        "open_time": 1403245090000,
+        "product_id": "175525",
+        "game_name": "树熊大冒险",
+        "version_code": "",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9049600390/cnt/175525/middle.png",
+        "package_name": "dy.android.at.bearrope.sxdmx.bjzxjm.liantong",
+        "apk_size": 8454
+      },
+      {
+        "intro": "砖石迷阵,这是一款激动人心的娱乐游戏将挑战你的反应时间,将同色宝石组成一个链的三个或三个以上相同的宝石，希望你会喜欢这款游戏。",
+        "server_name": "新服一区",
+        "open_time": 1403158656000,
+        "product_id": "175519",
+        "game_name": "砖石迷阵",
+        "version_code": "1.4.5",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9022444216/cnt/175519/large.png",
+        "package_name": "com.houziwukong.games.masonrymaze",
+        "apk_size": 5732
+      }
+    ]
+  }
+}
+
+
+错误返回：
+{ "result": 1 }

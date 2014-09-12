@@ -1,0 +1,31 @@
+/receiveGift.do?jsondata={"id":1,"access_token":"xxdddd"}
+header:
+	user_id=1
+	client_type=
+	version=
+	companylogo=
+成功
+{
+    "result": 0,
+    "data": {
+        "id": 1,
+        "title": "《地铁跑酷》新年大礼包",
+        "verify_result": 0,
+        "game": {
+            "product_id": "102539",
+            "game_name": "二战风云",
+            "version_code": "1.0.14",
+            "version_name": "",
+            "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/906189340/cnt/102539/20121022185202large.png",
+            "package_name": "com.wistone.war2victory",
+            "apk_size": 13251,
+            "tags": [],
+            "pics": []
+        },
+        "coupon": "33333"
+    }
+}
+失败
+{
+    "result": 1
+}

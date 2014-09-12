@@ -1,0 +1,40 @@
+请求： /receiveLottery.do?jsondata={"win_id":"2"}
+
+成功返回：
+{
+    "winning": {
+        "mobile": "13818345197",
+        "win_id": "2",
+        "prize_type": "1",
+        "prize_content": "",
+        "banner_url": "",
+        "link_id": "",
+        "share_url": "http://......",
+        "share_memo": "分享……",
+        "win_notice": "您的奖品将于5个工作日之内发放，……"
+    },
+    "user_info": {
+        "user_id": "1",
+        "score": "1230",
+        "level": "5",
+        "empiric": "2332",
+        "lottery_chance": "3",
+        "lottery_hint": "升级至XX级可再获得一次摇奖机会",
+        "upgrade_percent": "60"
+    },
+    "prize_ad": {
+        "ad_title": "",
+        "ad_content": "",
+        "ad_type": 1,
+        "link_id": "",
+        "attached_score": 0,
+        "attached_empiric": 0
+    },
+    "verify_result": 0,
+    "result": 0
+}
+		 
+
+
+错误返回：
+{  "result": 1 }

@@ -1,0 +1,38 @@
+请求： 
+/recommendUpdateList.do
+
+
+成功返回：
+{
+  "result": 0,
+  "data": [
+    {
+      "title": "那些手中的武侠世界",
+      "intro": "那些年，我们一起追过了许多“武侠”大作。直到现在，我们的武侠情节依然无法释怀。手机上的武侠巨作，圆你武侠梦。",
+      "res_type": 3,
+      "link_id": "1",
+      "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90002486/cnt/104396/large.png"
+    },
+    {
+      "title": "火线指令:诺曼底",
+      "intro": "重回1944年6月6日，亲自参与二次世界大战中最经典的战役之一---诺曼底登陆战！扛起战枪，打败邪恶纳粹，收复法国！攻占海滩，清理战壕，解放城镇，向着最后的胜利前进",
+      "privilege": {
+        "id": 1,
+        "name": "订购免",
+        "title": "订购流量包后下载免流量",
+        "url": "http://www.baidu.com"
+      },
+      "res_type": 2,
+      "link_id": "175062",
+      "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90002485/cnt/175062/large.png",
+      "apk_size": 145494,
+      "package_name": "com.glu.flvn_new",
+      "version_code": "3.1.0"
+    }
+  ]
+}
+
+
+
+错误返回：
+{  "result": 1 }

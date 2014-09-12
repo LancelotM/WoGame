@@ -1,0 +1,31 @@
+请求： /myGifts.do?jsondata={"page_num":1,"page_size":20}
+
+成功返回：
+{
+  "result": 0,
+  "data": {
+    "total_num": 2,
+    "items": [
+      {
+      	"id":1,
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9049529796/cnt/194052/large.png",
+        "title": "神庙逃亡2游戏大礼包",
+		"coupon":"兑换码";
+        "start_time": 123223232,
+        "end_time": 123223232
+      },
+      {
+      	"id":2,
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9049529796/cnt/194052/large.png",
+        "title": "神庙逃亡2游戏大礼包",
+		"coupon":"兑换码";
+        "start_time": 123223232,
+        "end_time": 123223232
+      }
+    ]
+  }
+}
+
+
+错误返回：
+{  "result": 1 }

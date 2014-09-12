@@ -1,0 +1,51 @@
+请求：/gameInfoList.do?jsonData={"page_num":1, "page_size":10}
+
+成功返回：
+{
+    "result": 0,
+    "data": {
+        "total_num": 5,
+        "items": [
+            {
+                "id": 99,
+			    "title": "《捕鱼达人3》天天有惊喜，三星神器在召唤你",
+			    "intro": "《捕鱼达人3》天天有惊喜，三星神器在召唤你",
+			    "banner": {
+			        "res_type": 8,
+			        "banner_url": "http://wgfiles.wostore.cn/images/2014/08/28950ee6cdf940be8c28e9f5ad342810",
+			        "external_url": "http://tieba.baidu.com/p/3243596697"
+			    },
+			    "corner_mark": 0,
+			    "create_time": 1408953001000,
+			    "start_time": 1408550400000,
+			    "end_time": 1411228800000
+            },
+            {
+                "id": 6,
+                "title": "网游活动二",
+                "content": "<p>网游活动二</p>",
+                "intro": "一句话描述6",
+                "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9022444216/cnt/176697/middle.png",
+                "corner_mark": 0,
+                "create_time": 1403597476000,
+                "start_time": 1403424679000,
+                "end_time": 1403597483000,
+                "game": {
+                    "intro": "宝石大师是一款为手机用户提供一款经典的连线消除类益智游戏，宝石大师曾在欧美市场获得不菲价值。",
+                    "product_id": "175025",
+                    "game_name": "宝石大师",
+                    "version_code": "",
+                    "version_name": "1.0.0",
+                    "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905432084/cnt/175025/large.png",
+                    "download_url": "",
+                    "package_name": "com.innorz.kronus",
+                    "apk_size": 14406
+                }
+            }
+        ]
+    }
+}
+
+
+错误返回：
+{ "result": 1 }

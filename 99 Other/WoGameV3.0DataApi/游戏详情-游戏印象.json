@@ -1,0 +1,42 @@
+请求：
+gameImpressList.do?jsondata={"product_id":"1"}
+header:
+	user_id=
+返回：
+成功：
+{
+    "result": 0,
+    "data": {
+        "items": [
+            {
+                "impress_id": 1,
+                "name": "史无前例的好游戏",
+                "user_count": 0
+            },
+            {
+                "impress_id": 2,
+                "name": "值得推荐给朋友",
+                "user_count": 0
+            },
+            {
+                "impress_id": 3,
+                "name": "玩的开心",
+                "user_count": 0
+            },
+            {
+                "impress_id": 4,
+                "name": "一般般",
+                "user_count": 0
+            },
+            {
+                "impress_id": 5,
+                "name": "这辈子不下第二次",
+                "user_count": 0
+            }
+        ],
+        "voted": false
+    }
+}
+
+失败：
+{"result": 1}

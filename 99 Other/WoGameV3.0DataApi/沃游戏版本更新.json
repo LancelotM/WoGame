@@ -1,0 +1,35 @@
+请求
+/isUpdate.do?version_code=20130417&channel_id=80000088
+
+返回
+需升级：
+{
+  "result": 0,
+  "data": {
+    "download_url": "http://wgfiles.wostore.cn/download/apk/20140507/unicom_game_center_aligned_18105_V2.3.0.apk",
+    "version_code": "20140507",
+    "version_name": "V2.3.0",
+    "update_flag": 1,
+    "update_tip":"为了您更好的体验沃游戏，请立即升级",//仅当强制更新时返回
+    "app_name": "沃游戏",
+    "apk_size": 3036,
+    "desc": "【新】新增流量包订购，麻麻再也不用担心我的流量了！<br/>【囍】百度贴吧悄悄入驻沃游戏！<br/>【秘】精彩活动天天有！<br/>更多选择更多欢笑，就在沃游戏独家！",
+    "package_name": "com.unicom.android.game"
+  }
+}
+
+
+不需升级：
+{
+  "result": 0,
+  "data": {
+    "download_url": "",
+    "version_code": "20130417",
+    "version_name": "",
+    "update_flag": 0,
+    "app_name": "",
+    "apk_size": 0,
+    "desc": "不需要升级",
+    "package_name": ""
+  }
+}

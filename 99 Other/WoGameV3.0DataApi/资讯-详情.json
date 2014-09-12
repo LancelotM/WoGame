@@ -1,0 +1,30 @@
+请求：/infoDetail.do?jsonData={"id":1}
+
+成功返回：
+{
+    "result": 0,
+    "data": {
+        "id": 1,
+        "title": "往期活动二",
+        "content": "<p>往期活动二</p>",
+        "intro": "一句话描述4",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90007757/cnt/108648/large.png",
+        "corner_mark": 0,
+        "create_time": 1403429618000,
+        "start_time": 1403084021000,
+        "end_time": 1403343229000,
+        "game": {
+            "product_id": "175025",
+            "game_name": "宝石大师",
+            "version_code": "",
+            "version_name": "1.0.0",
+            "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/905432084/cnt/175025/large.png",
+            "package_name": "com.innorz.kronus",
+            "apk_size": 14406
+        }
+    }
+}
+
+
+错误返回：
+{ "result": 1 }

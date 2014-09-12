@@ -1,0 +1,65 @@
+请求：
+/gameDetail.do?jsondata={"product_id":"175062"}
+
+返回：
+成功：
+{
+    "result": 0,
+    "data": {
+        "rate": 3,
+        "description": "游戏背景：   \r\n   在那遥远的东方，有个风景秀美的地方，那是一个武侠的世界，一只憨厚的肥熊,从小喜爱武术的他为了能够成为武林高手，投入一位武术宗师的门下学习武艺……就这样艰辛而又充满的试炼旅程开始了。\r\n游戏特色：\r\n-充满着强烈中国风元素，角色造型夸张搞笑。\r\n-不同的角色造型，点击后对应不同的动作让人忍俊不已。\r\n-各种点击方法充分考验玩家的技术和反应能力。\r\n操作指南：\r\n-手指划过屏幕发起攻击消灭敌人。\r\n-当同时出现多个敌人，一气呵成消灭可得到高分。\r\n-务必消灭炸弹熊否则让你尸骨无存。\r\n-千万不能伤害给你送包子的小师妹，一定数量的包子可以发起技能。\r\n\r\n如果您有好的建议，欢迎您联系我们，联系方式： \r\nQQ：1329027789 \r\nQQ群 91307009 \r\n\r\n登陆新浪微博，搜索#索乐游戏大本营#，参加索乐线上活动，更有机会赢取精彩好礼！ ",
+        "intro": " 在那遥远的东方，有个风景秀美的地方，那是一个武侠的世界，一只憨厚的肥熊,从小喜爱武术的他为了能够成为武林高手，投入一位武术宗师的门下学习武艺……就这样艰辛而又充满的试炼旅程开始了。",
+        "score": 70,
+        "attributes": [
+            {
+                "id": 1,
+                "name": "无广告"
+            },
+            {
+                "id": 3,
+                "name": "免费"
+            },
+            {
+                "id": 5,
+                "name": "无病毒"
+            },
+            {
+                "id": 6,
+                "name": "无隐私泄露"
+            },
+            {
+                "id": 7,
+                "name": "官方正版"
+            }
+        ],
+        "categories": [
+            {
+                "id": 0,
+                "name": "动作射击"
+            }
+        ],
+        "product_id": "104396",
+        "game_name": "功夫神熊",
+        "version_code": "",
+        "version_name": "",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90002486/cnt/104396/large.png",
+        "apk_url": "",
+        "package_name": "panda.playplus",
+        "apk_size": 17662,
+        "tags": [
+            "动作"
+        ],
+        "pics": [
+            "http://client.wostore.cn:6106/appstore_agent/upload/90002486/cnt/104396/figure1.jpg",
+            "http://client.wostore.cn:6106/appstore_agent/upload/90002486/cnt/104396/figure2.jpg",
+            "http://client.wostore.cn:6106/appstore_agent/upload/90002486/cnt/104396/figure3.jpg",
+            "http://client.wostore.cn:6106/appstore_agent/upload/90002486/cnt/104396/figure4.jpg"
+        ]
+    }
+}
+
+失败：
+{"result": 1}
+
+游戏下线或不存在
+{"result": 2}

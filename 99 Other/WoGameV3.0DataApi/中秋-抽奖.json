@@ -1,0 +1,21 @@
+请求： /midautumnLottery.do?jsondata={"user_id":"1"}
+
+成功返回：
+{
+    "result": 0,
+    "prize": {
+        "index":0,
+        "cupon":"xxxxxx",
+        "title":xxxx礼包"
+    }
+}
+
+
+错误返回：
+{  "result": 1 }
+
+状态码：
+0: 成功
+1: 系统错误
+2: 今日已抽奖
+3: 奖品已抽完

@@ -1,0 +1,22 @@
+请求： /drawLottery.do?jsondata={"user_id":"1", "imsi":"460021546858605","imei":"861067020599616", "phone_model":""}
+
+成功返回：
+{
+    "chances_to_draw": 0,
+    "result": 0,
+    "verify_result": 0,
+    "prize": {
+        "banner_url": "http://cucstorage.wocloud.com.cn:38080/activity/078de5a6-ac0f-4198-b204-0f1f500bcf5a",
+        "win_info": "",
+        "win_id": 3,
+        "prize_amount": 1,
+        "ad_content": "点击“查看即可获得经验值”！即可下载体验并获得经验值！",
+        "prize_content": "少年，恭喜你！！抽中我们精心为你准备的游戏！",
+        "link_id": 36,
+        "prize_type": "2"
+    }
+}
+
+
+错误返回：
+{  "result": 1 }

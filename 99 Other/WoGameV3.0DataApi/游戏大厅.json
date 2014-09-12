@@ -1,0 +1,89 @@
+请求
+/hallList.do?jsondata={"page_num":1,"page_size":10}
+
+返回
+成功：
+{
+  "result": 0,
+  "data": {
+    "items": [
+      {
+        "id": 1,
+        "banner_url": "http://wgfiles.wostore.cn/images/2014/05/79d88e9f62e24663b3b259adf785f63d",
+
+        "play_rooms": [
+          {
+            "id": 23,
+            "title": "3人水晶赛",
+            "launch_type": 3,
+            "action_name": "com.mas.wawagame.jjlordWYXBS3",
+            "launch_params": {
+              "room_id": 156,
+              "type": "13",
+              "launch_info": "156"
+            },
+            "button_title": "进入游戏"
+          },
+          {
+            "id": 22,
+            "title": "6人水晶赛164",
+            "launch_type": 3,
+            "action_name": "com.mas.wawagame.jjlordWYXBS3",
+            "launch_params": {
+              "room_id": 164,
+              "type": "13",
+              "launch_info": "164"
+            },
+            "button_title": "进入游戏"
+          }
+        ],
+        "game_info": {
+          "version_name": "2.0",
+          "product_id": "175507",
+          "description": "什么游戏堪称经典之作？当然是坦克大战啦！二战背景的界面，丰富地图元素，wifi对战设计增加玩家之间的互动性。每关玩家都需要单挑并战胜一架人工智能的超级坦克方能过关，关卡分为3个层级，每个层级的挑战难度不一样，越来越困难。不用上战场的你也能体验厮杀的快感。本游戏还设有隐藏关卡哦，当你玩到一定程度后，系统将为你自动打开隐藏关卡哦。来吧现在来挑战一下，最智能的电脑坦克，大家准备好被菜了吗？",
+          "package_name": "dy.android.at.pighunter.tank.liantong",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9049600390/cnt/175507/large.png",
+          "apk_size": 16318,
+          "app_name": "完美坦克大战",
+	  "launch_type": 3,
+        },
+        "show_banner": 0,
+        "corner_mark": 0
+      },
+      {
+        "id": 2,
+        "banner_url": "http://wgfiles.wostore.cn/images/2014/05/52c38d1d80604fddb0f12c9e344820e8",
+        "play_rooms": [
+          {
+            "id": 10,
+            "title": "房间1",
+            "launch_type": 2,
+            "action_name": "com.iava.game.activity.WoLauncherActivity",
+            "launch_params": {
+              
+            },
+            "button_title": "进入游戏"
+          }
+        ],
+        "game_info": {
+          "version_name": "1.1",
+          "product_id": "176157",
+          "description": "&nbsp;&nbsp;街机名作“拳皇97”在手机上可以在线对战啦，独有的游戏大厅竞技模式，让你和小伙伴们随时随地加入线上热血对决！&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;拳皇97（The&nbsp;King&nbsp;of&nbsp;Fighters‘97）是经典街机游戏拳皇系列的第四作，由SNK公司于1997年发布，在国内玩家中拥有极高的人气。相比拳皇前三个版本KOF97在各方面均有较大改进，被公认为系列最经典的一作。该版本集成了最新版街机模拟器，在按键触控方面做了多项优化改进，还原街机摇杆的操作体验，整合了游戏人物出招表，玩得更尽兴。<br><br>操作说明：<br>1.&nbsp;游戏的首页可选择“单机游戏”、“在线对战”、“出招表“和“声音开关”等操作；<br>2.&nbsp;“单机游戏“进入后点击“投币”和“开始”按钮开始游戏；<br>3.&nbsp;“在线对战”功能需手动开启，可实现双人联网游戏对战；<br>3.&nbsp;模拟器选项的基本设置中可自定义设置物理按键。",
+          "package_name": "cn.vszone.mame.kof97",
+          "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9034682980/cnt/176157/large.png",
+          "apk_size": 37577,
+          "app_name": "拳皇97"
+        },
+        "show_banner": 0,
+        "corner_mark": 0
+      }
+    ],
+    "disabled_rooms": [
+      
+    ]
+  }
+}
+
+
+失败：
+{"result": 1}

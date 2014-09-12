@@ -1,0 +1,10 @@
+getPostBarName.do?jsondata={"package_name":"a5game.fruit.port10086"}
+成功
+{
+    "result": 0,
+    "data": {
+        "name": "水果传奇"
+    }
+}
+失败
+{"result": 1}

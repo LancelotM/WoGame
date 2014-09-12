@@ -1,0 +1,115 @@
+请求(POST方式)：
+/api/roomsInsert.do?jsonData={xx}&sign=6fcb4033333fd3c19bbf3218c47d0c08&accessKey=1000011
+
+参数说明：
+jsonData 请求数据
+sign  md5(accessKey+jsonData)
+accessKey  验证key(请求头)
+
+
+参数jsonData格式：
+{
+  "product_id": 201642,
+  "rooms": [
+    {
+      "room_name": "轻松赚水晶",
+      "button_title": "进入游戏",
+      "action_name": "com.mas.wawagame.jjlordWYXBS3",
+      "launch_params": {
+        "room_id": 295,
+        "type": "13",
+        "launch_info": "295"
+      },
+      "launch_type": 3,
+      "begin_time": "2014-06-05 15:23:14",
+      "end_time": "2100-12-30 00:00:00"
+    },
+    {
+      "room_name": "黄金门票超值赛",
+      "button_title": "进入游戏",
+      "action_name": "com.mas.wawagame.jjlordWYXBS3",
+      "launch_params": {
+        "room_id": 310,
+        "type": "13",
+        "launch_info": "310"
+      },
+      "launch_type": 3,
+      "begin_time": "2014-06-05 15:23:14",
+      "end_time": "2100-12-30 00:00:00"
+    },
+    {
+      "room_name": "赢实物兑换券",
+      "button_title": "进入游戏",
+      "action_name": "com.mas.wawagame.jjlordWYXBS3",
+      "launch_params": {
+        "room_id": 296,
+        "type": "13",
+        "launch_info": "296"
+      },
+      "launch_type": 3,
+      "begin_time": "2014-06-05 15:23:14",
+      "end_time": "2100-12-30 00:00:00"
+    },
+    {
+      "room_name": "抢水晶大赛",
+      "button_title": "进入游戏",
+      "action_name": "com.mas.wawagame.jjlordWYXBS3",
+      "launch_params": {
+        "room_id": 297,
+        "type": "13",
+        "launch_info": "297"
+      },
+      "launch_type": 3,
+      "begin_time": "2014-06-05 15:23:14",
+      "end_time": "2100-12-30 00:00:00"
+    },
+    {
+      "room_name": "3人大奖赛304",
+      "button_title": "进入游戏",
+      "action_name": "com.mas.wawagame.jjlordWYXBS3",
+      "launch_params": {
+        "room_id": 304,
+        "type": "13",
+        "launch_info": "304"
+      },
+      "launch_type": 3,
+      "begin_time": "2014-06-05 15:21:39",
+      "end_time": "2100-12-30 00:00:00"
+    },
+    {
+      "room_name": "斗地主大奖赛内测303",
+      "button_title": "进入游戏",
+      "action_name": "com.mas.wawagame.jjlordWYXBS3",
+      "launch_params": {
+        "room_id": 303,
+        "type": "13",
+        "launch_info": "303"
+      },
+      "launch_type": 3,
+      "begin_time": "2014-06-05 15:21:39",
+      "end_time": "2100-12-30 00:00:00"
+    },
+    {
+      "room_name": "稳定性测试赛",
+      "button_title": "进入游戏",
+      "action_name": "com.mas.wawagame.jjlordWYXBS3",
+      "launch_params": {
+        "room_id": 305,
+        "type": "13",
+        "launch_info": "305"
+      },
+      "launch_type": 3,
+      "begin_time": "2014-06-05 15:21:39",
+      "end_time": "2100-12-30 00:00:00"
+    }
+  ]
+}
+
+
+
+请求返回：
+{"result": 0}  失败
+{"result": 1}  成功
+{"result": 2}  请求非法
+
+

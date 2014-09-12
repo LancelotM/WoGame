@@ -1,0 +1,20 @@
+请求： /myWinningRecord.do  //目前只显示实物
+
+成功返回：
+{
+    "result": 0,
+    "data": [
+        {
+            "title": "活动1",
+            "info": "手机一部"
+        },
+        {
+            "title": "活动2",
+            "info": "平板电脑x1"
+        }
+    ]
+}
+
+
+错误返回：
+{  "result": 1 }

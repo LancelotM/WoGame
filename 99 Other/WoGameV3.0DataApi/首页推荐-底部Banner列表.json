@@ -1,0 +1,72 @@
+请求
+/footerBannerList.do
+
+返回
+成功：
+{
+    "result": 0,
+    "data": [
+	{
+		"title":"终极狂飙",
+		"corner_mark": 2,
+		"banner": {
+			"banner_url" : "http://www.wgfile.com/xx.jpg",
+			"link_id": "1",
+			"res_type": 2  // banner类型2:游戏 3:专题 4:活动 5:首发 6:礼包 7:流量包 8.外部链接
+		}
+	},
+	{
+		"corner_mark": 2,
+		"title": "百度",
+		"banner": {
+			"banner_url" : "http://www.wgfile.com/xx.jpg",
+			"link_id": "1",
+			"res_type": 8, 
+			"external_url": "http://www.baidu.com"
+		}
+	},
+        {
+		"title":"专题title",
+		"corner_mark": 2,
+		"banner": {
+			"banner_url" : "http://www.wgfile.com/xx.jpg",
+			"link_id": "1",
+			"res_type":3
+		}
+	},
+	{
+		
+		"title":"资讯title",
+		"corner_mark": 2,
+		"banner": {
+			"banner_url" : "http://www.wgfile.com/xx.jpg",
+			"link_id": "1",
+			"res_type":4
+		}
+	},
+	{
+		
+		"title":"礼包title",
+		"corner_mark": 2,
+		"banner": {
+			"banner_url" : "http://www.wgfile.com/xx.jpg",
+			"link_id": "1",
+			"res_type":6
+		}
+	},
+	{
+		
+		"title":"流量包title",
+		"corner_mark": 2,
+		"banner": {
+			"banner_url" : "http://www.wgfile.com/xx.jpg",
+			"link_id": "1",
+			"res_type":7
+		}
+	}
+     ]
+}
+
+
+失败：
+{"result": 1}

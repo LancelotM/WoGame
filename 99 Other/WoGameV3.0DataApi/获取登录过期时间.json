@@ -1,0 +1,14 @@
+请求：获取登录过期剩余秒数
+/getExpireSeconds.do
+
+返回：
+成功：
+{
+    "result": 0,
+    "data": {
+        "seconds":86200
+    }
+}
+
+失败：
+{"result": 1}

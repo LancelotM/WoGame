@@ -1,0 +1,21 @@
+请求：
+/vipBiz.do
+
+返回：
+成功：
+{
+    "result": 0,
+    "data": [
+    	{
+    		"id":1,
+	        "title": "6元会员包",
+	        "price":600,
+	        "old_price":800,
+	        "fee_point":"123456789012",
+	        "product_code":"0001"
+        }
+    ]
+}
+
+失败：
+{"result": 1}

@@ -1,0 +1,59 @@
+请求
+/weekHotList.do?jsondata={"page_num":1,"page_size":10}
+
+接口返回
+成功：
+{
+  "result": 0,
+  "data": {
+    "items": [
+      {
+        "intro": "火拼斗地主是团队精心打造的一款休闲性质的斗地主游戏。让斗地主玩家在一样的游戏中享受到不一样的极致体验!",
+        "product_id": "166488",
+        "game_name": "火拼斗地主",
+        "version_code": "1.0.7",
+        "version_name": "1.0.7",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9049205287/cnt/166488/large.png",
+        "package_name": "com.happyseven.huopinglord",
+        "apk_size": 7146
+      },
+      {
+        "intro": "在袖珍森林里，动物们过着安静的生活。但是有一天他们原本平静的生活被一群来自遥远城市的人类打破啦",
+        "product_id": "165789",
+        "game_name": "丛林奇兵",
+        "version_code": "1.0",
+        "version_name": "1.0",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9049195458/cnt/165789/large.png",
+        "package_name": "com.xz.clqb_hd",
+        "apk_size": 5305
+      },
+      {
+        "intro": "世界已经无法阻止喵星人的脚步了！现在，他们化身扛起了消灭反叛军团的重任。经典风格横向跑酷类游戏，精美的画面，华丽的特效，流畅的操作，多样化的技能。通过努力，来一点点提升自己的装备。喵星们前面的路，并不平坦，一路上，有着各种机关陷阱，还有层出不穷的各类敌人在等着你，为了完成喵星人的使命，让我们一起进入喵星传说的世界吧！",
+        "product_id": "165706",
+        "game_name": "喵星传说",
+        "version_code": "1.0.1",
+        "version_name": "1.0.1",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9049195458/cnt/165706/large.png",
+        "package_name": "com.cafgame.nyankoninja",
+        "apk_size": 22228
+      },
+      {
+        "intro": "《超萌果蔬宠物连连看》是一款连连看益智类的休闲游戏，游戏以可爱的动物果蔬为主题，加上特有的随机事件让游戏更加有趣。",
+        "product_id": "166654",
+        "game_name": "超萌果蔬宠物连连看",
+        "version_code": "1.0.3",
+        "version_name": "1.0.3",
+        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/908278738/cnt/166654/large.png",
+        "package_name": "com.wt.chllk",
+        "apk_size": 5951
+      }
+    ],
+    "total_num": 4
+  }
+}
+
+
+
+
+失败：
+{"result": 1}

@@ -1,0 +1,39 @@
+请求
+/zoneList.do
+
+返回
+成功：
+{
+    "result": 0,
+    "data": [
+		{
+		    "id": 1,
+		    "title": "首发新游",
+		    "tips": "",
+		    "update_dot":true
+		},
+		{
+		    "id": 3,
+		    "title": "网游资讯",
+		    "tips": "",
+		    "update_dot":true
+		},
+		{
+		    "id": 2,
+		    "title": "礼包专区",
+		    "tips": "(共27个)",
+		    "update_dot":false
+		    
+		},
+		{
+		    "id": 4,
+		    "title": "流量",
+		    "tips": "畅享专区",
+		    "update_dot":false
+		}
+    ]
+}
+
+
+失败：
+{"result": 1}

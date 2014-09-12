@@ -1,0 +1,95 @@
+请求
+trafficGameList.do?jsondata={"page_num":1,"page_size":20}
+
+返回
+成功：
+{
+    "result": 0,    
+     "data": {
+		"total_num":256,
+		"items":[
+			{
+				"icon_url":"http://client.wostore.cn:6106/appstore_agent/upload/9049529796/cnt/194052/large.png",
+				"product_id":"153755",
+				"title":"终极狂飙",
+				"package_name":"com.zh.SongshuConglinzhan",
+				"download_url":"http://www.baidu.com",
+				"version_name":"1.0.0",
+				"apk_size":2487,
+				"intro":"一句话简介",
+				"corner_mark": 2,
+				"banner": {
+					"banner_url" : "http://www.wgfile.com/xx.jpg",
+					"link_id": "1",
+					"res_type": 2,  // banner类型  2:游戏 3:专题 4:活动5:首发 6:礼包 7:流量包 8.外部链接
+					"external_url": ""
+				}
+			},
+			{
+				"icon_url":"http://client.wostore.cn:6106/appstore_agent/upload/9049529796/cnt/194052/large.png",
+				"product_id":"153755",
+				"title":"终极狂飙",
+				"package_name":"com.zh.SongshuConglinzhan",
+				"download_url":"http://www.baidu.com",
+				"version_name":"1.0.0",
+				"apk_size":2487,
+				"intro":"一句话简介",
+				"corner_mark": 2
+			},
+			{
+				"title":"专题title",
+				"corner_mark": 2,
+				"banner": {
+					"banner_url" : "http://www.wgfile.com/xx.jpg",
+					"link_id": "1",
+					"res_type":3
+				}
+			},
+			{
+				"corner_mark": 2,
+				"title": "活动",
+				"banner": {
+					"banner_url" : "http://www.wgfile.com/xx.jpg",
+					"link_id": "1",
+					"res_type": 4
+				}
+			},
+			{
+				"corner_mark": 2,
+				"banner": {
+					"banner_url" : "http://www.wgfile.com/xx.jpg",
+					"link_id": "1",
+					"res_type":5,
+				}
+			},
+			{
+				"title":"礼包title",
+				"corner_mark": 2,
+				"banner": {
+					"banner_url" : "http://www.wgfile.com/xx.jpg",
+					"link_id": "1",
+					"res_type":6,
+				}
+			},
+			{
+				"corner_mark": 2,
+				"banner": {
+					"banner_url" : "http://www.wgfile.com/xx.jpg",
+					"link_id": "1",
+					"res_type":7,
+				}
+			},
+			{
+				"corner_mark": 2,
+				"banner": {
+					"banner_url" : "http://www.wgfile.com/xx.jpg",
+					"res_type": 8, 
+					"external_url": "http://www.baidu.com"
+				}
+			}
+		]
+      }    
+}
+
+失败：
+{"result": 1}

@@ -1,0 +1,9 @@
+请求： /updateReceiveAddress.do?jsondata={"address":"XX路XX号"}
+
+成功返回：
+{
+  "result": 0
+}
+
+错误返回：
+{  "result": 1 }

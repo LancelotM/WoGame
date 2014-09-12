@@ -1,0 +1,17 @@
+请求：
+/vipInfo.do
+
+返回：
+成功：
+{
+    "result": 0,
+    "data": {
+    	"title":"流量包畅玩特权",
+        "banner_url": "",
+        "protocol_url": "http://www.baidu.com",
+        "intro":"xxxxxxxxxxxxxxxxxxxx"
+    }
+}
+
+失败：
+{"result": 1}

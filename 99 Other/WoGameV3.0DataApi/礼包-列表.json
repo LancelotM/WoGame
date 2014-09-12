@@ -1,0 +1,148 @@
+/giftList.do?jsondata={"page_num":1,"page_size":10}
+header:
+	user_id=1
+成功
+{
+    "result": 0,
+    "data": {
+        "total_num": 14,
+        "items": [
+            {
+                "id": 85,
+                "title": "《爆爆爱丽丝》独家仙境魔法礼包大派送",
+                "abstraction": "《爆爆爱丽丝》独家仙境魔法礼包大派送，每人限领1份，内含道具6个。",
+                "qualifications": [
+                    {
+                        "type": 1,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "级以上"
+                    },
+                    {
+                        "type": 2,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "个积分"
+                    }
+                ],
+                "product_id": "200942",
+                "package_name": "",
+                "icon_url": "",
+                "left_percent": 99,
+                "receive_status": 1
+            },
+            {
+                "id": 84,
+                "title": "《怪物X联盟》暑期震撼大礼包！",
+                "abstraction": "大行动力药水*5，随机高阶强化石*5，12H双倍经验*1，20000G币",
+                "qualifications": [
+                    {
+                        "type": 1,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "级以上"
+                    },
+                    {
+                        "type": 2,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "个积分"
+                    }
+                ],
+                "product_id": "182898",
+                "package_name": "cn.fangcun",
+                "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/907958104/cnt/182898/large.png",
+                "left_percent": 100,
+                "receive_status": 0
+            },
+            {
+                "id": 83,
+                "title": "《九天传说》普天同庆大礼包！",
+                "abstraction": "兑换码一枚，在游戏中输入可得100元宝。",
+                "qualifications": [
+                    {
+                        "type": 1,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "级以上"
+                    },
+                    {
+                        "type": 2,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "个积分"
+                    }
+                ],
+                "product_id": "200527",
+                "package_name": "",
+                "icon_url": "",
+                "left_percent": 99,
+                "receive_status": 1
+            },
+            {
+                "id": 81,
+                "title": "《CF枪魂 僵尸围城》激战大礼包",
+                "abstraction": "活动期间输入兑换码，可以兑换价值10元激战大礼包\r\n（28888金币+28钻石+超级枪械响尾蛇）\r\n",
+                "qualifications": [
+                    {
+                        "type": 1,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "级以上"
+                    },
+                    {
+                        "type": 2,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "个积分"
+                    }
+                ],
+                "product_id": "202155",
+                "package_name": "",
+                "icon_url": "",
+                "left_percent": 100,
+                "receive_status": 0
+            },
+            {
+                "id": 80,
+                "title": "《苍穹之剑》新手仙宠礼包",
+                "abstraction": "铜钱×300000、真气×200000、灵气×8000、喇叭×5",
+                "qualifications": [
+                    {
+                        "type": 1,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "级以上"
+                    }
+                ],
+                "product_id": "195113",
+                "package_name": "",
+                "icon_url": "",
+                "left_percent": 100,
+                "receive_status": 0
+            },
+            {
+                "id": 79,
+                "title": "《苍穹之剑》世界杯狂欢礼包",
+                "abstraction": "《苍穹之剑》世界杯狂欢礼包领取礼包内容： 铜钱×300000、真气×200000、灵气×8000、喇叭×5",
+                "qualifications": [
+                    {
+                        "type": 1,
+                        "number": 0,
+                        "origNumber": 1,
+                        "unit": "级以上"
+                    }
+                ],
+                "product_id": "195113",
+                "package_name": "",
+                "icon_url": "",
+                "left_percent": 100,
+                "receive_status": 0
+            }
+        ]
+    }
+}
+失败
+{
+    "result": 1
+}

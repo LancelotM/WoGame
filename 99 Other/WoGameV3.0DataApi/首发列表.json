@@ -1,0 +1,75 @@
+请求：
+/debutList.do?jsondata={"page_num":1, "page_size":10}
+
+
+成功返回:
+{
+    "result": 0,
+    "data": {
+        "total_num": 19,
+        "items": [
+            {
+                "items": [
+                    {
+                        "title": "超雷电战机",
+                        "intro": "这是一款空战题材的游戏，游戏中可自由购买装备组装战机来提升实力，需要耐心和敏捷的操作才能过关！",
+                        "banner": {
+                            "link_id": "105081",
+                            "res_type": 2,
+                            "banner_url": "http://wgfiles.wostore.cn/images/2014/06/193989.jpg"
+                        },
+                        "corner_mark": "0",
+                        "product_id": "105081",
+                        "version_code": "1.0",
+                        "version_name": "1.0",
+                        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90002486/cnt/105081/large.png",
+                        "download_url": "",
+                        "package_name": "chaoleidianzhanji.playplus.hd",
+                        "apk_size": 7483
+                    },
+                    {
+                        "title": "3D暴力摩托(单机版)",
+                        "intro": "手机游戏3d暴力摩托也不错，与电脑版不同的是，手机上的是使用各种道具，加速，炸弹等手段，获得好的成绩。",
+                        "corner_mark": "0",
+                        "product_id": "185114",
+                        "version_code": "1.0",
+                        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90004804/cnt/185114/large.png",
+                        "download_url": "",
+                        "package_name": "com.sxiaoao.moto3dsingle",
+                        "apk_size": 7913
+                    },
+                    {
+                        "title": "帮助我飞",
+                        "intro": "寻找出最短的路线的同时，还需要把电源通过星星，才能获得更高的分数！",
+                        "corner_mark": "0",
+                        "product_id": "193469",
+                        "version_code": "0.97",
+                        "version_name": "",
+                        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9064449975/cnt/193469/large.png",
+                        "download_url": "",
+                        "package_name": "air.com.funtomic.helpmefly",
+                        "apk_size": 22571
+                    },
+                    {
+                        "title": "忘仙OL",
+                        "intro": "雪花白银，美女宠物，便捷挂机，让你一键轻松玩转！ ",
+                        "corner_mark": "0",
+                        "product_id": "185055",
+                        "version_code": "1.9.50",
+                        "version_name": "1.9.50",
+                        "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/90006645/cnt/185055/large.png",
+                        "download_url": "",
+                        "package_name": "org.wangxian.unipay",
+                        "apk_size": 6576
+                    }
+                ],
+                "publish_date": "2014-06-05"
+            }
+        ]
+    }
+}
+
+
+
+错误返回：
+{ "result": 1 }

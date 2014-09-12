@@ -1,0 +1,15 @@
+请求：
+/navBanner.do?jsondata={"nav":"cocosplay"}
+
+返回：
+成功：
+{
+    "result": 0,
+    "data": {
+		"banner_url": "http://domain/path/xxx.jpg"
+    }
+    
+}
+
+失败：
+{"result": 1}

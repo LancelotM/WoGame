@@ -1,0 +1,54 @@
+请求
+/cocosplayGameList.do?jsondata={"page_num":1,"page_size":20}
+
+返回
+成功：
+{
+    "result": 0,
+    "data": {
+        "total_num": 50,
+        "items": [
+            {
+                "version_name": "0.92.0.0",
+                "product_id": "187280",
+                "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9023636866/cnt/187280/20140327154544large.png",
+				"cocosplay_package": "com.zhangqu.game.freenetfootball.wostore.demo",
+				"package_name": "panda.playplus",
+                "download_url":"http://www.baidu.com",
+                "apk_size": 30655,
+                "game_name": "天天足球-实况世界杯",
+                "version_code": "0.92.0.0",
+                "intro": "本游戏以模拟经营足球俱乐部为题材",
+                "orientation":1,//0横屏 1竖屏
+				"categories": [
+					{
+						"id": 0,
+						"name": "动作射击"
+					}
+				]
+            },
+            {
+                "version_name": "0.92.0.0",
+                "product_id": "187280",
+                "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9023636866/cnt/187280/20140327154544large.png",
+                "cocosplay_package": "com.zhangqu.game.freenetfootball.wostore.demo",
+                "package_name": "panda.playplus",
+                "download_url":"http://www.baidu.com",
+                "apk_size": 30655,
+                "game_name": "天天足球-实况世界杯",
+                "version_code": "0.92.0.0",
+                "intro": "本游戏以模拟经营足球俱乐部为题材",
+                "orientation":0,//0横屏 1竖屏
+				"categories": [
+					{
+				        "id": 0,
+						"name": "动作射击"
+					}
+				]
+            }
+        ]
+    }
+}
+
+失败：
+{"result": 1}

@@ -1,0 +1,38 @@
+请求
+/categoryGameList.do?jsondata={"id":1,"page_num":1,"page_size":20}
+
+返回
+成功：
+{
+    "result": 0,
+    "data": {
+        "total_num": 50,
+        "items": [
+            {
+                "version_name": "0.92.0.0",
+                "product_id": "187280",
+                "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9023636866/cnt/187280/20140327154544large.png",
+                "package_name": "com.zhangqu.game.freenetfootball.wostore",
+                "download_url":"http://www.baidu.com",
+                "apk_size": 30655,
+                "game_name": "天天足球-实况世界杯",
+                "version_code": "0.92.0.0",
+                "intro": "本游戏以模拟经营足球俱乐部为题材"
+            },
+            {
+                "version_name": "0.92.0.0",
+                "product_id": "187280",
+                "icon_url": "http://client.wostore.cn:6106/appstore_agent/upload/9023636866/cnt/187280/20140327154544large.png",
+                "package_name": "com.zhangqu.game.freenetfootball.wostore",
+                "download_url":"http://www.baidu.com",
+                "apk_size": 30655,
+                "game_name": "天天足球-实况世界杯",
+                "version_code": "0.92.0.0",
+                "intro": "本游戏以模拟经营足球俱乐部为题材"
+            }
+        ]
+    }
+}
+
+失败：
+{"result": 1}
