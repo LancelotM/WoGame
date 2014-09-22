@@ -19,6 +19,7 @@
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
 </head>
 
+<body class="ibody_bg">
 <!--top-->
 <div class="w-header">
     <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
@@ -35,6 +36,7 @@
     <div class="w_new_011"><a href="${ctx}/main;jsessionid=${sessionid}">首页</a></div>
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
+    <div><a href="${ctx}/booking;jsessionid=${sessionid}">0元畅玩</a></div>
     <div class="w_new_033"><a href="${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
     <div class="w_new_04"><a href="#">最新</a></div>
 </div>
