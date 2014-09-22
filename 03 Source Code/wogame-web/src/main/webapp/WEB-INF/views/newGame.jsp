@@ -36,7 +36,6 @@
     <div class="w_new_011"><a href="${ctx}/main;jsessionid=${sessionid}">首页</a></div>
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
-    <div><a href="${ctx}/booking;jsessionid=${sessionid}">0元畅玩</a></div>
     <div class="w_new_033"><a href="${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
     <div class="w_new_04"><a href="#">最新</a></div>
 </div>
