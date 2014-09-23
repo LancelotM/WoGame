@@ -12,6 +12,6 @@
 <body>
 <h2>页面不存在.</h2>
 
-<p><a href="<c:url value="${ctx}/main?channel=${channelId}"/>">返回首页</a></p>
+<p><a href="<c:url value="/main?channel=${channelId}"/>">返回首页</a></p>
 </body>
 </html>
