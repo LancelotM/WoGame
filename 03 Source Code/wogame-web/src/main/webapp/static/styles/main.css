@@ -127,7 +127,7 @@ a.bai14zt:hover {
 }
 
 .w_new_01 {
-    width: 25%;
+    width: 20%;
     height: 37px;
     background-position: -260px 7px;
     border-bottom: #FF9C00 5px solid;
@@ -139,48 +139,48 @@ a.bai14zt:hover {
 }
 
 .w_new_02 {
-    width: 25%;
+    width: 20%;
     height: 37px;
     background-position: -260px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 25%;
+    left: 20%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_03 {
-    width: 25%;
+    width: 20%;
     height: 37px;
     background-position: -231px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 50%;
+    left: 40%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_04 {
-    width: 25%;
+    width: 20%;
     height: 37px;
     background-position: -231px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 75%;
+    left: 60%;
     top: 0px;
     text-align: center;
     line-height: 38px;
 }
 
 .w_new_05 {
-    width: 60px;
+    width: 20%;
     height: 37px;
     background-position: -260px 7px;
     border-bottom: #FF9C00 5px solid;
     position: absolute;
-    left: 120px;
+    left: 80%;
     top: 0px;
     text-align: center;
     line-height: 38px;
@@ -211,7 +211,7 @@ a.bai14zt:hover {
 }
 
 .w_new_011 {
-    width: 25%;
+    width: 20%;
     height: 42px;
     background-position: -260px 7px;
     position: absolute;
@@ -222,44 +222,44 @@ a.bai14zt:hover {
 }
 
 .w_new_022 {
-    width: 25%;
+    width: 20%;
     height: 42px;
     background-position: -260px 7px;
     position: absolute;
-    left: 25%;
+    left: 20%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_033 {
-    width: 25%;
+    width: 20%;
     height: 42px;
     background-position: -231px 7px;
     position: absolute;
-    left: 50%;
+    left: 40%;
     top: 0px;
     text-align: center;
     line-height: 37px;
 }
 
 .w_new_044 {
-    width: 25%;
+    width: 20%;
     height: 42px;
     background-position: -231px 7px;
     position: absolute;
-    left: 75%;
+    left: 60%;
     top: 0px;
     text-align: center;
     line-height: 38px;
 }
 
 .w_new_055 {
-    width: 60px;
+    width: 20%;
     height: 42px;
     background-position: -260px 7px;
     position: absolute;
-    left: 120px;
+    left: 80%;
     top: 0px;
     text-align: center;
     line-height: 37px;
@@ -2145,4 +2145,40 @@ dl.num_r dd {
     z-index: 19999;
 }
 
-/*首发*/
+
+#adContainer {
+    position:fixed;
+    bottom:0;
+    right:0;
+    background:rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 67px;
+    cursor: pointer;
+    z-index:20000;
+}
+
+#adContainer .adImg {
+    width:65px;
+    height:65px;
+    float:right;
+    margin-right:20px;
+    background:url(../images/ad-changwan.png) no-repeat;
+}
+
+#adContainer .adTextContainer {
+    width:230px;
+    float:left;
+    margin:7px 0 0 10px;
+}
+
+#adContainer .adTextContainer .adRow {
+    height:20px;
+    font-size:12px;
+    color:white;
+}
+
+div.adPlaceHolder {
+    clear:both;
+    width:100%;
+    height:67px;
+}

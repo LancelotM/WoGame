@@ -106,8 +106,9 @@
     <div class="w_new_01">首页</div>
     <!--没有选中-->
     <div class="w_new_022" data-role="none"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
-    <div class="w_new_033"><a href="${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
-    <div class="w_new_044"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
+    <div class="w_new_033"><a href="${ctx}/changWan;jsessionid=${sessionid}">0元畅玩</a></div>
+    <div class="w_new_044"><a href="${ctx}/weeklyHot/list;jsessionid=${sessionid}?pageNum=1">一周热榜</a></div>
+    <div class="w_new_055"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 
 </div>
 <!--大图-->
@@ -228,6 +229,19 @@
         </c:forEach>
     </c:forEach>
 </div>
-
+<div class="adPlaceHolder"></div>
+<div id="adContainer" class="adPlaceHolder" onclick="toChangWanPage();">
+    <div class="adTextContainer">
+        <div class="adRow">中奖率>彩票10000倍！</div>
+        <div class="adRow">只需6元1000元游戏无限次畅玩，更</div>
+        <div class="adRow">可参与抽6000元+大奖</div>
+    </div>
+    <div class="adImg"></div>
+</div>
+<script type="text/javascript">
+    function toChangWanPage() {
+        location.href="${ctx}/changWan;jsessionid=${sessionid}";
+    }
+</script>
 </body>
 </html>

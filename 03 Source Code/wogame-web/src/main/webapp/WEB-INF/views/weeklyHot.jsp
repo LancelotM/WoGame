@@ -36,8 +36,9 @@
     <div class="w_new_011"><a href="${ctx}/main;jsessionid=${sessionid}">首页</a></div>
     <!--没有选中-->
     <div class="w_new_022"><a href="${ctx}/category/list;jsessionid=${sessionid}">分类</a></div>
-    <div class="w_new_03"><a href="#">一周热榜</a></div>
-    <div class="w_new_044"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
+    <div class="w_new_033"><a href="${ctx}/changWan;jsessionid=${sessionid}">0元畅玩</a></div>
+    <div class="w_new_04"><a href="#">一周热榜</a></div>
+    <div class="w_new_055"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 </div>
 
 <div id="wrapper">
@@ -53,6 +54,22 @@
         </div>
     </div>
 </div>
+
+<div class="adPlaceHolder"></div>
+<div id="adContainer" class="adPlaceHolder" onclick="toChangWanPage();">
+    <div class="adTextContainer">
+        <div class="adRow">中奖率>彩票10000倍！</div>
+        <div class="adRow">只需6元1000元游戏无限次畅玩，更</div>
+        <div class="adRow">可参与抽6000元+大奖</div>
+    </div>
+    <div class="adImg"></div>
+</div>
+
+<script type="text/javascript">
+    function toChangWanPage() {
+        location.href="${ctx}/changWan;jsessionid=${sessionid}";
+    }
+</script>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
@@ -146,7 +163,7 @@
             },
             wipeRight: function (e) {
                 e.preventDefault();
-                location.href = "${ctx}/category/list;jsessionid=${sessionid}";
+                location.href = "${ctx}/changWan;jsessionid=${sessionid}";
             },
             preventDefaultEvents: false
 
