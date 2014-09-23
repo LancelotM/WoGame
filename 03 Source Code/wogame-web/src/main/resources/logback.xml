@@ -48,7 +48,18 @@
         <encoder>
             <pattern>%msg</pattern>
         </encoder>
-    </appender>       
+    </appender>
+    
+    <appender name="pageviewFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/unicom/logs/wogamecenter_pageview.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/unicom/logs/wogamecenter_pageview_%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <Encoding>UTF-8</Encoding>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>           
 
     <!-- project default level -->
     <logger name="com.unicom.wogame" level="INFO"/>
@@ -64,7 +75,11 @@
     
     <logger name="number" level="INFO" additivity="false">
         <appender-ref ref="numberFile" />
-    </logger>        
+    </logger>    
+    
+    <logger name="pageview" level="INFO" additivity="false">
+        <appender-ref ref="pageviewFile" />
+    </logger>     
 
     <root level="WARN">
         <appender-ref ref="console"/>

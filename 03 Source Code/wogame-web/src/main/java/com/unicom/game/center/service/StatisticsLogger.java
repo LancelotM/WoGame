@@ -14,10 +14,12 @@ public class StatisticsLogger {
     public static final String BUSINESS_LOGGER_NAME = "business";
     public static final String DOWNLOAD_LOGGER_NAME = "download";
     public static final String NUMBER_LOGGER_NAME = "number";
+    public static final String PAGEVIEW_LOGGER_NAME = "pageview";
 
     private Logger businessLogger = LoggerFactory.getLogger(BUSINESS_LOGGER_NAME);
     private Logger downloadLogger = LoggerFactory.getLogger(DOWNLOAD_LOGGER_NAME);
     private Logger numberLogger = LoggerFactory.getLogger(NUMBER_LOGGER_NAME);
+    private Logger pageviewLogger= LoggerFactory.getLogger(PAGEVIEW_LOGGER_NAME);
 
     private JsonMapper jsonMapper = new JsonMapper();
 
@@ -31,5 +33,13 @@ public class StatisticsLogger {
 
     public void number(String data) {
         numberLogger.info(data+" ");
+    }
+    
+    /**
+     * pageview format:	pagecode|channelId|clientIP
+     * @param data
+     */
+    public void pageview(String data){
+    	pageviewLogger.info(data);
     }
 }
