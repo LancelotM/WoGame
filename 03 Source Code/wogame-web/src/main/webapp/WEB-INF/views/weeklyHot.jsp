@@ -60,7 +60,7 @@
     <div class="adTextContainer">
         <div class="adRow">中奖率>彩票10000倍！</div>
         <div class="adRow">只需6元1000元游戏无限次畅玩，更</div>
-        <div class="adRow">可参与抽6000元+大奖</div>
+        <div class="adRow">可参与抽60000元+大奖</div>
     </div>
     <div class="adImg"></div>
 </div>
