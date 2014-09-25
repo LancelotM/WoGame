@@ -1,6 +1,6 @@
 var Window = Window || {};
 
-Window.Show = function(content, clasz)
+Window.Show = function(content, clasz, callback)
 {
 	!Window._Context && Window._Render.call(this, clasz);
 	
@@ -11,14 +11,14 @@ Window.Show = function(content, clasz)
 	
 	Window._Context.style.display = 'block';
 	
-	
+	Window._Callback = callback;
 };
 
-Window.Hide = function(method)
+Window.Hide = function()
 {
 	Window._Context.style.display = 'none';
 	
-	if (method) method.call();
+	if (Window._Callback) Window._Callback.call();
 };
 
 Window._Render = function(clasz)
