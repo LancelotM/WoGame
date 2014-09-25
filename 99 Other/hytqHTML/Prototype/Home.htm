@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../Content/Common/CSS/Reset.css" />
     <link rel="stylesheet" type="text/css" href="../Content/Themes/Default/CSS/Global.css?2">
     <script type="text/javascript" src="../Content/Themes/Default/Scripts/Window.js"></script>
+	
     <script id="order" type="text/x-xunjz-tmpl">
 		<h2>请确认订购该礼包</h2>
 		<form>
@@ -642,10 +643,25 @@
         <div class="adImg">
         </div>
     </div>
-    <script type="text/javascript">
-        function download_file(url) {			
-			location.href = url;            
-            return false;
+    <script type="text/javascript" language="javascript">
+
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null) return unescape(r[2]); return null;
+		}
+	
+        function download_file(url) {
+			var weixin = getQueryString("weixin");
+			if(weixin == 1){			
+				var weixin_dl_url = "http://mp.weixin.qq.com/mp/redirect?url=" + encodeURIComponent(url) + "#weixin.qq.com#wechat_redirect"; 
+				alert(weixin_dl_url);
+				location.href = weixin_dl_url;  
+				return false;				
+			}else{
+				location.href = url;            
+				return false;
+			}
         }
 		
 		function closeContainer(obj) {
