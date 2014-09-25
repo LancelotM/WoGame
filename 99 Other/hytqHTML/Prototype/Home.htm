@@ -655,7 +655,6 @@
 			var weixin = getQueryString("weixin");
 			if(weixin == 1){			
 				var weixin_dl_url = "http://mp.weixin.qq.com/mp/redirect?url=" + encodeURIComponent(url) + "#weixin.qq.com#wechat_redirect"; 
-				alert(weixin_dl_url);
 				location.href = weixin_dl_url;  
 				return false;				
 			}else{
