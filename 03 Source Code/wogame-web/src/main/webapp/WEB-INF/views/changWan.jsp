@@ -40,9 +40,23 @@
     <div class="w_new_055"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 
 </div>
-<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0" frameBorder=0
-        height="550px" scrolling=yes id="ifm" width="100%" name="ifm">
-</iframe>
+ 
+ <c:if test="${weixin == true}">
+ 
+	<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0&weixin=1" frameBorder=0
+	        height="550px" scrolling=yes id="ifm" width="100%" name="ifm">
+	</iframe> 
+
+ </c:if>
+ 
+<c:if test="${weixin == false}">
+ 
+	<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0" frameBorder=0
+	        height="550px" scrolling=yes id="ifm" width="100%" name="ifm">
+	</iframe> 
+
+ </c:if>
+       
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
