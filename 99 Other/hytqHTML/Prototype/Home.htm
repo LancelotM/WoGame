@@ -40,6 +40,7 @@
     </script>
 </head>
 <body>
+	<div id="wogame"></div>
     <div class="banner" style="background-image: url(../Content/Themes/Default/Images/banner.jpg);">
     </div>
     <div class="headline">
@@ -678,12 +679,23 @@
         </div>
     </div>
     <script type="text/javascript" language="javascript">
+	banner_margin();
 
 		function getQueryString(name) {
 			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 			var r = window.location.search.substr(1).match(reg);
 			if (r != null) return unescape(r[2]); return null;
 		}
+		
+		function banner_margin(){
+			var original = getQueryString("original");
+			if(null != original && "wogame" == original){
+				document.getElementById('wogame').style.height = "90px";
+			}else{
+				document.getElementById('wogame').style.height = "0";
+			}
+		}
+		
 		
 		function jump_page(url){
 				location.href = url;            
@@ -694,10 +706,10 @@
 			var weixin = getQueryString("weixin");
 			if(weixin == 1){			
 				var weixin_dl_url = "http://mp.weixin.qq.com/mp/redirect?url=" + encodeURIComponent(url) + "#weixin.qq.com#wechat_redirect"; 
-				location.href = weixin_dl_url;  
+				parent.window.location.href = weixin_dl_url;  
 				return false;				
 			}else{
-				location.href = url;            
+				parent.window.location.href = url;            
 				return false;
 			}
         }

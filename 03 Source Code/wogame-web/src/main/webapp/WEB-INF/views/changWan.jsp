@@ -43,16 +43,16 @@
  
  <c:if test="${weixin == true}">
  
-	<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0&weixin=1" frameBorder=0
-	        height="550px" scrolling=yes id="ifm" width="100%" name="ifm">
+	<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0&original=wogame&weixin=1" frameBorder=0
+	        height="550px" scrolling=yes id="ifm" width="100%" name="ifm" style="margin-top:-90px;">
 	</iframe> 
 
  </c:if>
  
 <c:if test="${weixin == false}">
  
-	<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0" frameBorder=0
-	        height="550px" scrolling=yes id="ifm" width="100%" name="ifm">
+	<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0&original=wogame" frameBorder=0
+	        height="550px" scrolling=yes id="ifm" width="100%" name="ifm" style="margin-top:-90px;">
 	</iframe> 
 
  </c:if>
@@ -61,7 +61,7 @@
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">
     $("#ifm").load(function () {
-        $(this).height($(window).height()-90);
+        $(this).height($(window).height());
 
 //        var doc = document.getElementById('ifm' ).contentWindow.document;
 //        alert(doc.body.innerHTML);
