@@ -82,11 +82,28 @@ $(function () {
     });
     $(window).resize();
 })
-function download_file(url) {
 
+function is_weixin(){
+	var ua = navigator.userAgent.toLowerCase();
+	if(ua.match(/MicroMessenger/i)=="micromessenger") {
+		return true;
+	} else {
+		return false;
+	}
+} 
+
+function download_file(url) {
     $("#info-container").show(300).delay(2000).hide(300);
-    location.href = url;
-    return false;
+    
+    if(is_weixin()){
+    		var weixin_dl_url = "http://mp.weixin.qq.com/mp/redirect?url=" + encodeURIComponent(url) + "#weixin.qq.com#wechat_redirect";
+    		location.href = weixin_dl_url;
+    		return false;
+    	} else {
+	    	location.href = url;
+	    	return false;
+    	}     
+
     /*
      var form = $("#downloadForm");
      if (form.length > 0) {
