@@ -4,6 +4,8 @@ import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.vo.WeekHotItemVo;
 import com.unicom.game.center.vo.WeekHotVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,8 @@ public class WeeklyHotGamesController {
     @Autowired
     private GameService gameService;
 
+    private Logger logger = LoggerFactory.getLogger(WeeklyHotGamesController.class);
+
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(HttpSession session) {
         /*WeekHotVo weekHotVo = gameService.readWeekHotDownloadList(pageNum, Constants.PAGE_SIZE_DEFAULT);
@@ -37,8 +41,20 @@ public class WeeklyHotGamesController {
 
     @RequestMapping(value = "ajaxList", method = RequestMethod.GET)
     @ResponseBody
-    public WeekHotItemVo ajaxList(@RequestParam("pageNum") int pageNum, Model model) {
-        WeekHotVo weekHotVo = gameService.readWeekHotDownloadList(pageNum, Constants.PAGE_SIZE_DEFAULT);
+    public WeekHotItemVo ajaxList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) int pageSize, Model model) {
+        int size = 0;
+        try{
+            if(pageSize != 0){
+                size = pageSize;
+            }else {
+                size = Constants.PAGE_SIZE_DEFAULT;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("Error pageSize!");
+        }
+
+        WeekHotVo weekHotVo = gameService.readWeekHotDownloadList(pageNum, size);
 
         return weekHotVo.getData();
     }

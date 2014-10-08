@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping(value = "/activity")
@@ -19,10 +21,24 @@ public class ActivityController {
     @Autowired
     private GameService gameService;
 
+    private Logger logger = LoggerFactory.getLogger(ActivityController.class);
+
     @RequestMapping(value = "/infolist", method = RequestMethod.GET)
     @ResponseBody
-    public ActivityInfoVo activityInfoList(@RequestParam("pageNum") int pageNum, Model model) {
-        ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(pageNum, Constants.PAGE_SIZE_DEFAULT);
+    public ActivityInfoVo activityInfoList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) int pageSize, Model model) {
+        int size = 0;
+        try{
+            if(pageSize != 0){
+                size = pageSize;
+            }else {
+                size = Constants.PAGE_SIZE_DEFAULT;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("Error pageSize!");
+        }
+
+        ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(pageNum, size);
 
         return activityInfoListVo.getActivityInfoVo();
     }

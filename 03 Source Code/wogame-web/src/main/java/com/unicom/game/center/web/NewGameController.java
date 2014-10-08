@@ -5,6 +5,8 @@ import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.vo.NewListVo;
 import com.unicom.game.center.vo.NewVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,8 @@ public class NewGameController {
     @Autowired
     private GameService gameService;
 
+    private Logger logger = LoggerFactory.getLogger(NewGameController.class);
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(HttpSession session) {
 
@@ -46,8 +50,20 @@ public class NewGameController {
 
     @RequestMapping(value = "/ajaxList", method = RequestMethod.GET)
     @ResponseBody
-    public NewVo ajaxList(@RequestParam("pageNum") int pageNum, HttpSession session) {
-        NewListVo newListVo = gameService.readNewList(pageNum, Constants.PAGE_SIZE_DEFAULT);
+    public NewVo ajaxList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) int pageSize, HttpSession session) {
+        int size = 0;
+        try{
+            if(pageSize != 0){
+                size = pageSize;
+            }else {
+                size = Constants.PAGE_SIZE_DEFAULT;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("Error pageSize!");
+        }
+
+        NewListVo newListVo = gameService.readNewList(pageNum, size);
 
         return newListVo.getDataList();
     }

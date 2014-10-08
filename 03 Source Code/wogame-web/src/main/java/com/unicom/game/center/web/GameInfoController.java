@@ -53,8 +53,20 @@ public class GameInfoController {
 
     @RequestMapping(value = "/gameinfolist", method = RequestMethod.GET)
     @ResponseBody
-    public GameInfoDataVo gameInfoList(@RequestParam("pageNum") int pageNum, Model model) {
-        GameInfoListVo gameInfoListVo = gameService.readGameInfoList(pageNum, Constants.PAGE_SIZE_DEFAULT);
+    public GameInfoDataVo gameInfoList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) int pageSize, Model model) {
+        int size = 0;
+        try{
+            if(pageSize != 0){
+                size = pageSize;
+            }else {
+                size = Constants.PAGE_SIZE_DEFAULT;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("Error pageSize!");
+        }
+
+        GameInfoListVo gameInfoListVo = gameService.readGameInfoList(pageNum,size);
 
         return gameInfoListVo.getGameInfoVo();
     }

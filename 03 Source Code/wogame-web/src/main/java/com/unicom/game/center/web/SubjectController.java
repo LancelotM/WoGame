@@ -6,6 +6,8 @@ import com.unicom.game.center.vo.SubjectDetailListVo;
 import com.unicom.game.center.vo.SubjectDetailVo;
 import com.unicom.game.center.vo.SubjectListVo;
 import com.unicom.game.center.vo.SubjectVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,18 +23,44 @@ public class SubjectController {
     @Autowired
     private GameService gameService;
 
+    private Logger logger = LoggerFactory.getLogger(SubjectController.class);
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public SubjectVo subjectList(@RequestParam("pageNum") int pageNum, Model model) {
-        SubjectListVo subjectListVo = gameService.readSubjectList(pageNum, Constants.PAGE_SIZE_DEFAULT);
+    public SubjectVo subjectList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) int pageSize, Model model) {
+        int size = 0;
+        try{
+            if(pageSize != 0){
+                size = pageSize;
+            }else {
+                size = Constants.PAGE_SIZE_DEFAULT;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("Error pageSize!");
+        }
+
+        SubjectListVo subjectListVo = gameService.readSubjectList(pageNum, size);
 
         return subjectListVo.getSubjectList();
     }
 
     @RequestMapping(value = "/gamelist", method = RequestMethod.GET)
     @ResponseBody
-    public SubjectDetailVo subjectGameList(@RequestParam("id") int id, @RequestParam("pageNum") int pageNum, Model model) {
-        SubjectDetailListVo subjectDetailListVo = gameService.readSubjectDetailList(id, pageNum, Constants.PAGE_SIZE_DEFAULT);
+    public SubjectDetailVo subjectGameList(@RequestParam("id") int id, @RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) int pageSize, Model model) {
+        int size = 0;
+        try{
+            if(pageSize != 0){
+                size = pageSize;
+            }else {
+                size = Constants.PAGE_SIZE_DEFAULT;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("Error pageSize!");
+        }
+
+        SubjectDetailListVo subjectDetailListVo = gameService.readSubjectDetailList(id, pageNum, size);
 
         return subjectDetailListVo.getSubjectDetailList();
     }

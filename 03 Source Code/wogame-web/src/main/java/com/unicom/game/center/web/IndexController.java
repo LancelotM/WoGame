@@ -3,9 +3,11 @@ package com.unicom.game.center.web;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.utils.AESEncryptionHelper;
+import com.unicom.game.center.vo.RecommendDataListVo;
 import com.unicom.game.center.vo.RecommendedListVo;
 import com.unicom.game.center.vo.RollingAdListVo;
 
+import com.unicom.game.center.vo.RollingAdVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 管理员管理用户的Controller.
@@ -24,6 +28,7 @@ import javax.servlet.http.HttpSession;
  * @author calvin
  */
 @Controller
+@RequestMapping(value = "/indexlist")
 public class IndexController {
 
     @Autowired
@@ -33,6 +38,34 @@ public class IndexController {
 	private String siteKey;    
 	
 	private Logger logger = LoggerFactory.getLogger(IndexController.class);
+
+    @RequestMapping(value = "/banner", method = RequestMethod.GET)
+     @ResponseBody
+     public List<RollingAdVo> rollingAdList(Model model) {
+        RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
+
+        return rollingAdListVo.getData();
+    }
+
+    @RequestMapping(value = "/recommend", method = RequestMethod.GET)
+    @ResponseBody
+    public RecommendDataListVo recommendDataList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) int pageSize, Model model) {
+        int size = 0;
+        try{
+            if(pageSize != 0){
+                size = pageSize;
+            }else {
+                size = Constants.PAGE_SIZE_DEFAULT;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("Error pageSize!");
+        }
+
+        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum, size);
+
+        return recommendedListVo.getRecommendedListData();
+    }
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String list(@RequestParam("pageNum") int pageNum, @RequestParam(value="token", required=false) String token, Model model, HttpSession session) {
