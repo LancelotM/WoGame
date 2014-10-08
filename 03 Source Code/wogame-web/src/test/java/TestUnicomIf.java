@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@ContextConfiguration(locations = {"classpath:applicationContext.xml","classpath:applicationContext_dao.xml"})
 public class TestUnicomIf extends AbstractJUnit4SpringContextTests {
 
     @Autowired
@@ -29,7 +29,7 @@ public class TestUnicomIf extends AbstractJUnit4SpringContextTests {
     @Test
     public void readRecommendedList() throws MethodNotSupportedException {
 
-        RollingAdListVo vo = gameService.readRollingAdList();
+        RecommendedListVo vo = gameService.readRecommendedList(1, 20);
 
         assertNotNull(vo);
     }
@@ -62,6 +62,62 @@ public class TestUnicomIf extends AbstractJUnit4SpringContextTests {
     public void readShowCategory() throws MethodNotSupportedException {
 
         ShowCategoryVo vo = gameService.readShowCategory(15, 1, 10);
+
+        assertNotNull(vo);
+    }
+
+    @Test
+    public void readSubjectList() throws MethodNotSupportedException {
+
+        SubjectListVo vo = gameService.readSubjectList(1, 10);
+
+        assertNotNull(vo);
+    }
+
+    @Test
+    public void readSubjectDetailList() throws MethodNotSupportedException {
+
+        SubjectDetailListVo vo = gameService.readSubjectDetailList(1 , 1, 10);
+
+        assertNotNull(vo);
+    }
+
+    @Test
+    public void readActivityInfoList() throws MethodNotSupportedException {
+
+        ActivityInfoListVo vo = gameService.readActivityInfoList(1, 10);
+
+        assertNotNull(vo);
+    }
+
+    @Test
+    public void readGameInfoList() throws MethodNotSupportedException {
+
+        GameInfoListVo vo = gameService.readGameInfoList(1, 10);
+
+        assertNotNull(vo);
+    }
+
+    @Test
+    public void readNetGameServerList() throws MethodNotSupportedException {
+
+        NetGameServerListVo vo = gameService.readNetGameServerList(1, 10);
+
+        assertNotNull(vo);
+    }
+
+    @Test
+    public void readNetGameInfoList() throws MethodNotSupportedException {
+
+        NetGameInfoListVo vo = gameService.readNetGameInfoList(1, 10);
+
+        assertNotNull(vo);
+    }
+
+    @Test
+    public void readGameDetailList() throws MethodNotSupportedException {
+
+        GameDetailListVo vo = gameService.readGameDetailList("175062");
 
         assertNotNull(vo);
     }

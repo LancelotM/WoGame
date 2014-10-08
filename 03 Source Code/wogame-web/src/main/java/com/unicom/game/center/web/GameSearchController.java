@@ -53,7 +53,7 @@ public class GameSearchController {
             request.getSession().setAttribute(SESSION_KEY_REFERER, refer);
             model.addAttribute("referUrl", UrlUtil.buildUrlWithRandomKey(refer));
         }
-        model.addAttribute("list", vo == null ? new ArrayList<SearchKeywordItemVo>() : vo.getHotwordList());
+        model.addAttribute("list", vo == null ? new ArrayList<SearchKeywordItemVo>() : vo.getHotWordData());
         return "search";
     }
 
@@ -62,7 +62,7 @@ public class GameSearchController {
     public List<SearchKeywordItemVo> search(@RequestParam("keyword") String keyword) throws Exception {
         SearchKeywordsVo vo = zteService.readSearchKeywords(URLDecoder.decode(URLDecoder.decode(keyword, "UTF-8"), "UTF-8"));
 
-        return vo == null ? new ArrayList<SearchKeywordItemVo>() : vo.getHotwordList();
+        return vo == null ? new ArrayList<SearchKeywordItemVo>() : vo.getHotWordData();
     }
 
     @RequestMapping(value = "/ajaxSearch", method = RequestMethod.GET)

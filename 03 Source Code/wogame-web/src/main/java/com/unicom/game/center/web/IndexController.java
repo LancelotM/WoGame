@@ -35,7 +35,7 @@ public class IndexController {
 	private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String list(@RequestParam(value="token", required=false) String token, Model model, HttpSession session) {
+    public String list(@RequestParam("pageNum") int pageNum, @RequestParam(value="token", required=false) String token, Model model, HttpSession session) {
 
     	String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
     	try {
@@ -51,22 +51,22 @@ public class IndexController {
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
 
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
-        RecommendedListVo recommendedListVo = gameService.readRecommendedList();
+        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum,Constants.PAGE_SIZE_DEFAULT);
 
         model.addAttribute("isIndex", true);
-        model.addAttribute("adList", rollingAdListVo.getItems());
-        model.addAttribute("recommendedList", recommendedListVo.getAppList());
+        model.addAttribute("adList", rollingAdListVo.getData());
+        model.addAttribute("recommendedList", recommendedListVo.getRecommendedListData());
         return "index";
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String main(Model model, HttpSession session) {
+    public String main(@RequestParam("pageNum") int pageNum, Model model, HttpSession session) {
 
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
-        RecommendedListVo recommendedListVo = gameService.readRecommendedList();
+        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum,Constants.PAGE_SIZE_DEFAULT);
 
-        model.addAttribute("adList", rollingAdListVo.getItems());
-        model.addAttribute("recommendedList", recommendedListVo.getAppList());
+        model.addAttribute("adList", rollingAdListVo.getData());
+        model.addAttribute("recommendedList", recommendedListVo.getRecommendedListData());
         return "index";
     }
 

@@ -1,5 +1,7 @@
 package com.unicom.game.center.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -7,15 +9,15 @@ import java.util.List;
  */
 public class RollingAdListVo extends BaseWogameVo {
 
-    private List<RollingAdVo> items;
+    @JsonProperty("data")
+    private List<RollingAdVo> data;
 
-    public List<RollingAdVo> getItems() {
-        return items;
+    public List<RollingAdVo> getData() {
+        return data;
     }
 
-    public void setItems(List<RollingAdVo> items) {
-        this.items = items;
+    public void setData(List<RollingAdVo> data) {
+        this.data = data;
     }
-
 
 }

@@ -1,46 +1,37 @@
 package com.unicom.game.center.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Created by jession on 14-7-1.
  */
 /*
 {
-            "sort": 1,
-            "hot_word_id": 18,
-            "hot_word": "捕鱼达人2"
-        }
+            "id": 45,
+            "word": "快乐酷宝"
+}
  */
 public class SearchKeywordItemVo {
 
-    private Integer sort;
-    @JsonProperty("hot_word_id")
-    private Integer hotWordId;
-    @JsonProperty("hot_word")
-    private String hotWord;
+    @JsonProperty("id")
+    private Integer id;
 
-    public Integer getSort() {
-        return sort;
+    @JsonProperty("word")
+    private String word;
+
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setSort(Integer sort) {
-        this.sort = sort;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getHotWordId() {
-        return hotWordId;
+    public String getWord() {
+        return word;
     }
 
-    public void setHotWordId(Integer hotWordId) {
-        this.hotWordId = hotWordId;
-    }
-
-    public String getHotWord() {
-        return hotWord;
-    }
-
-    public void setHotWord(String hotWord) {
-        this.hotWord = hotWord;
+    public void setWord(String word) {
+        this.word = word;
     }
 }

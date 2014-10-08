@@ -9,25 +9,14 @@ import java.util.List;
  */
 public class WeekHotVo extends BaseWogameVo {
 
-    @JsonProperty("total_page")
-    private int totalPage;
+    private WeekHotItemVo data;
 
-    private List<WeekHotItemVo> items;
-
-    public int getTotalPage() {
-        return totalPage;
+    public WeekHotItemVo getData() {
+        return data;
     }
 
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public List<WeekHotItemVo> getItems() {
-        return items;
-    }
-
-    public void setItems(List<WeekHotItemVo> items) {
-        this.items = items;
+    public void setData(WeekHotItemVo data) {
+        this.data = data;
     }
 }
 

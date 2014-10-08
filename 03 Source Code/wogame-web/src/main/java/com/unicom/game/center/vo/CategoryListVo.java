@@ -9,14 +9,16 @@ import java.util.List;
  */
 public class CategoryListVo extends BaseWogameVo {
 
-    @JsonProperty("category_list")
-    private List<CategoryItemVo> categoryList;
+    @JsonProperty("data")
+    private List<CategoryItemVo> categoryData;
 
-    public List<CategoryItemVo> getCategoryList() {
-        return categoryList;
+
+    public List<CategoryItemVo> getCategoryData() {
+        return categoryData;
     }
 
-    public void setCategoryList(List<CategoryItemVo> categoryList) {
-        this.categoryList = categoryList;
+    public void setCategoryData(List<CategoryItemVo> categoryData) {
+        this.categoryData = categoryData;
     }
+
 }

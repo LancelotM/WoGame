@@ -9,15 +9,15 @@ import java.util.List;
  */
 public class NewListVo extends BaseWogameVo {
 
-    @JsonProperty("app_list")
-    private List<NewVo> appList;
+    @JsonProperty("data")
+    private NewVo dataList;
 
-    public List<NewVo> getAppList() {
-        return appList;
+    public NewVo getDataList() {
+        return dataList;
     }
 
-    public void setAppList(List<NewVo> appList) {
-        this.appList = appList;
+    public void setDataList(NewVo dataList) {
+        this.dataList = dataList;
     }
 }
 

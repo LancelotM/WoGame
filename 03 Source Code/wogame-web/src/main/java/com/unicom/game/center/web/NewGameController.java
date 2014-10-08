@@ -46,10 +46,10 @@ public class NewGameController {
 
     @RequestMapping(value = "/ajaxList", method = RequestMethod.GET)
     @ResponseBody
-    public List<NewVo> ajaxList(@RequestParam("pageNum") int pageNum, HttpSession session) {
+    public NewVo ajaxList(@RequestParam("pageNum") int pageNum, HttpSession session) {
         NewListVo newListVo = gameService.readNewList(pageNum, Constants.PAGE_SIZE_DEFAULT);
 
-        return newListVo.getAppList();
+        return newListVo.getDataList();
     }
 
 }

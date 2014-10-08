@@ -6,65 +6,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by jession on 14-6-20.
  */
 public class RollingAdVo {
-    @JsonProperty("version_name")
-    private String versionName;
-    @JsonProperty("banner_url")
-    private String bannerUrl;
     @JsonProperty("title")
     private String title;
-    @JsonProperty("package_name")
-    private String packageName;
-    @JsonProperty("link_id")
-    private String linkId;
-    @JsonProperty("res_type")
-    private String resType;
+    @JsonProperty("banner")
+    private Banner banner;
+    @JsonProperty("corner_mark")
+    private String cornerMark;
 
-    public String getVersionName() {
-        return versionName;
+    public String getCornerMark() {
+        return cornerMark;
     }
 
-    public void setVersionName(String versionName) {
-        this.versionName = versionName;
+    public void setCornerMark(String cornerMark) {
+        this.cornerMark = cornerMark;
     }
 
-    public String getBannerUrl() {
-        return bannerUrl;
+    public Banner getBanner() {
+
+        return banner;
     }
 
-    public void setBannerUrl(String bannerUrl) {
-        this.bannerUrl = bannerUrl;
+    public void setBanner(Banner banner) {
+        this.banner = banner;
     }
 
     public String getTitle() {
+
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public String getLinkId() {
-        return linkId;
-    }
-
-    public void setLinkId(String linkId) {
-        this.linkId = linkId;
-    }
-
-    public String getResType() {
-        return resType;
-    }
-
-    public void setResType(String resType) {
-        this.resType = resType;
     }
 }
 

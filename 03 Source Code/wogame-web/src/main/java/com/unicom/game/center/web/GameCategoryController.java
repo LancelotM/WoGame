@@ -33,7 +33,7 @@ public class GameCategoryController {
     public String list(Model model) {
         CategoryListVo categoryListVo = gameService.readCategoryList();
 
-        model.addAttribute("list", categoryListVo.getCategoryList());
+        model.addAttribute("list", categoryListVo.getCategoryData());
         return "category/list";
     }
 
@@ -54,11 +54,11 @@ public class GameCategoryController {
 
     @RequestMapping(value = "ajaxDetail", method = RequestMethod.GET)
     @ResponseBody
-    public List<CategoryGameVo> ajaxDetail(@RequestParam("categoryId") int categoryId,
+    public CategoryGameVo ajaxDetail(@RequestParam("categoryId") int categoryId,
                                            @RequestParam("pageNum") int pageNum) {
         ShowCategoryVo categoryVo = gameService.readShowCategory(categoryId, pageNum, Constants.PAGE_SIZE_DEFAULT);
 
-        return categoryVo.getAppList();
+        return categoryVo.getCategoryGameData();
     }
 
 }

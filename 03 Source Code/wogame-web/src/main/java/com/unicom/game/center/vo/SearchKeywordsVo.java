@@ -10,25 +10,25 @@ import java.util.List;
 /*
 {
     "result": 0,
-    "hotword_list": [
+    "data": [
         {
-            "sort": 1,
-            "hot_word_id": 18,
-            "hot_word": "捕鱼达人2"
+            "id": 45,
+            "word": "快乐酷宝"
         },
         {
-            "sort": 2,
-            "hot_word_id": 2,
-            "hot_word": "保卫萝卜2"
+            "id": 62,
+            "word": "时空猎人"
         }
     ]
 }
  */
 public class SearchKeywordsVo {
+
     private Integer result;
 
-    @JsonProperty("hotword_list")
-    private List<SearchKeywordItemVo> hotwordList;
+    @JsonProperty("data")
+    private List<SearchKeywordItemVo> hotWordData;
+
 
     public Integer getResult() {
         return result;
@@ -38,11 +38,11 @@ public class SearchKeywordsVo {
         this.result = result;
     }
 
-    public List<SearchKeywordItemVo> getHotwordList() {
-        return hotwordList;
+    public List<SearchKeywordItemVo> getHotWordData() {
+        return hotWordData;
     }
 
-    public void setHotwordList(List<SearchKeywordItemVo> hotwordList) {
-        this.hotwordList = hotwordList;
+    public void setHotWordData(List<SearchKeywordItemVo> hotWordData) {
+        this.hotWordData = hotWordData;
     }
 }

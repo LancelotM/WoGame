@@ -37,9 +37,9 @@ public class WeeklyHotGamesController {
 
     @RequestMapping(value = "ajaxList", method = RequestMethod.GET)
     @ResponseBody
-    public List<WeekHotItemVo> ajaxList(@RequestParam("pageNum") int pageNum, Model model) {
+    public WeekHotItemVo ajaxList(@RequestParam("pageNum") int pageNum, Model model) {
         WeekHotVo weekHotVo = gameService.readWeekHotDownloadList(pageNum, Constants.PAGE_SIZE_DEFAULT);
 
-        return weekHotVo.getItems();
+        return weekHotVo.getData();
     }
 }

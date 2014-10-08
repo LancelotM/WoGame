@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@ContextConfiguration(locations = {"classpath:applicationContext.xml","classpath:applicationContext_dao.xml"})
 public class TestZteIf extends AbstractJUnit4SpringContextTests {
 
     @Autowired

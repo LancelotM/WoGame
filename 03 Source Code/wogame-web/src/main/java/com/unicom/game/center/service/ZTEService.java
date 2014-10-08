@@ -358,13 +358,13 @@ public class ZTEService {
             for (String key : keywordList) {
                 SearchKeywordItemVo item = new SearchKeywordItemVo();
 
-                item.setHotWord(key);
+                item.setWord(key);
 
                 items.add(item);
             }
 
             result.setResult(0);
-            result.setHotwordList(items);
+            result.setHotWordData(items);
 
             return result;
 
