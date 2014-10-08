@@ -1,7 +1,10 @@
 package com.unicom.game.center.web;
 
 import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.util.UrlUtil;
+import com.unicom.game.center.vo.GameInfoDataVo;
+import com.unicom.game.center.vo.GameInfoListVo;
 import com.unicom.game.center.vo.GameInfoVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,5 +51,11 @@ public class GameInfoController {
         return "gameInfo";
     }
 
+    @RequestMapping(value = "/gameinfolist", method = RequestMethod.GET)
+    @ResponseBody
+    public GameInfoDataVo gameInfoList(@RequestParam("pageNum") int pageNum, Model model) {
+        GameInfoListVo gameInfoListVo = gameService.readGameInfoList(pageNum, Constants.PAGE_SIZE_DEFAULT);
 
+        return gameInfoListVo.getGameInfoVo();
+    }
 }
