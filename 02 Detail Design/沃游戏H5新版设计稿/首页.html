@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="false" id="twcClient" name="twcClient">
+<title>首页</title>
+<link href="css/new_main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript"  src="js/jquery-1.7.2.min.js"></script>
+<!--弹出文本提示写入cooking-->
+<script type="text/javascript">
+function cookiesave(n, v, mins, dn, path){
+    if(n)
+    {
+		
+	    if(!mins) mins = 365 * 24 * 60;
+		if(!path) path = "/";
+	    var date = new Date();
+		
+	    date.setTime(date.getTime() + (mins * 60 * 1000));
+		
+	    var expires = "; expires=" + date.toGMTString();
+		
+	    if(dn) dn = "domain=" + dn + "; ";
+	    document.cookie = n + "=" + v + expires + "; " + dn + "path=" + path;
+    }
+}
+function cookieget(n){
+    var name = n + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i<ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+	}
+	return "";
+}
+function closeclick(){
+	document.getElementById('note').style.display='none';
+	cookiesave('closeclick','closeclick','','','');
+}
+function clickclose(){
+	if(cookieget('closeclick')=='closeclick'){
+		document.getElementById('note').style.display='none';
+	}else{
+		document.getElementById('note').style.display='block';
+	}
+}
+window.onload=clickclose;
+</script>
+</head>
+
+<body class="ibody_bg">
+<!--top-->
+<div class="head_index relative">
+<div class="logo absolute"><a href="/">首页</a></div>
+<div class="sousuo absolute pic"><a href="#">搜索</a></div>
+</div>
+<!--图片广告位-->
+<div id="note" class="note" style="display:none;background:url(images/icon_huodong.png) #ffffcf 15px center no-repeat;background-size:30px 30px;">
+<div>为了庆祝十一，关注官方微信送价值千元大礼包一份<a href="#" onclick="closeclick()" class="guanbi"><img src="images/colose.png" border="0" /></a></div>
+</div>
+
+<div class="hot_banner">
+<div class="block_home_slider">
+                        	<div id="home_slider" class="flexslider">
+                            	<ul class="slides">
+                                	<li>
+                                    	<div class="slide">
+                                            <img src="img/n4.png" alt="" />
+                                            <div class="caption">                                                
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li>
+                                    	<div class="slide">
+                                            <img src="img/n5.png" alt="" />
+                                            <div class="caption">                                               
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li>
+                                    	<div class="slide">
+                                            <img src="img/n6.png" alt="" />
+                                            <div class="caption">                                                
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li>
+                                    	<div class="slide">
+                                            <img src="img/n12.jpg" alt="" />
+                                            <div class="caption">                                               
+                                            </div>
+                                        </div>
+                                    </li>
+                                     <li>
+                                    	<div class="slide">
+                                            <img src="img/n13.jpg" alt="" />
+                                            <div class="caption">                                               
+                                            </div>
+                                        </div>
+                                    </li>
+                                     <li>
+                                    	<div class="slide">
+                                            <img src="img/n14.jpg" alt="" />
+                                            <div class="caption">                                               
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                            
+                            <script type="text/javascript">
+								$(function () {
+									$('#home_slider').flexslider({
+										animation : 'slide',
+										controlNav : true,
+										directionNav : true,
+										animationLoop : true,
+										slideshow : false,
+										useCSS : false
+									});
+									
+								});
+							</script>
+                        </div>
+
+
+</div>
+<script type="text/javascript"  src="js/slider.js"></script>
+<!--搜索-->
+<div class="index_search_box">
+<div class="w_inputbox"><div class="w_in_01"><a href="#">删除</a></div><div class="w_in_02"></div><input type="text" class="w_input" name=""></div><input type="button" value="搜索" class="w_buttion" name="">
+</div>
+<!--活动-->
+<dl class="huodong_box">
+<dt>
+<div class="huodong">
+<div class="index_hd_title">网游活动</div>
+<a href="#"><div class="index_hd_count"><img src="img/4.png" height="100" /></div>
+<div class="index_hd_url">每天最开心的三件事就是：吃饭、睡觉、打僵尸……</div></a>
+</div>
+</dt>
+<dd>
+<div class="huodong_r">
+<div class="index_hd_title">活动</div>
+<a href="#"><div class="index_hd_count"><img src="img/5.png" width="320" height="160" /></div>
+<div class="index_hd_url">吐血推荐！不好玩你打我，别打死就行，哈哈，来打我啊</div></a>
+</div></dd></dl>
+<!--主menu区-->
+<div class="user_menu"><ul>
+<li><a href="#"><dl class="user_icon"><dt><img src="images/user_icon8.png" /></dt><dd>专题 </dd></dl></a></li>
+<li><a href="#"><dl class="user_icon2"><dt><img src="images/user_icon3.png" /></dt><dd>0元畅玩</dd></dl></a></li>
+<li><a href="#"><dl class="user_icon3"><dt><img src="images/user_icon4.png" /></dt><dd>新游排行</dd></dl></a></li>
+<li><a href="#"><dl class="user_icon4"><dt><img src="images/user_icon5.png" /></dt><dd>分类</dd></dl></a></li>
+</ul></div>
+<!--热门游戏-->
+<div class="hot_youxi">
+<div class="hot_youxi_title"><em class="i1"></em><span>火热</span></div>
+<div class="hot_youxi_count"><ul><li>
+<dl class="hotyouxi_list"><dt><a href="#"><img src="img/propic_03.gif" /></a></dt><dd class="tit"><a href="#">刀塔传奇</a></dd><dd class="mb">134.5M</dd><dd class="dow"><a href="#">下载</a></dd></dl>
+</li>
+<li>
+<dl class="hotyouxi_list"><dt><a href="#"><img src="img/propic_05.gif" /></a></dt><dd class="tit"><a href="#">高速赛车</a></dd><dd class="mb">134.5M</dd><dd class="dow"><a href="#">下载</a></dd></dl>
+</li>
+<li>
+<dl class="hotyouxi_list"><dt><a href="#"><img src="img/propic_07.gif" /></a></dt><dd class="tit"><a href="#">单机斗地主</a></dd><dd class="mb">134.5M</dd><dd class="dow"><a href="#">下载</a></dd></dl>
+</li>
+<li>
+<dl class="hotyouxi_list"><dt><a href="#"><img src="img/propic_09.gif" /></a></dt><dd class="tit"><a href="#">FIFA 15</a></dd><dd class="mb">134.5M</dd><dd class="dow"><a href="#">下载</a></dd></dl>
+</li>
+<li>
+<dl class="hotyouxi_list"><dt><a href="#"><img src="img/propic_15.gif" /></a></dt><dd class="tit"><a href="#">神魔</a></dd><dd class="mb">134.5M</dd><dd class="dow"><a href="#">下载</a></dd></dl>
+</li>
+<li>
+<dl class="hotyouxi_list"><dt><a href="#"><img src="img/propic_16.gif" /></a></dt><dd class="tit"><a href="#">捕鱼达人3</a></dd><dd class="mb">134.5M</dd><dd class="dow"><a href="#">下载</a></dd></dl>
+</li>
+<li>
+<dl class="hotyouxi_list"><dt><a href="#"><img src="img/propic_03.gif" /></a></dt><dd class="tit"><a href="#">去吧皮卡丘</a></dd><dd class="mb">134.5M</dd><dd class="dow"><a href="#">下载</a></dd></dl>
+</li>
+<li>
+<dl class="hotyouxi_list"><dt><a href="#"><img src="img/propic_05.gif" /></a></dt><dd class="tit"><a href="#">放开那三国</a></dd><dd class="mb">134.5M</dd><dd class="dow"><a href="#">下载</a></dd></dl>
+</li>
+</ul>
+</div>
+<div class="hot_youxi_more"><a href="#"><span>更多火热游戏</span></a></div>
+</div>
+<!--活动版块-->
+<div class="hot_youxi">
+<div class="hot_youxi_title"><em class="i2"></em><span>活动</span></div>
+<div class="huodong_hot">
+
+<div class="huodongzt">
+<a href="#"><div class="index_hd_count"><img src="img/n1.png" height="130" /></div>
+<div class="index_hd_url">每天最开心的三件事就是：吃饭、睡觉、打僵</div></a>
+</div>
+
+</div>
+
+
+<dl class="huodong_box22">
+<dt>
+<div class="huodong">
+<a href="#"><div class="index_hd_count"><img src="img/4.png" height="100" /></div>
+<div class="index_hd_url">每天最开心的三件事就是：吃饭、睡觉、打僵尸……</div></a>
+</div>
+</dt>
+<dd>
+<div class="huodong_r">
+<a href="#"><div class="index_hd_count"><img src="img/5.png" width="320" height="160" /></div>
+<div class="index_hd_url">吐血推荐！不好玩你打我，别打死就行，哈哈，来打我啊</div></a>
+</div></dd></dl>
+<div class="hot_youxi_more"><a href="#"><span>全部活动</span></a></div>
+</div>
+<!--飚升榜-->
+<div class="hot_youxi">
+<div class="hot_youxi_title"><em class="i3"></em><span>飚升榜</span></div>
+<!--列表-->
+<div class="pro_list"><a href="#">
+<div class="pro_cp">
+<div class="pro_cp_l"><img src="img/n3.png" height="86" /></div>
+<dl class="pro_cp_c"><dt>快乐酷宝</dt><dd>33.11 MB </dd></dl>
+<div class="pro_cp_r radius">下载</div>
+</div>
+<div class="plist_f etc">风靡全国的真人科幻动画片《快乐酷宝》推出手游游版</div>
+</a>
+</div>
+<div class="pro_list"><a href="#">
+<div class="pro_cp">
+<div class="pro_cp_l"><img src="img/n3.png" height="86" /></div>
+<dl class="pro_cp_c"><dt>快乐酷宝</dt><dd>33.11 MB </dd></dl>
+<div class="pro_cp_r radius">下载</div>
+</div>
+<div class="plist_f etc">风靡全国的真人科幻动画片《快乐酷宝》推出手游游版</div>
+</a>
+</div>
+<div class="pro_list"><a href="#">
+<div class="pro_cp">
+<div class="pro_cp_l"><img src="img/n3.png" height="86" /></div>
+<dl class="pro_cp_c"><dt>快乐酷宝</dt><dd>33.11 MB </dd></dl>
+<div class="pro_cp_r radius">下载</div>
+</div>
+<div class="plist_f etc">风靡全国的真人科幻动画片《快乐酷宝》推出手游游版</div>
+</a>
+</div>
+<div class="pro_list"><a href="#">
+<div class="pro_cp">
+<div class="pro_cp_l"><img src="img/n3.png" height="86" /></div>
+<dl class="pro_cp_c"><dt>快乐酷宝</dt><dd>33.11 MB </dd></dl>
+<div class="pro_cp_r radius">下载</div>
+</div>
+<div class="plist_f etc">风靡全国的真人科幻动画片《快乐酷宝》推出手游游版</div>
+</a>
+</div>
+<div class="pro_list"><a href="#">
+<div class="pro_cp">
+<div class="pro_cp_l"><img src="img/n3.png" height="86" /></div>
+<dl class="pro_cp_c"><dt>快乐酷宝</dt><dd>33.11 MB </dd></dl>
+<div class="pro_cp_r radius">下载</div>
+</div>
+<div class="plist_f etc">风靡全国的真人科幻动画片《快乐酷宝》推出手游游版</div>
+</a>
+</div>
+<div class="hot_youxi_more"><a href="#"><span>查看更多飚升榜</span></a></div>
+</div>
+<!--专题版块-->
+<div class="hot_youxi">
+<div class="hot_youxi_title"><em class="i4"></em><span>专题</span></div>
+<div class="huodong_hot">
+<div class="huodongzt">
+<a href="#"><div class="index_hd_count"><img src="img/n1.png" height="130" /></div>
+<div class="index_hd_url">每天最开心的三件事就是：吃饭、睡觉、打僵</div></a>
+</div>
+</div>
+<dl class="huodong_box22">
+<dt>
+<div class="huodong">
+<a href="#"><div class="index_hd_count"><img src="img/4.png" height="100" /></div>
+<div class="index_hd_url">每天最开心的三件事就是：吃饭、睡觉、打僵尸……</div></a>
+</div>
+</dt>
+<dd>
+<div class="huodong_r">
+<a href="#"><div class="index_hd_count"><img src="img/5.png" width="320" height="160" /></div>
+<div class="index_hd_url">吐血推荐！不好玩你打我，别打死就行，哈哈，来打我啊</div></a>
+</div></dd></dl>
+<div class="hot_youxi_more"><a href="#"><span>全部专题</span></a></div>
+</div>
+<!--资讯列表-->
+<div class="hot_youxi">
+<div class="hot_youxi_title"><em class="i5"></em><span>新游资讯</span></div>
+<div class="index_pro_list"><a href="#">
+<div class="pro_cp">
+<div class="pro_cp_l"><img src="img/n3.png" height="86" /></div>
+<dl class="indexpro_cp_c"><dt>快乐酷宝</dt><dd>33.11 MB </dd></dl>
+<div class="index_pro_cp_r radius">下载</div>
+</div>
+
+</a>
+</div>
+<div class="hot_youxi_more"><a href="#"><span>全部资讯</span></a></div>
+</div>
+<!--资讯列表-->
+<div class="hot_youxi">
+
+<div class="hot_youxi_title"><em class="i5"></em><span>网游资讯</span></div>
+<div class="zixun_indexlist">
+<a href="#"><div class="zixun_img"><img src="img/n3.png" height="86" /></div><dl class="zixun_right"><dt class="etc">《地下城勇者》火爆首发活动抢先看！</dt><dd>豪礼天天有，签到大放送！</dd><dd>时间：2014.09.28 - 2014.11.01</dd></dl></a></div>
+<div class="zixun_indexlist">
+<a href="#"><div class="zixun_img"><img src="img/n3.png" height="86" /></div><dl class="zixun_right"><dt class="etc">《天天足球》"飞火流星"新服火爆开启！</dt><dd>贝克汉姆陪你畅游足球世界，万千兄弟等你一起热血澎湃！</dd><dd>时间：2014.09.28 - 2014.11.01</dd></dl></a></div>
+<div class="zixun_indexlist">
+<a href="#"><div class="zixun_img"><img src="img/n3.png" height="86" /></div><dl class="zixun_right"><dt class="etc">《地下城勇者》火爆首发活动抢先看！</dt><dd>豪礼天天有，签到大放送！</dd><dd>时间：2014.09.28 - 2014.11.01</dd></dl></a></div>
+<div class="zixun_indexlist">
+<a href="#"><div class="zixun_img"><img src="img/n3.png" height="86" /></div><dl class="zixun_right"><dt class="etc">《地下城勇者》火爆首发活动抢先看！</dt><dd>豪礼天天有，签到大放送！</dd><dd>时间：2014.09.28 - 2014.11.01</dd></dl></a></div>
+<div class="hot_youxi_more"><a href="#"><span>全部资讯</span></a></div>
+</div>
+</body>
+</html>
