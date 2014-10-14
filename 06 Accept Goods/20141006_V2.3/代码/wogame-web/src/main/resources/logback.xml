@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>../logs/wowgame-web.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>../logs/wogame-web.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <Encoding>UTF-8</Encoding>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="statisticsFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/unicom/logs/wogamecenter_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/unicom/logs/wogamecenter_info.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <Encoding>UTF-8</Encoding>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="downloadFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/unicom/download/dailyreport/download_report.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/unicom/download/dailyreport/download_report_%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <Encoding>UTF-8</Encoding>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender> 
+    
+    <appender name="numberFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/unicom/logs/wogamecenter_info_number.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/unicom/logs/wogamecenter_info_number.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <Encoding>UTF-8</Encoding>
+        <encoder>
+            <pattern>%msg</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="pageviewFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/unicom/logs/wogamecenter_pageview.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/unicom/logs/wogamecenter_pageview_%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <Encoding>UTF-8</Encoding>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>           
+
+    <!-- project default level -->
+    <logger name="com.unicom.wogame" level="INFO"/>
+
+    <!-- business log 使用独立的appender，不继承Root的appender -->
+    <logger name="business" level="INFO" additivity="false">
+        <appender-ref ref="statisticsFile" />
+    </logger>
+    
+    <logger name="download" level="INFO" additivity="false">
+        <appender-ref ref="downloadFile" />
+    </logger>
+    
+    <logger name="number" level="INFO" additivity="false">
+        <appender-ref ref="numberFile" />
+    </logger>    
+    
+    <logger name="pageview" level="INFO" additivity="false">
+        <appender-ref ref="pageviewFile" />
+    </logger>     
+
+    <root level="WARN">
+        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFile"/>
+    </root>
+</configuration>
