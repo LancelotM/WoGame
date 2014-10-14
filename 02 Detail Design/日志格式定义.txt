@@ -60,3 +60,8 @@ Banner ：51+sort（2位）+channelId
 DlIndex|||||||81|productId|||||channel||||
 
 
+4.新版首页和0元畅玩页PV，UV
+新版首页  pagecode  :   60
+0元畅玩页  pagecode  :  65
+格式 ： pagecode|channelId|clientIP
+

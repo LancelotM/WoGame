@@ -162,3 +162,34 @@ flush privileges;
 
 现网IP：172.16.18.8
 
+--------------------------------------------20141014  15:20----------------------------------------
+
+--首页配置
+create table wogamecenter.homepage_config(
+	id int(20) primary key auto_increment,
+	ad_type int(8) not null,
+	title varchar(1024),
+	image_name varchar(1024) not null,
+	url varchar(1024) not null,
+	description varchar(1024),	
+	position int(8),
+	status boolean not null default true, 
+	date_modified date not null,
+	date_created date not null
+)engine=innodb default charset=utf8;
+
+--页面流量统计
+create table wogamecenter.statistics(
+	id int(20) primary key auto_increment,
+	channel_id int(20) not null,
+	homepage_pv int(20) not null default 0,
+	homepage_uv int(20) not null default 0,
+	changwan_pv int(20) not null default 0,
+	changwan_uv int(20) not null default 0,
+	date_created date not null
+)engine=innodb default charset=utf8;
+
+alter table wogamecenter.statistics add constraint Statistics_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
+
+
+--------------------------------------------20141014  15:20----------------------------------------
