@@ -56,6 +56,12 @@
 	</iframe> 
 
  </c:if>
+ 
+ <div class="bottom-record">
+	<p>&copy;2009-2014 中国联通. 版权所有   京ICP备11023907号</p>
+	<p>中国联合网络通信有限公司上海市分公司</p>
+	<p><a href="http://store.wo.com.cn/images/zzdxxkz.png" target="_blank">增值电信许可证</a> | <a href="http://store.wo.com.cn/images/wlwhxkz.jpg"  target="_blank">网络文化许可证</a></p>
+</div>
        
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>

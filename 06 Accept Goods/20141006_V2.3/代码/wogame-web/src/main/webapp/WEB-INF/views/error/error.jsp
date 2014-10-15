@@ -13,9 +13,16 @@
 <html>
 <head>
     <title>温馨提示</title>
+    <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
 <h2>服务器出故障了.</h2>
+
+<div class="bottom-record">
+	<p>&copy;2009-2014 中国联通. 版权所有   京ICP备11023907号</p>
+	<p>中国联合网络通信有限公司上海市分公司</p>
+	<p><a href="http://store.wo.com.cn/images/zzdxxkz.png" target="_blank">增值电信许可证</a> | <a href="http://store.wo.com.cn/images/wlwhxkz.jpg"  target="_blank">网络文化许可证</a></p>
+</div>
 </body>
 </html>

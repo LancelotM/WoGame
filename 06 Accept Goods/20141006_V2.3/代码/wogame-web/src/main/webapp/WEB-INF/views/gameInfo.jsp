@@ -109,7 +109,16 @@
                 <dt>下载</dt>
             </a>
         </dl>
+        
+        <div class="bottom-record">
+			<p>&copy;2009-2014 中国联通. 版权所有   京ICP备11023907号</p>
+			<p>中国联合网络通信有限公司上海市分公司</p>
+			<p><a href="http://store.wo.com.cn/images/zzdxxkz.png" target="_blank">增值电信许可证</a> | <a href="http://store.wo.com.cn/images/wlwhxkz.jpg"  target="_blank">网络文化许可证</a></p>
+		</div>
     </div>
+    
+
+
     <!--弹出层,默认不显示-->
     <c:forEach var="screenshot" items="${info.screenshots}" varStatus="index">
         <div id="popdiv${index.index}" style="display:none;position: absolute;z-index: 9999;top:5px;left:5px;">
