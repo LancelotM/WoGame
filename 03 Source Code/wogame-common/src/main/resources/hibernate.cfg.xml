@@ -23,6 +23,8 @@
 		<mapping class="com.unicom.game.center.db.domain.UserCountDomain"/>
 		<mapping class="com.unicom.game.center.db.domain.ZTEReportDomain"/>
         <mapping class="com.unicom.game.center.db.domain.PackageReportDomain"/>
+		<mapping class="com.unicom.game.center.db.domain.HomepageConfigDomain"/>
+        <mapping class="com.unicom.game.center.db.domain.StatisticsDomain"/>        
 		
 	</session-factory>
 </hibernate-configuration>

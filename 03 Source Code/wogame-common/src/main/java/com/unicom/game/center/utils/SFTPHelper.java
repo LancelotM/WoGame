@@ -24,16 +24,16 @@ import java.util.Vector;
  */
 @Component
 public class SFTPHelper {
-	@Value("#{properties['ftp.host']}")
+	@Value("#{properties['sftp.host']}")
 	private String host;
 
-	@Value("#{properties['ftp.port']}")
+	@Value("#{properties['sftp.port']}")
 	private int port;
 
-	@Value("#{properties['ftp.username']}")
+	@Value("#{properties['sftp.username']}")
 	private String username;
 
-	@Value("#{properties['ftp.password']}")
+	@Value("#{properties['sftp.password']}")
 	private String password;
 	
 	public ChannelSftp connectServer() {
@@ -193,6 +193,35 @@ public class SFTPHelper {
 		} catch (Exception ex) {
 			Logging.logError("Error occur in delete.", ex);
 		}
-	}	
+	}
+	
+	
+	public boolean uploadFile(String src, String desc){
+		boolean flag = false;
+		
+		if(Utility.isEmpty(src) || Utility.isEmpty(desc)){
+			return flag;
+		}
+		
+		ChannelSftp sftp = connectServer();
+		if(null != sftp){
+			try{
+				sftp.put(src, desc, ChannelSftp.OVERWRITE);				
+				sftp.quit();
+				
+				flag = true;
+			}catch(Exception e){
+				Logging.logError("Error occur in uploadFile.", e);
+			}finally {
+   				try {
+   					closeChannel(sftp.getSession(), sftp);
+   				} catch (Exception e) {
+   					Logging.logError("FTP Disconnect Error: ",e);
+   				}
+   			}			
+		}
+		
+		return flag;
+	}
 
 }

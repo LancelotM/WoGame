@@ -23,4 +23,15 @@ public class Constant
     public static final int EXTRACT_SYNC_STATUS = 10;
 
     public static final int EXTRACT_NOSYNC_STATUS = 30;
+    
+    
+	public static final int HOMEPAGE_TOP_AD = 1;
+	
+	public static final int HOMEPAGE_TOP_BANNER = 2;
+	
+	public static final int HOMEPAGE_ACTIVITY_MODULE = 3;
+
+    public static final int HOMEPAGE_ACTIVITY_BANNER = 4;
+
+    public static final int HOMEPAGE_FOOTER_AD = 5;    
 }
