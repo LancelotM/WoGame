@@ -64,6 +64,9 @@ public class GameService {
     @Value("#{properties['wogame.service.game.detail']}")
     private String wogameGameDetail;
 
+    @Value("#{properties['wogame.service.info.detail']}")
+    private String wogameInfoDetail;
+
     public GameDetailListVo readGameDetailList(String productId){
 
         Map params = Maps.newHashMap();
@@ -224,6 +227,18 @@ public class GameService {
 
         RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
         return restTemplate.getForObject((wogameHost + wogameCategoryShow), ShowCategoryVo.class, urlVariables);
+    }
+
+    public InfoDetailListVo readInfoDetail(int id) {
+        Map params = Maps.newHashMap();
+
+        params.put("id", id);
+
+        Map<String, Object> urlVariables = new HashMap<String, Object>();
+        urlVariables.put("jsondata", JsonMapper.nonDefaultMapper().toJson(params));
+
+        RestTemplate restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
+        return restTemplate.getForObject((wogameHost + wogameInfoDetail), InfoDetailListVo.class, urlVariables);
     }
 
     public GameInfoVo readGameInfo(String productId) {

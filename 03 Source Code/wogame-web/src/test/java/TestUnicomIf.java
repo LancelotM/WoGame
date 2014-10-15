@@ -122,4 +122,18 @@ public class TestUnicomIf extends AbstractJUnit4SpringContextTests {
         assertNotNull(vo);
     }
 
+    @Test
+    public void readInfoDetail() throws MethodNotSupportedException {
+
+        InfoDetailListVo vo = gameService.readInfoDetail(195);
+
+        assertNotNull(vo);
+    }
+    @Test
+    public void readInfoDetail1() throws MethodNotSupportedException {
+
+        InfoDetailListVo vo = gameService.readInfoDetail(192);
+
+        assertNotNull(vo);
+    }
 }
