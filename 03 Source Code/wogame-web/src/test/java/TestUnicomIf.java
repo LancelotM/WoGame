@@ -37,7 +37,7 @@ public class TestUnicomIf extends AbstractJUnit4SpringContextTests {
     @Test
     public void readWeekHotDownloadList() throws MethodNotSupportedException {
 
-        WeekHotVo vo = gameService.readWeekHotDownloadList(1, 20);
+        WeekHotVo vo = gameService.readWeekHotList(1, 20);
 
         assertNotNull(vo);
     }

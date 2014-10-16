@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.unicom.game.center.service.StatisticsLogger;
-import com.unicom.game.center.util.Constants;
 
 /**
  * 管理员管理用户的Controller.

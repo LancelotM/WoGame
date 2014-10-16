@@ -22,49 +22,49 @@ public class GameService {
     private ZTEService zteService;
 
 
-    @Value("#{properties['wogame.service.host']}")
+    @Value("#{properties['wogame3.service.host']}")
     private String wogameHost;
 
-    @Value("#{properties['wogame.service.banner']}")
+    @Value("#{properties['wogame3.service.banner']}")
     private String wogameBanner;
 
-    @Value("#{properties['wogame.service.recommended']}")
+    @Value("#{properties['wogame3.service.recommended']}")
     private String wogameRecommended;
 
-    @Value("#{properties['wogame.service.week.hotlist']}")
+    @Value("#{properties['wogame3.service.week.hotlist']}")
     private String wogameHotList;
 
-    @Value("#{properties['wogame.service.new']}")
+    @Value("#{properties['wogame3.service.new']}")
     private String wogameNew;
 
-    @Value("#{properties['wogame.service.category']}")
+    @Value("#{properties['wogame3.service.category']}")
     private String wogameCategory;
 
-    @Value("#{properties['wogame.service.category.show']}")
+    @Value("#{properties['wogame3.service.category.show']}")
     private String wogameCategoryShow;
 
-   @Value("#{properties['wogame.service.subjectlist']}")
+   @Value("#{properties['wogame3.service.subjectlist']}")
     private String wogameSubjectList;
 
-    @Value("#{properties['wogame.service.subject.gamelist']}")
+    @Value("#{properties['wogame3.service.subject.gamelist']}")
     private String wogameSubjectGameList;
 
-    @Value("#{properties['wogame.service.activity.infolist']}")
+    @Value("#{properties['wogame3.service.activity.infolist']}")
     private String wogameActivityInfoList;
 
-    @Value("#{properties['wogame.service.game.infolist']}")
+    @Value("#{properties['wogame3.service.game.infolist']}")
     private String wogameGameInfoList;
 
-    @Value("#{properties['wogame.service.netgame.serverlist']}")
+    @Value("#{properties['wogame3.service.netgame.serverlist']}")
     private String wogameNetGameServerList;
 
-    @Value("#{properties['wogame.service.netgame.infolist']}")
+    @Value("#{properties['wogame3.service.netgame.infolist']}")
     private String wogameNetGameInfoList;
 
-    @Value("#{properties['wogame.service.game.detail']}")
+    @Value("#{properties['wogame3.service.game.detail']}")
     private String wogameGameDetail;
 
-    @Value("#{properties['wogame.service.info.detail']}")
+    @Value("#{properties['wogame3.service.info.detail']}")
     private String wogameInfoDetail;
 
     public GameDetailListVo readGameDetailList(String productId){
@@ -184,7 +184,7 @@ public class GameService {
         return restTemplate.getForObject((wogameHost + wogameRecommended), RecommendedListVo.class, urlVariables);
     }
 
-    public WeekHotVo readWeekHotDownloadList(int pageNum, int pageSize) {
+    public WeekHotVo readWeekHotList(int pageNum, int pageSize) {
         Map params = Maps.newHashMap();
 
         params.put("page_num", pageNum);

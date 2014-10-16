@@ -27,10 +27,10 @@ import java.util.Map;
 @Component
 public class ZTEService {
 	
-	@Value("#{properties['wogame.service.host']}")
+	@Value("#{properties['wogame3.service.host']}")
 	private String wogameHost;
 	
-	@Value("#{properties['wogame.service.hotwords']}")
+	@Value("#{properties['wogame3.service.hotwords']}")
 	private String wogameHotwords;	
 	
 	@Value("#{properties['zte.service.host']}")
