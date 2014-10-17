@@ -17,6 +17,7 @@
     <script type="text/javascript" src="${basePath}/static/js/libs/jquery.paginate.js"></script>
 	<script type="text/javascript" src="${basePath}/static/js/menuControl.js"></script>
     <script type="text/javascript" src="${basePath}/static/js/libs/jquery-ui.js"></script>
+    <script type="text/javascript" src="${basePath}/static/js/libs/jquery.dragsort-0.4.min.js"></script>
 
     <!-- css -->
     <link href="${basePath}/static/css/style.css" rel="stylesheet">
