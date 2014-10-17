@@ -1,13 +1,9 @@
 package com.unicom.game.center.web;
 
-import com.unicom.game.center.service.GameService;
-import com.unicom.game.center.util.Constants;
-import com.unicom.game.center.utils.AESEncryptionHelper;
-import com.unicom.game.center.vo.RecommendDataListVo;
-import com.unicom.game.center.vo.RecommendedListVo;
-import com.unicom.game.center.vo.RollingAdListVo;
+import java.util.List;
 
-import com.unicom.game.center.vo.RollingAdVo;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
+import com.unicom.game.center.business.BannerBusiness;
+import com.unicom.game.center.model.BannerInfoList;
+import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.utils.AESEncryptionHelper;
+import com.unicom.game.center.vo.RecommendDataListVo;
+import com.unicom.game.center.vo.RecommendedListVo;
+import com.unicom.game.center.vo.RollingAdListVo;
+import com.unicom.game.center.vo.RollingAdVo;
 
 /**
  * 管理员管理用户的Controller.
@@ -33,6 +36,9 @@ public class IndexController {
 
     @Autowired
     private GameService gameService;
+    
+    @Autowired
+    private BannerBusiness bannerBusiness;
 
 	@Value("#{properties['site.secret.key']}")
 	private String siteKey;    
@@ -97,4 +103,12 @@ public class IndexController {
         return "index";
     }
 
+    
+    @RequestMapping(value = "/ad", method = RequestMethod.GET)
+    @ResponseBody
+    public BannerInfoList fetchAllBannerList(Model model) {
+    	BannerInfoList banner = bannerBusiness.fetchAllBanner();
+
+    	return banner;
+   }    
 }
