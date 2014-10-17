@@ -33,6 +33,26 @@ public class HomepageConfigDao extends HibernateDao<HomepageConfigDomain>{
 	
 	public HomepageConfigDomain getById(int id){
 		return (HomepageConfigDomain)getSession().get(HomepageConfigDomain.class, id);
+	}
+	
+	public List<HomepageConfigDomain> fetchBannerInfo(int type, boolean isAll){
+		StringBuffer sb = new StringBuffer();
+		sb.append(" from HomepageConfigDomain banner");
+		sb.append(" where banner.status = true");
+		
+		if(!isAll){
+			sb.append(" and banner.adType = ");
+			sb.append(type);
+			sb.append(" order by banner.position asc ");
+		}else{
+			sb.append(" order by banner.adType asc, banner.position asc ");
+		}		
+		
+		@SuppressWarnings("unchecked")
+		List<HomepageConfigDomain> bannerInfos= getSession().createQuery(sb.toString())
+									.list();
+		
+		return bannerInfos;
 	}	
 	
 	public List<BannerInfo> fetchBannerInfoByType(int type){
@@ -44,6 +64,7 @@ public class HomepageConfigDao extends HibernateDao<HomepageConfigDomain>{
 		sb.append(" from homepage_config hc");
 		sb.append(" where hc.status = true and hc.ad_type = ");
 		sb.append(type);
+		sb.append(" order by hc.position asc");
 		
 		Query query = getSession().createSQLQuery(sb.toString());
 		@SuppressWarnings("unchecked")

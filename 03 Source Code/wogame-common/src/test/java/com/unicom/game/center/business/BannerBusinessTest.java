@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.unicom.game.center.model.BannerInfo;
+import com.unicom.game.center.model.BannerInfoList;
 
 /**
  * @author Alex
@@ -31,5 +32,15 @@ public class BannerBusinessTest {
 			System.out.println(0);
 		}
 		
+	}
+	
+	@Test
+	public void testFetchAllBannerInfos(){
+		BannerInfoList banners = banner.fetchAllBanner();
+		if(null != banners){
+			System.out.println("data");
+		}else{
+			System.out.println("null");
+		}
 	}
 }

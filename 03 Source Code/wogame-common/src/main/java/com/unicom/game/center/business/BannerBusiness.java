@@ -1,5 +1,6 @@
 package com.unicom.game.center.business;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unicom.game.center.db.dao.HomepageConfigDao;
 import com.unicom.game.center.db.domain.HomepageConfigDomain;
 import com.unicom.game.center.model.BannerInfo;
+import com.unicom.game.center.model.BannerInfoList;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.Logging;
 import com.unicom.game.center.utils.SFTPHelper;
 import com.unicom.game.center.utils.Utility;
@@ -36,12 +39,79 @@ public class BannerBusiness {
 		List<BannerInfo> bannerList = null;
 		
 		try{
-			bannerList = bannerDao.fetchBannerInfoByType(type);
+			List<HomepageConfigDomain> domainList = bannerDao.fetchBannerInfo(type, false);
+			if(null != domainList && !domainList.isEmpty()){
+				bannerList = new ArrayList<BannerInfo>();
+				for(HomepageConfigDomain domain : domainList){
+					BannerInfo bannerInfo = convertToBannerInfo(domain);
+					bannerList.add(bannerInfo);
+				}
+			}
 		}catch(Exception e){
 			Logging.logError("Error occur in fetchBannerInfos", e);
 		}	
 		
 		return bannerList;
+	}
+	
+	public BannerInfo fetchBannerInfoById(int id){
+		BannerInfo banner = null;
+		
+		try{
+			HomepageConfigDomain domain = bannerDao.getById(id);
+			if(null != domain){
+				banner =  convertToBannerInfo(domain);
+			}
+		}catch(Exception e){
+			Logging.logError("Error occur in fetchBannerInfoById", e);
+		}	
+		
+		return banner;
+	}	
+	
+	public BannerInfoList fetchAllBanner(){
+		BannerInfoList bannerInfoList = null;
+		
+		try{
+			List<HomepageConfigDomain> bannerList = bannerDao.fetchBannerInfo(0, true);
+			if(null != bannerList && !bannerList.isEmpty()){
+				bannerInfoList = new BannerInfoList();
+				
+				List<BannerInfo> topBanner = new ArrayList<BannerInfo>();				
+				List<BannerInfo> activityModule = new ArrayList<BannerInfo>();					
+				List<BannerInfo> activityBanner = new ArrayList<BannerInfo>();
+				
+				for(HomepageConfigDomain domain : bannerList){
+					BannerInfo bannerInfo = convertToBannerInfo(domain);
+					
+					if(null != bannerInfo){
+						switch(bannerInfo.getAdType()){
+						case Constant.HOMEPAGE_TOP_AD : bannerInfoList.setTopAD(bannerInfo);
+						
+						case Constant.HOMEPAGE_TOP_BANNER : topBanner.add(bannerInfo);
+						
+						case Constant.HOMEPAGE_ACTIVITY_MODULE : activityModule.add(bannerInfo);
+						
+						case Constant.HOMEPAGE_ACTIVITY_BANNER : activityBanner.add(bannerInfo);
+						
+						case Constant.HOMEPAGE_FOOTER_AD : bannerInfoList.setBottomAD(bannerInfo);
+						
+						default : ;
+						
+						}
+					}
+					
+				}
+				
+				bannerInfoList.setTopBanner(topBanner);
+				bannerInfoList.setActivityModule(activityModule);
+				bannerInfoList.setActivityBanner(activityBanner);
+			}
+		}catch(Exception e){
+			Logging.logError("Error occur in fetchAllBanner", e);
+		}
+		
+		return bannerInfoList;
 	}
 	
 	public boolean createBanner(BannerInfo banner){
@@ -118,6 +188,31 @@ public class BannerBusiness {
 		}
 		
 		return flag;
+	}
+	
+	private BannerInfo convertToBannerInfo(HomepageConfigDomain domain){
+		BannerInfo info = null;
+		
+		if(null != domain){
+			info = new BannerInfo();
+			
+			info.setId(domain.getId());
+			
+			if(null != domain.getTitle()){
+				info.setTitle(domain.getTitle());
+			}
+			
+			if(null != domain.getDescription()){
+				info.setDescription(domain.getDescription());
+			}				
+			
+			info.setUrl(domain.getUrl());
+			info.setImageName(domain.getImageName());
+			info.setAdType(domain.getAdType());
+			info.setPosition(domain.getPosition());		
+		}
+		
+		return info;
 	}
 	
 	private HomepageConfigDomain convertToBannerDomain(BannerInfo banner, long timestamp){
