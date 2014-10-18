@@ -1,9 +1,11 @@
 package com.unicom.game.center.web;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
+import com.unicom.game.center.business.BannerBusiness;
+import com.unicom.game.center.model.BannerInfoList;
+import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.utils.AESEncryptionHelper;
+import com.unicom.game.center.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.unicom.game.center.business.BannerBusiness;
-import com.unicom.game.center.model.BannerInfoList;
-import com.unicom.game.center.service.GameService;
-import com.unicom.game.center.util.Constants;
-import com.unicom.game.center.utils.AESEncryptionHelper;
-import com.unicom.game.center.vo.RecommendDataListVo;
-import com.unicom.game.center.vo.RecommendedListVo;
-import com.unicom.game.center.vo.RollingAdListVo;
-import com.unicom.game.center.vo.RollingAdVo;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 管理员管理用户的Controller.
@@ -53,22 +48,9 @@ public class IndexController {
         return rollingAdListVo.getData();
     }
 
-    @RequestMapping(value = "/recommend", method = RequestMethod.GET)
-    @ResponseBody
-    public RecommendDataListVo recommendDataList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) Integer pageSize, Model model) {
-        int size = Constants.PAGE_SIZE_DEFAULT;
-
-        if(null != pageSize && pageSize > 0){
-            size = pageSize;
-        }
-
-        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum, size);
-
-        return recommendedListVo.getRecommendedListData();
-    }
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String list(@RequestParam("pageNum") int pageNum, @RequestParam(value="token", required=false) String token, Model model, HttpSession session) {
+    public String list(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, @RequestParam(value = "token", required = false) String token, Model model, HttpSession session) {
 
     	String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
     	try {
@@ -89,6 +71,36 @@ public class IndexController {
         model.addAttribute("isIndex", true);
         model.addAttribute("adList", rollingAdListVo.getData());
         model.addAttribute("recommendedList", recommendedListVo.getRecommendedListData());
+
+
+        //最热
+        WeekHotVo weekHotVo = gameService.readWeekHotList(1, 8);
+
+        List<WeekHotItemListVo> hot = weekHotVo.getData().getWeekHotItemList();
+        model.addAttribute("hot", hot);
+        //最新
+        NewListVo newListVo = gameService.readNewList(1, 5);
+        List<NewItemListVo> newest = newListVo.getDataList().getNewItemListVo();
+        model.addAttribute("newest", newest);
+
+        //分类
+        CategoryListVo categoryListVo = gameService.readCategoryList();
+        List<CategoryItemVo> category = categoryListVo.getCategoryData();
+        model.addAttribute("category", category);
+
+        //活动
+        ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(1, 3);
+        List<ActivityInfoItemVo> activity = activityInfoListVo.getActivityInfoVo().getActivityInfoItemVoList();
+        model.addAttribute("activity", activity);
+
+
+        //开服信息
+
+        NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 6);
+
+        List<NetGameServerItemVo> netGame = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList();
+        model.addAttribute("netGame", netGame);
+
         return "index";
     }
 

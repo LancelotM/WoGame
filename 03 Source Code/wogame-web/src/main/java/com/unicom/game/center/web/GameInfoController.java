@@ -3,9 +3,7 @@ package com.unicom.game.center.web;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.util.UrlUtil;
-import com.unicom.game.center.vo.GameInfoDataVo;
-import com.unicom.game.center.vo.GameInfoListVo;
-import com.unicom.game.center.vo.GameInfoVo;
+import com.unicom.game.center.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,17 +49,35 @@ public class GameInfoController {
         return "gameInfo";
     }
 
-    @RequestMapping(value = "/gameinfolist", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String fetchGameInfoDetail(@RequestParam("id") int id, Model model) {
+
+        InfoDetailListVo infoDetailListVo = gameService.readInfoDetail(id);
+        InfoDetailVo i = infoDetailListVo.getInfoDetailVo();
+        model.addAttribute("gameInfoContent", i);
+        return "info/detail";
+    }
+
+
+    @RequestMapping(value = "/ajaxlist", method = RequestMethod.GET)
     @ResponseBody
-    public GameInfoDataVo gameInfoList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) Integer pageSize, Model model) {
+    public GameInfoDataVo gameInfoList(@RequestParam("pageNum") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
-        if(null != pageSize && pageSize > 0){
+        if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }
 
-        GameInfoListVo gameInfoListVo = gameService.readGameInfoList(pageNum,size);
+        GameInfoListVo gameInfoListVo = gameService.readGameInfoList(pageNum, size);
 
         return gameInfoListVo.getGameInfoVo();
     }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String news() {
+        return "info/list";
+    }
+
+
 }

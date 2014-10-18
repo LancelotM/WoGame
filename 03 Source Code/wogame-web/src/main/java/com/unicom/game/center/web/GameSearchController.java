@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +48,18 @@ public class GameSearchController {
     public String list(Model model, HttpServletRequest request) {
         SearchKeywordsVo vo = zteService.readSearchAllKeywords();
         String refer = request.getHeader("Referer");
-        if (refer.contains("/gameInfo")) {
-            model.addAttribute("referUrl", request.getContextPath() + "/main;jsessionid=" + request.getSession().getId());
-        } else {
-            request.getSession().setAttribute(SESSION_KEY_REFERER, refer);
-            model.addAttribute("referUrl", UrlUtil.buildUrlWithRandomKey(refer));
+        if (refer != null) {
+            if (refer.contains("/gameInfo")) {
+                model.addAttribute("referUrl", request.getContextPath() + "/main;jsessionid=" + request.getSession().getId());
+            } else {
+                request.getSession().setAttribute(SESSION_KEY_REFERER, refer);
+                model.addAttribute("referUrl", UrlUtil.buildUrlWithRandomKey(refer));
+            }
+
         }
+
         model.addAttribute("list", vo == null ? new ArrayList<SearchKeywordItemVo>() : vo.getHotWordData());
-        return "search";
+        return "search/category";
     }
 
     @RequestMapping(value = "/keyword", method = RequestMethod.GET)
@@ -75,10 +80,10 @@ public class GameSearchController {
 
         // 记录Log
         HttpSession session = request.getSession();
-        String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID); 
-        if(null == channel){
-        	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
-        }        
+        String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+        if (null == channel) {
+            channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        }
         String[] logData = new String[]{"40", StringUtils.rightPad(channel, 3, " "), utf8Keyword};
         statisticsLogger.info(StringUtils.join(logData, ""));
 
@@ -99,4 +104,19 @@ public class GameSearchController {
 
         return error;
     }
+
+
+    @RequestMapping(value = "/result", method = RequestMethod.GET)
+    public String searchResult(@RequestParam("keyword") String keyword, Model model) {
+
+
+        try {
+            model.addAttribute("keyword", URLDecoder.decode(keyword, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            model.addAttribute("keyword", keyword);
+        }
+        return "search/result";
+    }
+
+
 }

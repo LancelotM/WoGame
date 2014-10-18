@@ -1,5 +1,11 @@
 package com.unicom.game.center.web;
 
+import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.vo.SubjectDetailListVo;
+import com.unicom.game.center.vo.SubjectDetailVo;
+import com.unicom.game.center.vo.SubjectListVo;
+import com.unicom.game.center.vo.SubjectVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,13 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.unicom.game.center.service.GameService;
-import com.unicom.game.center.util.Constants;
-import com.unicom.game.center.vo.SubjectDetailListVo;
-import com.unicom.game.center.vo.SubjectDetailVo;
-import com.unicom.game.center.vo.SubjectListVo;
-import com.unicom.game.center.vo.SubjectVo;
-
 @Controller
 @RequestMapping(value = "/subject")
 public class SubjectController {
@@ -22,12 +21,12 @@ public class SubjectController {
     @Autowired
     private GameService gameService;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/ajaxlist", method = RequestMethod.GET)
     @ResponseBody
-    public SubjectVo subjectList(@RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) Integer pageSize, Model model) {
+    public SubjectVo subjectList(@RequestParam(value = "pageNum", required = false) int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
-        if(null != pageSize && pageSize > 0){
+        if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }
 
@@ -38,10 +37,10 @@ public class SubjectController {
 
     @RequestMapping(value = "/gamelist", method = RequestMethod.GET)
     @ResponseBody
-    public SubjectDetailVo subjectGameList(@RequestParam("id") int id, @RequestParam("pageNum") int pageNum, @RequestParam(value="pageSize", required=false) Integer pageSize, Model model) {
+    public SubjectDetailVo subjectGameList(@RequestParam("id") int id, @RequestParam(value = "pageNum", required = false) int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
-        if(null != pageSize && pageSize > 0){
+        if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }
 
@@ -49,4 +48,18 @@ public class SubjectController {
 
         return subjectDetailListVo.getSubjectDetailList();
     }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list() {
+        return "subject/list";
+    }
+
+
+    @RequestMapping(value = "/detailList", method = RequestMethod.GET)
+    public String detailList(@RequestParam("id") int id, Model model) {
+        model.addAttribute("id", id);
+        return "subject/detailList";
+    }
+
+
 }
