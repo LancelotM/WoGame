@@ -13,7 +13,7 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
-    <title>推荐</title>
+    <title>排行榜</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
@@ -30,56 +30,18 @@
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
     <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">推荐</div>
-    <div class="fanhui-text absolute"><a href="#">${categoryName}</a></div>
-    <div class="sousuo absolute pic"><a href="#">搜索</a></div>
+    <div class="title">排行</div>
+    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
 
-
-<!--列表-->
-<div class="fenlei">
-    <ul>
-
-        <c:choose>
-
-            <c:when test="${c.id==categoryId}">
-
-                <li class="mtuohouver "><a
-                        href="${ctx}/category/detail.do?categoryId=${c.id}&categoryName=${c.name}">全部</a></li>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <li><a href="${ctx}/category/detail.do?categoryId=${c.id}&categoryName=${c.name}">全部</a></li>
-
-            </c:otherwise>
-
-
-        </c:choose>
-
-        <c:forEach items="${c.items}" var="i">
-            <c:choose>
-                <c:when test="${i.id==categoryId && c.id!=categoryId }">
-
-                    <li class="mtuohouver "><a
-                            href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">${i.name}</a>
-                    </li>
-
-                </c:when>
-                <c:otherwise>
-
-                    <li><a href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">${i.name}</a></li>
-
-                </c:otherwise>
-
-            </c:choose>
-        </c:forEach>
-
-
-    </ul>
+<!--切换-->
+<div class="qiehuan_ph" style="position: fixed;left:5%; right:5%;width:90%;z-index: 1001;margin-top: 5px;">
+    <div class="qiehuan_ph_3"><a href="${ctx}/newGame/topHotest.do">飙升榜</a></div>
+    <div class="qiehuan_ph_4"><a href="#">最新榜</a></div>
 </div>
+<div style="height: 50px;"></div>
 
 
 <!--列表-->
@@ -102,7 +64,7 @@
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
-<input type="hidden" id="categoryId" value="${categoryId}"/>
+
 <script type="application/javascript">
 
     var myScroll,
@@ -110,7 +72,6 @@
             pullUpEl, pullUpOffset,
             generatedCount = 0;
     var categoryId = $("#categoryId").val();
-
     var isSearching = false;
     pageNum = 1;
     var urlBase = '${ctx}/gamedetail/detaillist.do?product_id=';
@@ -123,7 +84,7 @@
         }
         isSearching = true;
 
-        $.getJSON("${ctx}/category/ajaxDetail.do", {"categoryId": categoryId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
+        $.getJSON("${ctx}/newGame/ajaxList.do", {"pageNum": pPageNum, "pageSize": 10}, function (data) {
 
             isSearching = false;
             if (data.items.length != 0) {
@@ -140,12 +101,12 @@
                         stringBuffer.push('<div class="hot_banner2">');
                         stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                         stringBuffer.push('</div>');
-                        stringBuffer.push('<a href="' + urlBase + entry.id + '">');
+                        stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
                         stringBuffer.push('<img src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
                         /*显示下载*/
                         if (entry.banner.res_type == 2) {
                             stringBuffer.push('<div class="pro_cp_r1 radius">');
-                            stringBuffer.push('<a href="javascript:download(\'' + entry.id
+                            stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
                                     + '\',\'' + entry.name
                                     + '\',\'' + entry.icon
                                     + '\')">下载</a>');
@@ -161,10 +122,11 @@
 
                         stringBuffer.push('<div class="pro_list">');
 
+                        stringBuffer.push('<a href="#">');
+
+
                         stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                         stringBuffer.push('</div>');
-
-                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do?product_id=' + entry.product_id + '">');
 
 
                         stringBuffer.push('<div class="pro_cp">');
@@ -187,7 +149,7 @@
 
                         stringBuffer.push('<div class="pro_cp_r radius">');
 
-                        stringBuffer.push('<a href="javascript:download(\'' + entry.id
+                        stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
                                 + '\',\'' + entry.name
                                 + '\',\'' + entry.icon
                                 + '\')">下载</a>');
@@ -195,7 +157,7 @@
 
 
                         stringBuffer.push('<div class="plist_f etc">');
-                        stringBuffer.push('<a href="javascript:download(\'' + entry.id
+                        stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
                                 + '\',\'' + entry.name
                                 + '\',\'' + entry.icon
                                 + '\')">' + entry.intro + '</a></div>');
@@ -223,7 +185,10 @@
             }
             if (callback) {
                 callback();
+            } else {
+                myScroll.refresh();
             }
+
 
         });
     }
@@ -264,6 +229,6 @@
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);
 </script>
-
+<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

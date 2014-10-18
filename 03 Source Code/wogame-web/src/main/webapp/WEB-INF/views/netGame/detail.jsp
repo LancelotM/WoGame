@@ -13,7 +13,7 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
-    <title>分类</title>
+    <title>活动列表</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
@@ -26,51 +26,44 @@
 </head>
 
 <body class="ibody_bg">
+<!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
     <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">分类</div>
+    <div class="title">活动列表</div>
     <div class="fanhui-text absolute"><a href="#">首页</a></div>
-    <div class="sousuo absolute pic"><a href="#">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
-<div class="head-after"></div>
-<div style="height: 15px;"></div>
+<div style="height: 50px;"></div>
 
 
-<!--<div class="w_new_077"><a href="#">分类</a></div>-->
+<!--分类筛选-->
+<dl class="hd_title">
+    <dt>${ac.title}</dt>
+    <dd class="hd_1">
+        <jsp:useBean id="date" class="java.util.Date"/>
+        <jsp:setProperty name="date" property="time" value="${ac.startTime}"/>
+        <fmt:formatDate value="${date}" pattern="yyyy-MM-dd hh:mm"/>
+
+
+    </dd>
+    <dd class="hd_2">作者：${ac.editor}</dd>
+</dl>
+<div class="hd_l_title">活动游戏</div>
+<div class="hd_l_count"><a href="#">
+    <div class="hd_youxi_img"><img src="${ac.game.iconUrl}" height="70"/></div>
+    <dl class="hd_youxi">
+        <dt>${ac.game.gameName}</dt>
+        <dd>${ac.game.apkSize} MB</dd>
+    </dl>
+    <div class="hd_xiazai radius">下载</div>
+</a>
 </div>
-<div id="pageContent" style="margin-bottom: 10px;">
-    <!--列表-->
-
-    <c:forEach items="${list}" var="i">
-
-        <div class="hd_l_title">
-            <div class="hdjianjie">${i.name}</div>
-            <div class="hdmore"><a href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">查看全部</a>
-            </div>
-        </div>
-        <div class="fenlei">
-            <ul>
-                <c:forEach var="ie" items="${i.items}">
-
-                    <li><a href="${ctx}/category/detail.do?categoryId=${ie.id}&categoryName=${ie.name}">${ie.name}</a>
-                    </li>
-
-                </c:forEach>
-            </ul>
-        </div>
-
-
-    </c:forEach>
+<div class="hd_l_title">活动简介</div>
+<div class="hd_l_count2">
+    ${ac.content}
 </div>
-
-
-<script type="text/javascript">
-    function toChangWanPage() {
-        location.href = "${ctx}/changWan;jsessionid=${sessionid}";
-    }
-</script>
-
-
+</body>
+</html>
 </body>
 </html>

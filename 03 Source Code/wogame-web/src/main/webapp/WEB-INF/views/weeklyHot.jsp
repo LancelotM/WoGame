@@ -22,7 +22,7 @@
 <body class="ibody_bg">
 <!--top-->
 <div class="w-header">
-    <div class="w_search"><a href="${ctx}/search/init;jsessionid=${sessionid}">搜索</a></div>
+    <div class="w_search"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 <div id="info-container"
      style="display:none;position:fixed;top:40%;left:10%;z-index:9999;text-align:center;background-color: white;width:200px;height:100px;border: 1px solid gray">
@@ -67,7 +67,7 @@
 
 <script type="text/javascript">
     function toChangWanPage() {
-        location.href="${ctx}/changWan;jsessionid=${sessionid}";
+        location.href = "${ctx}/changWan;jsessionid=${sessionid}";
     }
 </script>
 
@@ -133,11 +133,17 @@
                     el.append(stringBuffer.join(""));
                 });
                 $("img[data-src]").scrollLoading();
-            }
+            } else {
 
+                $('#pullDown, #pullUp').hide();
+
+            }
             if (callback) {
                 callback();
+            } else {
+                myScroll.refresh();
             }
+
         });
 
     }
@@ -177,5 +183,6 @@
 <script type="text/javascript">
     logNumber("${ctx}", ['63']);
 </script>
+<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

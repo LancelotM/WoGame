@@ -16,11 +16,12 @@
     <title>首页</title>
 
     <link href="${ctx}/static/styles/main.css" rel="stylesheet" type="text/css"/>
-  <script type="text/javascript">
+    <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" name="baidu-tc-cerfication" src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
+    <script type="text/javascript" name="baidu-tc-cerfication"
+            src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
 
 </head>
 
@@ -40,23 +41,23 @@
     <div class="w_new_055"><a href="${ctx}/newGame/list;jsessionid=${sessionid}?pageNum=1">最新</a></div>
 
 </div>
- 
- <c:if test="${weixin == true}">
- 
-	<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0&original=wogame&weixin=1" frameBorder=0
-	        height="550px" scrolling=yes id="ifm" width="100%" name="ifm" style="margin-top:-90px;">
-	</iframe> 
 
- </c:if>
- 
+<c:if test="${weixin == true}">
+
+    <iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0&original=wogame&weixin=1" frameBorder=0
+            height="550px" scrolling=yes id="ifm" width="100%" name="ifm" style="margin-top:-90px;">
+    </iframe>
+
+</c:if>
+
 <c:if test="${weixin == false}">
- 
-	<iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0&original=wogame" frameBorder=0
-	        height="550px" scrolling=yes id="ifm" width="100%" name="ifm" style="margin-top:-90px;">
-	</iframe> 
 
- </c:if>
-       
+    <iframe src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0&original=wogame" frameBorder=0
+            height="550px" scrolling=yes id="ifm" width="100%" name="ifm" style="margin-top:-90px;">
+    </iframe>
+
+</c:if>
+
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 <script type="text/javascript">

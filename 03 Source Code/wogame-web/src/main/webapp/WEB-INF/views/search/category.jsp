@@ -13,13 +13,14 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
-    <title>分类</title>
+    <title>搜索</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
-
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <script type="text/javascript" name="baidu-tc-cerfication"
             src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
 
@@ -29,48 +30,45 @@
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
     <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">分类</div>
+    <div class="title">搜索</div>
     <div class="fanhui-text absolute"><a href="#">首页</a></div>
     <div class="sousuo absolute pic"><a href="#">搜索</a></div>
 </div>
 <div class="head-after"></div>
-<div style="height: 15px;"></div>
 
 
-<!--<div class="w_new_077"><a href="#">分类</a></div>-->
-</div>
-<div id="pageContent" style="margin-bottom: 10px;">
-    <!--列表-->
+<div class="w_search_box" style="margin-top: 15px;">
+    <div class="w_inputbox">
+        <div class="w_in_01">
+            <a href="#">删除</a></div>
+        <div class="w_in_02">
+            <form action="${ctx}/search/result.do" onsubmit=" return searchkey()">
 
-    <c:forEach items="${list}" var="i">
-
-        <div class="hd_l_title">
-            <div class="hdjianjie">${i.name}</div>
-            <div class="hdmore"><a href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">查看全部</a>
-            </div>
         </div>
-        <div class="fenlei">
-            <ul>
-                <c:forEach var="ie" items="${i.items}">
+        <input type="text" value="请输入搜索内容" onfocus="if (value =='请输入搜索内容'){value =''}"
+               onblur="if (value ==''){value='请输入搜索内容'}" id="w_input" class="w_input" name="keyword"></div>
 
-                    <li><a href="${ctx}/category/detail.do?categoryId=${ie.id}&categoryName=${ie.name}">${ie.name}</a>
-                    </li>
-
-                </c:forEach>
-            </ul>
-        </div>
-
-
-    </c:forEach>
+    <input type="submit" value="搜索" class="w_buttion">
+    </form>
 </div>
 
 
-<script type="text/javascript">
-    function toChangWanPage() {
-        location.href = "${ctx}/changWan;jsessionid=${sessionid}";
-    }
-</script>
+<div class="fenlei_search">
+    <ul>
+
+        <c:forEach var="l" items="${list}">
+
+            <li><a href="#">${l.word}</a></li>
+
+        </c:forEach>
 
 
+    </ul>
+
+
+</div>
+
+
+<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

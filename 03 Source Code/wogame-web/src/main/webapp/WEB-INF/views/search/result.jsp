@@ -20,8 +20,7 @@
         var contextPath = '${ctx}';
     </script>
 
-    <script type="text/javascript" name="baidu-tc-cerfication"
-            src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
+    <%--    <script type="text/javascript" name="baidu-tc-cerfication" src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>--%>
 
 </head>
 
@@ -31,56 +30,27 @@
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
     <div class="fanhui absolute pic"><a href="#">返回</a></div>
     <div class="title">推荐</div>
-    <div class="fanhui-text absolute"><a href="#">${categoryName}</a></div>
-    <div class="sousuo absolute pic"><a href="#">搜索</a></div>
+    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
-<div style="height: 50px;"></div>
+<div style="height: 35px;"></div>
 
 
-<!--列表-->
-<div class="fenlei">
-    <ul>
+<div class="w_search_box" style="margin-top: 15px;">
+    <div class="w_inputbox">
+        <div class="w_in_01">
+            <a href="#">删除</a></div>
+        <div class="w_in_02">
+            <form action="${ctx}/search/tosearchresult.do" onsubmit=" return searchkey()">
 
-        <c:choose>
+        </div>
+        <input type="text" id="w_input" value="${keyword}" class="w_input" name="keyword"></div>
 
-            <c:when test="${c.id==categoryId}">
-
-                <li class="mtuohouver "><a
-                        href="${ctx}/category/detail.do?categoryId=${c.id}&categoryName=${c.name}">全部</a></li>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <li><a href="${ctx}/category/detail.do?categoryId=${c.id}&categoryName=${c.name}">全部</a></li>
-
-            </c:otherwise>
-
-
-        </c:choose>
-
-        <c:forEach items="${c.items}" var="i">
-            <c:choose>
-                <c:when test="${i.id==categoryId && c.id!=categoryId }">
-
-                    <li class="mtuohouver "><a
-                            href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">${i.name}</a>
-                    </li>
-
-                </c:when>
-                <c:otherwise>
-
-                    <li><a href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">${i.name}</a></li>
-
-                </c:otherwise>
-
-            </c:choose>
-        </c:forEach>
-
-
-    </ul>
+    <input type="submit" value="搜索" class="w_buttion">
+    </form>
 </div>
 
+<div style="height: 15px;"></div>
 
 <!--列表-->
 <div id="wrapper">
@@ -102,15 +72,14 @@
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
-<input type="hidden" id="categoryId" value="${categoryId}"/>
+
 <script type="application/javascript">
 
     var myScroll,
             pullDownEl, pullDownOffset,
             pullUpEl, pullUpOffset,
             generatedCount = 0;
-    var categoryId = $("#categoryId").val();
-
+    var keyword = $('#w_input').val();
     var isSearching = false;
     pageNum = 1;
     var urlBase = '${ctx}/gamedetail/detaillist.do?product_id=';
@@ -123,16 +92,17 @@
         }
         isSearching = true;
 
-        $.getJSON("${ctx}/category/ajaxDetail.do", {"categoryId": categoryId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
+        $.getJSON("${ctx}/search/ajaxSearch.do", {"pageNum": pPageNum, "keyword": encodeURI(encodeURI(keyword))}, function (data) {
+
 
             isSearching = false;
-            if (data.items.length != 0) {
+            if (data.length != 0) {
 
                 if (pPageNum <= 1) {
                     el.empty();
                 }
 
-                $.each(data.items, function (index, entry) {
+                $.each(data, function (index, entry) {
 
                     var stringBuffer = [];
 
@@ -164,21 +134,21 @@
                         stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                         stringBuffer.push('</div>');
 
-                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do?product_id=' + entry.product_id + '">');
+                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do?product_id=' + entry.id + '">');
 
 
                         stringBuffer.push('<div class="pro_cp">');
 
                         /*图片*/
                         stringBuffer.push('<div class="pro_cp_l">');
-                        stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                        stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86"/></a>');
+                        stringBuffer.push('<a href="' + urlBase + entry.id + '">');
+                        stringBuffer.push('<img src="' + entry.icon + '" data-src="' + entry.icon + '" height="86"/></a>');
                         stringBuffer.push('</div>');
 
                         /*游戏名称*/
 
                         stringBuffer.push('<dl class="pro_cp_c">');
-                        stringBuffer.push('<dt>' + entry.game_name + '</dt>');
+                        stringBuffer.push('<dt>' + entry.name + '</dt>');
 
                         stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
                         stringBuffer.push('</dl>');
@@ -198,7 +168,7 @@
                         stringBuffer.push('<a href="javascript:download(\'' + entry.id
                                 + '\',\'' + entry.name
                                 + '\',\'' + entry.icon
-                                + '\')">' + entry.intro + '</a></div>');
+                                + '\')">' + entry.supplier + '</a></div>');
 
 
                         stringBuffer.push('</a>');
@@ -223,7 +193,10 @@
             }
             if (callback) {
                 callback();
+            } else {
+                myScroll.refresh();
             }
+
 
         });
     }
@@ -257,13 +230,12 @@
 
     });
 
-    function download(id, name, icon) {
-        doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
-    }
+    /*   function download(id, name, icon) {
+     doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
+     }*/
 </script>
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);
 </script>
-
 </body>
 </html>

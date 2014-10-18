@@ -31,56 +31,10 @@
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
     <div class="fanhui absolute pic"><a href="#">返回</a></div>
     <div class="title">推荐</div>
-    <div class="fanhui-text absolute"><a href="#">${categoryName}</a></div>
-    <div class="sousuo absolute pic"><a href="#">搜索</a></div>
+    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
-
-
-<!--列表-->
-<div class="fenlei">
-    <ul>
-
-        <c:choose>
-
-            <c:when test="${c.id==categoryId}">
-
-                <li class="mtuohouver "><a
-                        href="${ctx}/category/detail.do?categoryId=${c.id}&categoryName=${c.name}">全部</a></li>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <li><a href="${ctx}/category/detail.do?categoryId=${c.id}&categoryName=${c.name}">全部</a></li>
-
-            </c:otherwise>
-
-
-        </c:choose>
-
-        <c:forEach items="${c.items}" var="i">
-            <c:choose>
-                <c:when test="${i.id==categoryId && c.id!=categoryId }">
-
-                    <li class="mtuohouver "><a
-                            href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">${i.name}</a>
-                    </li>
-
-                </c:when>
-                <c:otherwise>
-
-                    <li><a href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">${i.name}</a></li>
-
-                </c:otherwise>
-
-            </c:choose>
-        </c:forEach>
-
-
-    </ul>
-</div>
-
 
 <!--列表-->
 <div id="wrapper">
@@ -102,7 +56,7 @@
 <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
 <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
-<input type="hidden" id="categoryId" value="${categoryId}"/>
+
 <script type="application/javascript">
 
     var myScroll,
@@ -110,7 +64,6 @@
             pullUpEl, pullUpOffset,
             generatedCount = 0;
     var categoryId = $("#categoryId").val();
-
     var isSearching = false;
     pageNum = 1;
     var urlBase = '${ctx}/gamedetail/detaillist.do?product_id=';
@@ -123,7 +76,7 @@
         }
         isSearching = true;
 
-        $.getJSON("${ctx}/category/ajaxDetail.do", {"categoryId": categoryId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
+        $.getJSON("${ctx}/recommend/list.do", {"pageNum": pPageNum, "pageSize": 10}, function (data) {
 
             isSearching = false;
             if (data.items.length != 0) {
@@ -178,7 +131,7 @@
                         /*游戏名称*/
 
                         stringBuffer.push('<dl class="pro_cp_c">');
-                        stringBuffer.push('<dt>' + entry.game_name + '</dt>');
+                        stringBuffer.push('<dt>' + entry.title + '</dt>');
 
                         stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
                         stringBuffer.push('</dl>');
@@ -224,6 +177,7 @@
             if (callback) {
                 callback();
             }
+
 
         });
     }
