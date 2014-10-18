@@ -16,6 +16,7 @@
     <title>首页</title>
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <!--弹出文本提示写入cooking-->
     <script type="text/javascript">
         function cookiesave(n, v, mins, dn, path) {
@@ -62,7 +63,7 @@
 <!--top-->
 <div class="head_index relative">
     <div class="logo absolute"><a href="/">首页</a></div>
-    <div class="sousuo absolute pic"><a href="#">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do" >搜索</a></div>
 </div>
 <!--图片广告位-->
 <div id="note" class="note"
@@ -114,9 +115,20 @@
 <div class="index_search_box">
     <div class="w_inputbox">
         <div class="w_in_01"><a href="#">删除</a></div>
-        <div class="w_in_02"></div>
-        <input type="text" class="w_input" name=""></div>
-    <input type="button" value="搜索" class="w_buttion" name="">
+        <div class="w_in_02">
+            <form action="${ctx}/search/result.do" onsubmit=" return searchkey()" >
+
+        </div>
+        <input type="text" value="请输入搜索内容" onfocus="if (value =='请输入搜索内容'){value =''}"
+               onblur="if (value ==''){value='请输入搜索内容'}" id="w_input" class="w_input" name="keyword"></div>
+
+    <input type="submit" value="搜索" class="w_buttion">
+    </form>
+
+
+
+        </div>
+
 </div>
 <!--活动-->
 <dl class="huodong_box">
@@ -149,7 +161,7 @@
                 <li>
                     <dl class="hotyouxi_list">
                         <dt>
-                            <a href="#"><img src="${h.iconUrl}"/></a>
+                            <a href="${ctx}/gamedetail/detaillist.do?product_id=${h.productId}"><img src="${h.iconUrl}"/></a>
                         </dt>
                         <dd class="tit"><a href="#">${h.gameName}</a></dd>
                         <dd class="mb">
@@ -162,7 +174,7 @@
             </c:forEach>
         </ul>
     </div>
-    <div class="hot_youxi_more"><a href="#"><span>更多火热游戏</span></a></div>
+    <div class="hot_youxi_more"><a href="${ctx}/newGame/topHotest.do" ><span>更多火热游戏</span></a></div>
 </div>
 <!--活动版块-->
 <div class="hot_youxi">
@@ -199,7 +211,7 @@
             </div>
         </dd>
     </dl>
-    <div class="hot_youxi_more"><a href="#"><span>全部活动</span></a></div>
+    <div class="hot_youxi_more"><a href="${ctx}/gameInfo/list.do"   ><span>全部活动</span></a></div>
 </div>
 <!--最新榜-->
 <div class="hot_youxi">
@@ -209,7 +221,8 @@
     <c:forEach var="n" items="${newest}">
         <div class="pro_list"><a href="#">
             <div class="pro_cp">
-                <div class="pro_cp_l"><img src="${n.iconUrl}" height="86"/></div>
+                <a href="${ctx}/gamedetail/detaillist.do?product_id=${n.productId}">
+                <div class="pro_cp_l"><img src="${n.iconUrl}" height="86"/></div></a>
                 <dl class="pro_cp_c">
                     <dt>${n.gameName}</dt>
                     <dd><fmt:formatNumber value="${n.apkSize/1024}" minFractionDigits="2"></fmt:formatNumber> MB</dd>
@@ -222,7 +235,7 @@
     </c:forEach>
 
 
-    <div class="hot_youxi_more"><a href="#"><span>查看更多飚升榜</span></a></div>
+    <div class="hot_youxi_more"><a href="${ctx}/newGame/topNewest.do"><span>查看更多最新榜</span></a></div>
 </div>
 <!--开服信息-->
 <div class="hot_youxi">
@@ -232,7 +245,7 @@
         <ul>
 
             <c:forEach var="n" items="${netGame}">
-                <li><a href="#">
+                <li><a href="${ctx}/gamedetail/detaillist.do?product_id=${n.productId}">
                     <div class="kf_left">
                         <div class="kf_img"><img src="${n.iconUrl}" height="86"/></div>
                         <div class="kf_dow radius">下载</div>
@@ -267,11 +280,11 @@
         <ul>
 
             <c:forEach var="ca" items="${category}">
-                <li><a href="#" class="nf1">${ca.name}</a></li>
+                <li><a href="${ctx}/category/detail.do?categoryId=${ca.id}&categoryName=${ca.name}" class="nf1">${ca.name}</a></li>
             </c:forEach>
         </ul>
     </div>
-    <div class="hot_youxi_more"><a href="#"><span>查看更多</span></a></div>
+    <div class="hot_youxi_more"><a href="${ctx}/category/list.do"><span>查看更多</span></a></div>
 </div>
 
 <!--主menu区-->
