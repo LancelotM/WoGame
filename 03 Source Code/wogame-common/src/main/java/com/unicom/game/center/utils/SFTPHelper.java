@@ -1,21 +1,23 @@
 package com.unicom.game.center.utils;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 
 /**
  * @author Alex Yin
@@ -223,5 +225,41 @@ public class SFTPHelper {
 		
 		return flag;
 	}
+	
+	public boolean uploadFile(InputStream src, String desc){
+		boolean flag = false;
+		
+		if(null == src){
+			return flag;
+		}
+		
+		ChannelSftp sftp = connectServer();
+		if(null != sftp){
+			try{
+				sftp.put(src, desc, ChannelSftp.OVERWRITE);				
+				sftp.quit();
+				
+				flag = true;
+			}catch(Exception e){
+				Logging.logError("Error occur in uploadFile.", e);
+			}finally {
+				if(null != src){
+					try {
+						src.close();
+					} catch (IOException e) {
+						Logging.logError("Error occur in close input stream.", e);
+					}
+				}
+				
+   				try {
+   					closeChannel(sftp.getSession(), sftp);
+   				} catch (Exception e) {
+   					Logging.logError("FTP Disconnect Error: ",e);
+   				}
+   			}			
+		}
+		
+		return flag;
+	}	
 
 }

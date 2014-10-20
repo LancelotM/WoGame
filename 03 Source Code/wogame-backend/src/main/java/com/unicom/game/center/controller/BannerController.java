@@ -1,33 +1,44 @@
 package com.unicom.game.center.controller;
 
-import com.unicom.game.center.business.BannerBusiness;
-import com.unicom.game.center.model.*;
-import com.unicom.game.center.utils.Constant;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.unicom.game.center.business.BannerBusiness;
+import com.unicom.game.center.model.BannerInfo;
+import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.SFTPHelper;
 
 @Controller
 public class BannerController {
 
     @Autowired
     private BannerBusiness bannerBusiness;
+    
+	@Value("#{properties['banner.image.path']}")
+	private String imagePath;
+		
+	@Autowired
+	private SFTPHelper sftpHelper;	
 
     @RequestMapping(value = "/topbanner", method = {RequestMethod.GET})
     public ModelAndView topBanner(HttpServletRequest request, HttpSession session) throws IOException {
@@ -59,14 +70,56 @@ public class BannerController {
     }
 
     @RequestMapping(value = "/createtopbanner", method = {RequestMethod.POST})
-    public ModelAndView createTopBanner(@RequestParam(value = "imageName", required = true) String imageName,
-                                        @RequestParam(value = "url", required = true) String url){
-        ModelMap modelMap = new ModelMap();
+    public ModelAndView createTopBanner(HttpServletRequest request){
+    	DiskFileItemFactory factory = new DiskFileItemFactory();
+    	ServletFileUpload upload = new ServletFileUpload(factory);
+    	InputStream uploadedStream = null;
+
+    	// Parse the request
+    	List<?> items = null;
+		try {
+			items = upload.parseRequest(request);
+		} catch (FileUploadException e1) {
+			e1.printStackTrace();
+		}
+
+    	Iterator iter = items.iterator();
+    	while (iter.hasNext()) {
+    	    FileItem item = (FileItem) iter.next();
+
+    	    if (item.isFormField()) {
+    	        String name = item.getFieldName();
+    			String value = item.getString();
+   			
+    			System.out.println("===========================" + name + ":" + value + "===============================");
+    	    } else {
+			    String fileName = item.getName();
+			    System.out.println("===========================" + fileName  + "===============================");
+			    
+				try {
+					uploadedStream = item.getInputStream();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}			
+    	    }
+    	}
+
+    	ModelMap modelMap = new ModelMap();
         BannerInfo bannerInfo = new BannerInfo();
         bannerInfo.setAdType(Constant.HOMEPAGE_TOP_BANNER);
-        bannerInfo.setImageName(imageName);
-        bannerInfo.setUrl(url);
-        boolean flag = bannerBusiness.createBanner(bannerInfo);
+        bannerInfo.setUrl("");
+        boolean flag = true;
+        long timestamp = System.currentTimeMillis();
+		try {
+			flag = sftpHelper.uploadFile(uploadedStream, (imagePath + String.valueOf(timestamp)));				
+		} catch (Exception e) {
+			e.printStackTrace();
+			flag = false;
+		}
+		
+		if(flag){
+			flag = bannerBusiness.createBanner(bannerInfo, String.valueOf(timestamp));
+		}
         modelMap.put("createFlag",flag);
         List<BannerInfo> topBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_BANNER);
         if(null != topBannerInfos){

@@ -82,6 +82,8 @@ $("#create_submit").click(function(){
     var $imageName = $('#picture_input').val().trim("");
     var $url = $('#url_input').val().trim("");
     if(checkInputValue($imageName,$url)){
+    	var html = '<tr><td><input id="imageName" type="hidden" value="'+$imageName+'" /></td><td><input id="url" type="hidden" value="'+$url+'" /></td></tr>'
+    	$('#upload_tbody').append(html);
         $("#create_form").submit();
     }
 });

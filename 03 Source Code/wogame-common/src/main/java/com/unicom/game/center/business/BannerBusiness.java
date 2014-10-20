@@ -114,21 +114,16 @@ public class BannerBusiness {
 		return bannerInfoList;
 	}
 	
-	public boolean createBanner(BannerInfo banner){
+	public boolean createBanner(BannerInfo banner, String timestamp){
 		boolean flag = false;
 		
 		try{
-			boolean uploadflag = false;
-			long timestamp = System.currentTimeMillis();
-			if(null != banner && !Utility.isEmpty(banner.getImageName())){
-				uploadflag = sftpHelper.uploadFile(banner.getImageName(), (imagePath + String.valueOf(timestamp)));
-			}
-			
-			if(uploadflag){
+			if(null != banner && !Utility.isEmpty(timestamp)){
 				HomepageConfigDomain homepageConfig = convertToBannerDomain(banner, timestamp);
 				bannerDao.save(homepageConfig);
-				flag = true;
 			}
+
+			flag = true;
 		}catch(Exception e){
 			Logging.logError("Error occur in createBanner", e);
 		}
@@ -215,15 +210,15 @@ public class BannerBusiness {
 		return info;
 	}
 	
-	private HomepageConfigDomain convertToBannerDomain(BannerInfo banner, long timestamp){
+	private HomepageConfigDomain convertToBannerDomain(BannerInfo banner, String timestamp){
 		HomepageConfigDomain homepageConfig = null;
 		if(null != banner){
 			Date date = new Date();
 			homepageConfig = new HomepageConfigDomain();
 			homepageConfig.setAdType(banner.getAdType());
 			homepageConfig.setDescription(banner.getDescription());
-			homepageConfig.setImageName("http://channel.wostore.cn:8080/images/" + String.valueOf(timestamp));
-			homepageConfig.setPosition(banner.getPosition());
+			homepageConfig.setImageName("http://channel.wostore.cn:8080/images/" + timestamp);
+			homepageConfig.setPosition((null == banner.getPosition()) ? 0 : banner.getPosition());
 			homepageConfig.setStatus(true);
 			homepageConfig.setTitle(banner.getTitle());
 			homepageConfig.setUrl(banner.getUrl());
