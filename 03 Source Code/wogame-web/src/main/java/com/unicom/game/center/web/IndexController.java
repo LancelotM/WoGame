@@ -26,7 +26,6 @@ import java.util.List;
  * @author calvin
  */
 @Controller
-@RequestMapping(value = "/indexlist")
 public class IndexController {
 
     @Autowired
