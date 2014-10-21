@@ -43,4 +43,18 @@ public class BannerBusinessTest {
 			System.out.println("null");
 		}
 	}
+	
+	@Test
+	public void testCreateBanner(){
+		BannerInfo bannerInfo = new BannerInfo();
+		bannerInfo.setAdType(2);
+		bannerInfo.setUrl("");
+		String timestamp = "1413770585248";
+		boolean flag = banner.createBanner(bannerInfo, timestamp);
+		if(flag){
+			System.out.println("true");
+		}else{
+			System.out.println("false");
+		}
+	}	
 }

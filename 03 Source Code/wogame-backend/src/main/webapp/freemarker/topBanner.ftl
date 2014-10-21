@@ -9,7 +9,7 @@
                 <div class="log_title">
                     <img class="title_image" src="${basePath}/static/images/icon_createsite.png" alt=""/>顶部Banner管理
                 </div>
-                <form id="create_form" action="${basePath}/createtopbanner" method="post">
+                <form id="create_form" action="${basePath}/createtopbanner" method="post" enctype="multipart/form-data">
                     <table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
                         <tr class="first_tr">
 
@@ -26,6 +26,9 @@
                                 <a href="javascript:;" id="create_submit"><img src="${basePath}/static/images/add.png" alt="detail"/></a>
                             </td>
                         </tr>
+                        <tbody id="upload_tbody">
+
+                        </tbody>                        
                     </table>
                 </form>
             </div>
