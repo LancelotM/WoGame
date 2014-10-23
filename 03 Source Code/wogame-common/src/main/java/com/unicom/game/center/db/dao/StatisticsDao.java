@@ -1,5 +1,7 @@
 package com.unicom.game.center.db.dao;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.unicom.game.center.db.domain.StatisticsDomain;
@@ -20,4 +22,8 @@ public class StatisticsDao extends HibernateDao<StatisticsDomain>{
 		getSession().update(statistics);
 		getSession().flush();
 	}
+	
+    public void saveStatisticsDomainList(List<StatisticsDomain> list, int num) {
+    	saveDomainList(list, num);
+    }	
 }

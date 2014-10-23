@@ -45,21 +45,6 @@ public class PackageInfoAnalyser implements ILogAnalyser{
 
 	@Override
 	public void doLogAnalyse() throws Exception {
-		
-	}
-
-    @Override
-    public void doReportDomainsSave() throws Exception {
-
-    }
-
-    @Override
-    public void doDownloadCountDomainsSave() throws Exception{
-
-    }
-
-	@Override
-	public void doPackageInfoDomainsSave() throws Exception {
   		Logging.logDebug("----- doPackageInfoDomainsSave start -----");
   		
   		try{

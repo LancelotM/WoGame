@@ -38,24 +38,8 @@ public class DownloadAnalyser implements ILogAnalyser {
     @Value("#{properties['latest.handle.downloadCount.file']}")
     private String downloadHandleFile;
 
-
     @Override
     public void doLogAnalyse() throws Exception {
-
-    }
-
-    @Override
-    public void doPackageInfoDomainsSave() throws Exception {
-
-    }
-
-    @Override
-    public void doReportDomainsSave() throws Exception {
-
-    }
-
-    @Override
-    public void doDownloadCountDomainsSave() throws Exception {
         Logging.logDebug("----- doDownloadCountDomainsSave start -----");
         System.out.println("=====doDownloadCountDomainsSave start========");
         
