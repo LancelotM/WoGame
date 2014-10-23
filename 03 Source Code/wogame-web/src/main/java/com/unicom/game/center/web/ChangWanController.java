@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.unicom.game.center.service.StatisticsLogger;
+import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 
 /**
  * 管理员管理用户的Controller.
@@ -25,9 +27,14 @@ public class ChangWanController {
 
     @RequestMapping(value = "/changWan")
     public String changWan(@RequestParam(value="weixin", required=false) String weixin, Model model, HttpServletRequest request, HttpSession session) {
-    	
-    	String clientIP = getClientIp(request);
-    	String[] logData = new String[]{"65", "", clientIP};
+
+    	String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+        if(null == channel){
+        	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        } 
+        
+    	String clientIP = HttpClientUtil.getClientIp(request);
+    	String[] logData = new String[]{"65", channel, clientIP};
     	statisticsLogger.pageview(StringUtils.join(logData, "|"));
     	
     	if(null != weixin && "1".equals(weixin)){
@@ -52,28 +59,5 @@ public class ChangWanController {
         return "changWan";
     }
 
-    private String getClientIp(HttpServletRequest request) {
-        String ip = request.getHeader("x-real-ip");
 
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("x-forwarded-for");
-            if (ip != null) {
-                ip = ip.split(",")[0].trim();
-            }
-        }
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-
-        return ip;
-    }
 }
