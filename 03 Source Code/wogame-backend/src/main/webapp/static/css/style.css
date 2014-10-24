@@ -539,7 +539,11 @@ a{
     line-height: 22px;
     float: right;
 }
-
+.head_format{
+    padding:0px;
+    text-align:center;
+    width: 100px;
+}
 
 
 

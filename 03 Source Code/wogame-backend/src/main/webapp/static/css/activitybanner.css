@@ -1,0 +1,48 @@
+.file-box{ position:relative;width:480px;margin-top:0px;}
+.txt{ height:24px; border:1px solid #cdcdcd; width:180px;}
+.btn{ height:24px;width: 200px;}
+.file{ position:absolute; top:0px; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
+
+#activity_dialog{
+    height:288px;
+    width:718px;
+    border:1px solid #626262;
+    background-color:#ffffff;
+    position:absolute;
+    left:92px;
+    right:197px;
+    border-radius:2px;
+    z-index: 10000010012;
+}
+#activity_dialog_head{
+    width:698px;
+    height:37px;
+    background-color:#626262;
+    line-height:37px;
+    padding-left:20px;
+    overflow:hidden;
+}
+#activity_dialog_titile{
+    color:#ffffff;
+    font-size:18px;
+}
+#activity_dialog_table{
+    height:200px;
+    width:640px;
+    margin-top: 20px;
+    margin-left: 70px;
+}
+#activity_dialog_table input{
+    padding-left:20px;
+    border:1px solid #e3e3e3;
+    height:24px;
+    width:250px;
+    line-height: 24px;
+    border-radius:5px;
+}
+.activity_right{
+    float:left;
+}
+.activity_left{
+    float:left;
+}

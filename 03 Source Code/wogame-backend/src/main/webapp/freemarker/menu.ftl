@@ -29,11 +29,11 @@
                             </ul>
                             <a href="#" class="margin_top45" onclick="show_hidden('fourth_ul');"><img src="${basePath}/static/images/leftmenu_arrow.png"/>&nbsp;Banner管理</a>
                             <ul id="fourth_ul" class="son_ul" style="display:none">
+                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/floatwindow">顶部漂浮窗</a></li>
                                 <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/topbanner">顶部Banner</a></li>
-                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/activitybanner">活动Banner</a></li>
-                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/floatwindow">漂浮窗</a></li>
-                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/bottombanner">底部Banner</a></li>
                                 <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/activitymodule">活动模块</a></li>
+                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/activitybanner">活动Banner</a></li>
+                                <li onmouseover="addStyle(this)" onmouseout="deleteStyle(this)" class=""><a href="${basePath}/bottombanner">底部广告位</a></li>
                             </ul>
                         </#if>
                         </div>
