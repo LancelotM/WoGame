@@ -1,9 +1,7 @@
 package com.unicom.game.center.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +11,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -38,7 +37,7 @@ public class BannerController {
 	private String imagePath;
 		
 	@Autowired
-	private SFTPHelper sftpHelper;	
+	private SFTPHelper sftpHelper;
 
     @RequestMapping(value = "/topbanner", method = {RequestMethod.GET})
     public ModelAndView topBanner(HttpServletRequest request, HttpSession session) throws IOException {
@@ -49,17 +48,6 @@ public class BannerController {
         Boolean adminFlag = (Boolean)session.getAttribute("admin");
         if(null != session && null != adminFlag && adminFlag.booleanValue()){
             List<BannerInfo> topBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_BANNER);
-           /* List<BannerInfo> topBannerInfos = new ArrayList<BannerInfo>();
-            BannerInfo bannerInfo = new BannerInfo();
-            bannerInfo.setId(1);
-            bannerInfo.setUrl("http://www.baidu.com");
-            bannerInfo.setTitle("");
-            bannerInfo.setAdType(Constant.HOMEPAGE_TOP_BANNER);
-            bannerInfo.setDescription("吐血推荐！不好玩你打我，别打死我就行，哈哈，来打我啊");
-            bannerInfo.setPosition(1);
-            bannerInfo.setStatus(true);
-            bannerInfo.setImageName("D:\\wogame\\trunk\\03 Source Code\\wogame-backend\\src\\main\\webapp\\static\\images\\large.png");
-            topBannerInfos.add(bannerInfo);*/
             if(null != topBannerInfos){
                 model.put("topBannerInfos", topBannerInfos);
             }
@@ -74,53 +62,34 @@ public class BannerController {
     	DiskFileItemFactory factory = new DiskFileItemFactory();
     	ServletFileUpload upload = new ServletFileUpload(factory);
     	InputStream uploadedStream = null;
+        ModelMap modelMap = new ModelMap();
+        Map<String,String> bannerMap = new HashMap<String,String>();
 
     	// Parse the request
-    	List<?> items = null;
-		try {
-			items = upload.parseRequest(request);
-		} catch (FileUploadException e1) {
-			e1.printStackTrace();
-		}
+        uploadedStream = dataStream(request, bannerMap, upload);
 
-    	Iterator iter = items.iterator();
-    	while (iter.hasNext()) {
-    	    FileItem item = (FileItem) iter.next();
-
-    	    if (item.isFormField()) {
-    	        String name = item.getFieldName();
-    			String value = item.getString();
-   			
-    			System.out.println("===========================" + name + ":" + value + "===============================");
-    	    } else {
-			    String fileName = item.getName();
-			    System.out.println("===========================" + fileName  + "===============================");
-			    
-				try {
-					uploadedStream = item.getInputStream();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}			
-    	    }
-    	}
-
-    	ModelMap modelMap = new ModelMap();
         BannerInfo bannerInfo = new BannerInfo();
+        Iterator iterator = bannerMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = (String)entry.getKey();
+            String val = (String)entry.getValue();
+            if(key.equals("url")){
+                bannerInfo.setUrl(val);
+            }else if(key.equals("imageName")){
+                bannerInfo.setImageName(val);
+            }else if(key.equals("id")){
+                bannerInfo.setId(Integer.parseInt(val));
+            }
+        }
+        bannerInfo.setStatus(true);
         bannerInfo.setAdType(Constant.HOMEPAGE_TOP_BANNER);
-        bannerInfo.setUrl("");
+        bannerInfo.setPosition(0);
         boolean flag = true;
-        long timestamp = System.currentTimeMillis();
-		try {
-			flag = sftpHelper.uploadFile(uploadedStream, (imagePath + String.valueOf(timestamp)));				
-		} catch (Exception e) {
-			e.printStackTrace();
-			flag = false;
-		}
-		
-		if(flag){
-			flag = bannerBusiness.createBanner(bannerInfo, String.valueOf(timestamp));
-		}
-        modelMap.put("createFlag",flag);
+
+        uploadImage(bannerInfo,modelMap,uploadedStream);
+
+        bannerMap.clear();
         List<BannerInfo> topBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_BANNER);
         if(null != topBannerInfos){
             modelMap.put("topBannerInfos", topBannerInfos);
@@ -131,37 +100,6 @@ public class BannerController {
     @RequestMapping(value = "/topbannerinfo", method = {RequestMethod.GET})
     public @ResponseBody BannerInfo fetchTopBannerInfoById(@RequestParam(value = "id", required = true) int id,HttpServletResponse response){
         return bannerBusiness.fetchBannerInfoById(id);
-    }
-
-    @RequestMapping(value = "/updatetopbanner", method = {RequestMethod.POST})
-    public ModelAndView updateTopBanner(@RequestParam(value = "id", required = true) int id,
-                                    @RequestParam(value = "imageName", required = true) String imageName,
-                                   @RequestParam(value = "url", required = true) String url){
-        ModelMap modelMap = new ModelMap();
-        BannerInfo bannerInfo = new BannerInfo();
-        bannerInfo.setId(id);
-        bannerInfo.setAdType(Constant.HOMEPAGE_TOP_BANNER);
-        bannerInfo.setImageName(imageName);
-        bannerInfo.setUrl(url);
-        boolean flag = bannerBusiness.modifyBanner(bannerInfo);
-        modelMap.put("updateFlag",flag);
-        List<BannerInfo> topBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_BANNER);
-        if(null != topBannerInfos){
-            modelMap.put("topBannerInfos", topBannerInfos);
-        }
-        return new ModelAndView("/topbanner", modelMap);
-    }
-
-    @RequestMapping(value = "/deltopbanner", method = {RequestMethod.GET})
-    public ModelAndView delTopBanner(@RequestParam(value = "id", required = true) int id,HttpServletResponse response){
-        ModelMap modelMap = new ModelMap();
-        boolean flag = bannerBusiness.deleteBanner(id);
-        modelMap.put("deleteFlag",flag);
-        List<BannerInfo> topBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_BANNER);
-        if(null != topBannerInfos){
-            modelMap.put("topBannerInfos", topBannerInfos);
-        }
-        return new ModelAndView("/topbanner", modelMap);
     }
 
     @RequestMapping(value = "/activitybanner", method = {RequestMethod.GET})
@@ -182,6 +120,66 @@ public class BannerController {
         }
     }
 
+    @RequestMapping(value = "/createbanner", method = {RequestMethod.POST})
+    public ModelAndView createBanner(HttpServletRequest request){
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        InputStream uploadedStream = null;
+        ModelMap modelMap = new ModelMap();
+        Map<String,String> bannerMap = new HashMap<String,String>();
+
+        // Parse the request
+        uploadedStream = dataStream(request, bannerMap, upload);
+
+        BannerInfo bannerInfo = new BannerInfo();
+        Iterator iterator = bannerMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = (String)entry.getKey();
+            String val = (String)entry.getValue();
+            if(key.equals("titleCode")){
+                bannerInfo.setTitle(val);
+            }else if(key.equals("imageName")){
+                bannerInfo.setImageName(val);
+            }else if(key.equals("categoryCode")){
+                if(val.equals("bigCategory")){
+                    bannerInfo.setPosition(1);
+                }else if(val.equals("smallCategory")){
+                    bannerInfo.setPosition(2);
+                }
+            }
+            else if(key.equals("url")){
+                bannerInfo.setUrl(val);
+            }else if(key.equals("id")){
+                bannerInfo.setId(Integer.parseInt(val));
+            }
+        }
+        bannerInfo.setStatus(true);
+        bannerInfo.setAdType(Constant.HOMEPAGE_ACTIVITY_BANNER);
+
+        //To upload pictures
+        uploadImage(bannerInfo,modelMap,uploadedStream);
+
+        bannerMap.clear();
+        List<BannerInfo> activityBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_ACTIVITY_BANNER);
+        if(null != activityBannerInfos){
+            modelMap.put("activityBannerInfos", activityBannerInfos);
+        }
+        return new ModelAndView("/activitybanner", modelMap);
+    }
+
+    @RequestMapping(value = "/delbanner", method = {RequestMethod.GET})
+    public ModelAndView delBanner(@RequestParam(value = "id", required = true) int id, @RequestParam(value = "type", required = true) int type,HttpServletResponse response){
+        ModelMap modelMap = new ModelMap();
+        boolean flag = bannerBusiness.deleteBanner(id);
+        modelMap.put("deleteFlag",flag);
+        List<BannerInfo> BannerInfos = bannerBusiness.fetchBannerInfos(type);
+        if(null != BannerInfos){
+            modelMap.put("topBannerInfos", BannerInfos);
+        }
+        return new ModelAndView("/topbanner", modelMap);
+    }
+
     @RequestMapping(value = "/floatwindow", method = {RequestMethod.GET})
     public ModelAndView floatWindow(HttpServletRequest request, HttpSession session) {
         ModelMap model = new ModelMap();
@@ -190,10 +188,61 @@ public class BannerController {
         }
         Boolean adminFlag = (Boolean)session.getAttribute("admin");
         if(null != session && null != adminFlag && adminFlag.booleanValue()){
+            List<BannerInfo> floatWindowInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_AD);
+            if(null != floatWindowInfos){
+                model.put("floatWindowInfos",floatWindowInfos);
+            }
             return new ModelAndView("/floatwindow", model);
         }else{
             return new ModelAndView("/index", model);
         }
+    }
+
+    @RequestMapping(value = "/addfloatwindow", method = {RequestMethod.POST})
+    public ModelAndView addFloatWindow(HttpServletRequest request){
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        InputStream uploadedStream = null;
+        ModelMap modelMap = new ModelMap();
+        Map<String,String> floatMap = new HashMap<String,String>();
+
+        // Parse the request
+        uploadedStream = dataStream(request, floatMap, upload);
+
+        BannerInfo bannerInfo = new BannerInfo();
+        Iterator iterator = floatMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = entry.getKey().toString();
+            String val = entry.getValue().toString();
+            if(key.equals("urlCode")){
+                bannerInfo.setUrl(val);
+            }else if(key.equals("imageName")){
+                bannerInfo.setImageName(val);
+            }else if(key.equals("contentCode")){
+                bannerInfo.setDescription(val);
+            }else if(key.equals("radio")){
+                if(val.equals("show")){
+                    bannerInfo.setStatus(true);
+                }else{
+                    bannerInfo.setStatus(false);
+                }
+            }else if(key.equals("id")){
+                bannerInfo.setId(Integer.parseInt(val));
+            }
+        }
+        bannerInfo.setPosition(0);
+        bannerInfo.setAdType(Constant.HOMEPAGE_TOP_AD);
+
+        //To upload pictures
+        uploadImage(bannerInfo,modelMap,uploadedStream);
+
+        floatMap.clear();
+        List<BannerInfo> floatWindowInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_AD);
+        if(null != floatWindowInfos){
+            modelMap.put("floatWindowInfos", floatWindowInfos);
+        }
+        return new ModelAndView("/floatwindow", modelMap);
     }
 
 
@@ -215,6 +264,49 @@ public class BannerController {
         }
     }
 
+    @RequestMapping(value = "/addbottombanner", method = {RequestMethod.POST})
+    public ModelAndView addBottomBanner(HttpServletRequest request){
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        InputStream uploadedStream = null;
+        ModelMap modelMap = new ModelMap();
+        Map<String,String> bannerMap = new HashMap<String,String>();
+
+        // Parse the request
+        uploadedStream = dataStream(request, bannerMap, upload);
+
+        BannerInfo bannerInfo = new BannerInfo();
+        Iterator iterator = bannerMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = (String)entry.getKey();
+            String val = (String)entry.getValue();
+            if(key.equals("urlCode")){
+                bannerInfo.setUrl(val);
+            }else if(key.equals("imageName")){
+                bannerInfo.setImageName(val);
+            }else if(key.equals("contentCode")){
+                bannerInfo.setDescription(val);
+            }else if(key.equals("id")){
+                bannerInfo.setId(Integer.parseInt(val));
+            }
+        }
+        bannerInfo.setStatus(true);
+        bannerInfo.setPosition(0);
+        bannerInfo.setAdType(Constant.HOMEPAGE_FOOTER_AD);
+
+        //To upload pictures
+        uploadImage(bannerInfo,modelMap,uploadedStream);
+
+        bannerMap.clear();
+        List<BannerInfo> bottomBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_FOOTER_AD);
+        if(null != bottomBannerInfos){
+            modelMap.put("bottomBannerInfos", bottomBannerInfos);
+        }
+        return new ModelAndView("/bottombanner", modelMap);
+    }
+
+
     @RequestMapping(value = "/activitymodule", method = {RequestMethod.GET})
     public ModelAndView activityModule(HttpServletRequest request, HttpSession session) {
         ModelMap model = new ModelMap();
@@ -230,6 +322,156 @@ public class BannerController {
             return new ModelAndView("/activitymodule", model);
         }else{
             return new ModelAndView("/index", model);
+        }
+    }
+
+    @RequestMapping(value = "/addactivitymodule", method = {RequestMethod.POST})
+    public ModelAndView addActivityModule(HttpServletRequest request){
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        InputStream uploadedStream = null;
+        ModelMap modelMap = new ModelMap();
+        Map<String,String> bannerMap = new HashMap<String,String>();
+
+        // Parse the request
+        uploadedStream = dataStream(request, bannerMap, upload);
+
+        BannerInfo bannerInfo = new BannerInfo();
+        Iterator iterator = bannerMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            String key = (String)entry.getKey();
+            String val = (String)entry.getValue();
+            if(key.equals("titleCode")){
+                bannerInfo.setTitle(val);
+            }else if(key.equals("imageName")){
+                bannerInfo.setImageName(val);
+            }else if(key.equals("introduceCode")){
+                bannerInfo.setDescription(val);
+            }else if(key.equals("urlCode")){
+                bannerInfo.setUrl(val);
+            }else if(key.equals("id")){
+                bannerInfo.setId(Integer.parseInt(val));
+            }
+        }
+        bannerInfo.setStatus(true);
+        bannerInfo.setPosition(0);
+        bannerInfo.setAdType(Constant.HOMEPAGE_ACTIVITY_MODULE);
+
+        //To upload pictures
+        uploadImage(bannerInfo,modelMap,uploadedStream);
+
+        bannerMap.clear();
+        List<BannerInfo> activityModuleInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_ACTIVITY_MODULE);
+        if(null != activityModuleInfos){
+            modelMap.put("activityModuleInfos", activityModuleInfos);
+        }
+        return new ModelAndView("/activitymodule", modelMap);
+    }
+
+    @RequestMapping(value = "/sortbanner", method = {RequestMethod.GET})
+    public ModelAndView sortBanner(@RequestParam(value = "numString", required = true) String numString, @RequestParam(value = "sortString", required = true) String sortString,HttpServletResponse response){
+        ModelMap modelMap = new ModelMap();
+        boolean flag = true;
+        long timestamp = System.currentTimeMillis();
+        String[] idArr = numString.split(",");
+        String[] sortArr = sortString.split(",");
+        HashMap<Integer,Integer> sortMap = new HashMap<Integer, Integer>();
+        for(int i= 0;i<idArr.length;i++){
+            sortMap.put(Integer.parseInt(idArr[i]),Integer.parseInt(sortArr[i]));
+        }
+        //sort
+        Iterator iterator = sortMap.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            int id = Integer.parseInt(entry.getKey().toString());
+            int position = Integer.parseInt(entry.getValue().toString());
+            BannerInfo bannerInfo = bannerBusiness.fetchBannerInfoById(id);
+            bannerInfo.setPosition(position);
+            bannerBusiness.modifyBanner(bannerInfo, String.valueOf(timestamp));
+        }
+        List<BannerInfo> BannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_BANNER);
+        if(null != BannerInfos){
+            modelMap.put("topBannerInfos", BannerInfos);
+        }
+        return new ModelAndView("/topbanner", modelMap);
+    }
+
+    private InputStream dataStream(HttpServletRequest request,Map<String,String> bannerMap,ServletFileUpload upload){
+        InputStream uploadedStream = null;
+        List<?> items = null;
+        try {
+            items = upload.parseRequest(request);
+        } catch (FileUploadException e1) {
+            e1.printStackTrace();
+        }
+
+        Iterator iter = items.iterator();
+        while (iter.hasNext()) {
+            FileItem item = (FileItem) iter.next();
+
+            if (item.isFormField()) {
+                String name = item.getFieldName();
+                String value = null;
+                try {
+                    value = item.getString("utf-8");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                bannerMap.put(name,value);
+                System.out.println("===========================" + name + ":" + value + "===============================");
+            } else {
+                String fileName = item.getName();
+                bannerMap.put("imageName",fileName);
+                System.out.println("===========================" + fileName  + "===============================");
+
+                try {
+                    uploadedStream = item.getInputStream();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return uploadedStream;
+    }
+
+    private void uploadImage( BannerInfo bannerInfo, ModelMap modelMap, InputStream uploadedStream){
+        if(bannerInfo.getId() == null){
+            long timestamp = System.currentTimeMillis();
+            boolean flag = true;
+            try {
+                flag = sftpHelper.uploadFile(uploadedStream, (imagePath + String.valueOf(timestamp)));
+            } catch (Exception e) {
+                e.printStackTrace();
+                flag = false;
+            }
+
+            if(flag){
+                flag = bannerBusiness.createBanner(bannerInfo, String.valueOf(timestamp));
+            }
+            modelMap.put("createFlag",flag);
+        }else{
+            long timestamp = System.currentTimeMillis();
+            boolean flag = false;
+            try {
+                if(bannerInfo.getImageName().startsWith("http://")){
+                    bannerInfo.setImageName(bannerInfo.getImageName());
+                }else{
+                    flag = sftpHelper.uploadFile(uploadedStream, (imagePath + String.valueOf(timestamp)));
+                    if(flag){
+                        bannerInfo.setImageName("http://channel.wostore.cn:8080/images/" + String.valueOf(timestamp));
+                    }else{
+                        flag = false;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                flag = false;
+            }
+            if(flag){
+                flag = bannerBusiness.modifyBanner(bannerInfo, String.valueOf(timestamp));
+            }
+            modelMap.put("updateFlag",flag);
         }
     }
 }
