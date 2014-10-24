@@ -22,7 +22,7 @@ public class StatisticsDomain implements Serializable {
 	
 	private Integer id;
 	
-	private int channelId;
+	private Integer channelId;
 	
 	private int homepagePV;
 	
@@ -46,11 +46,11 @@ public class StatisticsDomain implements Serializable {
 	}
 
 	@Column(name="channel_id")
-	public int getChannelId() {
+	public Integer getChannelId() {
 		return channelId;
 	}
 
-	public void setChannelId(int channelId) {
+	public void setChannelId(Integer channelId) {
 		this.channelId = channelId;
 	}
 

@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import com.unicom.game.center.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,15 +22,20 @@ import com.unicom.game.center.business.KeywordBusiness;
 import com.unicom.game.center.business.LoginInfoBusiness;
 import com.unicom.game.center.business.PageTrafficBusiness;
 import com.unicom.game.center.business.ProductBusiness;
+import com.unicom.game.center.business.StatisticsBusiness;
 import com.unicom.game.center.db.domain.KeywordDomain;
+import com.unicom.game.center.db.domain.StatisticsDomain;
 import com.unicom.game.center.log.model.GameTraffic;
 import com.unicom.game.center.log.model.PageTraffic;
 import com.unicom.game.center.log.model.Product;
+import com.unicom.game.center.log.model.StatisticsModel;
 import com.unicom.game.center.log.model.UserCount;
 import com.unicom.game.center.loganalyser.ILogAnalyser;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.FileUtils;
 import com.unicom.game.center.utils.Logging;
+import com.unicom.game.center.utils.Utility;
 
 @Component
 public class LogAnalyser implements ILogAnalyser {
@@ -44,27 +49,14 @@ public class LogAnalyser implements ILogAnalyser {
     private KeywordBusiness keywordBusiness;
     @Autowired
     private ProductBusiness productBusiness;
+    @Autowired
+    private StatisticsBusiness statisticsBusiness;
 
     @Value("#{properties['log.file.path']}")
     private String logFilePath;
 
     @Value("#{properties['log.bak.path']}")
-    private String logBakPath;
-
-    @Override
-    public void doDownloadCountDomainsSave() throws Exception{
-
-    }
-
-    @Override
-    public void doReportDomainsSave() throws Exception{
-
-    }
-    
-    @Override
-    public void doPackageInfoDomainsSave() throws Exception {
-    	
-    }       
+    private String logBakPath;       
     
     @Override
     public void doLogAnalyse(){
@@ -81,6 +73,8 @@ public class LogAnalyser implements ILogAnalyser {
                 	if(null != fileDate){
                     	if(fileName.contains("number")){
                             doNumberLogAnalyse(fileName, fileDate);                		
+                    	}else if(fileName.contains("pageview")){
+                    		doPageViewLogAnalyse(fileName, fileDate);
                     	}else{
                             doInfoLogAnalyse(fileName, fileDate);                		
                     	}                 		
@@ -117,6 +111,36 @@ public class LogAnalyser implements ILogAnalyser {
         return date;
     }
 
+    /**
+     * parse number log file(wogamecenter_pageview.2014-07-26.log)
+     * @param fileName
+     * @param fileDate
+     */
+    private void doPageViewLogAnalyse(String fileName, String fileDate){    	
+        File file = null;
+     
+        try {
+        	System.out.println("file name is : " + fileName);
+        	file = new File(logFilePath+"/"+fileName);
+        	
+        	Date date = DateUtils.stringToDate(fileDate, "yyyy-MM-dd");
+            
+            woGamePageViewParse(file, date);
+
+            File bakPath = new File(logBakPath);
+            if(!bakPath.exists()){
+                bakPath.mkdirs();
+            }
+            
+          org.apache.commons.io.FileUtils.copyFileToDirectory(file, bakPath);
+          file.getAbsoluteFile().delete();            	
+
+        } catch (Exception e) {
+            Logging.logError("Error occurs in doPageViewLogAnalyse. ", e);
+            e.printStackTrace();
+        }    	
+    }
+    
     
     /**
      * parse number log file(wogamecenter_info_number.2014-07-26.log)
@@ -490,4 +514,102 @@ public class LogAnalyser implements ILogAnalyser {
         	Logging.logError("Error occurs in parse product_id to Int ", e);
         }        
     }
+
+    
+    private void woGamePageViewParse(File file, Date date){
+    	BufferedReader reader = null;
+    	String content = null;
+    	Map<String, StatisticsModel> statisticsMap = new HashMap<String, StatisticsModel>();
+
+    	try{
+    		reader = new BufferedReader(new UnicodeReader(new FileInputStream(file), "UTF-8"));
+    		
+            while ((content = reader.readLine()) != null){
+            	 String[] contentArr = Utility.splitString(content, Constant.RESPONSE_FIEL_SEPARATOR);
+            	 if(null != contentArr && contentArr.length == 3){
+            		 if(Utility.isEmpty(contentArr[1])){
+            			 contentArr[1] = "0";
+            		 }
+            		 
+            		 if(statisticsMap.containsKey(contentArr[1])){
+            			 StatisticsModel model = statisticsMap.get(contentArr[1]);
+            			 if("60".equals(contentArr[0])){
+            				 model.setHomepagePV(model.getHomepagePV() + 1);
+            				 HashSet<String> homepageUV = model.getHomepageUV();
+            				 homepageUV.add(contentArr[2]);
+            				 model.setHomepageUV(homepageUV);
+            			 }else if("65".equals(contentArr[0])){
+            				 model.setChangwanPV(model.getChangwanPV() + 1);
+            				 HashSet<String> changwanUV = model.getChangwanUV();
+            				 changwanUV.add(contentArr[2]);
+            				 model.setChangwanUV(changwanUV);            				 
+            			 }
+            		 }else{
+            			 StatisticsModel model = new StatisticsModel();
+            			 model.setChannelId(Integer.parseInt(contentArr[1]));
+            			 if("60".equals(contentArr[0])){
+            				 model.setHomepagePV(1);
+            				 model.setChangwanPV(0);
+            				 HashSet<String> homepageUV = new HashSet<String>();
+            				 homepageUV.add(contentArr[2]);
+            				 model.setHomepageUV(homepageUV); 
+            				 
+            				 HashSet<String> changwanUV = new HashSet<String>();
+            				 model.setChangwanUV(changwanUV);            				 
+            			 }else if("65".equals(contentArr[0])){
+            				 model.setHomepagePV(0);
+            				 model.setChangwanPV(1);
+            				 HashSet<String> changwanUV = new HashSet<String>();
+            				 changwanUV.add(contentArr[2]);
+            				 model.setChangwanUV(changwanUV);
+            				 
+            				 HashSet<String> homepageUV = new HashSet<String>();
+            				 model.setHomepageUV(homepageUV);             				 
+            			 }            			 
+            			 statisticsMap.put(contentArr[1], model);
+            		 }
+            	 }                
+            }
+            
+            if(null != statisticsMap && !statisticsMap.isEmpty()){
+            	List<StatisticsDomain> statisticsDomains = new ArrayList<StatisticsDomain>();
+            	for(Map.Entry<String, StatisticsModel> entry : statisticsMap.entrySet()){
+            		StatisticsModel model = entry.getValue();
+            		StatisticsDomain domain = new StatisticsDomain();
+            		domain.setDateCreated(date);
+            		if(0 != model.getChannelId()){
+            			domain.setChannelId(model.getChannelId());
+            		}else{
+            			domain.setChannelId(null);
+            		}
+            		
+            		domain.setHomepagePV(model.getHomepagePV());
+            		domain.setHomepageUV((null != model.getHomepageUV()) ? model.getHomepageUV().size() : 0);
+            		domain.setChangwanPV(model.getChangwanPV());
+            		domain.setChangwanUV((null != model.getChangwanUV()) ? model.getChangwanUV().size() : 0);
+            		
+            		statisticsDomains.add(domain);
+            	}
+            	
+            	statisticsBusiness.saveStatisticsList(statisticsDomains, Constant.HIBERNATE_FLUSH_NUM);
+            }
+    	}catch(Exception e){
+    		Logging.logError("Error occurs in woGamePageViewParse ", e);
+    		e.printStackTrace();
+        }finally{
+        	if(null != reader){
+        		try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+        	}
+        	
+        	if(null != statisticsMap){
+        		statisticsMap.clear();
+        	}
+        }
+
+    }           
+    
 }

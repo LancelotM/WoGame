@@ -50,23 +50,7 @@ public class ReportAnalyser implements ILogAnalyser {
     private String packagesHandleFile;    
 
     @Override
-    public void doLogAnalyse() throws Exception {
-
-    }
-
-    @Override
-    public void doPackageInfoDomainsSave() throws Exception {
- 
-    }
-
-    @Override
-    public void doDownloadCountDomainsSave() throws Exception{
-    	
-    }
-
-
-    @Override
-    public void doReportDomainsSave() throws Exception{
+    public void doLogAnalyse() throws Exception{
     	
         Logging.logDebug("----- doReportDomainsSave start -----");
         try{

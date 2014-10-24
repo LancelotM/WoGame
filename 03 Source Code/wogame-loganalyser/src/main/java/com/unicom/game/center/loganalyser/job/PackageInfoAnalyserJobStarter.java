@@ -20,6 +20,6 @@ public class PackageInfoAnalyserJobStarter {
            ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
 
            PackageInfoAnalyser logAnalyser = (PackageInfoAnalyser) ctx.getBean("packageInfoAnalyser");
-           logAnalyser.doPackageInfoDomainsSave();
+           logAnalyser.doLogAnalyse();
    	}
 }

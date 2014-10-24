@@ -19,6 +19,6 @@ public class DownloadAnalyserJobStarter {
         ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
 
         DownloadAnalyser downloadAnalyser = (DownloadAnalyser) ctx.getBean("downloadAnalyser");
-        downloadAnalyser.doDownloadCountDomainsSave();
+        downloadAnalyser.doLogAnalyse();
     }
 }

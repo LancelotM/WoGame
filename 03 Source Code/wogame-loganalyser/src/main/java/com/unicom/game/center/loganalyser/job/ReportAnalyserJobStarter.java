@@ -18,7 +18,7 @@ public class ReportAnalyserJobStarter {
         ApplicationContext ctx = new ClassPathXmlApplicationContext(configLocations);
 
         ReportAnalyser reportAnalyser = (ReportAnalyser) ctx.getBean("reportAnalyser");
-        reportAnalyser.doReportDomainsSave();
+        reportAnalyser.doLogAnalyse();
     }
 
 }

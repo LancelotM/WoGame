@@ -4,9 +4,13 @@ import com.unicom.game.center.business.BannerBusiness;
 import com.unicom.game.center.model.BannerInfo;
 import com.unicom.game.center.model.BannerInfoList;
 import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.utils.AESEncryptionHelper;
 import com.unicom.game.center.vo.*;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -31,12 +36,17 @@ public class IndexController {
 
     @Autowired
     private GameService gameService;
-
+    
     @Autowired
     private BannerBusiness bannerBusiness;
 
-    @Value("#{properties['site.secret.key']}")
-    private String siteKey;
+	@Value("#{properties['site.secret.key']}")
+	private String siteKey;    
+	
+	private Logger logger = LoggerFactory.getLogger(IndexController.class);
+	
+    @Autowired
+    private StatisticsLogger statisticsLogger;
 
     private Logger logger = LoggerFactory.getLogger(IndexController.class);
 
@@ -50,19 +60,23 @@ public class IndexController {
 
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String list(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, @RequestParam(value = "token", required = false) String token, Model model, HttpSession session) {
+    public String list(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, @RequestParam(value = "token", required = false) String token, Model model, HttpServletRequest request, HttpSession session) {
 
-        String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
-        try {
-            if (null != token && !"".equals(token)) {
-                channel = AESEncryptionHelper.decrypt(token, siteKey);
-            }
-        } catch (Exception e) {
-            channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
-            e.printStackTrace();
-            logger.error("Error channel token!");
-        }
-
+    	String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+    	try {
+    		if(null != token && !"".equals(token)){
+    			channel = AESEncryptionHelper.decrypt(token, siteKey);
+    		}    		
+		} catch (Exception e) {
+			channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+			e.printStackTrace();
+			logger.error("Error channel token!");
+		}
+    	
+    	String clientIP = HttpClientUtil.getClientIp(request);
+    	String[] logData = new String[]{"60", channel, clientIP};
+    	statisticsLogger.pageview(StringUtils.join(logData, "|"));    	
+    	
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
 
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
