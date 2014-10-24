@@ -16,6 +16,8 @@
     <title>活动列表</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
@@ -29,25 +31,32 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">活动列表1</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+
+    <a   href="${ctx}/index.do">
+        <div class="fanhui absolute pic"></div>
+
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
+    </a>
+
+
+    <div class="title">资讯列表</div>
+
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
-<div style="height: 44px;"></div>
 
+<div style="height: 50px;"></div>
 
 <div class="w_paihangtitle" style="position: fixed; width: 100%;z-index: 1001;">
     <!--选中状态-->
     <div class="w_new_011"><a href="${ctx}/activity/list.do">活动</a></div>
-    <div class="w_new_02"><a href="${ctx}/activity/news.do">资讯</a>
+    <div class="w_new_02"><a href="${ctx}/gameInfo/list.do">资讯</a>
     </div>
 </div>
-<div style="height: 50px;"></div>
+
 
 
 <!--列表-->
-<div id="wrapper">
+<div id="wrapper" style="top: 95px;">
     <div id="scroller">
         <div id="pullDown">
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
@@ -55,6 +64,8 @@
         <div id="list">
 
         </div>
+        <jsp:include page="../footer.jsp"/>
+
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
@@ -111,8 +122,8 @@
 
                     stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
 
-                    stringBuffer.push('<dd>' + entry.intro + '</dd>');
-                    stringBuffer.push('<dd>' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy-MM-dd") + '-' + getFormatDateByLong(entry.end_time, "yyyy-MM-dd") + '</dd>');
+                    stringBuffer.push('<dd  >' +su(entry.intro,35,0,35) + '</dd>');
+                    stringBuffer.push('<dd>' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
 
 
                     stringBuffer.push('</a>');
@@ -129,13 +140,11 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+//                $('#pullDown, #pullUp').hide();
 
             }
             if (callback) {
                 callback();
-            } else {
-                myScroll.refresh();
             }
 
 
@@ -179,6 +188,5 @@
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);
 </script>
-<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

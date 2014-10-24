@@ -27,7 +27,7 @@ public class ActivityController {
 
     @RequestMapping(value = "/ajaxList", method = RequestMethod.GET)
     @ResponseBody
-    public ActivityInfoVo activityInfoList(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+    public ActivityInfoVo activityInfoList(@RequestParam(value = "pageNum", required = false,defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
         if (null != pageSize && pageSize > 0) {

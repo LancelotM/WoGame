@@ -29,9 +29,32 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">活动列表</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+
+
+    <a   href="${ctx}/netgame/info.do">
+        <div class="fanhui absolute pic"></div>
+
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">
+          <c:choose>
+                            <c:when test="${fn:length(ac.title) > 4}">
+                                <c:out value="${fn:substring(ac.title, 0, 4)}..."/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${ac.title}"/>
+                            </c:otherwise>
+                        </c:choose>
+
+
+
+      </div>
+    </a>
+
+
+
+
+
+
+    <div class="title">活动详情</div>
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
@@ -53,8 +76,9 @@
 <div class="hd_l_count"><a href="#">
     <div class="hd_youxi_img"><img src="${ac.game.iconUrl}" height="70"/></div>
     <dl class="hd_youxi">
-        <dt>${ac.game.gameName}</dt>
-        <dd>${ac.game.apkSize} MB</dd>
+    <dt>${ac.game.gameName}</dt>
+    <dd><fmt:formatNumber value="${ac.game.apkSize/1024}" minFractionDigits="2"/> MB</dd>
+
     </dl>
     <div class="hd_xiazai radius">下载</div>
 </a>
@@ -63,7 +87,7 @@
 <div class="hd_l_count2">
     ${ac.content}
 </div>
+<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>
-</body>
-</html>
+

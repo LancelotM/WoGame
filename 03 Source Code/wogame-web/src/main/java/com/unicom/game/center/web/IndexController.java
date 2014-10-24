@@ -1,6 +1,7 @@
 package com.unicom.game.center.web;
 
 import com.unicom.game.center.business.BannerBusiness;
+import com.unicom.game.center.model.BannerInfo;
 import com.unicom.game.center.model.BannerInfoList;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
@@ -30,18 +31,18 @@ public class IndexController {
 
     @Autowired
     private GameService gameService;
-    
+
     @Autowired
     private BannerBusiness bannerBusiness;
 
-	@Value("#{properties['site.secret.key']}")
-	private String siteKey;    
-	
-	private Logger logger = LoggerFactory.getLogger(IndexController.class);
+    @Value("#{properties['site.secret.key']}")
+    private String siteKey;
 
-    @RequestMapping(value = "/banner", method = RequestMethod.GET)
-     @ResponseBody
-     public List<RollingAdVo> rollingAdList(Model model) {
+    private Logger logger = LoggerFactory.getLogger(IndexController.class);
+
+    @RequestMapping(value = "/indexlist/banner", method = RequestMethod.GET)
+    @ResponseBody
+    public List<RollingAdVo> rollingAdList(Model model) {
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
 
         return rollingAdListVo.getData();
@@ -51,32 +52,52 @@ public class IndexController {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String list(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, @RequestParam(value = "token", required = false) String token, Model model, HttpSession session) {
 
-    	String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
-    	try {
-    		if(null != token && !"".equals(token)){
-    			channel = AESEncryptionHelper.decrypt(token, siteKey);
-    		}    		
-		} catch (Exception e) {
-			channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
-			e.printStackTrace();
-			logger.error("Error channel token!");
-		}
-    	
+        String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        try {
+            if (null != token && !"".equals(token)) {
+                channel = AESEncryptionHelper.decrypt(token, siteKey);
+            }
+        } catch (Exception e) {
+            channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+            e.printStackTrace();
+            logger.error("Error channel token!");
+        }
+
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
 
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
-        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum,Constants.PAGE_SIZE_DEFAULT);
+        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum, Constants.PAGE_SIZE_DEFAULT);
 
         model.addAttribute("isIndex", true);
-        model.addAttribute("adList", rollingAdListVo.getData());
+        List<RollingAdVo> list = rollingAdListVo.getData();
+
+        BannerInfoList banner = bannerBusiness.fetchAllBanner();
+        List<BannerInfo> topBanner = banner.getTopBanner();
+        for (BannerInfo b : topBanner) {
+            if (b.getAdType() == 2) {
+
+                RollingAdVo r = new RollingAdVo();
+                r.setTitle(b.getTitle());
+                Banner banner1 = new Banner();
+                banner1.setBannerUrl(b.getUrl());
+                banner1.setResType(b.getAdType());
+                r.setBanner(banner1);
+
+                list.add(r);
+
+
+            }
+
+        }
+
+        model.addAttribute("adList", list);
         model.addAttribute("recommendedList", recommendedListVo.getRecommendedListData());
 
 
         //最热
-        WeekHotVo weekHotVo = gameService.readWeekHotList(1, 8);
+        RecommendDataListVo hot = gameService.readRecommendedList(1, 8).getRecommendedListData();
 
-        List<WeekHotItemListVo> hot = weekHotVo.getData().getWeekHotItemList();
-        model.addAttribute("hot", hot);
+        model.addAttribute("hot", hot.getRecommendData());
         //最新
         NewListVo newListVo = gameService.readNewList(1, 5);
         List<NewItemListVo> newest = newListVo.getDataList().getNewItemListVo();
@@ -95,10 +116,18 @@ public class IndexController {
 
         //开服信息
 
-        NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 6);
+        NetGameServerVo netGame = gameService.netGameLatestServerList();
 
-        List<NetGameServerItemVo> netGame = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList();
+//        NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 6);
+//
+//        NetGameServerVo netGame = netGameServerListVo.getNetGameServerVo();
+
         model.addAttribute("netGame", netGame);
+
+        //公告
+
+
+        model.addAttribute("b", banner);
 
         return "index";
     }
@@ -107,19 +136,25 @@ public class IndexController {
     public String main(@RequestParam("pageNum") int pageNum, Model model, HttpSession session) {
 
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
-        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum,Constants.PAGE_SIZE_DEFAULT);
+        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum, Constants.PAGE_SIZE_DEFAULT);
 
         model.addAttribute("adList", rollingAdListVo.getData());
         model.addAttribute("recommendedList", recommendedListVo.getRecommendedListData());
         return "index";
     }
 
-    
-    @RequestMapping(value = "/ad", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/indexlist/ad", method = RequestMethod.GET)
     @ResponseBody
     public BannerInfoList fetchAllBannerList(Model model) {
-    	BannerInfoList banner = bannerBusiness.fetchAllBanner();
+        BannerInfoList banner = bannerBusiness.fetchAllBanner();
 
-    	return banner;
-   }    
+        return banner;
+    }
+
+
+    @RequestMapping(value = "/member", method = RequestMethod.GET)
+    public String member() {
+        return "member";
+    }
 }

@@ -31,7 +31,7 @@ public class NetGameController {
 
     @RequestMapping(value = "/ajaxserver", method = RequestMethod.GET)
     @ResponseBody
-    public NetGameServerVo netGameServerList(@RequestParam("pageNum") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+    public NetGameServerVo netGameServerList(@RequestParam(value = "pageNum",required = false,defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
         if (null != pageSize && pageSize > 0) {
@@ -45,7 +45,7 @@ public class NetGameController {
 
     @RequestMapping(value = "/infolist", method = RequestMethod.GET)
     @ResponseBody
-    public NetGameInfoVo netGameInfoList(@RequestParam("pageNum") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+    public NetGameInfoVo netGameInfoList(@RequestParam(value = "pageNum",required = false,defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
 
         int size = Constants.PAGE_SIZE_DEFAULT;
 
@@ -83,34 +83,5 @@ public class NetGameController {
         model.addAttribute("ac", i);
         return "netGame/detail";
     }
-    
-    
-    @RequestMapping(value = "/latest", method = RequestMethod.GET)
-    @ResponseBody
-    public NetGameServerVo netGameLatestServerList(Model model) {
-    	Date today = DateUtils.beginOfDate(new Date());
-    	Date latest = DateUtils.getDayByInterval(today, -7);
-
-        NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 100);
-        
-        if(null != netGameServerListVo && null != netGameServerListVo.getNetGameServerVo() && netGameServerListVo.getNetGameServerVo().getTotalNum() > 0){
-        	int index = 0;
-        	for(NetGameServerItemVo  item : netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList()){
-        		if(item.getOpenTime() < latest.getTime()){
-        			break;
-        		}
-        		
-        		index++;
-        	}
-        	
-        	List<NetGameServerItemVo> items = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList().subList(0, index);
-        	netGameServerListVo.getNetGameServerVo().setNetGameServerItemVoList(items);
-        	netGameServerListVo.getNetGameServerVo().setTotalNum(items.size());
-        }
-
-        return netGameServerListVo.getNetGameServerVo();
-    }    
-    
-
 
 }

@@ -16,12 +16,13 @@
     <title>推荐</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
-    </script>
+</script>
 
-    <script type="text/javascript" name="baidu-tc-cerfication"
-            src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
+<script type="text/javascript" name="baidu-tc-cerfication"
+src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
 
 </head>
 
@@ -29,71 +30,91 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">推荐</div>
-    <div class="fanhui-text absolute"><a href="#">${categoryName}</a></div>
-    <div class="sousuo absolute pic"><a href="#">搜索</a></div>
+
+<a   href="${ctx}/category/list.do" >
+    <div class="fanhui absolute pic"></div>
+
+    <div class="fanhui-text absolute" style="color:#FF9C00 " id="c1">
+
+        ${categoryName}
+
+    </div>
+</a>
+
+
+
+
+    <div class="title">类别</div>
+
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
 
 
 <!--列表-->
-<div class="fenlei">
-    <ul>
-
-        <c:choose>
-
-            <c:when test="${c.id==categoryId}">
-
-                <li class="mtuohouver "><a
-                        href="${ctx}/category/detail.do?categoryId=${c.id}&categoryName=${c.name}">全部</a></li>
-
-            </c:when>
-
-            <c:otherwise>
-
-                <li><a href="${ctx}/category/detail.do?categoryId=${c.id}&categoryName=${c.name}">全部</a></li>
-
-            </c:otherwise>
-
-
-        </c:choose>
-
-        <c:forEach items="${c.items}" var="i">
-            <c:choose>
-                <c:when test="${i.id==categoryId && c.id!=categoryId }">
-
-                    <li class="mtuohouver "><a
-                            href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">${i.name}</a>
-                    </li>
-
-                </c:when>
-                <c:otherwise>
-
-                    <li><a href="${ctx}/category/detail.do?categoryId=${i.id}&categoryName=${i.name}">${i.name}</a></li>
-
-                </c:otherwise>
-
-            </c:choose>
-        </c:forEach>
-
-
-    </ul>
-</div>
-
-
-<!--列表-->
-<div id="wrapper">
+<div id="wrapper" style="top: 50px">
     <div id="scroller">
         <div id="pullDown">
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
         </div>
+
+        <!--列表-->
+        <div class="fenlei">
+            <ul>
+
+                <c:choose>
+
+                    <c:when test="${c.id==categoryId}">
+
+                        <li class="mtuohouver ">
+                        <a href="javascript:category('${c.id}','${c.name}');">全部</a>
+
+                    </c:when>
+
+                    <c:otherwise>
+
+                        <li>
+                            <a href="javascript:category('${c.id}','${c.name}');">全部</a>
+                        </li>
+
+                    </c:otherwise>
+
+
+                </c:choose>
+
+                <c:forEach items="${c.items}" var="i">
+                    <c:choose>
+                        <c:when test="${i.id==categoryId && c.id!=categoryId }">
+
+                            <li class="mtuohouver ">
+                                <a href="javascript:category('${i.id}','${i.name}');">${i.name}</a>
+                            </li>
+
+                        </c:when>
+                        <c:otherwise>
+
+                            <li>
+                                <a href="javascript:category('${i.id}','${i.name}');">${i.name}</a>
+                            </li>
+
+                        </c:otherwise>
+
+                    </c:choose>
+                </c:forEach>
+
+
+            </ul>
+        </div>
+
+
         <div id="list">
 
         </div>
+        <jsp:include page="../footer.jsp"/>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
+
     </div>
 </div>
 
@@ -178,7 +199,7 @@
                         /*游戏名称*/
 
                         stringBuffer.push('<dl class="pro_cp_c">');
-                        stringBuffer.push('<dt>' + entry.game_name + '</dt>');
+                        stringBuffer.push('<dt class="etc">' + entry.game_name + '</dt>');
 
                         stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
                         stringBuffer.push('</dl>');
@@ -218,7 +239,7 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+//                $('#pullDown, #pullUp').hide();
 
             }
             if (callback) {
@@ -260,6 +281,14 @@
     function download(id, name, icon) {
         doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
     }
+
+    function category(id,name){
+        var name=encodeURI(encodeURI(name));
+
+        location.href = "${ctx}/category/detail.do?categoryId="+id+"&categoryName="+name;
+
+    }
+
 </script>
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);

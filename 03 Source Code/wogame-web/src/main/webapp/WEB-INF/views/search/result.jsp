@@ -13,9 +13,15 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
-    <title>推荐</title>
+    <title>搜索</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
@@ -28,32 +34,38 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">推荐</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+
+
+    <a   href="${ctx}/search/init.do">
+        <div class="fanhui absolute pic"></div>
+
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">搜索</div>
+    </a>
+
+
+
+    <div class="title">搜索</div>
+
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
-<div style="height: 35px;"></div>
+<div style="height: 50px;"></div>
 
 
-<div class="w_search_box" style="margin-top: 15px;">
-    <div class="w_inputbox">
-        <div class="w_in_01">
-            <a href="#">删除</a></div>
-        <div class="w_in_02">
-            <form action="${ctx}/search/tosearchresult.do" onsubmit=" return searchkey()">
 
-        </div>
-        <input type="text" id="w_input" value="${keyword}" class="w_input" name="keyword"></div>
-
-    <input type="submit" value="搜索" class="w_buttion">
-    </form>
-</div>
-
-<div style="height: 15px;"></div>
 
 <!--列表-->
-<div id="wrapper">
+<div class="w_search_box" style="margin-top: 15px;">
+    <div class="w_inputbox"><div class="w_in_01"><a onclick="clearSearch();" href="#">删除</a></div>
+        <div class="w_in_02"></div>
+        <input type="text" id="w_input" value="${keyword}" class="w_input">
+    </div><input type="button"  onclick="search()" value="搜索" class="w_buttion" name="">
+</div>
+
+
+
+
+<!--列表-->
+<div id="wrapper" style="top: 130px;">
     <div id="scroller">
         <div id="pullDown">
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
@@ -61,6 +73,7 @@
         <div id="list">
 
         </div>
+        <jsp:include page="../footer.jsp"/>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
@@ -68,10 +81,7 @@
 </div>
 
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
-<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
+
 
 <script type="application/javascript">
 
@@ -94,9 +104,8 @@
 
         $.getJSON("${ctx}/search/ajaxSearch.do", {"pageNum": pPageNum, "keyword": encodeURI(encodeURI(keyword))}, function (data) {
 
-
             isSearching = false;
-            if (data.length != 0) {
+            if (data.length != 0 && data.status!=-99) {
 
                 if (pPageNum <= 1) {
                     el.empty();
@@ -148,9 +157,9 @@
                         /*游戏名称*/
 
                         stringBuffer.push('<dl class="pro_cp_c">');
-                        stringBuffer.push('<dt>' + entry.name + '</dt>');
+                        stringBuffer.push('<dt class="etc">' + entry.name + '</dt>');
 
-                        stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
+                        stringBuffer.push('<dd>' + roundNumber(entry.size / 1024, 2) + 'MB</dd>');
                         stringBuffer.push('</dl>');
 
                         stringBuffer.push('</div>');
@@ -188,7 +197,7 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+                $(' #pullUp').hide();
 
             }
             if (callback) {
@@ -228,11 +237,32 @@
         });
 
 
+
+
     });
 
     /*   function download(id, name, icon) {
      doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
      }*/
+
+    function search(){
+        var keyword;
+        var inputtext= $("#w_input").val();
+
+        if(inputtext=="" || inputtext=="请输入搜索内容" ){
+
+            alert("必须项")
+            return false;
+        }else{
+
+            keyword=encodeURI(encodeURI(inputtext));
+
+           location.href = "${ctx}/search/result.do?keyword="+keyword;
+        }
+    }
+
+
+
 </script>
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);

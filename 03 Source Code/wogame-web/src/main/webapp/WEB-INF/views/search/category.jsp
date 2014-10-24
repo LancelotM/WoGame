@@ -29,27 +29,25 @@
 <body class="ibody_bg">
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
+
+    <a   href="${ctx}/index.do">
+        <div class="fanhui absolute pic"></div>
+
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
+    </a>
+
+
     <div class="title">搜索</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+
     <div class="sousuo absolute pic"><a href="#">搜索</a></div>
 </div>
 <div class="head-after"></div>
 
 
+<!--列表-->
 <div class="w_search_box" style="margin-top: 15px;">
-    <div class="w_inputbox">
-        <div class="w_in_01">
-            <a href="#">删除</a></div>
-        <div class="w_in_02">
-            <form action="${ctx}/search/result.do" onsubmit=" return searchkey()">
-
-        </div>
-        <input type="text" value="请输入搜索内容" onfocus="if (value =='请输入搜索内容'){value =''}"
-               onblur="if (value ==''){value='请输入搜索内容'}" id="w_input" class="w_input" name="keyword"></div>
-
-    <input type="submit" value="搜索" class="w_buttion">
-    </form>
+    <div class="w_inputbox"><div class="w_in_01"><a onclick="clearSearch();" href="#">删除</a></div><div class="w_in_02"></div>
+        <input type="text" value="请输入搜索内容" onfocus="if (value =='请输入搜索内容'){value =''}" onblur="if (value ==''){value='请输入搜索内容'}" id="w_input" class="w_input"></div><input type="button"  onclick="s1()" value="搜索" class="w_buttion" name="">
 </div>
 
 
@@ -58,7 +56,7 @@
 
         <c:forEach var="l" items="${list}">
 
-            <li><a href="#">${l.word}</a></li>
+            <li><a href="javascript:s1('${l.word}');">${l.word}</a></li>
 
         </c:forEach>
 
@@ -67,6 +65,38 @@
 
 
 </div>
+
+
+<script type="application/javascript">
+
+function s1(d){
+    var keyword;
+
+    if(d!=undefined){
+        keyword=encodeURI(encodeURI(d));
+    }else{
+
+    var inputtext= $("#w_input").val();
+
+        if(inputtext=="" || inputtext=="请输入搜索内容" ){
+
+            alert("必须项")
+            return false;
+        }else{
+
+            keyword=encodeURI(encodeURI(inputtext));
+        }
+
+    }
+
+     location.href = "${ctx}/search/result.do?keyword="+keyword;
+
+}
+
+
+
+</script>
+
 
 
 <jsp:include page="../footer.jsp"></jsp:include>

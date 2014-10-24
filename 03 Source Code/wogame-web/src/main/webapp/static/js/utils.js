@@ -370,3 +370,29 @@ function searchkey() {
 
 
 }
+
+
+function su(data,max,start, end){
+
+    var b;
+    if(data.length>max){
+
+        b=data.substring(start,end)+"..";
+    }else{
+
+        b=data;
+    }
+
+    return b;
+
+
+
+}
+
+function clearSearch(){
+
+    $("#w_input").val('');
+
+}
+
+

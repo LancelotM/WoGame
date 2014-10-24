@@ -21,7 +21,7 @@ public class RecommendController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public RecommendDataListVo recommendDataList(@RequestParam("pageNum") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+    public RecommendDataListVo recommendDataList(@RequestParam(value = "pageNum",required = false) int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
         if (null != pageSize && pageSize > 0) {

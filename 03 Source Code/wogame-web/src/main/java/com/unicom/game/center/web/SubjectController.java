@@ -23,7 +23,7 @@ public class SubjectController {
 
     @RequestMapping(value = "/ajaxlist", method = RequestMethod.GET)
     @ResponseBody
-    public SubjectVo subjectList(@RequestParam(value = "pageNum", required = false) int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+    public SubjectVo subjectList(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
         if (null != pageSize && pageSize > 0) {

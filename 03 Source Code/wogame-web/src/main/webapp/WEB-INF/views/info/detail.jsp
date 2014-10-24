@@ -29,9 +29,15 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">活动列表</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+
+    <a   href="${ctx}/gameInfo/list.do">
+        <div class="fanhui absolute pic"></div>
+
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">资讯列表</div>
+    </a>
+
+    <div class="title">活动详情</div>
+
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
@@ -67,7 +73,10 @@
     <div class="hd_youxi_img"><img src="${gameInfoContent.game.iconUrl}" height="70"/></div>
     <dl class="hd_youxi">
         <dt>${gameInfoContent.game.gameName}</dt>
-        <dd>${gameInfoContent.game.apkSize} MB</dd>
+        <dd>
+            <fmt:formatNumber value="${gameInfoContent.game.apkSize/1024}" pattern="##.#" minFractionDigits="2"/>
+
+            MB</dd>
     </dl>
     <div class="hd_xiazai radius">下载</div>
 </a>
@@ -78,6 +87,6 @@
 </div>
 </body>
 </html>
-
+<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

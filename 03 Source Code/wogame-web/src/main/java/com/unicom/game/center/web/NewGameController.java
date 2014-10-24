@@ -48,7 +48,7 @@ public class NewGameController {
 
     @RequestMapping(value = "/ajaxList", method = RequestMethod.GET)
     @ResponseBody
-    public NewVo ajaxList(@RequestParam("pageNum") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, HttpSession session) {
+    public NewVo ajaxList(@RequestParam(value = "pageNum",required = false, defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, HttpSession session) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
         if (null != pageSize && pageSize > 0) {
@@ -63,7 +63,7 @@ public class NewGameController {
 
     @RequestMapping(value = "ajaxHotList", method = RequestMethod.GET)
     @ResponseBody
-    public WeekHotItemVo ajaxList(@RequestParam("pageNum") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+    public WeekHotItemVo ajaxList(@RequestParam(value = "pageNum",required = false,defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
         if (null != pageSize && pageSize > 0) {

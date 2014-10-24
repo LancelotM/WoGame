@@ -13,9 +13,11 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
-    <title>推荐</title>
+    <title>专题详情</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
@@ -29,27 +31,39 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">推荐</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+
+
+    <a   href="${ctx}/subject/list.do">
+        <div class="fanhui absolute pic"></div>
+
+        <div class="fanhui-text absolute" style="color:#FF9C00 " id="t1"></div>
+    </a>
+
+
+    <div class="title">专题详情</div>
+
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
-<dl class="juanti_lr"><a href="#">
-    <dt><img id="image" src="" height="312"/></dt>
-    <dd id="description">
-    </dd>
-</a></dl>
+
 
 <!--列表-->
-<div id="wrapper">
+<div id="wrapper" style="top:56px;">
     <div id="scroller">
         <div id="pullDown">
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
         </div>
+
+        <dl class="juanti_lr"><a href="#">
+            <dt><img id="image" src="" height="312"/></dt>
+            <dd id="description">
+            </dd>
+        </a></dl>
+
         <div id="list">
 
         </div>
+       <jsp:include page="../footer.jsp"/>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
@@ -84,9 +98,8 @@
 
         $.getJSON("${ctx}/subject/gamelist.do", {"id": subId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
 
-
             if (data.description != null) {
-
+               $("#t1").text(su(data.title,5,0,4));
                 $("#image").attr("src", data.banner_url);
 
                 var arr = new Array();
@@ -131,7 +144,7 @@
                     /*游戏名称*/
 
                     stringBuffer.push('<dl class="pro_cp_c">');
-                    stringBuffer.push('<dt>' + entry.game_name + '</dt>');
+                    stringBuffer.push('<dt class=etc>' + entry.game_name + '</dt>');
 
                     stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
                     stringBuffer.push('</dl>');
@@ -168,7 +181,7 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+//                $('#pullDown, #pullUp').hide();
 
             }
             if (callback) {
@@ -215,6 +228,5 @@
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);
 </script>
-<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

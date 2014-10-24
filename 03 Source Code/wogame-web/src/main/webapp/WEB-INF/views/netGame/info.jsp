@@ -16,6 +16,8 @@
     <title>网游资讯</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
@@ -29,61 +31,72 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
-    <div class="title">网游资讯</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
-</div>
-<div style="height: 56px;"></div>
 
 
-<div class="hd_l_title">
-    <div class="hdjianjie">新服预告</div>
-    <div class="hdmore"><a href="${ctx}/netgame/server.do">查看全部</a></div>
-</div>
+    <a   href="${ctx}/index.do">
+        <div class="fanhui absolute pic"></div>
 
-
-<div class="pro_list">
-
-    <c:forEach var="l" items="${list}">
-    <a href="#">
-        <div class="pro_cp">
-            <div class="pro_cp_l"><img src="${l.iconUrl}" height="86"/></div>
-            <dl class="pro_cp_c">
-                <dt>${l.gameName}</dt>
-                <dd>新服：${l.serverName} </dd>
-                <dd>
-                    时间：
-
-                        <jsp:useBean id="date" class="java.util.Date"/>
-                        <jsp:setProperty name="date" property="time" value="${l.openTime}"/>
-                        <fmt:formatDate value="${date}" pattern="yyyy.MM.dd"/>
-                <dd>
-
-            </dl>
-            <div class="pro_cp_r radius">下载</div>
-        </div>
-        </c:forEach>
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
     </a>
 
 
+    <div class="title">网游资讯</div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 
-
-<div class="hd_l_title">
-    <div class="hdjianjie">网游活动</div>
-</div>
 
 
 <!--列表-->
-<div id="wrapper">
+<div id="wrapper" style="top: 50">
     <div id="scroller">
         <div id="pullDown">
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
         </div>
+
+        <div class="hd_l_title">
+            <div class="hdjianjie">新服预告</div>
+            <div class="hdmore" style="margin-right: 12px;"><a href="${ctx}/netgame/server.do">查看全部</a></div>
+        </div>
+
+
+        <div class="pro_list">
+
+            <c:forEach var="l" items="${list}">
+            <a href="${ctx}/gamedetail/detaillist.do?product_id=${l.productId}">
+                <div class="pro_cp" style="margin-left: 10px;">
+                    <div class="pro_cp_l" style="top: 20px;"><img src="${l.iconUrl}" height="86"/></div>
+                    <dl class="pro_cp_c">
+                        <dt>${l.gameName}</dt>
+                        <dd>新服：${l.serverName} </dd>
+                        <dd>
+                            时间：
+
+                                <jsp:useBean id="date" class="java.util.Date"/>
+                                <jsp:setProperty name="date" property="time" value="${l.openTime}"/>
+                                <fmt:formatDate value="${date}" pattern="yyyy.MM.dd"/>
+                        <dd>
+
+                    </dl>
+                    <div class="pro_cp_r radius">下载</div>
+                </div>
+                </c:forEach>
+            </a>
+
+
+        </div>
+
+
+        <div class="hd_l_title">
+            <div class="hdjianjie">网游活动</div>
+        </div>
+
+
+
+
         <div id="list">
 
         </div>
+        <jsp:include page="../footer.jsp"></jsp:include>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
@@ -115,7 +128,7 @@
         }
         isSearching = true;
 
-        $.getJSON("${ctx}/netgame/infolist.do", {"pageNum": pPageNum, "pageSize": 10}, function (data) {
+        $.getJSON("${ctx}/netgame/infolist.do", {"pageNum": pPageNum, "pageSize": 4}, function (data) {
 
             isSearching = false;
             if (data.items.length != 0) {
@@ -141,8 +154,8 @@
 
                     stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
 
-                    stringBuffer.push('<dd>' + entry.intro + '</dd>');
-                    stringBuffer.push('<dd>' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy-MM-dd") + '-' + getFormatDateByLong(entry.end_time, "yyyy-MM-dd") + '</dd>');
+                    stringBuffer.push('<dd>' +su(entry.intro,35,0,35)  + '</dd>');
+                    stringBuffer.push('<dd>' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy-MM-dd") + ' - ' + getFormatDateByLong(entry.end_time, "yyyy-MM-dd") + '</dd>');
 
 
                     stringBuffer.push('</a>');
@@ -159,7 +172,7 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+//                $('#pullDown, #pullUp').hide();
 
             }
             if (callback) {
@@ -207,6 +220,5 @@
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);
 </script>
-<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

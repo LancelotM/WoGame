@@ -1,15 +1,19 @@
 package com.unicom.game.center.service;
 
 import com.google.common.collect.Maps;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.client.RestTemplate;
 import org.springside.modules.mapper.JsonMapper;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -244,4 +248,36 @@ public class GameService {
     public GameInfoVo readGameInfo(String productId) {
         return zteService.readProductDetail(productId);
     }
+
+
+
+
+    public NetGameServerVo netGameLatestServerList() {
+        Date today = DateUtils.beginOfDate(new Date());
+        Date latest = DateUtils.getDayByInterval(today, -7);
+
+        NetGameServerListVo netGameServerListVo = this.readNetGameServerList(1, 100);
+
+        if(null != netGameServerListVo && null != netGameServerListVo.getNetGameServerVo() && netGameServerListVo.getNetGameServerVo().getTotalNum() > 0){
+            int index = 0;
+            for(NetGameServerItemVo  item : netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList()){
+                if(item.getOpenTime() < latest.getTime()){
+                    break;
+                }
+
+                index++;
+            }
+
+            List<NetGameServerItemVo> items = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList().subList(0, index);
+            netGameServerListVo.getNetGameServerVo().setNetGameServerItemVoList(items);
+            netGameServerListVo.getNetGameServerVo().setTotalNum(items.size());
+        }
+
+        return netGameServerListVo.getNetGameServerVo();
+    }
+
+
+
+
+
 }

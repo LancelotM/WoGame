@@ -16,12 +16,14 @@
     <title>推荐</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
-        var contextPath = '${ctx}';
+    var contextPath = '${ctx}';
     </script>
 
     <script type="text/javascript" name="baidu-tc-cerfication"
-            src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
+    src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
 
 </head>
 
@@ -29,15 +31,22 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
+
+
+    <a   href="${ctx}/index.do">
+    <div class="fanhui absolute pic"></div>
+
+    <div class="fanhui-text absolute">首页</div>
+    </a>
+
     <div class="title">推荐</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
-<div style="height: 50px;"></div>
+
 
 <!--列表-->
-<div id="wrapper">
+<div id="wrapper" style="top:45px;">
     <div id="scroller">
         <div id="pullDown">
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
@@ -45,6 +54,7 @@
         <div id="list">
 
         </div>
+        <jsp:include page="footer.jsp"/>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
@@ -78,6 +88,7 @@
 
         $.getJSON("${ctx}/recommend/list.do", {"pageNum": pPageNum, "pageSize": 10}, function (data) {
 
+
             isSearching = false;
             if (data.items.length != 0) {
 
@@ -93,10 +104,11 @@
                         stringBuffer.push('<div class="hot_banner2">');
                         stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                         stringBuffer.push('</div>');
-                        stringBuffer.push('<a href="' + urlBase + entry.id + '">');
-                        stringBuffer.push('<img src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
+
                         /*显示下载*/
                         if (entry.banner.res_type == 2) {
+                            stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
+                            stringBuffer.push('<img src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
                             stringBuffer.push('<div class="pro_cp_r1 radius">');
                             stringBuffer.push('<a href="javascript:download(\'' + entry.id
                                     + '\',\'' + entry.name
@@ -104,9 +116,11 @@
                                     + '\')">下载</a>');
                             stringBuffer.push('</div>');
 
-                        } else if (entry.banner.res_type == 9) {
-                            //do nothing
-                        }
+                    } else if (entry.banner.res_type == 9) {
+
+                        stringBuffer.push('<a href=http://sales.wostore.cn:8083/hytq/hytq.action?link=0">');
+                        stringBuffer.push('<img src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
+                    }
 
 
                         stringBuffer.push('</div>');
@@ -131,7 +145,7 @@
                         /*游戏名称*/
 
                         stringBuffer.push('<dl class="pro_cp_c">');
-                        stringBuffer.push('<dt>' + entry.title + '</dt>');
+                        stringBuffer.push('<dt class="etc">' + entry.title + '</dt>');
 
                         stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
                         stringBuffer.push('</dl>');
@@ -171,7 +185,7 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+//                $('#pullDown, #pullUp').hide();
 
             }
             if (callback) {
@@ -218,6 +232,5 @@
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);
 </script>
-
 </body>
 </html>

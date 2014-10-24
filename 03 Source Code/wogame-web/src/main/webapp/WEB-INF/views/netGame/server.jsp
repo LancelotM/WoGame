@@ -16,6 +16,8 @@
     <title>推荐</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
@@ -29,9 +31,17 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
+
+
+    <a   href="${ctx}/netgame/info.do">
+        <div class="fanhui absolute pic"></div>
+
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">网游资讯</div>
+    </a>
+
+
+
     <div class="title">新服列表</div>
-    <div class="fanhui-text absolute"><a href="#">新服预告</a></div>
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
@@ -45,6 +55,7 @@
         <div id="list">
 
         </div>
+        <jsp:include page="../footer.jsp"/>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
@@ -107,7 +118,7 @@
                     /*游戏名称*/
 
                     stringBuffer.push('<dl class="pro_cp_c">');
-                    stringBuffer.push('<dt>' + entry.game_name + '</dt>');
+                    stringBuffer.push('<dt class="etc">' + entry.game_name + '</dt>');
 
                     stringBuffer.push('<dd>' + '新服　:　' + entry.server_name + '</dd>');
                     stringBuffer.push('<dd>' + '时间　:　' + getFormatDateByLong(entry.open_time, "yyyy.MM.dd") + '</dd>');
@@ -138,7 +149,7 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+//                $('#pullDown, #pullUp').hide();
 
             }
             if (callback) {
@@ -185,6 +196,5 @@
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);
 </script>
-
 </body>
 </html>

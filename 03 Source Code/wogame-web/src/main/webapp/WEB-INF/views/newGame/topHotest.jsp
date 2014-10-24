@@ -16,6 +16,8 @@
     <title>排行榜</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
@@ -29,22 +31,26 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
+
+    <a   href="${ctx}/index.do">
+    <div class="fanhui absolute pic"></div>
+
+    <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
+    </a>
     <div class="title">排行</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
-<div style="height: 50px;"></div>
+<div style="height: 50px; width: 100%"></div>
 
 <!--切换-->
-<div class="qiehuan_ph" style="position: fixed;left:5%; right:5%;width:90%;z-index: 1001;margin-top: 5px;">
+<div class="qiehuan_ph" style="position: fixed;width:100%;z-index: 1001; margin: 0 auto;">
     <div class="qiehuan_ph_1"><a href="#">飙升榜</a></div>
     <div class="qiehuan_ph_2"><a href="${ctx}/newGame/topNewest.do">最新榜</a></div>
 </div>
 <div style="height: 50px;"></div>
 
 <!--列表-->
-<div id="wrapper">
+<div id="wrapper" style="top: 96px;">
     <div id="scroller">
         <div id="pullDown">
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
@@ -52,6 +58,7 @@
         <div id="list">
 
         </div>
+        <jsp:include page="../footer.jsp"/>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
@@ -140,7 +147,7 @@
                         /*游戏名称*/
 
                         stringBuffer.push('<dl class="pro_cp_c">');
-                        stringBuffer.push('<dt>' + entry.game_name + '</dt>');
+                        stringBuffer.push('<dt class="etc">' + entry.game_name + '</dt>');
 
                         stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
                         stringBuffer.push('</dl>');
@@ -180,13 +187,11 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+//                $('#pullDown, #pullUp').hide();
 
             }
             if (callback) {
                 callback();
-            } else {
-                myScroll.refresh();
             }
 
 
@@ -229,6 +234,5 @@
 <script type="text/javascript">
     logNumber("${ctx}", ['64']);
 </script>
-<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

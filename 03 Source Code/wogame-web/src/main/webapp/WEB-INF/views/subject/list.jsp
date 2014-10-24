@@ -16,12 +16,18 @@
     <title>专题</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
 
     <script type="text/javascript" name="baidu-tc-cerfication"
             src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 
 </head>
 
@@ -29,34 +35,40 @@
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
-    <div class="fanhui absolute pic"><a href="#">返回</a></div>
+
+    <a   href="${ctx}/index.do">
+        <div class="fanhui absolute pic"></div>
+
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
+    </a>
+
+
     <div class="title">专题</div>
-    <div class="fanhui-text absolute"><a href="#">首页</a></div>
+
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
 </div>
-<div style="height: 50px"></div>
+<%--<div style="height: 50px"></div>--%>
 
 
 <!--列表-->
-<div id="wrapper">
+<div id="wrapper" style="top: 56px;">
     <div id="scroller">
         <div id="pullDown">
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
         </div>
         <div id="list">
 
+
         </div>
+        <jsp:include page="../footer.jsp"/>
         <div id="pullUp">
             <span class="pullUpIcon"></span><span class="pullUpLabel">更多...</span>
         </div>
     </div>
+
 </div>
 
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
-<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 
 <script type="application/javascript">
 
@@ -92,7 +104,7 @@
 
                     stringBuffer.push('<dl class="juanti_list">');
 
-                    stringBuffer.push('<a href="${ctx}/subject/detailList.do?id=' + entry.id + '">');
+                    stringBuffer.push('<a href="${ctx}/subject/detailList.do?id=' + entry.id +'">');
                     stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                     stringBuffer.push('</div>');
 
@@ -121,7 +133,10 @@
                 $("img[data-src]").scrollLoading();
             } else {
 
-                $('#pullDown, #pullUp').hide();
+
+
+
+//                $('#pullDown, #pullUp').hide();
 
             }
             if (callback) {
@@ -168,5 +183,8 @@
     logNumber("${ctx}", ['64']);
 </script>
 
+
+
 </body>
+
 </html>

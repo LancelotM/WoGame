@@ -62,7 +62,7 @@ public class GameInfoController {
 
     @RequestMapping(value = "/ajaxlist", method = RequestMethod.GET)
     @ResponseBody
-    public GameInfoDataVo gameInfoList(@RequestParam("pageNum") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
+    public GameInfoDataVo gameInfoList(@RequestParam(value = "pageNum", required = false,defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
         if (null != pageSize && pageSize > 0) {
