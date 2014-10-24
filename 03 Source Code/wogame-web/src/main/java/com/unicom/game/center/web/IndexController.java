@@ -41,10 +41,8 @@ public class IndexController {
     private BannerBusiness bannerBusiness;
 
 	@Value("#{properties['site.secret.key']}")
-	private String siteKey;    
-	
-	private Logger logger = LoggerFactory.getLogger(IndexController.class);
-	
+	private String siteKey;
+
     @Autowired
     private StatisticsLogger statisticsLogger;
 
