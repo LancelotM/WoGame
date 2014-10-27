@@ -47,21 +47,7 @@
                         <#--<td>${(receiptReportInfo.noSyncSum)!'0'}</td>-->
                     </tr>
                 </table>
-                <table class="detail_tb">
-                    <caption class="table_title">
-                        中兴提取包信息
-                    </caption>
-                    <tr>
-                        <td>提取个数</td>
-                        <td>成功个数</td>
-                        <td>失败个数</td>
-                    </tr>
-                    <tr>
-                        <td>${(zteReportInfo.packageSum)!'0'}</td>
-                        <td>${(zteReportInfo.sucessSum)!'0'}</td>
-                        <td>${(zteReportInfo.failSum)!'0'}</td>
-                    </tr>
-                </table>
+
             </div>
         </div>
     </div>

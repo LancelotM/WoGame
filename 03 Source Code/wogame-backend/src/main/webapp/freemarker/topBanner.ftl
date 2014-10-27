@@ -111,8 +111,8 @@
                                     <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${topBannerInfo.imageName!}</div>
                                 </td>
                                 <td class="hidden_url"  style="position: relative;z-index: 900;">
-                                    <#if (topBannerInfo.url?length) gt 20>
-                                        ${topBannerInfo.url?substring(0,20)}...
+                                    <#if (topBannerInfo.url?length) gt 15>
+                                        ${topBannerInfo.url?substring(0,15)}...
                                     <#else>
                                         ${topBannerInfo.url}
                                     </#if>
@@ -123,7 +123,7 @@
                                        onclick="updateBanner(${topBannerInfo.id});"><img
                                             src="${basePath}/static/images/update.png"/></a>
                                     <a class="delbtn" href="javascript:;" onclick="delBanner(${topBannerInfo.id});"><img
-                                            src="${basePath}/static/images/delete.png" alt="detail"/></a>
+                                            src="${basePath}/static/images/delete.png"/></a>
                                 </td>
                             </tr>
                             </#list>

@@ -190,5 +190,9 @@ create table wogamecenter.statistics(
 
 alter table wogamecenter.statistics add constraint Statistics_Channel_FK foreign key (channel_id) references  wogamecenter.channel_info(channel_id);
 
+ALTER TABLE `wogamecenter`.`account` ADD `role` INT(8) NOT NULL DEFAULT '0' AFTER `password`;
+UPDATE `wogamecenter`.`account` SET `role` = '1' WHERE `account`.`account_id` = 1;
+insert into wogamecenter.account(account_name, password, role, date_modified, date_created) values('banner', '952C3A50CBFBE7EBCBA978C5D4DC58A3', 2, now(), now());
+
 
 --------------------------------------------20141014  15:20----------------------------------------

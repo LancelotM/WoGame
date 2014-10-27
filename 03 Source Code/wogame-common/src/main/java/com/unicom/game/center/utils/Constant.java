@@ -34,4 +34,8 @@ public class Constant
     public static final int HOMEPAGE_ACTIVITY_BANNER = 4;
 
     public static final int HOMEPAGE_FOOTER_AD = 5;    
+    
+    public static final Integer BACKEND_ADMIN_ROLE = 1;
+    
+    public static final Integer BACKEND_BANNER_ROLE = 2;
 }

@@ -18,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.unicom.game.center.business.AccountBusiness;
 import com.unicom.game.center.business.ChannelInfoBusiness;
+import com.unicom.game.center.model.AccountInfo;
 import com.unicom.game.center.model.ChannelInfo;
+import com.unicom.game.center.utils.Constant;
 
 /**
  * @author Alex Yin
@@ -43,9 +45,9 @@ public class HomeController
     @RequestMapping(value = "/checkNamePwd", method = {RequestMethod.POST})
     public @ResponseBody Integer checkNamePwd(
             @RequestParam(value = "username", required = true) String username,
-            @RequestParam(value = "password", required = true) String password,
-            HttpServletRequest request, HttpSession session){
-        return accountService.login(username, password);
+            @RequestParam(value = "password", required = true) String password){    	
+    	AccountInfo account = accountService.login(username, password);
+        return account.getLoginStatus();
     }
     
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
@@ -60,11 +62,19 @@ public class HomeController
 			session = request.getSession(true);
 		}
 
-        int flag = accountService.login(username, password);
-    	if(flag == 0){
+		AccountInfo account = accountService.login(username, password);
+    	if(account.getLoginStatus() == 0){
+    		String viewName = "/site";
     		List<ChannelInfo> channelInfos = channelService.fetchActiveChannelInfos();
 			model.put("channelInfos", channelInfos);
-			session.setAttribute("admin", true);
+			if(Constant.BACKEND_ADMIN_ROLE == account.getRole()){
+				session.setAttribute("admin", true);	
+				session.setAttribute("showBanner", true);
+			}else if(Constant.BACKEND_BANNER_ROLE == account.getRole()){
+				session.setAttribute("showBanner", true);
+				viewName = "/floatwindow";
+			}
+
             if("1".equals(remember)){
                 addCookie(response,"login_code",username,30);
                 addCookie(response,"pwd",password,30);
@@ -72,7 +82,7 @@ public class HomeController
                 delCookie("login_code",response,request);
                 delCookie("pwd",response,request);
             }
-			return new ModelAndView("/site", model);
+			return new ModelAndView(viewName, model);
     	}
         return new ModelAndView("index", model);
 
@@ -104,11 +114,13 @@ public class HomeController
 
     public void delCookie(String name,HttpServletResponse response,HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
-        for(int i=0;i<cookies.length;i++){
-            Cookie cookie = new Cookie(name,null);
-            cookie.setMaxAge(0);
-            cookie.setPath("/");
-            response.addCookie(cookie);
+        if(null != cookies){
+            for(int i=0;i<cookies.length;i++){
+                Cookie cookie = new Cookie(name,null);
+                cookie.setMaxAge(0);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+            }        	
         }
     }
 }

@@ -19,6 +19,7 @@ public class AccountDomain implements Serializable{
 	private Integer accountId;
 	private String accountName;
 	private String password;
+	private Integer role;
 	private Date dateCreated;
 	private Date dateModified;
 	
@@ -51,11 +52,21 @@ public class AccountDomain implements Serializable{
 		this.password = password;
 	}
 	
+	@Column(name="role")	
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
+	}
+	
 	@Column(name="date_created")
 	public Date getDateCreated() {
 		return dateCreated;
 	}
-	
+
+
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
