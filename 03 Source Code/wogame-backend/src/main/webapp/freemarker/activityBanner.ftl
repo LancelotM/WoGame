@@ -117,12 +117,21 @@
                         <#if activityBannerInfos?exists>
                             <#list activityBannerInfos as activityBannerInfo>
                                 <tr>
-                                    <td  class="hidden_txt">
-                                        <#if (activityBannerInfo.imageName?length) gt 20>
-                                            ${activityBannerInfo.imageName?substring(0,20)}...
+                                    <td  class="hidden_title" style="position: relative;z-index: 900;">
+                                        <#if (activityBannerInfo.title?length) gt 20>
+                                        ${activityBannerInfo.title?substring(0,20)}...
+                                        <#else>
+                                        ${activityBannerInfo.title}
+                                        </#if>
+                                        <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityBannerInfo.title!}</div>
+                                    </td>
+                                    <td  class="hidden_txt" style="position: relative;z-index: 900;">
+                                        <#if (activityBannerInfo.imageName?length) gt 10>
+                                            ${activityBannerInfo.imageName?substring(0,10)}...
                                         <#else>
                                             ${activityBannerInfo.imageName}
                                         </#if>
+                                        <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityBannerInfo.imageName!}</div>
                                     </td>
                                     <td class="category">
                                         <#if activityBannerInfo.position == 1>
@@ -131,19 +140,13 @@
                                             小Banner
                                         </#if>
                                     </td>
-                                    <td>
-                                        <#if (activityBannerInfo.url?length) gt 20>
-                                            ${activityBannerInfo.url?substring(0,20)}...
+                                    <td  class="hidden_url"  style="position: relative;z-index: 900;">
+                                        <#if (activityBannerInfo.url?length) gt 10>
+                                            ${activityBannerInfo.url?substring(0,10)}...
                                         <#else>
                                             ${activityBannerInfo.url}
                                         </#if>
-                                    </td>
-                                    <td>
-                                        <#if (activityBannerInfo.title?length) gt 20>
-                                            ${activityBannerInfo.title?substring(0,20)}...
-                                        <#else>
-                                            ${activityBannerInfo.title}
-                                        </#if>
+                                        <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityBannerInfo.url!}</div>
                                     </td>
                                     <td id="operate_td" class="operate_td">
                                         <a id="update_info" href="javascript:;" onclick="updateActivityBanner(${activityBannerInfo.id});" ><img src="${basePath}/static/images/update.png" /></a>

@@ -58,6 +58,12 @@ $(function () {
             $("#activity_update_form").submit();
         }
     });
+
+    $(".hidden_title,.hidden_txt, .hidden_url").mouseenter(function(){
+        $(this).find("div").show();
+    }).mouseleave(function(){
+        $(this).find("div").hide();
+    });
 });
 
 

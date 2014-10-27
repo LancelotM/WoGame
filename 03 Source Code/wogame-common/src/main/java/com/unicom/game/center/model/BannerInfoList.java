@@ -11,15 +11,15 @@ public class BannerInfoList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private BannerInfo topAD;
+	private BannerInfo topAD;//上面的公告
 	
-	private List<BannerInfo> topBanner;
+	private List<BannerInfo> topBanner;//添加到后面
 	
-	private List<BannerInfo> activityModule;
+	private List<BannerInfo> activityModule;//两个
 	
-	private List<BannerInfo> activityBanner;
+	private List<BannerInfo> activityBanner;//三个
 	
-	private BannerInfo bottomAD;
+	private BannerInfo bottomAD;//下面的公告
 
 	public BannerInfo getTopAD() {
 		return topAD;
