@@ -110,13 +110,13 @@
                                     </#if>
                                     <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${topBannerInfo.imageName!}</div>
                                 </td>
-                                <td class="hidden_url"  style="position: relative;">
+                                <td class="hidden_url"  style="position: relative;z-index: 900;">
                                     <#if (topBannerInfo.url?length) gt 20>
                                         ${topBannerInfo.url?substring(0,20)}...
                                     <#else>
                                         ${topBannerInfo.url}
                                     </#if>
-                                    <#--<span  id="span_url" style="z-index: 999; position: absolute;display: none; left: 0px;top: 20px;">${topBannerInfo.url!}</span>-->
+                                    <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${topBannerInfo.url!}</div>
                                 </td>
                                 <td id="operate_td" class="operate_td">
                                     <a id="update_info" href="javascript:;"

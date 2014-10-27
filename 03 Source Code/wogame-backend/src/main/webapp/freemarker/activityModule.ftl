@@ -111,33 +111,37 @@
                     <#if activityModuleInfos?exists>
                     <#list activityModuleInfos as activityModuleInfo>
                         <tr>
-                            <td>
+                            <td  class="hidden_title" style="position: relative;z-index: 900;">
                                 <#if (activityModuleInfo.title?length) gt 20>
                                     ${activityModuleInfo.title?substring(0,20)}...
                                 <#else>
                                     ${activityModuleInfo.title}
                                 </#if>
+                                <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityModuleInfo.title!}</div>
                             </td>
-                            <td>
-                                <#if (activityModuleInfo.imageName?length) gt 20>
-                                    ${activityModuleInfo.imageName?substring(0,20)}...
+                            <td   class="hidden_imageName" style="position: relative;z-index: 900;">
+                                <#if (activityModuleInfo.imageName?length) gt 15>
+                                    ${activityModuleInfo.imageName?substring(0,15)}...
                                 <#else>
                                     ${activityModuleInfo.imageName}
                                 </#if>
+                                <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityModuleInfo.imageName!}</div>
                             </td>
-                            <td>
+                            <td   class="hidden_description" style="position: relative;z-index: 900;">
                                 <#if (activityModuleInfo.description?length) gt 10>
                                     ${activityModuleInfo.description?substring(0,10)}...
                                 <#else>
                                     ${activityModuleInfo.description}
                                 </#if>
+                                <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityModuleInfo.description!}</div>
                             </td>
-                            <td>
-                                <#if (activityModuleInfo.url?length) gt 20>
-                                    ${activityModuleInfo.url?substring(0,20)}...
+                            <td   class="hidden_url" style="position: relative;z-index: 900;">
+                                <#if (activityModuleInfo.url?length) gt 10>
+                                    ${activityModuleInfo.url?substring(0,10)}...
                                 <#else>
                                     ${activityModuleInfo.url}
                                 </#if>
+                                <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityModuleInfo.url!}</div>
                             </td>
                             <td id="operate_td" class="operate_td">
                                 <a id="update_info" href="javascript:;" onclick="updateModuleBanner(${activityModuleInfo.id});"><img src="${basePath}/static/images/update.png" /></a>

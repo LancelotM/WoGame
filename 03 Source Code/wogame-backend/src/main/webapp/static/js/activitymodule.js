@@ -39,6 +39,13 @@ $(function(){
             $("#module_update_form").submit();
         }
     });
+
+
+    $(".hidden_title, .hidden_imageName, .hidden_description, .hidden_url").mouseenter(function(){
+        $(this).find("div").show();
+    }).mouseleave(function(){
+        $(this).find("div").hide();
+    });
 });
 
 function updateModuleBanner(id){
