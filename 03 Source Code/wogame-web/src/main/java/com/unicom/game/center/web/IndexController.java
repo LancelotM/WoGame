@@ -1,13 +1,11 @@
 package com.unicom.game.center.web;
 
-import com.unicom.game.center.business.BannerBusiness;
-import com.unicom.game.center.model.BannerInfoList;
-import com.unicom.game.center.service.GameService;
-import com.unicom.game.center.service.StatisticsLogger;
-import com.unicom.game.center.util.Constants;
-import com.unicom.game.center.util.HttpClientUtil;
-import com.unicom.game.center.utils.AESEncryptionHelper;
-import com.unicom.game.center.vo.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,9 +19,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
+import com.unicom.game.center.business.BannerBusiness;
+import com.unicom.game.center.model.BannerInfoList;
+import com.unicom.game.center.service.GameService;
+import com.unicom.game.center.service.StatisticsLogger;
+import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
+import com.unicom.game.center.utils.AESEncryptionHelper;
+import com.unicom.game.center.utils.DateUtils;
+import com.unicom.game.center.vo.ActivityInfoItemVo;
+import com.unicom.game.center.vo.ActivityInfoListVo;
+import com.unicom.game.center.vo.CategoryItemVo;
+import com.unicom.game.center.vo.CategoryListVo;
+import com.unicom.game.center.vo.NetGameServerItemVo;
+import com.unicom.game.center.vo.NetGameServerListVo;
+import com.unicom.game.center.vo.NewItemListVo;
+import com.unicom.game.center.vo.NewListVo;
+import com.unicom.game.center.vo.RecommendDataListVo;
+import com.unicom.game.center.vo.RecommendDataVo;
+import com.unicom.game.center.vo.RecommendedListVo;
+import com.unicom.game.center.vo.RollingAdListVo;
+import com.unicom.game.center.vo.RollingAdVo;
 
 /**
  * 管理员管理用户的Controller.
@@ -76,19 +92,41 @@ public class IndexController {
     	
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
 
-        RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
-        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum,Constants.PAGE_SIZE_DEFAULT);
-
         model.addAttribute("isIndex", true);
+        
+        //轮播广告
+        RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
         model.addAttribute("adList", rollingAdListVo.getData());
-        model.addAttribute("recommendedList", recommendedListVo.getRecommendedListData());
+        
+        //火热
+        RecommendedListVo recommendedListVo = gameService.readRecommendedList(pageNum,Constants.PAGE_SIZE_DEFAULT);
+        
+        RecommendDataListVo recommendedDataList = new RecommendDataListVo();
+        if(null != recommendedListVo && null != recommendedListVo.getRecommendedListData()){
+        	List<RecommendDataVo> recommendedList = new ArrayList<RecommendDataVo>();
+        	for (RecommendDataVo recommendDataVo : recommendedListVo.getRecommendedListData().getRecommendData()){
+        		if(null == recommendDataVo.getBanner() ||
+        				(null != recommendDataVo.getBanner() && recommendDataVo.getBanner().getResType() == 2)){
+        			recommendedList.add(recommendDataVo);
+        		}
+        		
+        		if(recommendedList.size() >= 8){
+        			break;
+        		}
+        	}
+        	
+        	recommendedDataList.setRecommendData(recommendedList);
+        }
 
 
-        //最热
-        WeekHotVo weekHotVo = gameService.readWeekHotList(1, 8);
+        model.addAttribute("recommendedList", recommendedDataList);
 
-        List<WeekHotItemListVo> hot = weekHotVo.getData().getWeekHotItemList();
-        model.addAttribute("hot", hot);
+
+        //活动
+        ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(1, 3);
+        List<ActivityInfoItemVo> activity = activityInfoListVo.getActivityInfoVo().getActivityInfoItemVoList();
+        model.addAttribute("activity", activity);
+
         //最新
         NewListVo newListVo = gameService.readNewList(1, 5);
         List<NewItemListVo> newest = newListVo.getDataList().getNewItemListVo();
@@ -99,16 +137,27 @@ public class IndexController {
         List<CategoryItemVo> category = categoryListVo.getCategoryData();
         model.addAttribute("category", category);
 
-        //活动
-        ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(1, 3);
-        List<ActivityInfoItemVo> activity = activityInfoListVo.getActivityInfoVo().getActivityInfoItemVoList();
-        model.addAttribute("activity", activity);
-
-
+        
         //开服信息
-
-        NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 6);
-
+        NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 100);
+        
+    	Date today = DateUtils.beginOfDate(new Date());
+    	Date latest = DateUtils.getDayByInterval(today, -7);        
+        if(null != netGameServerListVo && null != netGameServerListVo.getNetGameServerVo() && netGameServerListVo.getNetGameServerVo().getTotalNum() > 0){
+        	int index = 0;
+        	for(NetGameServerItemVo  item : netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList()){
+        		if(item.getOpenTime() < latest.getTime()){
+        			break;
+        		}
+        		
+        		index++;
+        	}
+        	
+        	List<NetGameServerItemVo> items = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList().subList(0, index);
+        	netGameServerListVo.getNetGameServerVo().setNetGameServerItemVoList(items);
+        	netGameServerListVo.getNetGameServerVo().setTotalNum(items.size());
+        }
+        
         List<NetGameServerItemVo> netGame = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList();
         model.addAttribute("netGame", netGame);
 
