@@ -18,15 +18,14 @@
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
     <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript">
+        var contextPath = '${ctx}';
+    </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
-    <script type="text/javascript">
-        var contextPath = '${ctx}';
-    </script>
-
-    <%--    <script type="text/javascript" name="baidu-tc-cerfication" src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>--%>
 
 </head>
 
@@ -36,7 +35,7 @@
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
 
-    <a   href="${ctx}/search/init.do">
+    <a   href="${ctx}/search/init.do;jsessionid=${sessionid}">
         <div class="fanhui absolute pic"></div>
 
         <div class="fanhui-text absolute" style="color:#FF9C00 ">搜索</div>
@@ -46,7 +45,7 @@
 
     <div class="title">搜索</div>
 
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
 
@@ -92,7 +91,7 @@
     var keyword = $('#w_input').val();
     var isSearching = false;
     pageNum = 1;
-    var urlBase = '${ctx}/gamedetail/detaillist.do?product_id=';
+    var urlBase = '${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=';
     var el = $('#list');
     el.empty();
 
@@ -143,7 +142,7 @@
                         stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                         stringBuffer.push('</div>');
 
-                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do?product_id=' + entry.id + '">');
+                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=' + entry.id + '">');
 
 
                         stringBuffer.push('<div class="pro_cp">');
@@ -257,7 +256,7 @@
 
             keyword=encodeURI(encodeURI(inputtext));
 
-           location.href = "${ctx}/search/result.do?keyword="+keyword;
+           location.href = "${ctx}/search/result.do;jsessionid=${sessionid}?keyword="+keyword;
         }
     }
 

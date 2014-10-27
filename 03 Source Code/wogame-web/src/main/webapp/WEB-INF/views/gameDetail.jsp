@@ -37,7 +37,7 @@
 
 
     <div class="title"></div>
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <div class="head-after"></div>
 <!--图片-->
@@ -189,7 +189,7 @@
 
     function download(id, name, icon) {
 
-        doDownload("${ctx}/download.do", id, name, icon);
+        doDownload("${ctx}/download.do;jsessionid=${sessionid}", id, name, icon);
     }
 
 

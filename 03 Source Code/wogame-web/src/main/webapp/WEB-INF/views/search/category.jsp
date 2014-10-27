@@ -30,7 +30,7 @@
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
-    <a   href="${ctx}/index.do">
+    <a   href="${ctx}/main.do;jsessionid=${sessionid}">
         <div class="fanhui absolute pic"></div>
 
         <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
@@ -89,7 +89,7 @@ function s1(d){
 
     }
 
-     location.href = "${ctx}/search/result.do?keyword="+keyword;
+     location.href = "${ctx}/search/result.do;jsessionid=${sessionid}?keyword="+keyword;
 
 }
 

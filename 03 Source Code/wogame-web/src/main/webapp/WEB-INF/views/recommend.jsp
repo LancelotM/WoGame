@@ -22,6 +22,10 @@
     var contextPath = '${ctx}';
     </script>
 
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
     <script type="text/javascript" name="baidu-tc-cerfication"
     src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
 
@@ -33,7 +37,7 @@
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
 
-    <a   href="${ctx}/index.do">
+    <a   href="${ctx}/main.do;jsessionid=${sessionid}">
     <div class="fanhui absolute pic"></div>
 
     <div class="fanhui-text absolute">首页</div>
@@ -41,7 +45,7 @@
 
     <div class="title">推荐</div>
 
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 
 
@@ -62,10 +66,7 @@
 </div>
 
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
-<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
+
 
 <script type="application/javascript">
 
@@ -76,7 +77,7 @@
     var categoryId = $("#categoryId").val();
     var isSearching = false;
     pageNum = 1;
-    var urlBase = '${ctx}/gamedetail/detaillist.do?product_id=';
+    var urlBase = '${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=';
     var el = $('#list');
     el.empty();
 
@@ -118,7 +119,7 @@
 
                     } else if (entry.banner.res_type == 9) {
 
-                        stringBuffer.push('<a href=http://sales.wostore.cn:8083/hytq/hytq.action?link=0">');
+                        stringBuffer.push('<a href=${ctx}/member.do;jsessionid=${sessionid}">');
                         stringBuffer.push('<img src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
                     }
 
@@ -131,7 +132,7 @@
                         stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                         stringBuffer.push('</div>');
 
-                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do?product_id=' + entry.product_id + '">');
+                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=' + entry.product_id + '">');
 
 
                         stringBuffer.push('<div class="pro_cp">');

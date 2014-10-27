@@ -15,9 +15,13 @@
     <meta content="false" id="twcClient" name="twcClient">
     <title>首页</title>
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">
+        var contextPath = '${ctx}';
+    </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <script type="text/javascript" src="${ctx}/static/js/slider.js"></script>
+
 
     <!--弹出文本提示写入cooking-->
     <script type="text/javascript">
@@ -75,16 +79,25 @@
         }
 
     </script>
+    <script type="text/javascript">
+        <c:if test="${isIndex == true}">
+        logNumber("${ctx}", [isOldUser() ? '81' : '80']);
+        </c:if>
+
+        logNumber("${ctx}", ['61']);
+    </script>
+
+
 </head>
 
 <body class="ibody_bg">
 <!--top-->
 <div class="head_index relative">
-    <div class="logo absolute"><a href="${ctx}/index.do">首页</a></div>
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="logo absolute"><a href="${ctx}/main.do;jsessionid=${sessionid}">首页</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <!--图片广告位-->
-
+<input type="hidden" value="${ctx}" id="ctx"/>
 <c:if test="${!empty b.topAD}">
     <div id="note" class="note"
          style="display:none;background:url(${ctx}/static/images/icon_huodong.png) #ffffcf 15px center no-repeat;background-size:30px 30px;position: relative">
@@ -99,33 +112,25 @@
         <div class="block_home_slider">
             <div id="home_slider" class="flexslider">
                 <ul class="slides">
-
-
                     <c:forEach var="a" items="${adList}">
                         <li>
                             <div class="slide">
                                 <c:choose>
                                     <%--游戏--%>
                                 <c:when test="${a.banner.resType==2}">
-                                <a href="${ctx}/gamedetail/detaillist.do?product_id=${a.banner.linkId}">
+                                <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${a.banner.linkId}">
                                     </c:when>
                                         <%--专题--%>
                                     <c:when test="${a.banner.resType==3}">
 
-                                    <a href="${ctx}/subject/detailList.do?id=${a.banner.linkId}">
+                                    <a href="${ctx}/subject/detailList.do;jsessionid=${sessionid}?id=${a.banner.linkId}">
 
                                         </c:when>
                                             <%--活动--%>
                                         <c:when test="${a.banner.resType==4}">
-                                        <a href="${ctx}/gameInfo/detail.do?id=${a.banner.linkId}">
-
-
+                                        <a href="${ctx}/gameInfo/detail.do;jsessionid=${sessionid}?id=${a.banner.linkId}">
                                             </c:when>
-
-
                                             </c:choose>
-
-
                                             <img src="${a.banner.bannerUrl}" alt=""/>
                                         </a>
 
@@ -160,67 +165,56 @@
 <!--搜索-->
 <!--列表-->
 <div class="w_search_box" style="margin-top: 15px;">
-    <div class="w_inputbox"><div class="w_in_01"><a onclick="clearSearch();" href="#">删除</a></div>
+    <div class="w_inputbox">
+        <div class="w_in_01"><a onclick="clearSearch();" href="#">删除</a></div>
         <div class="w_in_02"></div>
-        <input type="text" value="请输入搜索内容" onfocus="if (value =='请输入搜索内容'){value =''}" onblur="if (value ==''){value='请输入搜索内容'}" id="w_input" class="w_input">
-    </div><input type="button"  onclick="search()" value="搜索" class="w_buttion" name="">
+        <input type="text" value="请输入搜索内容" onfocus="if (value =='请输入搜索内容'){value =''}"
+               onblur="if (value ==''){value='请输入搜索内容'}" id="w_input" class="w_input">
+    </div>
+    <input type="button" onclick="search()" value="搜索" class="w_buttion" name="">
 </div>
 <!--活动-->
 
 
-<dl class="huodong_box">
-
-
+<!--活动-->
+<c:if test="${fn:length(bannerList) > 0}">
     <c:set var="s" value="1"></c:set>
-    <c:forEach var="mo" items="${b.activityModule}">
-        <c:if test="${mo.adType==3 && s==1}">
-            <dt>
-            <div class="huodong">
-                <div class="index_hd_title">网游活动</div>
-                <a href="${ctx}/netgame/info.do">
-                    <div class="index_hd_count"><img src="img/4.png" height="100"/></div>
-                    <div class="index_hd_url">${mo.description}</div>
-                </a>
-                <c:set var="s" value="2"></c:set>
-            </div>
-            </dt>
-        </c:if>
-    </c:forEach>
+    <dl class="huodong_box">
+        <c:forEach var="mo" items="${bannerList}">
 
+            <c:choose>
 
-    <c:set var="i" value="2"></c:set>
-    <c:forEach var="mo" items="${b.activityModule}">
+                <c:when test="${s==1}">
 
-    <c:choose>
+                    <dt>
+                    <div class="huodong">
+                        <div class="index_hd_title">网游活动</div>
+                        <a href="${ctx}/netgame/info.do;jsessionid=${sessionid}">
+                            <div class="index_hd_count"><img src="img/4.png" height="100"/></div>
+                            <div class="index_hd_url">${mo.description}</div>
+                        </a>
+                    </div>
+                    </dt>
 
-    <c:when test="${mo.adType==3 && i==2}">
+                    <c:set var="s" value="2"></c:set>
 
-        <c:set var="i" value="1"></c:set>
+                </c:when>
+                <c:when test="${s==2}">
 
-    </c:when>
-
-    <c:when test="${mo.adType==3 && i==1}">
-
-    <dd>
-        <div class="huodong_r">
-            <div class="index_hd_title">活动</div>
-
-            <a href="${ctx}/activity/list.do">
-                <div class="index_hd_count"><img src="img/5.png" width="320" height="160"/></div>
-                <div class="index_hd_url">${mo.description}</div>
-            </a>
-
-        </div>
-    </dd>
-</dl>
-</c:when>
-
-
-</c:choose>
-
-
-</c:forEach>
-
+                    <dt>
+                    <div class="huodong_r">
+                        <div class="index_hd_title">活动</div>
+                        <a href="${ctx}/activity/list.do;jsessionid=${sessionid}">
+                            <div class="index_hd_count"><img src="img/4.png" height="100"/></div>
+                            <div class="index_hd_url">${mo.description}</div>
+                        </a>
+                    </div>
+                    </dt>
+                </c:when>
+            </c:choose>
+        </c:forEach>
+    </dl>
+</c:if>
 
 <!--热门游戏-->
 <c:if test="${fn:length(hot) > 0}">
@@ -228,26 +222,18 @@
         <div class="hot_youxi_title"><em class="i1"></em><span>火热</span></div>
         <div class="hot_youxi_count">
             <ul>
+
                 <c:forEach var="h" items="${hot}">
+
                     <li>
                         <dl class="hotyouxi_list">
                             <dt>
-                                <a href="${ctx}/gamedetail/detaillist.do?product_id=${h.productId}"><img
+
+                                <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${h.productId}"><img
                                         src="${h.iconUrl}"/></a>
+
                             </dt>
-                            <dd class="tit"><a href="#">
-
-
-                                <c:choose>
-                                    <c:when test="${fn:length(h.title) > 4}">
-                                        <c:out value="${fn:substring(h.title, 0, 4)}..."/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:out value="${h.title}"/>
-                                    </c:otherwise>
-                                </c:choose>
-
-
+                            <dd class="tit etc"><a href="#">${h.title}
                             </a></dd>
                             <dd class="mb">
                                 <fmt:formatNumber value="${h.apkSize/1024}" pattern="##.#" minFractionDigits="1"/>M
@@ -256,76 +242,56 @@
                                 <a href="#">下载</a></dd>
                         </dl>
                     </li>
+
+
                 </c:forEach>
             </ul>
         </div>
-        <div class="hot_youxi_more"><a href="${ctx}/recommend/init.do"><span>更多火热游戏</span></a></div>
+        <div class="hot_youxi_more"><a href="${ctx}/recommend/init.do;jsessionid=${sessionid}"><span>更多火热游戏</span></a>
+        </div>
     </div>
 </c:if>
+
 <!--活动版块-->
-<div class="hot_youxi">
-    <div class="hot_youxi_title"><em class="i2"></em><span>活动</span></div>
+<c:if test="${fn:length(bList) > 0}">
+    <div class="hot_youxi">
+        <div class="hot_youxi_title"><em class="i2"></em><span>活动</span></div>
+        <div class="huodong_hot">
 
-    <c:set var="s1" value="1"></c:set>
-    <c:forEach var="mo" items="${b.activityBanner}">
+            <div class="huodongzt">
+                <a href="${bList[0].url}">
+                    <div class="index_hd_count"><img src="${bList[0].imageName}" height="130"/></div>
+                    <div class="index_hd_url">${bList[0].description}</div>
+                </a>
+            </div>
+
+        </div>
 
 
-        <c:if test="${mo.adType==4 && s1==1}">
-            <div class="huodong_hot">
-                <div class="huodongzt">
-                    <a href="${mo.url}">
-                        <div class="index_hd_count"><img src="${mo.imageName}" height="130"/></div>
-                        <div class="index_hd_url">${mo.description}</div>
+        <dl class="huodong_box22">
+            <dt>
+            <div class="huodong">
+                <a href="#">
+                    <div class="index_hd_count"><img src="img/4.png" height="100"/></div>
+                    <div class="index_hd_url">${bList[1].description}</div>
+                </a>
+            </div>
+            </dt>
+            <dd>
+                <div class="huodong_r">
+                    <a href="#">
+                        <div class="index_hd_count"><img src="img/5.png" width="320" height="160"/></div>
+                        <div class="index_hd_url">${bList[2].description}</div>
                     </a>
                 </div>
-            </div>
-            <c:set var="s1" value="2"></c:set>
-        </c:if>
-    </c:forEach>
-
-
-    <c:set var="i" value="2"></c:set>
-    <dl class="huodong_box22">
-        <c:forEach var="mo" items="${b.activityBanner}">
-            <dd>
-                <c:choose>
-                    <c:when test="${mo.adType==4 && i==2}">
-
-                        <c:set var="i" value="1"></c:set>
-
-                    </c:when>
-
-                    <c:when test="${mo.adType==4 && i==1}">
-
-
-                        <div class="huodong">
-                            <a href="#">
-                                <div class="index_hd_count"><img src="img/5.png" width="320" height="160"/></div>
-                                <div class="index_hd_url">${mo.description}</div>
-                            </a>
-                        </div>
-                        <c:set var="i" value="0"></c:set>
-
-                    </c:when>
-                    <c:when test="${mo.adType==4 && i==0}">
-                        <div class="huodong_r">
-                            <a href="#">
-                                <div class="index_hd_count"><img src="img/5.png" width="320" height="160"/></div>
-                                <div class="index_hd_url">${mo.description}</div>
-                            </a>
-                        </div>
-                    </c:when>
-
-                </c:choose>
-
             </dd>
+        </dl>
+        <div class="hot_youxi_more"><a href="${ctx}/activity/list.do;jsessionid=${sessionid}"><span>全部活动</span></a>
+        </div>
+    </div>
+</c:if>
 
-        </c:forEach>
-    </dl>
 
-
-    <div class="hot_youxi_more"><a href="${ctx}/activity/list.do"><span>全部活动</span></a></div>
-</div>
 <!--最新榜-->
 <c:if test="${fn:length(newest) > 0}">
     <div class="hot_youxi">
@@ -335,7 +301,7 @@
         <c:forEach var="n" items="${newest}">
             <div class="pro_list"><a href="#">
                 <div class="pro_cp">
-                    <a href="${ctx}/gamedetail/detaillist.do?product_id=${n.productId}">
+                    <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}">
                         <div class="pro_cp_l"><img src="${n.iconUrl}" height="86"/></div>
                     </a>
                     <dl class="pro_cp_c">
@@ -351,7 +317,8 @@
         </c:forEach>
 
 
-        <div class="hot_youxi_more"><a href="${ctx}/newGame/topNewest.do"><span>查看更多最新榜</span></a></div>
+        <div class="hot_youxi_more"><a
+                href="${ctx}/newGame/topNewest.do;jsessionid=${sessionid}"><span>查看更多最新榜</span></a></div>
     </div>
 </c:if>
 <!--开服信息-->
@@ -363,24 +330,14 @@
             <ul>
 
                 <c:forEach var="n" items="${netGame.netGameServerItemVoList}">
-                    <li><a href="${ctx}/gamedetail/detaillist.do?product_id=${n.productId}">
+                    <li><a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}">
                         <div class="kf_left">
                             <div class="kf_img"><img src="${n.iconUrl}" height="86"/></div>
                             <div class="kf_dow radius">下载</div>
                         </div>
                         <div class="kf_right">
-                            <div class="kfr_1">
-
-                                <c:choose>
-                                    <c:when test="${fn:length(n.gameName) > 4}">
-                                        <c:out value="${fn:substring(n.gameName, 0, 4)}..."/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:out value="${n.gameName}"/>
-                                    </c:otherwise>
-                                </c:choose>
-
-
+                            <div class="kfr_1 etc">
+                                    ${n.gameName}
                             </div>
                             <div class="kfr_2"><fmt:formatNumber pattern="##.#" value="${n.apkSize/1024}"
                                                                  minFractionDigits="1"></fmt:formatNumber> MB
@@ -399,8 +356,7 @@
 
             </ul>
         </div>
-        <!--<div class="hot_youxi_more"><a href="#"><span>查看更多飚升榜</span></a></div>
-        --></div>
+    </div>
 </c:if>
 
 <!--分类-->
@@ -412,12 +368,14 @@
             <ul>
 
                 <c:forEach var="ca" items="${category}">
-                    <li><a href="${ctx}/category/detail.do?categoryId=${ca.id}&categoryName=${ca.name}"
+                    <li>
+                        <a href="${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId=${ca.id}&categoryName=${ca.name}"
                            class="nf1">${ca.name}</a></li>
                 </c:forEach>
             </ul>
         </div>
-        <div class="hot_youxi_more"><a href="${ctx}/category/list.do"><span>查看更多</span></a></div>
+        <div class="hot_youxi_more"><a href="${ctx}/category/list.do;jsessionid=${sessionid}"><span>查看更多</span></a>
+        </div>
     </div>
 </c:if>
 <!-- 底部公告-->
@@ -433,25 +391,25 @@
 <!--主menu区-->
 <div class="user_menu">
     <ul>
-        <li><a href="${ctx}/subject/list.do">
+        <li><a href="${ctx}/subject/list.do;jsessionid=${sessionid}">
             <dl class="user_icon">
                 <dt><img src="${ctx}/static/images/user_icon8.png"/></dt>
                 <dd>专题</dd>
             </dl>
         </a></li>
-        <li><a href="${ctx}/member.do">
+        <li><a href="${ctx}/member.do;jsessionid=${sessionid}">
             <dl class="user_icon2">
                 <dt><img src="${ctx}/static/images/user_icon3.png"/></dt>
                 <dd>0元畅玩</dd>
             </dl>
         </a></li>
-        <li><a href="${ctx}/newGame/topNewest.do">
+        <li><a href="${ctx}/newGame/topNewest.do;jsessionid=${sessionid}">
             <dl class="user_icon3">
                 <dt><img src="${ctx}/static/images/user_icon4.png"/></dt>
                 <dd>新游排行</dd>
             </dl>
         </a></li>
-        <li><a href="${ctx}/category/list.do">
+        <li><a href="${ctx}/category/list.do;jsessionid=${sessionid}">
             <dl class="user_icon4">
                 <dt><img src="${ctx}/static/images/user_icon5.png"/></dt>
                 <dd>分类</dd>
@@ -467,24 +425,21 @@
 
     }
 
-    function search(){
+    function search() {
         var keyword;
-        var inputtext= $("#w_input").val();
+        var inputtext = $("#w_input").val();
 
-        if(inputtext=="" || inputtext=="请输入搜索内容" ){
+        if (inputtext == "" || inputtext == "请输入搜索内容") {
 
             alert("必须项")
             return false;
-        }else{
+        } else {
 
-            keyword=encodeURI(encodeURI(inputtext));
+            keyword = encodeURI(encodeURI(inputtext));
 
-           location.href = "${ctx}/search/result.do?keyword="+keyword;
+            location.href = "${ctx}/search/result.do;jsessionid=${sessionid}?keyword=" + keyword;
         }
     }
-
-
-
 
 
 </script>

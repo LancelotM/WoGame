@@ -22,9 +22,10 @@
         var contextPath = '${ctx}';
     </script>
 
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" name="baidu-tc-cerfication"
             src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
     <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
@@ -36,7 +37,7 @@
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
-    <a   href="${ctx}/index.do">
+    <a   href="${ctx}/main.do;jsessionid=${sessionid}">
         <div class="fanhui absolute pic"></div>
 
         <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
@@ -45,7 +46,7 @@
 
     <div class="title">专题</div>
 
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <%--<div style="height: 50px"></div>--%>
 
@@ -104,7 +105,7 @@
 
                     stringBuffer.push('<dl class="juanti_list">');
 
-                    stringBuffer.push('<a href="${ctx}/subject/detailList.do?id=' + entry.id +'">');
+                    stringBuffer.push('<a href="${ctx}/subject/detailList.do;jsessionid=${sessionid}?id=' + entry.id +'">');
                     stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                     stringBuffer.push('</div>');
 

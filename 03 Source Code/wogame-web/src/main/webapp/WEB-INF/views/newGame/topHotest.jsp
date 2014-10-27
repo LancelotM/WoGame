@@ -21,9 +21,12 @@
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
-
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" name="baidu-tc-cerfication"
             src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
+    <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 
 </head>
 
@@ -32,20 +35,20 @@
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%">
 
-    <a   href="${ctx}/index.do">
+    <a   href="${ctx}/main.do;jsessionid=${sessionid}">
     <div class="fanhui absolute pic"></div>
 
     <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
     </a>
     <div class="title">排行</div>
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <div style="height: 50px; width: 100%"></div>
 
 <!--切换-->
 <div class="qiehuan_ph" style="position: fixed;width:100%;z-index: 1001; margin: 0 auto;">
-    <div class="qiehuan_ph_1"><a href="#">飙升榜</a></div>
-    <div class="qiehuan_ph_2"><a href="${ctx}/newGame/topNewest.do">最新榜</a></div>
+    <div class="qiehuan_ph_1"><a href="${ctx}/newGame/topHotest.do;jsessionid=${sessionid}">飙升榜</a></div>
+    <div class="qiehuan_ph_2"><a href="${ctx}/newGame/topNewest.do;jsessionid=${sessionid}">最新榜</a></div>
 </div>
 <div style="height: 50px;"></div>
 
@@ -66,10 +69,7 @@
 </div>
 
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
-<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
+
 
 <script type="application/javascript">
 
@@ -81,7 +81,7 @@
     var isSearching = false;
     pageNum = 1;
 
-    var urlBase = '${ctx}/gamedetail/detaillist.do?product_id=';
+    var urlBase = '${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=';
     var el = $('#list');
     el.empty();
 

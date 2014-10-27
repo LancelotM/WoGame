@@ -21,6 +21,10 @@
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 
     <script type="text/javascript" name="baidu-tc-cerfication"
             src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
@@ -33,7 +37,7 @@
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
 
-    <a   href="${ctx}/subject/list.do">
+    <a   href="${ctx}/subject/list.do;jsessionid=${sessionid}">
         <div class="fanhui absolute pic"></div>
 
         <div class="fanhui-text absolute" style="color:#FF9C00 " id="t1"></div>
@@ -42,7 +46,7 @@
 
     <div class="title">专题详情</div>
 
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
 
@@ -71,10 +75,7 @@
 </div>
 
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
-<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
+
 <input type="hidden" value="${id}" id="subId"/>
 
 <script type="application/javascript">
@@ -86,7 +87,7 @@
     var subId = $("#subId").val();
     var isSearching = false;
     pageNum = 1;
-    var urlBase = '${ctx}/gamedetail/detaillist.do?product_id=';
+    var urlBase = '${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=';
     var el = $('#list');
     el.empty();
 
@@ -96,7 +97,7 @@
         }
         isSearching = true;
 
-        $.getJSON("${ctx}/subject/gamelist.do", {"id": subId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
+        $.getJSON("${ctx}/subject/gamelist.do;jsessionid=${sessionid}", {"id": subId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
 
             if (data.description != null) {
                $("#t1").text(su(data.title,5,0,4));
@@ -130,7 +131,7 @@
                     stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                     stringBuffer.push('</div>');
 
-                    stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do?product_id=' + entry.product_id + '">');
+                    stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=' + entry.product_id + '">');
 
 
                     stringBuffer.push('<div class="pro_cp">');

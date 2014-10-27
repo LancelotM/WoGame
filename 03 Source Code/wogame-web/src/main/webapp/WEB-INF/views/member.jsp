@@ -13,27 +13,35 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="false" id="twcClient" name="twcClient">
-    <title>推荐</title>
+    <title>0元畅玩</title>
 
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
-    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
-    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
 
-    <script type="text/javascript" name="baidu-tc-cerfication"
-            src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
 
 </head>
+<script type="application/javascript">
+    $(function(){
 
-<body class="ibody_bg" style="text-align: center">
+        $("iframe").height(screen.availHeight);
+        $("iframe").width(document.body.clientWidth);
+
+    })
+
+</script>
+
+
+
+<body>
 <!--top-->
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
 
-    <a   href="${ctx}/index.do">
+    <a   href="${ctx}/main.do;jsessionid=${sessionid}">
         <div class="fanhui absolute pic"></div>
 
         <div class="fanhui-text absolute">首页</div>
@@ -41,13 +49,15 @@
 
     <div class="title">0元畅玩</div>
 
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 
 <div style="height: 56px"></div>
 
     　　
-            <iframe  style="height: 600px;" width="100%" frameborder="0" src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0"/>
+            <iframe  frameborder="0" src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0"/>
+
+
 
 
 

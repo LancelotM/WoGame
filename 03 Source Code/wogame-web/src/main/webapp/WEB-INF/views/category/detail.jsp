@@ -19,10 +19,13 @@
     <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
-</script>
-
+    </script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" name="baidu-tc-cerfication"
 src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5a"></script>
+    <script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
 
 </head>
 
@@ -31,14 +34,10 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
-<a   href="${ctx}/category/list.do" >
+<a   href="${ctx}/category/list.do;jsessionid=${sessionid}" >
     <div class="fanhui absolute pic"></div>
 
-    <div class="fanhui-text absolute" style="color:#FF9C00 " id="c1">
-
-        ${categoryName}
-
-    </div>
+    <div class="fanhui-text absolute" style="color:#FF9C00 " id="c1">${categoryName}</div>
 </a>
 
 
@@ -46,7 +45,7 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
 
     <div class="title">类别</div>
 
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do">搜索</a></div>
+    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>
 <div style="height: 50px;"></div>
 
@@ -119,10 +118,7 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
 </div>
 
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/iscroll.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
-<script type="text/javascript" src="${ctx}/static/js/jquery.touchwipe.js"></script>
+
 <input type="hidden" id="categoryId" value="${categoryId}"/>
 <script type="application/javascript">
 
@@ -134,7 +130,7 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
 
     var isSearching = false;
     pageNum = 1;
-    var urlBase = '${ctx}/gamedetail/detaillist.do?product_id=';
+    var urlBase = '${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=';
     var el = $('#list');
     el.empty();
 
@@ -144,7 +140,7 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
         }
         isSearching = true;
 
-        $.getJSON("${ctx}/category/ajaxDetail.do", {"categoryId": categoryId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
+        $.getJSON("${ctx}/category/ajaxDetail.do;jsessionid=${sessionid}", {"categoryId": categoryId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
 
             isSearching = false;
             if (data.items.length != 0) {
@@ -185,7 +181,7 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
                         stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                         stringBuffer.push('</div>');
 
-                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do?product_id=' + entry.product_id + '">');
+                        stringBuffer.push('<a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=' + entry.product_id + '">');
 
 
                         stringBuffer.push('<div class="pro_cp">');
@@ -285,7 +281,7 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
     function category(id,name){
         var name=encodeURI(encodeURI(name));
 
-        location.href = "${ctx}/category/detail.do?categoryId="+id+"&categoryName="+name;
+        location.href = "${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId="+id+"&categoryName="+name;
 
     }
 
