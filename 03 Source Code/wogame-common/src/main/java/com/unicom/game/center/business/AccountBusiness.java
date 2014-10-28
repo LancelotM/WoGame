@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.unicom.game.center.db.dao.AccountDao;
 import com.unicom.game.center.db.domain.AccountDomain;
+import com.unicom.game.center.model.AccountInfo;
 import com.unicom.game.center.utils.AESEncryptionHelper;
 import com.unicom.game.center.utils.Logging;
 
@@ -31,27 +32,32 @@ public class AccountBusiness {
 	 * 
 	 * @param username
 	 * @param password
-	 * @return --0:OK  --1:user not exist  --2:password error  --3:other error
+	 * @return loginStatus --0:OK  --1:user not exist  --2:password error  --3:other error
 	 */
-	public int login(String username, String password){
-		int flag = 0;
+	public AccountInfo login(String username, String password){
+		AccountInfo accountInfo = new AccountInfo();
+		
+		accountInfo.setLoginStatus(0);
 		
 		try{
 			AccountDomain account = accountDao.fetchUserByName(username);
 			if(null != account){
 				String pwd = AESEncryptionHelper.encrypt(password, secretKey);
 				if(!pwd.equals(account.getPassword())){
-					flag = 2;
+					accountInfo.setLoginStatus(2);
+				}else{
+					accountInfo.setUserName(username);
+					accountInfo.setRole(account.getRole());
 				}
 			}else{
-				flag = 1;
+				accountInfo.setLoginStatus(1);
 			}
 		}catch(Exception e){
 			Logging.logError("Error occur in login", e);
-			flag = 3;
+			accountInfo.setLoginStatus(3);
 		}
 		
-		return flag;
+		return accountInfo;
 	}
 	
 	/**

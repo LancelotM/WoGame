@@ -125,17 +125,18 @@ public class IndexController {
         List<RollingAdVo> list = rollingAdListVo.getData();
 
         BannerInfoList banner = bannerBusiness.fetchAllBanner();
-        //追加滚动
+        //追加后台配置滚动
         List<BannerInfo> topBanner = banner.getTopBanner();
         for (BannerInfo b : topBanner) {
             if (b.getAdType() == 2) {
 
                 RollingAdVo r = new RollingAdVo();
-                r.setTitle(b.getTitle());
+                r.setTitle(b.getDescription());
                 Banner banner1 = new Banner();
-                banner1.setLinkId(b.getUrl());
-                banner1.setResType(1);//外链
                 banner1.setBannerUrl(b.getImageName());
+                banner1.setExternalUrl(b.getUrl());
+                //10表示后台配置
+                banner1.setResType(10);
                 r.setBanner(banner1);
 
                 list.add(r);
@@ -176,9 +177,9 @@ public class IndexController {
         model.addAttribute("category", category);
 
         //活动
-        ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(1, 3);
-        List<ActivityInfoItemVo> activity = activityInfoListVo.getActivityInfoVo().getActivityInfoItemVoList();
-        model.addAttribute("activity", activity);
+//        ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(1, 3);
+//        List<ActivityInfoItemVo> activity = activityInfoListVo.getActivityInfoVo().getActivityInfoItemVoList();
+//        model.addAttribute("activity", activity);
 
         //开服信息
         NetGameServerVo netGame = gameService.netGameLatestServerList();
@@ -187,7 +188,7 @@ public class IndexController {
         //公告
         model.addAttribute("b", banner);
 
-        //网游活动 活动
+        //后台配置活动模块
         List<BannerInfo> bannerInfoList = banner.getActivityModule();
         List<BannerInfo> bannerList = new ArrayList<BannerInfo>();
         if (bannerInfoList != null) {
@@ -199,7 +200,7 @@ public class IndexController {
         }
         model.addAttribute("bannerList", bannerList);
 
-        //三个活动
+        //后台配置三个活动
         List<BannerInfo> BannerInfoList = banner.getActivityBanner();
         List<BannerInfo> bList = new ArrayList<BannerInfo>();
         if (BannerInfoList != null) {

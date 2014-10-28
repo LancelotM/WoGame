@@ -1,7 +1,11 @@
 package com.unicom.game.center.controller;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +15,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -45,8 +48,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> topBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_BANNER);
             if(null != topBannerInfos){
                 model.put("topBannerInfos", topBannerInfos);
@@ -108,8 +111,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> activityBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_ACTIVITY_BANNER);
             if(null != activityBannerInfos){
                 model.put("activityBannerInfos",activityBannerInfos);
@@ -169,16 +172,21 @@ public class BannerController {
     }
 
     @RequestMapping(value = "/delbanner", method = {RequestMethod.GET})
-    public ModelAndView delBanner(@RequestParam(value = "id", required = true) int id, @RequestParam(value = "type", required = true) int type,HttpServletResponse response){
+    public @ResponseBody List<BannerInfo> delBanner(@RequestParam(value = "id", required = true) int id, @RequestParam(value = "type", required = true) int type,HttpServletResponse response){
         ModelMap modelMap = new ModelMap();
         boolean flag = bannerBusiness.deleteBanner(id);
         modelMap.put("deleteFlag",flag);
-        List<BannerInfo> BannerInfos = bannerBusiness.fetchBannerInfos(type);
-        if(null != BannerInfos){
-            modelMap.put("topBannerInfos", BannerInfos);
-        }
-        return new ModelAndView("/topbanner", modelMap);
+        List<BannerInfo> bannerInfos = bannerBusiness.fetchBannerInfos(type);
+
+        return bannerInfos;
     }
+    
+    @RequestMapping(value = "/showbanner", method = {RequestMethod.GET})
+    public @ResponseBody List<BannerInfo> showBanner(@RequestParam(value = "type", required = true) int type,HttpServletResponse response){
+        List<BannerInfo> bannerInfos = bannerBusiness.fetchBannerInfos(type);
+
+        return bannerInfos;
+    }    
 
     @RequestMapping(value = "/floatwindow", method = {RequestMethod.GET})
     public ModelAndView floatWindow(HttpServletRequest request, HttpSession session) {
@@ -186,8 +194,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> floatWindowInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_AD);
             if(null != floatWindowInfos){
                 model.put("floatWindowInfos",floatWindowInfos);
@@ -252,8 +260,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> bottomBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_FOOTER_AD);
             if(null != bottomBannerInfos){
                 model.put("bottomBannerInfos",bottomBannerInfos);
@@ -313,8 +321,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> activityModuleInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_ACTIVITY_MODULE);
             if(null != activityModuleInfos){
                 model.put("activityModuleInfos",activityModuleInfos);
@@ -419,11 +427,9 @@ public class BannerController {
                     e.printStackTrace();
                 }
                 bannerMap.put(name,value);
-                System.out.println("===========================" + name + ":" + value + "===============================");
             } else {
                 String fileName = item.getName();
                 bannerMap.put("imageName",fileName);
-                System.out.println("===========================" + fileName  + "===============================");
 
                 try {
                     uploadedStream = item.getInputStream();

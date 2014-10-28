@@ -1,8 +1,8 @@
 package com.unicom.game.center.controller;
 
-import com.unicom.game.center.business.PackageReportBusiness;
-import com.unicom.game.center.business.ZTEReportBusiness;
-import com.unicom.game.center.model.ReportInfo;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import com.unicom.game.center.business.PackageReportBusiness;
+import com.unicom.game.center.model.ReportInfo;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,18 +27,8 @@ public class ReportController {
     @Autowired
     private PackageReportBusiness packageReport;
 
-    @Autowired
-    private ZTEReportBusiness zteReport;
-
-//    @RequestMapping(value = "/getReport", method = {RequestMethod.GET})
-//    public ModelAndView getReport(HttpSession session){
-//        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-//        if(null != session && null != adminFlag && adminFlag.booleanValue()){
-//            return new ModelAndView("/report");
-//        }else{
-//            return new ModelAndView("/index");
-//        }
-//    }
+//    @Autowired
+//    private ZTEReportBusiness zteReport;
 
     @RequestMapping(value = "/reportInfo", method = {RequestMethod.POST})
     public ModelAndView getPackageReport(@RequestParam(value="channelId",required = false) String channelId,
@@ -48,13 +38,13 @@ public class ReportController {
         ModelMap map = new ModelMap();
         ReportInfo packageReportInfo = packageReport.fetchPackageReport(channelId, startDate, endDate);
         ReportInfo receiptReportInfo = packageReport.fetchReceiptInfo(channelId, startDate, endDate);
-        ReportInfo zteReportInfo = zteReport.fetchZTEInfo(channelId,startDate,endDate);
+//        ReportInfo zteReportInfo = zteReport.fetchZTEInfo(channelId,startDate,endDate);
         map.put("start",startDate);
         map.put("end",endDate);
         map.put("chaid",channelId);
         map.put("packageReportInfo",packageReportInfo);
         map.put("receiptReportInfo",receiptReportInfo);
-        map.put("zteReportInfo",zteReportInfo);
+//        map.put("zteReportInfo",zteReportInfo);
         if(null == session){
             session = request.getSession(true);
         }

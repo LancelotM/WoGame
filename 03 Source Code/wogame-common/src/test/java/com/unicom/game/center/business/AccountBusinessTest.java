@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.unicom.game.center.model.AccountInfo;
+
 /**
  * @author Alex Yin
  * 
@@ -27,7 +29,7 @@ public class AccountBusinessTest {
 	
 	@Test
 	public void testLogin(){
-		int flag = account.login("admin", "hello123");
-		System.out.println(flag);
+		AccountInfo accountInfo = account.login("admin", "hello123");
+		System.out.println(accountInfo.getLoginStatus());
 	}
 }
