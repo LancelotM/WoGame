@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +107,18 @@ public class IndexController {
         return "member";
     }
 
+    @RequestMapping(value = "/banner", method = RequestMethod.GET)
+    public String topBannerAdd(@RequestParam(value = "linkId") String linkId,@RequestParam(value = "title") String title, Model model) {
+       model.addAttribute("linkId",linkId);
+        try {
+            model.addAttribute("title", URLDecoder.decode(title, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            model.addAttribute("title", title);
+        }
+        return "banner";
+    }
+
+
     //方法
     public void initIndexData(Model model, int pageNum) {
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
@@ -119,8 +133,9 @@ public class IndexController {
                 RollingAdVo r = new RollingAdVo();
                 r.setTitle(b.getTitle());
                 Banner banner1 = new Banner();
-                banner1.setBannerUrl(b.getUrl());
-                banner1.setResType(b.getAdType());
+                banner1.setLinkId(b.getUrl());
+                banner1.setResType(1);//外链
+                banner1.setBannerUrl(b.getImageName());
                 r.setBanner(banner1);
 
                 list.add(r);

@@ -127,7 +127,7 @@
 <div class="youxi_lr_02">
     <div class="youxi_lr_02_title">游戏介绍</div>
 </div>
-<div class="youxi_lr_03 youxi_desc_height_min etc" onclick="toggleShowDesc();">
+<div class="youxi_lr_03 youxi_desc_height_min" onclick="toggleShowDesc();">
     ${v.description}
 
     <div class="youxi_lr_04 youxi_lr_04_bottom"

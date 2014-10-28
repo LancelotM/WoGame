@@ -15,11 +15,14 @@
     <meta content="false" id="twcClient" name="twcClient">
     <title>首页</title>
     <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/slides.css" rel="stylesheet" type="text/css"/>
+    <link href="${ctx}/static/styles/paging.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var contextPath = '${ctx}';
     </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
+    <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/slider.js"></script>
 
 
@@ -78,6 +81,7 @@
 
         }
 
+
     </script>
     <script type="text/javascript">
         <c:if test="${isIndex == true}">
@@ -85,6 +89,33 @@
         </c:if>
 
         logNumber("${ctx}", ['61']);
+    </script>
+
+    <script type="text/javascript" language="JavaScript">
+        $(function () {
+            $('#home_slider').flexslider({
+                animation: 'slide',
+                controlNav: true,
+                directionNav: true,
+                animationLoop: true,
+                slideshow: false,
+                useCSS: false
+            });
+
+            $('#slides').slidesjs({
+                width: 320,
+                height: 160,
+                navigation: false,
+                start: 1,
+                play: {
+                    auto: true
+                }
+
+
+            });
+
+
+        });
     </script>
 
 
@@ -101,67 +132,60 @@
 <c:if test="${!empty b.topAD}">
     <div id="note" class="note"
          style="display:none;background:url(${ctx}/static/images/icon_huodong.png) #ffffcf 15px center no-repeat;background-size:30px 30px;position: relative">
-        <div>${b.topAD.title}<a style="position: absolute; right: 0px;" href="#" onclick="closeclick()"
-                                class="guanbi"><img
+        <div><a href="javascript:bannerdetail('${b.topAD.url}','${b.topAD.title}')">${b.topAD.description}</a><a
+                style="position: absolute; right: 0px;" href="#" onclick="closeclick()"
+                class="guanbi"><img
                 src="${ctx}/static/images/colose.png"
                 border="0"/></a></div>
     </div>
 </c:if>
+
+
+
+
+<!--大图-->
 <c:if test="${fn:length(adList) > 0}">
-    <div class="hot_banner">
-        <div class="block_home_slider">
-            <div id="home_slider" class="flexslider">
-                <ul class="slides">
-                    <c:forEach var="a" items="${adList}">
-                        <li>
-                            <div class="slide">
-                                <c:choose>
-                                    <%--游戏--%>
-                                <c:when test="${a.banner.resType==2}">
-                                <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${a.banner.linkId}">
-                                    </c:when>
-                                        <%--专题--%>
-                                    <c:when test="${a.banner.resType==3}">
+    <div id="pic_div" class="container block_home_slider">
+        <div id="slides" >
+            <c:forEach var="a" items="${adList}">
+                <c:choose>
+                    <%--外链--%>
+                    <c:when test="${a.banner.resType==1}">
+                        <img src="${a.banner.bannerUrl}"
+                             onclick="javascript:bannerdetail('${a.banner.linkId}','${a.title}')" alt=""/>
+                    </c:when>
 
-                                    <a href="${ctx}/subject/detailList.do;jsessionid=${sessionid}?id=${a.banner.linkId}">
+                    <%--游戏--%>
+                    <c:when test="${a.banner.resType==2}">
+                        <img src="${a.banner.bannerUrl}"
+                         onclick="javascript:toAdDetail('${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${a.banner.linkId}')"
+                             alt=""/>
+                    </c:when>
 
-                                        </c:when>
-                                            <%--活动--%>
-                                        <c:when test="${a.banner.resType==4}">
-                                        <a href="${ctx}/gameInfo/detail.do;jsessionid=${sessionid}?id=${a.banner.linkId}">
-                                            </c:when>
-                                            </c:choose>
-                                            <img src="${a.banner.bannerUrl}" alt=""/>
-                                        </a>
+                    <%--专题--%>
+                    <c:when test="${a.banner.resType==3}">
+                        <img src="${a.banner.bannerUrl}"
+                             onclick="javascript:toAdDetail('${ctx}/subject/detailList.do;jsessionid=${sessionid}?id=${a.banner.linkId}')" alt=""/>
+                    </c:when>
 
-                                        <div class="caption">
-                                        </div>
-                            </div>
-                        </li>
-                    </c:forEach>
+                    <%--活动--%>
+                    <c:when test="${a.banner.resType==4}">
+                        <img src="${a.banner.bannerUrl}"
+                        onclick="javascript:toAdDetail('${ctx}/gameInfo/detail.do;jsessionid=${sessionid}?id=${a.banner.linkId}')"
+                             alt=""/>
 
 
-                </ul>
-            </div>
+                    </c:when>
 
-            <script type="text/javascript" language="JavaScript">
-                $(function () {
-                    $('#home_slider').flexslider({
-                        animation: 'slide',
-                        controlNav: true,
-                        directionNav: true,
-                        animationLoop: true,
-                        slideshow: false,
-                        useCSS: false
-                    });
+                </c:choose>
 
-                });
-            </script>
+
+            </c:forEach>
         </div>
-
-
     </div>
 </c:if>
+
+
 <!--搜索-->
 <!--列表-->
 <div class="w_search_box" style="margin-top: 15px;">
@@ -188,9 +212,9 @@
 
                     <dt>
                     <div class="huodong">
-                        <div class="index_hd_title">网游活动</div>
-                        <a href="${ctx}/netgame/info.do;jsessionid=${sessionid}">
-                            <div class="index_hd_count"><img src="img/4.png" height="100"/></div>
+                        <div class="index_hd_title">${mo.title}</div>
+                        <a href="${ctx}/${mo.url};jsessionid=${sessionid}">
+                            <div class="index_hd_count"><img src="${mo.imageName}" height="100"/></div>
                             <div class="index_hd_url">${mo.description}</div>
                         </a>
                     </div>
@@ -203,9 +227,9 @@
 
                     <dt>
                     <div class="huodong_r">
-                        <div class="index_hd_title">活动</div>
-                        <a href="${ctx}/activity/list.do;jsessionid=${sessionid}">
-                            <div class="index_hd_count"><img src="img/4.png" height="100"/></div>
+                        <div class="index_hd_title">${mo.title}</div>
+                        <a href="${ctx}/${mo.url};jsessionid=${sessionid}">
+                            <div class="index_hd_count"><img src="${mo.imageName}" height="100"/></div>
                             <div class="index_hd_url">${mo.description}</div>
                         </a>
                     </div>
@@ -255,7 +279,7 @@
 <!--活动版块-->
 <c:if test="${fn:length(bList) > 0}">
     <div class="hot_youxi">
-        <div class="hot_youxi_title"><em class="i2"></em><span>活动</span></div>
+        <div class="hot_youxi_title"><em class="i2"></em><span>${bList[0].title}</span></div>
         <div class="huodong_hot">
 
             <div class="huodongzt">
@@ -271,16 +295,16 @@
         <dl class="huodong_box22">
             <dt>
             <div class="huodong">
-                <a href="#">
-                    <div class="index_hd_count"><img src="img/4.png" height="100"/></div>
+                <a href="${bList[1].url}">
+                    <div class="index_hd_count"><img src="${bList[1].imageName}" height="100"/></div>
                     <div class="index_hd_url">${bList[1].description}</div>
                 </a>
             </div>
             </dt>
             <dd>
                 <div class="huodong_r">
-                    <a href="#">
-                        <div class="index_hd_count"><img src="img/5.png" width="320" height="160"/></div>
+                    <a href="${bList[2].url}">
+                        <div class="index_hd_count"><img src="${bList[2].imageName}" width="320" height="160"/></div>
                         <div class="index_hd_url">${bList[2].description}</div>
                     </a>
                 </div>
@@ -378,14 +402,6 @@
         </div>
     </div>
 </c:if>
-<!-- 底部公告-->
-<c:if test="${empty b.bottomAD }">
-    <div id="note" class="note"
-         style="background:url(images/icon_huodong.png) #ffffcf 15px center no-repeat;background-size:30px 30px;">
-        <div>${b.bottomAD.title}<a href="#" onclick="closeclick()" class="guanbi"><img src="images/colose.png"
-                                                                                       border="0"/></a></div>
-    </div>
-</c:if>
 
 
 <!--主menu区-->
@@ -417,6 +433,24 @@
         </a></li>
     </ul>
 </div>
+
+
+<!-- 底部公告-->
+<c:if test="${!empty b.bottomAD }">
+    <div id="note" class="note"
+         style="background:url(${ctx}/static/images/icon_huodong.png) #ffffcf 15px center no-repeat;background-size:30px 30px;">
+        <div>
+            <a href="javascript:bannerdetail('${b.bottomAD.url}','${b.bottomAD.title}')">${b.bottomAD.description}</a><a
+                href="#" onclick="closeclick()" class="guanbi"><img src="${ctx}/static/images/colose.png"
+                                                                    border="0"/></a></div>
+    </div>
+
+
+
+</c:if>
+
+
+
 <script type="application/javascript">
 
     function clearSearch() {
@@ -439,6 +473,20 @@
 
             location.href = "${ctx}/search/result.do;jsessionid=${sessionid}?keyword=" + keyword;
         }
+    }
+
+    function bannerdetail(linkid, title) {
+
+        var title = encodeURI(encodeURI(title));
+
+        location.href = "${ctx}/banner.do;jsessionid=${sessionid}?linkId=" + linkid + '&title=' + title;
+
+    }
+
+
+    function toAdDetail(url){
+
+        location.href = url;
     }
 
 

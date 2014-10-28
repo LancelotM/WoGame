@@ -1520,7 +1520,7 @@ dl.hd_pinlu_dl dd .hdpl_c {
     border-radius: 3px;
     behavior: url(js/PIE.htc); /*半透明兼容*/
     text-align: center;
-    line-height: 0px;
+    /*line-height: 0px;*/
     margin-right: auto;
     margin-left: auto;
 }
@@ -2429,4 +2429,22 @@ dl.kf02 {
     float: left;
     margin-right: 6px;
     border: none;
+}
+
+/*图片切换*/
+#pic_div {
+    margin: 0 auto;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+#pic {
+
+}
+
+#pic img {
+    width: 320px;
+    height: 160px;
 }
