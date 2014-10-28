@@ -150,7 +150,7 @@
             <c:forEach var="a" items="${adList}">
                 <c:choose>
                     <%--外链--%>
-                    <c:when test="${a.banner.resType==1}">
+                    <c:when test="${a.banner.resType==10}">
                         <img src="${a.banner.bannerUrl}"
                              onclick="javascript:bannerdetail('${a.banner.linkId}','${a.title}')" alt=""/>
                     </c:when>
