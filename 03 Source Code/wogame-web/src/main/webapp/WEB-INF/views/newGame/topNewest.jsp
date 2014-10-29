@@ -145,7 +145,7 @@
                         /*图片*/
                         stringBuffer.push('<div class="pro_cp_l">');
                         stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                        stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86"/></a>');
+                        stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86"/>');
                         stringBuffer.push('</div>');
 
                         /*游戏名称*/
@@ -155,7 +155,7 @@
 
                         stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
                         stringBuffer.push('</dl>');
-
+                        stringBuffer.push('</a>');
                         stringBuffer.push('</div>');
 
                         stringBuffer.push('<div class="pro_cp_r radius">');

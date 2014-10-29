@@ -80,7 +80,7 @@ function s1(d){
 
         if(inputtext=="" || inputtext=="请输入搜索内容" ){
 
-            alert("必须项")
+            alert("请输入搜索关键字")
             return false;
         }else{
 

@@ -189,7 +189,7 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
                         /*图片*/
                         stringBuffer.push('<div class="pro_cp_l">');
                         stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                        stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86"/></a>');
+                        stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86"/>');
                         stringBuffer.push('</div>');
 
                         /*游戏名称*/
@@ -199,7 +199,7 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
 
                         stringBuffer.push('<dd>' + roundNumber(entry.apk_size / 1024, 2) + 'MB</dd>');
                         stringBuffer.push('</dl>');
-
+                        stringBuffer.push('</a>');
                         stringBuffer.push('</div>');
 
                         stringBuffer.push('<div class="pro_cp_r radius">');

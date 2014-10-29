@@ -112,7 +112,7 @@
                     /*图片*/
                     stringBuffer.push('<div class="pro_cp_l">');
                     stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                    stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86"/></a>');
+                    stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86"/>');
                     stringBuffer.push('</div>');
 
                     /*游戏名称*/
@@ -123,7 +123,7 @@
                     stringBuffer.push('<dd>' + '新服　:　' + entry.server_name + '</dd>');
                     stringBuffer.push('<dd>' + '时间　:　' + getFormatDateByLong(entry.open_time, "yyyy.MM.dd") + '</dd>');
                     stringBuffer.push('</dl>');
-
+                    stringBuffer.push('</a>');
                     stringBuffer.push('</div>');
 
                     stringBuffer.push('<div class="pro_cp_r radius">');

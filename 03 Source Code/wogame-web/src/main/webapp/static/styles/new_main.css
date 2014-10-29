@@ -2179,7 +2179,7 @@ dl.indexpro_cp_c dd b {
     height: 40px;
     border: #EDCE7B 1px solid;
     position: relative;
-    text-indent: 50px;
+  /*  text-indent: 50px;*/
     line-height: 40px;
 }
 

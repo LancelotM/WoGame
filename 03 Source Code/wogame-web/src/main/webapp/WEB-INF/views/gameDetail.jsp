@@ -134,7 +134,6 @@
          style="width: 12px;position: absolute; right: 0px; bottom: 10px; ><a href=" javascript:void(0);" ></a></div>
 </div>
 
-
 <!--TAG-->
 <c:if test="${fn:length(v.tags) > 0}">
     <div class="nr_count4">
@@ -148,21 +147,20 @@
     </div>
 </c:if>
 
-<div  class="nr_count4">
-    <jsp:include page="footer.jsp"/>
 
-
-</div>
+<div style="height: 100px;"></div>
 
 <!--列表-->
-<div class="w_footer_dow">
+<div class="w_footer_dow" style="height: 126px;">
 
 
     <dl class="w_dowload">
         <a href="javascript:download('${v.productId}','${v.gameName}','${v.iconUrl}')" data-role="none">
             <dt>下载</dt>
+
         </a>
     </dl>
+    <jsp:include page="footer.jsp"/>
 </div>
 
 <script type="application/javascript">
@@ -195,5 +193,10 @@
 
 </script>
 
+<div>
+
+
+
+</div>
 </body>
 </html>

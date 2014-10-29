@@ -109,7 +109,13 @@ public class IndexController {
 
     @RequestMapping(value = "/banner", method = RequestMethod.GET)
     public String topBannerAdd(@RequestParam(value = "linkId") String linkId,@RequestParam(value = "title") String title, Model model) {
-       model.addAttribute("linkId",linkId);
+
+
+        try {
+            model.addAttribute("linkId", URLDecoder.decode(linkId, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            model.addAttribute("linkId",linkId);
+        }
         try {
             model.addAttribute("title", URLDecoder.decode(title, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
