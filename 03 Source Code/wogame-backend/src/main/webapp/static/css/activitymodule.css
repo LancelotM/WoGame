@@ -81,8 +81,6 @@
 }
 
 
-
-
 #module_dialog_table tr{
     height:40px;
 }
@@ -120,4 +118,48 @@
     width:250px;
     line-height: 22px;
     border-radius:5px;
+}
+.hidden_title{
+    position: relative;
+    z-index: 900;
+}
+.title_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
+}
+.hidden_imageName{
+    position: relative;
+    z-index: 900;
+}
+.imageName_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
+}
+.hidden_description{
+    position: relative;
+    z-index: 900;
+}
+.description_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
+}
+.hidden_url{
+    position: relative;
+    z-index: 900;
+}
+.url_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
 }

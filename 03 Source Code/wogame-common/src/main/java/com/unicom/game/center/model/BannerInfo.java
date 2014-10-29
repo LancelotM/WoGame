@@ -1,6 +1,9 @@
 package com.unicom.game.center.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author Alex
@@ -23,10 +26,42 @@ public class BannerInfo implements Serializable{
 	private String description;
 	
 	private Integer position;
+
+    private MultipartFile file;
 	
 	private boolean status;
 
-	public Integer getId() {
+    private String category;
+
+    private String radio;
+
+    private String random;
+
+    public String getRandom() {
+        return random;
+    }
+
+    public void setRandom(String random) {
+        this.random = random;
+    }
+
+    public String getRadio() {
+        return radio;
+    }
+
+    public void setRadio(String radio) {
+        this.radio = radio;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Integer getId() {
 		return id;
 	}
 
@@ -89,5 +124,12 @@ public class BannerInfo implements Serializable{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 }

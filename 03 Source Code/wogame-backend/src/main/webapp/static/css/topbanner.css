@@ -73,3 +73,25 @@
     float: right;
     margin-right: 50px;
 }
+.hidden_txt{
+    position: relative;
+    z-index: 900;
+}
+.imageName_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
+}
+.hidden_url{
+    position: relative;
+    z-index: 900;
+}
+.url_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
+}

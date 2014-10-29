@@ -4,7 +4,7 @@
 .file{ position:absolute; top:0px; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
 
 #activity_dialog{
-    height:288px;
+    height:400px;
     width:718px;
     border:1px solid #626262;
     background-color:#ffffff;
@@ -27,22 +27,125 @@
     font-size:18px;
 }
 #activity_dialog_table{
-    height:200px;
+    height:300px;
     width:640px;
     margin-top: 20px;
     margin-left: 70px;
 }
-#activity_dialog_table input{
-    padding-left:20px;
-    border:1px solid #e3e3e3;
-    height:24px;
-    width:250px;
-    line-height: 24px;
-    border-radius:5px;
-}
+
 .activity_right{
     float:left;
 }
 .activity_left{
     float:left;
+}
+
+
+
+
+#introduce_input{
+    padding-left:20px;
+    border:1px solid #e3e3e3;
+    height:84px;
+    width:250px;
+    font-size:15px;
+    line-height: 2.0;
+    border-radius:5px;
+}
+
+
+#create_manager_table tr{
+    height:40px;
+}
+
+#picture_input{
+    padding-left:20px;
+    border:1px solid #e3e3e3;
+    height:28px;
+    width:250px;
+    line-height: 28px;
+    border-radius:5px;
+}
+
+#url_input{
+    padding-left:20px;
+    border:1px solid #e3e3e3;
+    height:28px;
+    width:250px;
+    line-height: 28px;
+    border-radius:5px;
+}
+
+
+
+
+#module_dialog_table tr{
+    height:40px;
+}
+
+#dialog_introduce{
+    padding-left:20px;
+    border:1px solid #e3e3e3;
+    height:84px;
+    width:250px;
+    border-radius:5px;
+    line-height: 2.0;
+}
+
+#dialog_picture{
+    padding-left:20px;
+    border:1px solid #e3e3e3;
+    height:24px;
+    width:250px;
+    line-height: 22px;
+    border-radius:5px;
+}
+
+#dialog_url{
+    padding-left:20px;
+    border:1px solid #e3e3e3;
+    height:24px;
+    width:250px;
+    line-height: 22px;
+    border-radius:5px;
+}
+
+
+
+
+
+
+
+.hidden_description{
+    position: relative;
+    z-index: 900;
+}
+.description_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
+}
+.hidden_txt{
+    position: relative;
+    z-index: 900;
+}
+.imageName_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
+}
+.hidden_url{
+    position: relative;
+    z-index: 900;
+}
+.url_div{
+    z-index: 999;
+    position: relative;
+    left: 0px;
+    top: -20px;
+    display: none;
 }
