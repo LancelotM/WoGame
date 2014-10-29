@@ -1,0 +1,18 @@
+微信中分享带下载地址链接实现
+    微信浏览器的User-Agents： 
+    Mozilla/5.0 (Linux; U; Android 2.3.6; zh-cn; GT-S5660 Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1 MicroMessenger/4.5.255
+    可通过chrom浏览器的User-Agent Switcher插件模拟微信浏览器
+	
+    微信下载跳转URL格式：
+    (完整链接)
+    http://mp.weixin.qq.com/mp/redirect?url=http%3A%2F%2Fxiu.pub%2Fd%2Fandroid#weixin.qq.com#wechat_redirect
+
+    (拆解)
+    http://mp.weixin.qq.com/mp/redirect?url=     // 微信的跳转链接
+    http%3A%2F%2Fxiu.pub%2Fd%2Fandroid		 // 自已的下载链接
+    #weixin.qq.com#wechat_redirect               // 微信权限验证字符
+	
+		
+		
+		
+		
