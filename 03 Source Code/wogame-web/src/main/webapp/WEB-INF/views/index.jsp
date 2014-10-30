@@ -405,7 +405,8 @@
 
                 <c:forEach var="ca" items="${category}">
                     <li>
-                        <a href="${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId=${ca.id}&categoryName=${ca.name}"
+                        <%--<a href="${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId=${ca.id}&categoryName=${ca.name}"--%>
+                        <a href="javascript:category('${ca.id}','${ca.name}');"
                            class="nf1">${ca.name}</a></li>
                 </c:forEach>
             </ul>
@@ -450,15 +451,11 @@
 <!-- 底部公告-->
 <c:if test="${!empty b.bottomAD }">
 
-    <div id="note" class="note">
+    <div id="note" class="note" style="width: 100%">
         <img src="${b.bottomAD.imageName==''? '1' : b.bottomAD.imageName}" onerror="this.src='${ctx}/static/images/icon_huodong.png'"
              style="height: 25px;width: 25px; position: relative; left: 12px; vertical-align: middle;">
         <a href="${b.bottomAD.url}" target="_blank"
            style="vertical-align: middle; margin-left: 20px;">${b.bottomAD.description}</a>
-        <a style="position: absolute; right: 0px;" href="#" onclick="closeclick()"
-           class="guanbi"><img
-                src="${ctx}/static/images/colose.png"
-                border="0"/></a>
     </div>
 
 </c:if>
@@ -501,6 +498,13 @@
     function toAdDetail(url) {
 
         location.href = url;
+    }
+
+    function category(id,name){
+        var name=encodeURI(encodeURI(name));
+
+        location.href = "${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId="+id+"&categoryName="+name;
+
     }
 
 
