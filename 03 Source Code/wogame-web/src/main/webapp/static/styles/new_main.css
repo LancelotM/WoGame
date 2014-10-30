@@ -2176,6 +2176,7 @@ dl.indexpro_cp_c dd b {
 
 /* note */
 .note {
+	background-color: rgba(0, 0, 0, 0.4);
     height: 40px;
     border: #silver 1px solid;
     position: relative;
