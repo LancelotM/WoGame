@@ -84,7 +84,7 @@ maskActivityDialog = function(dialogId,absoluteHeight){
     buildActivityDiv();
     var dialog = $(dialogId);
     $(dialog).show();
-}
+};
 
 buildActivityDiv = function(zIndex){
     Dialog.maskLayer = document.createElement("div");
@@ -104,7 +104,7 @@ buildActivityDiv = function(zIndex){
     Dialog.maskLayer.style.filter = "alpha(opacity=40)";
     Dialog.maskLayer.style.opacity = "0.40";
     document.body.appendChild(Dialog.maskLayer);
-}
+};
 function checkValue(imageName, description, url){
     if(imageName.length == 0){
         alert("请上传图片！");

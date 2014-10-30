@@ -7,7 +7,7 @@
         <div class="main_info">
             <div class="create_manager">
                 <div class="log_title">
-                    <img class="title_image" src="${basePath}/static/images/icon_createsite.png" alt=""/>新增信息管理
+                    <img class="title_image" src="${basePath}/static/images/icon_createsite.png" alt=""/>活动模块管理
                 </div>
                 <form id="module_form" action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data" autocomplete="off" spellcheck="false">
 					<input type="text" style="display:none">
