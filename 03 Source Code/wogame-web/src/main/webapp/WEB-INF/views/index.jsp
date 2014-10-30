@@ -450,7 +450,7 @@
 <!-- 底部公告-->
 <c:if test="${!empty b.bottomAD }">
 
-    <div id="note" class="note">
+    <div id="note" class="note" style="width: 100%">
         <img src="${b.bottomAD.imageName==''? '1' : b.bottomAD.imageName}" onerror="this.src='${ctx}/static/images/icon_huodong.png'"
              style="height: 25px;width: 25px; position: relative; left: 12px; vertical-align: middle;">
         <a href="javascript:download_file('${b.bottomAD.url}');" 
@@ -503,6 +503,13 @@
     function toAdDetail(url) {
 
         location.href = url;
+    }
+
+    function category(id,name){
+        var name=encodeURI(encodeURI(name));
+
+        location.href = "${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId="+id+"&categoryName="+name;
+
     }
 
 
