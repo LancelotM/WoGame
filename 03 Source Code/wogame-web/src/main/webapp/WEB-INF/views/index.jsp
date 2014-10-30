@@ -505,12 +505,6 @@
         location.href = url;
     }
 
-    function category(id,name){
-        var name=encodeURI(encodeURI(name));
-
-        location.href = "${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId="+id+"&categoryName="+name;
-
-    }
 
 
 </script>
