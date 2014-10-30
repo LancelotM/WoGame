@@ -9,8 +9,12 @@
                 <div class="log_title">
                     <img class="title_image" src="${basePath}/static/images/icon_createsite.png" alt=""/>活动Banner管理
                 </div>
-                <form id="activityBanner_form" action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data">
+                <form id="activityBanner_form" action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data" autocomplete="off" spellcheck="false">
+					<input type="text" style="display:none">
+					<input type="file" style="display:none">
+					<input type="text" style="display:none">               
                     <input id="random_input" type="hidden" name="random" value=""/>
+                    <input id="type_input" type="text" name="adType" style="display: none;" value="4"/>
                     <table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
                         <tr class="first_tr">
                             <td class="head_format">图片</td>
@@ -36,10 +40,6 @@
                                 <input id="bigCategory" type="radio" name="category" checked="true"  value="bigCategory" style="width: 50px;"/>大Banner
                                 <input id="smallCategory" type="radio" name="category" value="smallCategory" style="width: 50px;"/>小Banner
                             </td>
-                        </tr>
-                        <tr class="first_tr">
-                            <td></td>
-                            <td><input id="type_input" type="text" name="adType" style="display: none;" value="4"/></td>
                         </tr>
                         <tr class="first_tr">
                             <td class="head_format"></td>

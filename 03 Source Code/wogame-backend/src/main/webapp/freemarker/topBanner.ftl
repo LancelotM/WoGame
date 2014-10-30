@@ -9,7 +9,11 @@
                 <div class="log_title">
                     <img class="title_image" src="${basePath}/static/images/icon_createsite.png" alt=""/>顶部Banner管理
                 </div>
-                <form id="create_form" action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data">
+                <form id="create_form" action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data" autocomplete="off" spellcheck="false">
+					<input type="text" style="display:none">
+					<input type="file" style="display:none">
+					<input type="text" style="display:none">
+					<input id="type_input" type="text" name="adType" style="display: none;" value="2"/>
                     <input id="random_input" type="hidden" name="random" value=""/>
                     <table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
                         <tr class="first_tr">
@@ -25,12 +29,6 @@
                         <tr class="first_tr">
                             <td class="head_format">链接</td>
                             <td><input id="url_input" type="text" name="url" title="请输入URL"/></td>
-                        </tr>
-                        <tr class="first_tr">
-                            <td></td>
-                            <td>
-                                <input id="type_input" type="text" name="adType" style="display: none;" value="2"/>
-                            </td>
                         </tr>
                         <tr class="first_tr">
                             <td class="head_format"></td>

@@ -1,21 +1,16 @@
 package com.unicom.game.center.controller;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.unicom.game.center.db.domain.HomepageConfigDomain;
-import com.unicom.game.center.model.JsonParent;
-import com.unicom.game.center.utils.Logging;
-import com.unicom.game.center.utils.Operator;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -28,8 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unicom.game.center.business.BannerBusiness;
+import com.unicom.game.center.db.domain.HomepageConfigDomain;
 import com.unicom.game.center.model.BannerInfo;
 import com.unicom.game.center.utils.Constant;
+import com.unicom.game.center.utils.Logging;
+import com.unicom.game.center.utils.Operator;
 import com.unicom.game.center.utils.SFTPHelper;
 
 @Controller
@@ -46,11 +44,13 @@ public class BannerController {
 
     private String uploadImage(MultipartFile file) throws IOException {
         if(file == null || file.getBytes().length == 0){
+        	Logging.logError("Image file is null, can't upload image.");
             return null;
         }
         String result = String.valueOf(System.currentTimeMillis());
         boolean flag = sftpHelper.uploadFile(file.getInputStream(), (imagePath + result));
         if(!flag){
+        	Logging.logError("Upload image failure.");
             return null;
         }
         return Constant.IMAGE_BASE_URL + result;
@@ -80,7 +80,6 @@ public class BannerController {
         }
 
         String imageName = null;
-        ModelMap modelMap = new ModelMap();
         HomepageConfigDomain homepageConfigDomain = null;
         Integer id =  bannerInfo.getId();
         //create
@@ -176,8 +175,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> topBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_BANNER);
             if(null != topBannerInfos){
                 model.put("topBannerInfos", topBannerInfos);
@@ -194,8 +193,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> activityBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_ACTIVITY_BANNER);
             if(null != activityBannerInfos){
                 model.put("activityBannerInfos",activityBannerInfos);
@@ -212,8 +211,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> floatWindowInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_AD);
             if(null != floatWindowInfos){
                 model.put("floatWindowInfos",floatWindowInfos);
@@ -230,8 +229,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> bottomBannerInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_FOOTER_AD);
             if(null != bottomBannerInfos){
                 model.put("bottomBannerInfos",bottomBannerInfos);
@@ -248,8 +247,8 @@ public class BannerController {
         if(session == null){
             request.getSession(true);
         }
-        Boolean adminFlag = (Boolean)session.getAttribute("admin");
-        if(null != session && null != adminFlag && adminFlag.booleanValue()){
+        Boolean showFlag = (Boolean)session.getAttribute("showBanner");
+        if(null != session && null != showFlag && showFlag.booleanValue()){
             List<BannerInfo> activityModuleInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_ACTIVITY_MODULE);
             if(null != activityModuleInfos){
                 model.put("activityModuleInfos",activityModuleInfos);
