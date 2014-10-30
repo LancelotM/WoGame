@@ -102,8 +102,8 @@
                     <thead>
                     <tr class="first_tr" style="cursor: pointer;">
                         <td>编号</td>
-                        <td>图标</td>
                         <td>链接</td>
+                        <td>图标</td>
                         <td class="operate_td">操作</td>
                     </tr>
                     </thead>
@@ -112,6 +112,14 @@
                             <#list topBannerInfos as topBannerInfo>
                             <tr>
                                 <td class="idNum">${topBannerInfo.id!}</td>
+                                <td class="hidden_url">
+                                    <#if (topBannerInfo.url?length) gt 15>
+                                    ${topBannerInfo.url?substring(0,15)}...
+                                    <#else>
+                                    ${topBannerInfo.url}
+                                    </#if>
+                                    <div class="url_div">${topBannerInfo.url!}</div>
+                                </td>
                                 <td class="hidden_txt">
                                     <#if (topBannerInfo.imageName?length) gt 20>
                                         ${topBannerInfo.imageName?substring(0,20)}...
@@ -119,14 +127,6 @@
                                         ${topBannerInfo.imageName}
                                     </#if>
                                     <div class="imageName_div">${topBannerInfo.imageName!}</div>
-                                </td>
-                                <td class="hidden_url">
-                                    <#if (topBannerInfo.url?length) gt 15>
-                                        ${topBannerInfo.url?substring(0,15)}...
-                                    <#else>
-                                        ${topBannerInfo.url}
-                                    </#if>
-                                    <div class="url_div">${topBannerInfo.url!}</div>
                                 </td>
                                 <td id="operate_td" class="operate_td">
                                     <a id="update_info" href="javascript:;"
