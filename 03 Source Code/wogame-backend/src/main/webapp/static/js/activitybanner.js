@@ -1,8 +1,11 @@
 var Dialog={};
 $(function () {
+    initEvent();
+
+    $("#random_input").val(Math.random()*99+1);
 
     $("#create_submit").click(function(){
-        var $Category = $('input[name="categoryCode"]:checked').val().trim("");
+        var $Category = $.trim($('input[name="category"]:checked').val());
         var bigNum = 0, smallNum = 0;
         var arr = $(".category");
         for(var i=0; i< arr.length; i++){
@@ -16,29 +19,29 @@ $(function () {
             alert("已经添加了一条大Banner数据，不可以进行添加操作！如若必须添加，可先删除一条大Banner数据后再添加");
             $("#create_submit").attr("disabled",true);
             $("#picture_input").val("");
-            $("#title_input").val("");
+            $("#introduce_input").val("");
             $("#url_input").val("");
         }else if($Category == "smallCategory" && smallNum >= 2){
             alert("已经添加了两条小Banner数据，不可以进行添加操作！如若必须添加，可先删除一条小Banner数据后再添加");
             $("#create_submit").attr("disabled",true);
             $("#picture_input").val("");
-            $("#title_input").val("");
+            $("#introduce_input").val("");
             $("#url_input").val("");
         }else if($(".detail_tb tr").length >= 4){
             alert("已经添加了三条数据，不可以进行添加操作！如若必须添加，可先删除一条数据后再添加");
             $("#create_submit").attr("disabled",true);
             $("#picture_input").val("");
-            $("#title_input").val("");
+            $("#introduce_input").val("");
             $("#url_input").val("");
         }else{
             $("#create_submit").removeAttr("disabled");
-            var $picture_input = $("#picture_input").val().trim("");
-            var $title_input = $("#title_input").val().trim("");
-            var $url_input = $("#url_input").val().trim("");
-            if(checkValue($picture_input, $title_input,$url_input)){
+            var $picture_input = $.trim($("#picture_input").val());
+            var $introduce_input = $.trim($("#introduce_input").val());
+            var $url_input = $.trim($("#url_input").val());
+            if(checkValue($picture_input, $introduce_input,$url_input)){
                 $("#activityBanner_form").submit();
                 $("#picture_input").val("");
-                $("#title_input").val("");
+                $("#introduce_input").val("");
                 $("#url_input").val("");
             }
         }
@@ -50,26 +53,20 @@ $(function () {
     });
 
     $("#update_submit").click(function(){
-        var $dialog_category = $('input[name="categoryCode"]:checked').val().trim("");
-        var $dialog_picture = $("#dialog_picture").val().trim("");
-        var $dialog_title = $("#dialog_title").val().trim("");
-        var $dialog_url = $("#dialog_url").val().trim("");
-        if(checkValue1($dialog_category,$dialog_picture, $dialog_title, $dialog_url)){
+        var $dialog_category = $.trim($('input[name="category"]:checked').val());
+        var $dialog_picture = $.trim($("#dialog_picture").val());
+        var $dialog_introduce = $.trim($("#dialog_introduce").val());
+        var $dialog_url = $.trim($("#dialog_url").val());
+        if(checkValue1($dialog_category,$dialog_picture, $dialog_introduce, $dialog_url)){
             $("#activity_update_form").submit();
         }
-    });
-
-    $(".hidden_title,.hidden_txt, .hidden_url").mouseenter(function(){
-        $(this).find("div").show();
-    }).mouseleave(function(){
-        $(this).find("div").hide();
     });
 });
 
 
 function updateActivityBanner(id){
     maskActivityDialog('#activity_dialog');
-    $.get(getBasePath()+"/topbannerinfo?id="+id,function(data,status){
+    $.get(getBasePath()+"/fetchtobanner?id="+id,function(data,status){
         var $categoryCode = data.position;
         if($categoryCode == 1){
             $("#dialog_bigCategory").attr("checked",true);
@@ -77,7 +74,7 @@ function updateActivityBanner(id){
             $("#dialog_smallCategory").attr("checked",true);
         }
         $('#dialog_picture').val(data.imageName);
-        $('#dialog_title').val(data.title);
+        $('#dialog_introduce').val(data.description);
         $('#dialog_url').val(data.url);
         $("#dialog_id").val(data.id);
     });
@@ -108,12 +105,12 @@ buildActivityDiv = function(zIndex){
     Dialog.maskLayer.style.opacity = "0.40";
     document.body.appendChild(Dialog.maskLayer);
 }
-function checkValue(imageName, title, url){
+function checkValue(imageName, description, url){
     if(imageName.length == 0){
         alert("请上传图片！");
         return false;
-    }else if(title.length == 0){
-        alert("请输入标题！");
+    }else if(description.length == 0){
+        alert("请输入介绍！");
         return false;
     }else if(url.length == 0){
         alert("url不能为空！");
@@ -123,12 +120,12 @@ function checkValue(imageName, title, url){
     }
 }
 
-function checkValue1(category,imageName, title, url){
+function checkValue1(category,imageName, description, url){
     if(imageName.length == 0){
         alert("请上传图片！");
         return false;
-    }else if(title.length == 0){
-        alert("请输入标题！");
+    }else if(description.length == 0){
+        alert("请输入介绍！");
         return false;
     }else if(category.length == 0){
         alert("请选择Banner类别！");
@@ -141,10 +138,88 @@ function checkValue1(category,imageName, title, url){
     }
 }
 
+function initEvent(){
+    $(".hidden_title,.hidden_txt, .hidden_url").mouseenter(function(){
+        $(this).find("div").show();
+    }).mouseleave(function(){
+        $(this).find("div").hide();
+    });
+}
+
 function delActivityBanner(id){
+    var basePath = getBasePath();
     if(confirm("确定要删除这条信息吗？")){
-        $.get(getBasePath()+"/delbanner?id="+id+"&type=4");
-        alert("信息已删除");
-        location.reload();
+        $.ajax({
+            type:"GET",
+            url:basePath + "/delbanner",
+            data:"id=" + id +"&type=4",
+            async:false,
+            success:function(data,status){
+                if(data.length == 0){
+                    $(".activity_detail").empty();
+                    $(".numberal_format").html(0);
+                }else{
+                    $(".activity_detail").empty();
+                    var id = 0 ;
+                    var html = "";
+                    var indexNum = 0;
+                    $.each(data,function(index,content){
+                        indexNum++;
+                        html += "<tr>";
+                        $.each(content,function(index,obj){
+                            if(index == "id"){
+                                id = obj;
+                            }
+                            if(index == "imageName"){
+                                html += '<td class="hidden_txt">'+ changeLength(index, obj) +'<div class="imageName_div">'+ obj +'</div></td>';
+                            }
+                            if(index == "position"){
+                                html += '<td class="category">'+ changeValue(obj) +'</td>';
+                            }
+                            if(index == "url"){
+                                html += '<td class="hidden_url">'+ changeLength(index, obj)+'<div class="url_div">'+ obj +'</div></td>';
+                            }
+                            if(index == "description"){
+                                html += '<td class="hidden_description">'+ changeLength(index, obj) +'<div class="description_div">'+ obj +'</div></td>';
+                            }
+                        });
+                        html += '<td id="operate_td" class="operate_td"><a id="update_info" href="javascript:;" onclick="updateActivityBanner('+ id +');">' +
+                            '<img src="'+ basePath +'/static/images/update.png"/></a><a class="delbtn" href="javascript:;" onclick="delActivityBanner('+ id +');">' +
+                            '<img src="'+ basePath +'/static/images/delete.png"/></a></td>';
+                        html += "</tr>";
+                    });
+                    $(".activity_detail").append(html);
+                    $(".numberal_format").html(indexNum);
+                }
+            }
+        });
+        initEvent();
+    }
+}
+
+function changeLength(index, obj){
+    var val = null;
+    if(index == "title"){
+        if(obj.length > 20){
+            val = obj.substring(0,20) + "...";
+        }else{
+            val = obj;
+        }
+        return val;
+    }else{
+        if(obj.length > 10){
+            val = obj.substring(0,10) + "...";
+        }else{
+            val = obj;
+        }
+        return val;
+    }
+}
+
+function changeValue(obj){
+    if(obj == 1){
+        return "大Banner";
+    }else{
+        return "小Banner";
     }
 }

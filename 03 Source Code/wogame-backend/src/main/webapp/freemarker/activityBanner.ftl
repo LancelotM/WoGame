@@ -9,7 +9,8 @@
                 <div class="log_title">
                     <img class="title_image" src="${basePath}/static/images/icon_createsite.png" alt=""/>活动Banner管理
                 </div>
-                <form id="activityBanner_form" action="${basePath}/createbanner" method="post" enctype="multipart/form-data">
+                <form id="activityBanner_form" action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data">
+                    <input id="random_input" type="hidden" name="random" value=""/>
                     <table id="create_manager_tb" cellspacing="0" style="margin-bottom:42px;">
                         <tr class="first_tr">
                             <td class="head_format">图片</td>
@@ -17,14 +18,13 @@
                                 <div class="file-box">
                                     <input type="text" id="picture_input" class="txt"/>
                                     <a href="javascript:;" class="btn"><img src="${basePath}/static/images/upload.png"/></a>
-                                    <input type="file" name="imageName" class="file" id="fileField" size="28"
-                                           multiple="multiple" onchange="picture_input.value=this.value"/>
+                                    <input type="file" name="file" class="file" id="fileField"  multiple="multiple" onchange="picture_input.value=this.value"/>
                                 </div>
                             </td>
                         </tr>
                         <tr class="first_tr">
-                            <td class="head_format">标题</td>
-                            <td><input id="title_input" type="text" name="titleCode" title="请输入title"/></td>
+                            <td class="head_format">介绍</td>
+                            <td><textarea id="introduce_input"  rows="3" cols="40" name="description" title="请输入文字介绍内容"></textarea></td>
                         </tr>
                         <tr class="first_tr">
                             <td class="head_format">链接</td>
@@ -33,9 +33,13 @@
                         <tr class="first_tr">
                             <td class="head_format">类别</td>
                             <td>
-                                <input id="bigCategory" type="radio" name="categoryCode" checked="true"  value="bigCategory" style="width: 50px;"/>大Banner
-                                <input id="smallCategory" type="radio" name="categoryCode" value="smallCategory" style="width: 50px;"/>小Banner
+                                <input id="bigCategory" type="radio" name="category" checked="true"  value="bigCategory" style="width: 50px;"/>大Banner
+                                <input id="smallCategory" type="radio" name="category" value="smallCategory" style="width: 50px;"/>小Banner
                             </td>
+                        </tr>
+                        <tr class="first_tr">
+                            <td></td>
+                            <td><input id="type_input" type="text" name="adType" style="display: none;" value="4"/></td>
                         </tr>
                         <tr class="first_tr">
                             <td class="head_format"></td>
@@ -50,22 +54,21 @@
                 <div id="activity_dialog_head">
                     <span id="activity_dialog_titile">修改已上传活动Banner信息</span>
                 </div>
-                <form id="activity_update_form" action="${basePath}/createbanner"  method="post" enctype="multipart/form-data">
+                <form id="activity_update_form" action="${basePath}/saveorupdatebanner"  method="post" enctype="multipart/form-data">
                     <table id="activity_dialog_table">
                         <tr>
                             <td>图片：</td>
                             <td>
                                 <div class="file-box">
-                                    <input type="text" id="dialog_picture" class="txt"/>
+                                    <input type="text" id="dialog_picture" class="txt" name="imageName"/>
                                     <a href="javascript:;" class="btn"><img src="${basePath}/static/images/upload.png"/></a>
-                                    <input type="file" name="imageName" class="file" id="fileField" size="28"
-                                           multiple="multiple" onchange="dialog_picture.value=this.value"/>
+                                    <input type="file" name="file" class="file" id="fileField" multiple="multiple" onchange="dialog_picture.value=this.value"/>
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td>标题：</td>
-                            <td><input id="dialog_title" type="text" name="titleCode" value=""/></td>
+                            <td>介绍：</td>
+                            <td><textarea id="dialog_introduce"  rows="3" cols="40" name="description" value=""></textarea></td>
                         </tr>
                         <tr>
                             <td>链接:</td>
@@ -74,13 +77,17 @@
                         <tr>
                             <td>类别：</td>
                             <td>
-                                <input id="dialog_bigCategory" type="radio" name="categoryCode" value="bigCategory" style="width: 50px;"/>大Banner
-                                <input id="dialog_smallCategory" type="radio" name="categoryCode" value="smallCategory" style="width: 50px;"/>小Banner
+                                <input id="dialog_bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner
+                                <input id="dialog_smallCategory" type="radio" name="category" value="smallCategory" style="width: 50px;"/>小Banner
                             </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td><input id="dialog_id" name="id" type="text" value="" style="display: none;"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input id="dialog_type" type="text" name="adType" style="display: none;" value="4"/></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -107,32 +114,19 @@
                 </div>
                 <table class="detail_tb">
                     <caption class="table_title"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>已上传活动Banner详细</span></caption>
-                    <tr class="first_tr">
-                        <td>图片</td>
-                        <td>类别</td>
-                        <td>链接</td>
-                        <td>标题</td>
-                        <td class="operate_td">操作</td>
-                    </tr>
+                    <thead class="activity_head">
+                        <tr class="first_tr">
+                            <td>类别</td>
+                            <td>介绍</td>
+                            <td>链接</td>
+                            <td>图片</td>
+                            <td class="operate_td">操作</td>
+                        </tr>
+                    </thead>
+                    <tbody class="activity_detail">
                         <#if activityBannerInfos?exists>
                             <#list activityBannerInfos as activityBannerInfo>
                                 <tr>
-                                    <td  class="hidden_title" style="position: relative;z-index: 900;">
-                                        <#if (activityBannerInfo.title?length) gt 20>
-                                        ${activityBannerInfo.title?substring(0,20)}...
-                                        <#else>
-                                        ${activityBannerInfo.title}
-                                        </#if>
-                                        <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityBannerInfo.title!}</div>
-                                    </td>
-                                    <td  class="hidden_txt" style="position: relative;z-index: 900;">
-                                        <#if (activityBannerInfo.imageName?length) gt 10>
-                                            ${activityBannerInfo.imageName?substring(0,10)}...
-                                        <#else>
-                                            ${activityBannerInfo.imageName}
-                                        </#if>
-                                        <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityBannerInfo.imageName!}</div>
-                                    </td>
                                     <td class="category">
                                         <#if activityBannerInfo.position == 1>
                                             大Banner
@@ -140,13 +134,29 @@
                                             小Banner
                                         </#if>
                                     </td>
-                                    <td  class="hidden_url"  style="position: relative;z-index: 900;">
-                                        <#if (activityBannerInfo.url?length) gt 10>
-                                            ${activityBannerInfo.url?substring(0,10)}...
+                                    <td  class="hidden_description">
+                                        <#if (activityBannerInfo.description?length) gt 20>
+                                        ${activityBannerInfo.description?substring(0,20)}...
                                         <#else>
-                                            ${activityBannerInfo.url}
+                                        ${activityBannerInfo.description}
                                         </#if>
-                                        <div style="z-index: 999; position: relative; left: 0px;top: -20px;display: none;">${activityBannerInfo.url!}</div>
+                                        <div  class="description_div">${activityBannerInfo.description!}</div>
+                                    </td>
+                                    <td  class="hidden_url">
+                                        <#if (activityBannerInfo.url?length) gt 10>
+                                        ${activityBannerInfo.url?substring(0,10)}...
+                                        <#else>
+                                        ${activityBannerInfo.url}
+                                        </#if>
+                                        <div class="url_div">${activityBannerInfo.url!}</div>
+                                    </td>
+                                    <td  class="hidden_txt">
+                                        <#if (activityBannerInfo.imageName?length) gt 10>
+                                        ${activityBannerInfo.imageName?substring(0,10)}...
+                                        <#else>
+                                        ${activityBannerInfo.imageName}
+                                        </#if>
+                                        <div class="imageName_div">${activityBannerInfo.imageName!}</div>
                                     </td>
                                     <td id="operate_td" class="operate_td">
                                         <a id="update_info" href="javascript:;" onclick="updateActivityBanner(${activityBannerInfo.id});" ><img src="${basePath}/static/images/update.png" /></a>
@@ -155,6 +165,7 @@
                                 </tr>
                             </#list>
                         </#if>
+                    </tbody>
                 </table>
             </div>
         </div>
