@@ -119,10 +119,10 @@ function delBanner(id){
                         idString = content.id + "," + idString;
                         id = content.id;
 
-                        html += '<td class="hidden_url">' + changLength(content.url) + '<div class="url_div">' + content.url + '</div></td>';
+                        html += '<td class="hidden_url"><span>' + changLength(content.url) + '</span><div class="url_div">' + content.url + '</div></td>';
                         indexNum++;
 
-                        html += '<td class="hidden_txt">' + changLength(content.imageName) + '<div class="imageName_div">' + content.imageName + '</div></td>';
+                        html += '<td class="hidden_txt"><span>' + changLength(content.imageName) + '</span><div class="imageName_div">' + content.imageName + '</div></td>';
 
                         position = content.position + "," + position;
 

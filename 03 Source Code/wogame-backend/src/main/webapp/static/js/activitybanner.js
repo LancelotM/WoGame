@@ -171,13 +171,13 @@ function delActivityBanner(id){
 
                         id = content.id;
 
-                        html += '<td class="category">'+ changeValue(content.position) +'</td>';
+                        html += '<td class="category"><span>'+ changeValue(content.position) +'</td>';
 
-                        html += '<td class="hidden_url">'+ changeLength("url", content.url)+'<div class="url_div">'+ content.url +'</div></td>';
+                        html += '<td class="hidden_url"><span>'+ changeLength(content.url)+'</span><div class="url_div">'+ content.url +'</div></td>';
 
-                        html += '<td class="hidden_txt">'+ changeLength("imageName", content.imageName) +'<div class="imageName_div">'+ content.imageName +'</div></td>';
+                        html += '<td class="hidden_txt"><span>'+ changeLength(content.imageName) +'</span><div class="imageName_div">'+ content.imageName +'</div></td>';
 
-                        html += '<td class="hidden_description">'+ changeLength("description", content.description) +'<div class="description_div">'+ content.description +'</div></td>';
+                        html += '<td class="hidden_description"><span>'+ changeLength(content.description) +'</span><div class="description_div">'+ content.description +'</div></td>';
 
                         html += '<td id="operate_td" class="operate_td"><a id="update_info" href="javascript:;" onclick="updateActivityBanner('+ id +');">' +
                             '<img src="'+ basePath +'/static/images/update.png"/></a><a class="delbtn" href="javascript:;" onclick="delActivityBanner('+ id +');">' +
@@ -193,23 +193,14 @@ function delActivityBanner(id){
     }
 }
 
-function changeLength(index, obj){
+function changeLength(obj){
     var val = null;
-    if(index == "description"){
-        if(obj.length > 20){
-            val = obj.substring(0,20) + "...";
-        }else{
-            val = obj;
-        }
-        return val;
+    if(obj.length > 10){
+        val = obj.substring(0,10) + "...";
     }else{
-        if(obj.length > 10){
-            val = obj.substring(0,10) + "...";
-        }else{
-            val = obj;
-        }
-        return val;
+        val = obj;
     }
+    return val;
 }
 
 function changeValue(obj){

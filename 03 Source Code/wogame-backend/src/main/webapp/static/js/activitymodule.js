@@ -134,13 +134,13 @@ function delModuleBanner(id){
                         html += "<tr>";
                         id = content.id;
 
-                        html += '<td class="hidden_title">'+ changeLength("title", content.title) +'<div class="title_div">'+ content.title +'</div></td>';
+                        html += '<td class="hidden_title"><span>'+ changeLength("title", content.title) +'</span><div class="title_div">'+ content.title +'</div></td>';
 
-                        html += '<td class="hidden_url">'+ changeLength("url", content.url)+'<div class="url_div">'+ content.url +'</div></td>';
+                        html += '<td class="hidden_url"><span>'+ changeLength("url", content.url)+'</span><div class="url_div">'+ content.url +'</div></td>';
 
-                        html += '<td class="hidden_imageName">'+ changeLength("imageName", content.imageName) +'<div class="imageName_div">'+ content.imageName +'</div></td>';
+                        html += '<td class="hidden_imageName"><span>'+ changeLength("imageName", content.imageName) +'</span><div class="imageName_div">'+ content.imageName +'</div></td>';
 
-                        html += '<td class="hidden_description">'+ changeLength("description", content.description) +'<div class="description_div">'+ content.description +'</div></td>';
+                        html += '<td class="hidden_description"><span>'+ changeLength("description", content.description) +'</span><div class="description_div">'+ content.description +'</div></td>';
 
 
 

@@ -159,8 +159,8 @@
                                     </td>
                                     <td  class="hidden_description">
                                         <span>
-                                            <#if (activityBannerInfo.description?length) gt 20>
-                                            ${activityBannerInfo.description?substring(0,20)}...
+                                            <#if (activityBannerInfo.description?length) gt 10>
+                                            ${activityBannerInfo.description?substring(0,10)}...
                                             <#else>
                                             ${activityBannerInfo.description}
                                             </#if>
