@@ -130,7 +130,19 @@ function delModuleBanner(id){
                     $.each(data,function(index,content){
                         indexNum++;
                         html += "<tr>";
-                        $.each(content,function(index,obj){
+                        id = content.id;
+
+                        html += '<td class="hidden_title">'+ changeLength("title", content.title) +'<div class="title_div">'+ content.title +'</div></td>';
+
+                        html += '<td class="hidden_url">'+ changeLength("url", content.url)+'<div class="url_div">'+ content.url +'</div></td>';
+
+                        html += '<td class="hidden_imageName">'+ changeLength("imageName", content.imageName) +'<div class="imageName_div">'+ content.imageName +'</div></td>';
+
+                        html += '<td class="hidden_description">'+ changeLength("description", content.description) +'<div class="description_div">'+ content.description +'</div></td>';
+
+
+
+                        /*$.each(content,function(index,obj){
                             if(index == "id"){
                                 id = obj;
                             }
@@ -147,7 +159,7 @@ function delModuleBanner(id){
                                 html += '<td class="hidden_url">'+ changeLength(index, obj)+'<div class="url_div">'+ obj +'</div></td>';
                             }
 
-                        });
+                        });*/
                         html += '<td id="operate_td" class="operate_td"><a id="update_info" href="javascript:;" onclick="updateModuleBanner('+ id +');">' +
                             '<img src="'+ basePath +'/static/images/update.png"/></a><a class="delbtn" href="javascript:;" onclick="delModuleBanner('+ id +');">' +
                             '<img src="'+ basePath +'/static/images/delete.png"/></a></td>';

@@ -114,24 +114,18 @@ function delBanner(id){
                         $(".topBanner_detail").empty();
                         $(".sort_body").empty();
                         html += "<tr>";
-                        $.each(content, function (index, obj) {
-                            if (index == "id") {
-                                html += '<td class="idNum">' + obj + '</td>';
-                                idString = obj + "," + idString;
-                                id = obj;
-                            }
-                            if (index == "url") {
-                                html += '<td class="hidden_url">' + changLength(obj) + '<div class="url_div">' + obj + '</div></td>';
-                                indexNum++;
-                            }
-                            if (index == "imageName") {
-                                html += '<td class="hidden_txt">' + changLength(obj) + '<div class="imageName_div">' + obj + '</div></td>';
-                            }
-                            if (index == "position") {
-                                position = obj + "," + position;
-                            }
 
-                        });
+                        html += '<td class="idNum">' + content.id + '</td>';
+                        idString = content.id + "," + idString;
+                        id = content.id;
+
+                        html += '<td class="hidden_url">' + changLength(content.url) + '<div class="url_div">' + content.url + '</div></td>';
+                        indexNum++;
+
+                        html += '<td class="hidden_txt">' + changLength(content.imageName) + '<div class="imageName_div">' + content.imageName + '</div></td>';
+
+                        position = content.position + "," + position;
+
                         html += '<td id="operate_td" class="operate_td"><a id="update_info" href="javascript:;" onclick="updateBanner(' + id + ');">' +
                             '<img src="' + basePath + '/static/images/update.png"/></a><a class="delbtn" href="javascript:;" onclick="delBanner(' + id + ');">' +
                             '<img src="' + basePath + '/static/images/delete.png"/></a></td>';

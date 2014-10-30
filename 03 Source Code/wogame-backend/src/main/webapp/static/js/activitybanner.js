@@ -139,7 +139,7 @@ function checkValue1(category,imageName, description, url){
 }
 
 function initEvent(){
-    $(".hidden_title,.hidden_txt, .hidden_url").mouseenter(function(){
+    $(".hidden_description,.hidden_txt, .hidden_url").mouseenter(function(){
         $(this).find("div").show();
     }).mouseleave(function(){
         $(this).find("div").hide();
@@ -166,23 +166,17 @@ function delActivityBanner(id){
                     $.each(data,function(index,content){
                         indexNum++;
                         html += "<tr>";
-                        $.each(content,function(index,obj){
-                            if(index == "id"){
-                                id = obj;
-                            }
-                            if(index == "imageName"){
-                                html += '<td class="hidden_txt">'+ changeLength(index, obj) +'<div class="imageName_div">'+ obj +'</div></td>';
-                            }
-                            if(index == "position"){
-                                html += '<td class="category">'+ changeValue(obj) +'</td>';
-                            }
-                            if(index == "url"){
-                                html += '<td class="hidden_url">'+ changeLength(index, obj)+'<div class="url_div">'+ obj +'</div></td>';
-                            }
-                            if(index == "description"){
-                                html += '<td class="hidden_description">'+ changeLength(index, obj) +'<div class="description_div">'+ obj +'</div></td>';
-                            }
-                        });
+
+                        id = content.id;
+
+                        html += '<td class="category">'+ changeValue(content.position) +'</td>';
+
+                        html += '<td class="hidden_url">'+ changeLength("url", content.url)+'<div class="url_div">'+ content.url +'</div></td>';
+
+                        html += '<td class="hidden_txt">'+ changeLength("imageName", content.imageName) +'<div class="imageName_div">'+ content.imageName +'</div></td>';
+
+                        html += '<td class="hidden_description">'+ changeLength("description", content.description) +'<div class="description_div">'+ content.description +'</div></td>';
+
                         html += '<td id="operate_td" class="operate_td"><a id="update_info" href="javascript:;" onclick="updateActivityBanner('+ id +');">' +
                             '<img src="'+ basePath +'/static/images/update.png"/></a><a class="delbtn" href="javascript:;" onclick="delActivityBanner('+ id +');">' +
                             '<img src="'+ basePath +'/static/images/delete.png"/></a></td>';
@@ -199,7 +193,7 @@ function delActivityBanner(id){
 
 function changeLength(index, obj){
     var val = null;
-    if(index == "title"){
+    if(index == "description"){
         if(obj.length > 20){
             val = obj.substring(0,20) + "...";
         }else{

@@ -20,7 +20,7 @@
                             <td class="head_format">图标</td>
                             <td>
                                 <div class="file-box">
-                                    <input type="text" id="picture_input" class="txt"/>
+                                    <input type="text" id="picture_input" class="txt" title="请上传图标"/>
                                     <a href="javascript:;" class="btn"><img src="${basePath}/static/images/upload.png"/></a>
                                     <input type="file" name="file" class="file" id="fileField" multiple="multiple" onchange="picture_input.value=this.value"/>
                                 </div>
@@ -45,7 +45,12 @@
                 <div id="top_dialog_head">
                     <span id="top_dialog_titile">修改已上传顶部Banner信息</span>
                 </div>
-                <form id="update_form" action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data">
+                <form id="update_form" action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data" autocomplete="off" spellcheck="false">
+                    <input type="text" style="display:none">
+                    <input type="file" style="display:none">
+                    <input type="text" style="display:none">
+                    <input id="dialog_id" name="id" type="text" value="" style="display: none;"/>
+                    <input id="dialog_type" type="text" name="adType" style="display: none;" value="2"/>
                     <table id="top_dialog_table">
                         <tr>
                             <td>图标：</td>
@@ -60,14 +65,6 @@
                         <tr>
                             <td>链接:</td>
                             <td><input id="dialog_url" name="url" type="text" value=""/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input id="dialog_id" name="id" type="text" value="" style="display: none;"/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input id="dialog_type" type="text" name="adType" style="display: none;" value="2"/></td>
                         </tr>
                         <tr>
                             <td></td>

@@ -21,7 +21,7 @@
                             <td class="head_format">图片</td>
                             <td>
                                 <div class="file-box">
-                                    <input type="text" id="picture_input" class="txt" name="imageName"/>
+                                    <input type="text" id="picture_input" class="txt" name="imageName" title="请上传图片"/>
                                     <a href="javascript:;" class="btn"><img src="${basePath}/static/images/upload.png"/></a>
                                     <input type="file" name="file" class="file" id="fileField" multiple="multiple" onchange="picture_input.value=this.value"/>
                                 </div>
@@ -52,7 +52,11 @@
                 <div id="module_dialog_head">
                     <span id="module_dialog_titile">修改已上传信息</span>
                 </div>
-                <form id="module_update_form"  action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data">
+                <form id="module_update_form"  action="${basePath}/saveorupdatebanner" method="post" enctype="multipart/form-data" autocomplete="off" spellcheck="false">
+                    <input type="text" style="display:none">
+                    <input type="file" style="display:none">
+                    <input type="text" style="display:none">
+                    <input type="text" style="display:none">
                     <table id="module_dialog_table">
                         <tr>
                             <td>图片：</td>
@@ -111,10 +115,10 @@
                     <caption class="table_title"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>已上传信息详细</span></caption>
                     <thead class="module_head">
                         <tr class="first_tr">
-                            <td>介绍</td>
+                            <td>标题</td>
                             <td>链接</td>
                             <td>图片</td>
-                            <td>标题</td>
+                            <td>介绍</td>
                             <td class="operate_td">操作</td>
                         </tr>
                     </thead>
@@ -122,13 +126,13 @@
                     <#if activityModuleInfos?exists>
                     <#list activityModuleInfos as activityModuleInfo>
                         <tr>
-                            <td   class="hidden_description">
-                                <#if (activityModuleInfo.description?length) gt 10>
-                                ${activityModuleInfo.description?substring(0,10)}...
+                            <td  class="hidden_title">
+                                <#if (activityModuleInfo.title?length) gt 20>
+                                ${activityModuleInfo.title?substring(0,20)}...
                                 <#else>
-                                ${activityModuleInfo.description}
+                                ${activityModuleInfo.title}
                                 </#if>
-                                <div class="description_div">${activityModuleInfo.description!}</div>
+                                <div class="title_div">${activityModuleInfo.title!}</div>
                             </td>
                             <td   class="hidden_url">
                                 <#if (activityModuleInfo.url?length) gt 10>
@@ -140,19 +144,19 @@
                             </td>
                             <td  class="hidden_imageName">
                                 <#if (activityModuleInfo.imageName?length) gt 15>
-                                    ${activityModuleInfo.imageName?substring(0,15)}...
+                                ${activityModuleInfo.imageName?substring(0,15)}...
                                 <#else>
-                                    ${activityModuleInfo.imageName}
+                                ${activityModuleInfo.imageName}
                                 </#if>
                                 <div class="imageName_div">${activityModuleInfo.imageName!}</div>
                             </td>
-                            <td  class="hidden_title">
-                                <#if (activityModuleInfo.title?length) gt 20>
-                                ${activityModuleInfo.title?substring(0,20)}...
+                            <td   class="hidden_description">
+                                <#if (activityModuleInfo.description?length) gt 10>
+                                ${activityModuleInfo.description?substring(0,10)}...
                                 <#else>
-                                ${activityModuleInfo.title}
+                                ${activityModuleInfo.description}
                                 </#if>
-                                <div class="title_div">${activityModuleInfo.title!}</div>
+                                <div class="description_div">${activityModuleInfo.description!}</div>
                             </td>
                             <td id="operate_td" class="operate_td">
                                 <a id="update_info" href="javascript:;" onclick="updateModuleBanner(${activityModuleInfo.id});"><img src="${basePath}/static/images/update.png" /></a>

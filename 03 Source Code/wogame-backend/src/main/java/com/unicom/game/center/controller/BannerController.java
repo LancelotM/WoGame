@@ -99,14 +99,14 @@ public class BannerController {
         if(imageName != null){
             bannerInfo.setImageName(imageName);
             bannerInfo.setAdType(bannerInfo.getAdType());
-            if(bannerInfo.getAdType() == 4){
+            if(bannerInfo.getAdType() == Constant.HOMEPAGE_ACTIVITY_BANNER){
                 if(bannerInfo.getCategory().equals("bigCategory")){
                     bannerInfo.setPosition(1);
                 }else if(bannerInfo.getCategory().equals("smallCategory")){
                     bannerInfo.setPosition(2);
                 }
                 bannerInfo.setStatus(true);
-            }else if(bannerInfo.getAdType() == 1){
+            }else if(bannerInfo.getAdType() == Constant.HOMEPAGE_TOP_AD || bannerInfo.getAdType() == Constant.HOMEPAGE_FOOTER_AD){
                 if(bannerInfo.getRadio().equals("show")){
                     bannerInfo.setStatus(true);
                 }else{
