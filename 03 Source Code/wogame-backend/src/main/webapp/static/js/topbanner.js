@@ -1,9 +1,7 @@
 var Dialog = {};
 $(function () {
-    $("#span_url").hide();
-    $("#sort_table").hide();
-    $("#sort_submit").hide();
-    $("#remind").hide();
+    initEvent();
+    $("#span_url, #sort_submit, #sort_table, #remind").hide();
     $(".sort").hover(function(){
         $("#remind").show();
     },function(){
@@ -18,20 +16,22 @@ $(function () {
         $("#sort_submit").hide();
     }
 
-    $("#create_submit").click(function(){
-        if($(".topBanner_detail tr").length == 6){
+    $("#random_input").val(Math.random()*99+1);
+
+   $("#create_submit").click(function(){
+        if($(".topBanner_detail tr").length >= 6){
             alert("已经添加了六条数据，不可以进行添加操作！如若必须添加，可先删除一条数据后再添加");
             $("#create_submit").attr("disabled",true);
             $("#picture_input").val("");
             $("#url_input").val("")
         }else{
             $("#create_submit").removeAttr("disabled");
-            var $imageName = $("#picture_input").val().trim("");
-            var $url = $("#url_input").val().trim("");
+            var $imageName = $.trim($("#picture_input").val());
+            var $url = $.trim($("#url_input").val());
             if(checkInputValue($imageName,$url)){
                 $("#create_form").submit();
                 $("#picture_input").val("");
-                $("#url_input").val("")
+                $("#url_input").val("");
             }
         }
     });
@@ -42,8 +42,8 @@ $(function () {
     });
 
     $("#update_submit").click(function(){
-        var $imageName = $("#dialog_picture").val().trim("");
-        var $url = $("#dialog_url").val().trim("");
+        var $imageName = $.trim($("#dialog_picture").val());
+        var $url = $.trim($("#dialog_url").val());
         if(checkInputValue($imageName,$url)){
             $("#update_form").submit();
         }
@@ -89,15 +89,101 @@ $(function () {
 
 });
 
-$(".hidden_txt, .hidden_url").mouseenter(function(){
-    $(this).find("div").show();
-}).mouseleave(function(){
-    $(this).find("div").hide();
-});
+function delBanner(id){
+    var basePath = getBasePath();
+    if(confirm("确定要删除这条信息吗？")){
+        $.ajax({
+            type:"GET",
+            url:basePath + "/delbanner",
+            data:"id=" + id +"&type=2",
+            async:false,
+            success:function(data,status){
+                if(data.length == 0){
+                    $(".topBanner_detail").empty();
+                    $("#sort_table").hide();
+                    $("#sort_submit").hide();
+                    $(".numberal_format").html(0);
+                }else {
+                    var id = 0;
+                    var idString = null;
+                    var position = null;
+                    var html = "";
+                    var indexNum = 0;
+                    var htmlSort = "";
+                    $.each(data, function (index, content) {
+                        $(".topBanner_detail").empty();
+                        $(".sort_body").empty();
+                        html += "<tr>";
+
+                        html += '<td class="idNum">' + content.id + '</td>';
+                        idString = content.id + "," + idString;
+                        id = content.id;
+
+                        html += '<td class="hidden_url"><span>' + changLength(content.url) + '</span><div class="url_div">' + content.url + '</div></td>';
+                        indexNum++;
+
+                        html += '<td class="hidden_txt"><span>' + changLength(content.imageName) + '</span><div class="imageName_div">' + content.imageName + '</div></td>';
+
+                        position = content.position + "," + position;
+
+                        html += '<td id="operate_td" class="operate_td"><a id="update_info" href="javascript:;" onclick="updateBanner(' + id + ');">' +
+                            '<img src="' + basePath + '/static/images/update.png"/></a><a class="delbtn" href="javascript:;" onclick="delBanner(' + id + ');">' +
+                            '<img src="' + basePath + '/static/images/delete.png"/></a></td>';
+                        html += "</tr>";
+                    });
+
+                    $(".numberal_format").html(indexNum);
+                    $(".topBanner_detail").append(html);
+                    idString = idString.substring(0,idString.lastIndexOf(","));
+                    position = position.substring(0,position.lastIndexOf(","));
+
+                    $("#sort_table").hide();
+                    $("#sort_submit").hide();
+                    var idArr = idString.split(",");
+                    var positionArr = position.split(",");
+                    if(indexNum > 0){
+                        $("#sort_table").show();
+                        $("#sort_submit").show();
+                        htmlSort += '<tr class="sort_tr"><td class="sort_text">编号</td>';
+                        for(var i=0;i<idArr.length;i++){
+                            htmlSort += '<td class="sort_id"><span name="id">'+ idArr[i] +'</span></td>';
+                        }
+                        htmlSort += '</tr><tr class="sort_tr"><td class="sort_text">序号</td>';
+                        for(var j=0;j<positionArr.length;j++){
+                            htmlSort += '<td class="sort_position"><input class="position_tb" name="position" type="text" value="'+positionArr[j] +'"/></td>';
+                        }
+                        $(".sort_body").append(htmlSort);
+                    }
+                }
+            }
+        });
+        initEvent();
+    }
+}
+
+function changLength(obj){
+    var val = null;
+    if(obj.length > 15){
+        val = obj.substring(0,15) + "...";
+    }else{
+        val = obj;
+    }
+    return val;
+}
+
+function initEvent(){
+    $(".hidden_txt, .hidden_url").mouseenter(function(){
+        $(this).find("span").hide();
+        $(this).find("div").show();
+    }).mouseleave(function(){
+        $(this).find("div").hide();
+        $(this).find("span").show();
+    });
+};
 
 function updateBanner(id){
     maskDialog("#top_dialog");
-    $.get(getBasePath()+"/topbannerinfo?id="+id,function(data,status){
+    $.get(getBasePath()+"/fetchtobanner?id="+id,function(data,status){
         $("#dialog_picture").val(data.imageName);
         $("#dialog_url").val(data.url);
         $("#dialog_id").val(data.id);
@@ -128,15 +214,6 @@ buildMaskDiv = function(zIndex){
     Dialog.maskLayer.style.filter = "alpha(opacity=40)";
     Dialog.maskLayer.style.opacity = "0.40";
     document.body.appendChild(Dialog.maskLayer);
-}
-
-
-function delBanner(id){
-    if(confirm("确定要删除这条信息吗？")){
-        $.get(getBasePath()+"/delbanner?id="+id+"&type=2");
-        alert("信息已删除");
-        location.reload();
-    }
 }
 
 function checkInputValue(imageName,url){

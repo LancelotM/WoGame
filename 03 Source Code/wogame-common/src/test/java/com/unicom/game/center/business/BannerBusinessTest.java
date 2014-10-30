@@ -44,7 +44,7 @@ public class BannerBusinessTest {
 		}
 	}
 	
-	@Test
+	/*@Test
 	public void testCreateBanner(){
 		BannerInfo bannerInfo = new BannerInfo();
 		bannerInfo.setAdType(2);
@@ -56,5 +56,5 @@ public class BannerBusinessTest {
 		}else{
 			System.out.println("false");
 		}
-	}	
+	}	*/
 }

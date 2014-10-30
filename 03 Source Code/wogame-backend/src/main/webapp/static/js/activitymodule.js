@@ -1,5 +1,8 @@
 var Dialog={};
 $(function(){
+    initEvent();
+
+    $("#random_input").val(Math.random()*99+1);
 
     $("#create_submit").click(function(){
         if($(".detail_tb tr").length == 3){
@@ -11,10 +14,10 @@ $(function(){
             $("#url_input").val("");
         }else{
             $("#create_submit").removeAttr("disabled");
-            var $title_input = $("#title_input").val().trim("");
-            var $picture_input = $("#picture_input").val().trim("");
-            var $introduce_input = $("#introduce_input").val().trim("");
-            var $url_input = $("#url_input").val().trim("");
+            var $title_input = $.trim($("#title_input").val());
+            var $picture_input = $.trim($("#picture_input").val());
+            var $introduce_input = $.trim($("#introduce_input").val());
+            var $url_input = $.trim($("#url_input").val());
             if(checkValue($picture_input, $title_input, $introduce_input, $url_input)){
                 $("#module_form").submit();
                 $("#picture_input").val("");
@@ -31,26 +34,22 @@ $(function(){
     });
 
     $("#update_submit").click(function(){
-        var $dialog_title = $("#dialog_title").val().trim("");
-        var $dialog_picture = $("#dialog_picture").val().trim("");
-        var $dialog_introduce = $("#dialog_introduce").val().trim("");
-        var $dialog_url = $("#dialog_url").val().trim("");
+        var $dialog_title = $.trim($("#dialog_title").val());
+        var $dialog_picture = $.trim($("#dialog_picture").val());
+        var $dialog_introduce = $.trim($("#dialog_introduce").val());
+        var $dialog_url = $.trim($("#dialog_url").val());
         if(checkValue($dialog_picture, $dialog_title, $dialog_introduce, $dialog_url)){
             $("#module_update_form").submit();
         }
     });
 
 
-    $(".hidden_title, .hidden_imageName, .hidden_description, .hidden_url").mouseenter(function(){
-        $(this).find("div").show();
-    }).mouseleave(function(){
-        $(this).find("div").hide();
-    });
+
 });
 
 function updateModuleBanner(id){
     maskModuleDialog('#module_dialog');
-    $.get(getBasePath()+"/topbannerinfo?id="+id,function(data,status){
+    $.get(getBasePath()+"/fetchtobanner?id="+id,function(data,status){
         $('#dialog_picture').val(data.imageName);
         $('#dialog_title').val(data.title);
         $('#dialog_introduce').val(data.description);
@@ -58,6 +57,17 @@ function updateModuleBanner(id){
         $("#dialog_id").val(data.id);
     });
 }
+
+function initEvent(){
+    $(".hidden_title, .hidden_imageName, .hidden_description, .hidden_url").mouseenter(function(){
+        $(this).find("span").hide();
+        $(this).find("div").show();
+    }).mouseleave(function(){
+        $(this).find("div").hide();
+        $(this).find("span").show();
+    });
+}
+
 
 maskModuleDialog = function(dialogId,absoluteHeight){
     buildModuleDiv();
@@ -103,9 +113,91 @@ function checkValue(imageName, title, introduce, url){
 }
 
 function delModuleBanner(id){
+    var basePath = getBasePath();
     if(confirm("确定要删除这条信息吗？")){
-        $.get(getBasePath()+"/delbanner?id="+id+"&type=3");
-        alert("信息已删除");
-        location.reload();
+        $.ajax({
+            type:"GET",
+            url:basePath + "/delbanner",
+            data:"id=" + id +"&type=3",
+            async:false,
+            success:function(data,status){
+                if(data.length == 0){
+                    $(".module_detail").empty();
+                    $(".numberal_format").html(0);
+                }else{
+                    $(".module_detail").empty();
+                    var id = 0 ;
+                    var html = "";
+                    var indexNum = 0;
+                    $.each(data,function(index,content){
+                        indexNum++;
+                        html += "<tr>";
+                        id = content.id;
+
+                        html += '<td class="hidden_title"><span>'+ changeLength("title", content.title) +'</span><div class="title_div">'+ content.title +'</div></td>';
+
+                        html += '<td class="hidden_url"><span>'+ changeLength("url", content.url)+'</span><div class="url_div">'+ content.url +'</div></td>';
+
+                        html += '<td class="hidden_imageName"><span>'+ changeLength("imageName", content.imageName) +'</span><div class="imageName_div">'+ content.imageName +'</div></td>';
+
+                        html += '<td class="hidden_description"><span>'+ changeLength("description", content.description) +'</span><div class="description_div">'+ content.description +'</div></td>';
+
+
+
+                        /*$.each(content,function(index,obj){
+                            if(index == "id"){
+                                id = obj;
+                            }
+                            if(index == "title"){
+                                html += '<td class="hidden_title">'+ changeLength(index, obj) +'<div class="title_div">'+ obj +'</div></td>';
+                            }
+                            if(index == "imageName"){
+                                html += '<td class="hidden_imageName">'+ changeLength(index, obj) +'<div class="imageName_div">'+ obj +'</div></td>';
+                            }
+                            if(index == "description"){
+                                html += '<td class="hidden_description">'+ changeLength(index, obj) +'<div class="description_div">'+ obj +'</div></td>';
+                            }
+                            if(index == "url"){
+                                html += '<td class="hidden_url">'+ changeLength(index, obj)+'<div class="url_div">'+ obj +'</div></td>';
+                            }
+
+                        });*/
+                        html += '<td id="operate_td" class="operate_td"><a id="update_info" href="javascript:;" onclick="updateModuleBanner('+ id +');">' +
+                            '<img src="'+ basePath +'/static/images/update.png"/></a><a class="delbtn" href="javascript:;" onclick="delModuleBanner('+ id +');">' +
+                            '<img src="'+ basePath +'/static/images/delete.png"/></a></td>';
+                        html += "</tr>";
+                    });
+                    $(".numberal_format").html(indexNum);
+                    $(".module_detail").append(html);
+                }
+            }
+        });
+        initEvent();
     }
 }
+function changeLength(index, obj){
+    var val = null;
+    if(index == "title"){
+        if(obj.length > 20){
+            val = obj.substring(0,20) + "...";
+        }else{
+            val = obj;
+        }
+        return val;
+    }else if(index == "imageName"){
+        if(obj.length > 15){
+            val = obj.substring(0,15) + "...";
+        }else{
+            val = obj;
+        }
+        return val;
+    }else{
+        if(obj.length > 10){
+            val = obj.substring(0,10) + "...";
+        }else{
+            val = obj;
+        }
+        return val;
+    }
+}
+

@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unicom.game.center.business.AccountBusiness;
+import com.unicom.game.center.business.BannerBusiness;
 import com.unicom.game.center.business.ChannelInfoBusiness;
 import com.unicom.game.center.model.AccountInfo;
+import com.unicom.game.center.model.BannerInfo;
 import com.unicom.game.center.model.ChannelInfo;
 import com.unicom.game.center.utils.Constant;
 
@@ -36,6 +38,9 @@ public class HomeController
     
 	@Autowired
 	private ChannelInfoBusiness channelService;
+	
+    @Autowired
+    private BannerBusiness bannerBusiness;	
 
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
 	public String index() {
@@ -72,6 +77,10 @@ public class HomeController
 				session.setAttribute("showBanner", true);
 			}else if(Constant.BACKEND_BANNER_ROLE == account.getRole()){
 				session.setAttribute("showBanner", true);
+	            List<BannerInfo> floatWindowInfos = bannerBusiness.fetchBannerInfos(Constant.HOMEPAGE_TOP_AD);
+	            if(null != floatWindowInfos){
+	                model.put("floatWindowInfos",floatWindowInfos);
+	            }				
 				viewName = "/floatwindow";
 			}
 

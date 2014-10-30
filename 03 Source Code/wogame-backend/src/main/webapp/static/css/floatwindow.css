@@ -3,3 +3,7 @@
 .btn{ height:24px;width: 200px;}
 .file{ position:absolute; top:0px; right:80px; height:24px; filter:alpha(opacity:0);opacity: 0;width:260px }
 
+#floatWindow_form{
+    margin-left: 200px;
+    margin-top: 50px;
+}
