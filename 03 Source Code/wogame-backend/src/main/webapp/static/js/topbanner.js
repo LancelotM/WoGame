@@ -173,9 +173,11 @@ function changLength(obj){
 
 function initEvent(){
     $(".hidden_txt, .hidden_url").mouseenter(function(){
+        $(this).find("span").hide();
         $(this).find("div").show();
     }).mouseleave(function(){
         $(this).find("div").hide();
+        $(this).find("span").show();
     });
 };
 

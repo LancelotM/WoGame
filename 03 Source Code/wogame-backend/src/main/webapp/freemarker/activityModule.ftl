@@ -127,35 +127,43 @@
                     <#list activityModuleInfos as activityModuleInfo>
                         <tr>
                             <td  class="hidden_title">
-                                <#if (activityModuleInfo.title?length) gt 20>
-                                ${activityModuleInfo.title?substring(0,20)}...
-                                <#else>
-                                ${activityModuleInfo.title}
-                                </#if>
+                                <span>
+                                    <#if (activityModuleInfo.title?length) gt 20>
+                                    ${activityModuleInfo.title?substring(0,20)}...
+                                    <#else>
+                                    ${activityModuleInfo.title}
+                                    </#if>
+                                </span>
                                 <div class="title_div">${activityModuleInfo.title!}</div>
                             </td>
                             <td   class="hidden_url">
-                                <#if (activityModuleInfo.url?length) gt 10>
-                                ${activityModuleInfo.url?substring(0,10)}...
-                                <#else>
-                                ${activityModuleInfo.url}
-                                </#if>
+                                <span>
+                                    <#if (activityModuleInfo.url?length) gt 10>
+                                    ${activityModuleInfo.url?substring(0,10)}...
+                                    <#else>
+                                    ${activityModuleInfo.url}
+                                    </#if>
+                                </span>
                                 <div class="url_div">${activityModuleInfo.url!}</div>
                             </td>
                             <td  class="hidden_imageName">
-                                <#if (activityModuleInfo.imageName?length) gt 15>
-                                ${activityModuleInfo.imageName?substring(0,15)}...
-                                <#else>
-                                ${activityModuleInfo.imageName}
-                                </#if>
+                                <span>
+                                    <#if (activityModuleInfo.imageName?length) gt 15>
+                                    ${activityModuleInfo.imageName?substring(0,15)}...
+                                    <#else>
+                                    ${activityModuleInfo.imageName}
+                                    </#if>
+                                </span>
                                 <div class="imageName_div">${activityModuleInfo.imageName!}</div>
                             </td>
                             <td   class="hidden_description">
-                                <#if (activityModuleInfo.description?length) gt 10>
-                                ${activityModuleInfo.description?substring(0,10)}...
-                                <#else>
-                                ${activityModuleInfo.description}
-                                </#if>
+                                <span>
+                                    <#if (activityModuleInfo.description?length) gt 10>
+                                    ${activityModuleInfo.description?substring(0,10)}...
+                                    <#else>
+                                    ${activityModuleInfo.description}
+                                    </#if>
+                                </span>
                                 <div class="description_div">${activityModuleInfo.description!}</div>
                             </td>
                             <td id="operate_td" class="operate_td">

@@ -138,27 +138,33 @@
                                         </#if>
                                     </td>
                                     <td  class="hidden_url">
-                                        <#if (activityBannerInfo.url?length) gt 10>
-                                        ${activityBannerInfo.url?substring(0,10)}...
-                                        <#else>
-                                        ${activityBannerInfo.url}
-                                        </#if>
+                                        <span>
+                                            <#if (activityBannerInfo.url?length) gt 10>
+                                            ${activityBannerInfo.url?substring(0,10)}...
+                                            <#else>
+                                            ${activityBannerInfo.url}
+                                            </#if>
+                                        </span>
                                         <div class="url_div">${activityBannerInfo.url!}</div>
                                     </td>
                                     <td  class="hidden_txt">
-                                        <#if (activityBannerInfo.imageName?length) gt 10>
-                                        ${activityBannerInfo.imageName?substring(0,10)}...
-                                        <#else>
-                                        ${activityBannerInfo.imageName}
-                                        </#if>
+                                        <span>
+                                            <#if (activityBannerInfo.imageName?length) gt 10>
+                                            ${activityBannerInfo.imageName?substring(0,10)}...
+                                            <#else>
+                                            ${activityBannerInfo.imageName}
+                                            </#if>
+                                        </span>
                                         <div class="imageName_div">${activityBannerInfo.imageName!}</div>
                                     </td>
                                     <td  class="hidden_description">
-                                        <#if (activityBannerInfo.description?length) gt 20>
-                                        ${activityBannerInfo.description?substring(0,20)}...
-                                        <#else>
-                                        ${activityBannerInfo.description}
-                                        </#if>
+                                        <span>
+                                            <#if (activityBannerInfo.description?length) gt 20>
+                                            ${activityBannerInfo.description?substring(0,20)}...
+                                            <#else>
+                                            ${activityBannerInfo.description}
+                                            </#if>
+                                        </span>
                                         <div  class="description_div">${activityBannerInfo.description!}</div>
                                     </td>
                                     <td id="operate_td" class="operate_td">

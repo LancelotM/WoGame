@@ -116,7 +116,7 @@
     z-index: 999;
     position: relative;
     left: 0px;
-    top: -20px;
+    top: 0px;
     display: none;
 }
 .hidden_txt{
@@ -127,7 +127,7 @@
     z-index: 999;
     position: relative;
     left: 0px;
-    top: -20px;
+    top: 0px;
     display: none;
 }
 .hidden_url{
@@ -138,9 +138,12 @@
     z-index: 999;
     position: relative;
     left: 0px;
-    top: -20px;
+    top: 0px;
     display: none;
 }
 #create_submit{
     margin-left: 80px;
+}
+#activityBanner_form{
+    margin-left: 200px;
 }

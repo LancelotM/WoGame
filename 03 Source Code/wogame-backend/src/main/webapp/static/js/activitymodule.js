@@ -60,9 +60,11 @@ function updateModuleBanner(id){
 
 function initEvent(){
     $(".hidden_title, .hidden_imageName, .hidden_description, .hidden_url").mouseenter(function(){
+        $(this).find("span").hide();
         $(this).find("div").show();
     }).mouseleave(function(){
         $(this).find("div").hide();
+        $(this).find("span").show();
     });
 }
 
