@@ -101,12 +101,6 @@ public class IndexController {
         return banner;
     }
 
-
-    @RequestMapping(value = "/member", method = RequestMethod.GET)
-    public String member() {
-        return "member";
-    }
-
     @RequestMapping(value = "/banner", method = RequestMethod.GET)
     public String topBannerAdd(@RequestParam(value = "linkId") String linkId,@RequestParam(value = "title") String title, Model model) {
 

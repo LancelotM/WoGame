@@ -119,7 +119,7 @@
 
                     } else if (entry.banner.res_type == 9) {
 
-                        stringBuffer.push('<a href=${ctx}/member.do;jsessionid=${sessionid}">');
+                        stringBuffer.push('<a href=${ctx}/changWan;jsessionid=${sessionid}">');
                         stringBuffer.push('<img src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
                     }
 

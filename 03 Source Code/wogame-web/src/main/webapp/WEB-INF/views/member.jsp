@@ -55,11 +55,9 @@
 <div style="height: 56px"></div>
 
     　　
-            <iframe  frameborder="0" src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0"/>
+<iframe  frameborder="0" src="http://sales.wostore.cn:8083/hytq/hytq.action?link=0"></iframe>
 
 
-
-
-
+<jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

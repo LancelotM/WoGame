@@ -137,7 +137,7 @@
              style="height: 25px;width: 25px; position: relative; left: 12px; vertical-align: middle;">
 
 
-        <a href="javascript:bannerdetail('${b.topAD.url}','${b.topAD.title}')"
+        <a href="${b.topAD.url}"
            style="margin-left: 18px; vertical-align: middle">${b.topAD.description}</a>
 
 
@@ -160,7 +160,7 @@
                     <%--外链--%>
                     <c:when test="${a.banner.resType==10}">
                         <img src="${a.banner.bannerUrl}"
-                             onclick="javascript:bannerdetail('${a.banner.externalUrl}','${a.title}')" alt=""/>
+                             onclick="javascript:toAdDetail('${a.banner.externalUrl}')" alt=""/>
                     </c:when>
 
                     <%--游戏--%>
@@ -405,7 +405,7 @@
 
                 <c:forEach var="ca" items="${category}">
                     <li>
-                        <a href="${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId=${ca.id}&categoryName=${ca.name}"
+                        <a href="javascript:category('${ca.id}','${ca.name}');"
                            class="nf1">${ca.name}</a></li>
                 </c:forEach>
             </ul>
@@ -425,7 +425,7 @@
                 <dd>专题</dd>
             </dl>
         </a></li>
-        <li><a href="${ctx}/member.do;jsessionid=${sessionid}">
+        <li><a href="${ctx}/changWan;jsessionid=${sessionid}">
             <dl class="user_icon2">
                 <dt><img src="${ctx}/static/images/user_icon3.png"/></dt>
                 <dd>0元畅玩</dd>
@@ -453,18 +453,20 @@
     <div id="note" class="note">
         <img src="${b.bottomAD.imageName==''? '1' : b.bottomAD.imageName}" onerror="this.src='${ctx}/static/images/icon_huodong.png'"
              style="height: 25px;width: 25px; position: relative; left: 12px; vertical-align: middle;">
-        <a href="${b.bottomAD.url}" target="_blank"
+        <a href="javascript:download_file('${b.bottomAD.url}');" 
            style="vertical-align: middle; margin-left: 20px;">${b.bottomAD.description}</a>
-        <a style="position: absolute; right: 0px;" href="#" onclick="closeclick()"
-           class="guanbi"><img
-                src="${ctx}/static/images/colose.png"
-                border="0"/></a>
     </div>
 
 </c:if>
 
 
 <script type="application/javascript">
+
+	function category(id,name){
+	    var name=encodeURI(encodeURI(name));
+	
+	    location.href = "${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId="+id+"&categoryName="+name;	
+	}
 
     function clearSearch() {
 
