@@ -125,26 +125,21 @@ public class IndexController {
         List<RollingAdVo> list = rollingAdListVo.getData();
 
         BannerInfoList banner = bannerBusiness.fetchAllBanner();
-        if(null == banner){
-        	banner = new BannerInfoList();
-        }
+
         //追加后台配置滚动
         List<BannerInfo> topBanner = banner.getTopBanner();
         if(null != topBanner){
             for (BannerInfo b : topBanner) {
-                if (b.getAdType() == 2) {
+                RollingAdVo r = new RollingAdVo();
+                r.setTitle(b.getDescription());
+                Banner banner1 = new Banner();
+                banner1.setBannerUrl(b.getImageName());
+                banner1.setExternalUrl(b.getUrl());
+                //10表示后台配置
+                banner1.setResType(10);
+                r.setBanner(banner1);
 
-                    RollingAdVo r = new RollingAdVo();
-                    r.setTitle(b.getDescription());
-                    Banner banner1 = new Banner();
-                    banner1.setBannerUrl(b.getImageName());
-                    banner1.setExternalUrl(b.getUrl());
-                    //10表示后台配置
-                    banner1.setResType(10);
-                    r.setBanner(banner1);
-
-                    list.add(r);
-                }
+                list.add(r);
             }        	
         }
 
@@ -198,7 +193,7 @@ public class IndexController {
         List<BannerInfo> bannerList = new ArrayList<BannerInfo>();
         if (bannerInfoList != null) {
             for (BannerInfo b : bannerInfoList) {
-                if (b.getAdType() == 3 && bannerList.size() < 2) {
+                if (bannerList.size() < 2) {
                     bannerList.add(b);
                 }
             }
@@ -210,7 +205,7 @@ public class IndexController {
         List<BannerInfo> bList = new ArrayList<BannerInfo>();
         if (BannerInfoList != null) {
             for (BannerInfo b : BannerInfoList) {
-                if (b.getAdType() == 4 && bList.size() < 3) {
+                if (bList.size() < 3) {
                     bList.add(b);
                 }
             }

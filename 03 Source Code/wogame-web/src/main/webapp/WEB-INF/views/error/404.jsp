@@ -7,11 +7,13 @@
 <html>
 <head>
     <title>页面不存在</title>
+    <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
 <h2>页面不存在.</h2>
 
 <p><a href="<c:url value="/main?channel=${channelId}"/>">返回首页</a></p>
+<jsp:include page="../footer.jsp"/>
 </body>
 </html>

@@ -8,14 +8,17 @@
     Logger logger = LoggerFactory.getLogger("500.jsp");
     logger.error(exception.getMessage(), exception);
 %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>错误</title>
+    <link href="${ctx}/static/styles/new_main.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
 <h2>服务器故障.</h2>
+<jsp:include page="../footer.jsp"/>
 </body>
 </html>
