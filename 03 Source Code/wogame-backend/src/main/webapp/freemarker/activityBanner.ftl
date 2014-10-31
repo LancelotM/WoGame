@@ -37,7 +37,7 @@
                         <tr class="first_tr">
                             <td class="head_format">类别</td>
                             <td>
-                                <input id="bigCategory" type="radio" name="category" checked="true"  value="bigCategory" style="width: 50px;"/>大Banner
+                                <input id="bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner
                                 <input id="smallCategory" type="radio" name="category" value="smallCategory" style="width: 50px;"/>小Banner
                             </td>
                         </tr>

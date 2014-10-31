@@ -18,18 +18,24 @@ $(function () {
         if($Category == "bigCategory" && bigNum >= 1){
             alert("已经添加了一条大Banner数据，不可以进行添加操作！如若必须添加，可先删除一条大Banner数据后再添加");
             $("#create_submit").attr("disabled",true);
+            $("#bigCategory").removeAttr("checked");
+            $("#smallCategory").removeAttr("checked");
             $("#picture_input").val("");
             $("#introduce_input").val("");
             $("#url_input").val("");
         }else if($Category == "smallCategory" && smallNum >= 2){
             alert("已经添加了两条小Banner数据，不可以进行添加操作！如若必须添加，可先删除一条小Banner数据后再添加");
             $("#create_submit").attr("disabled",true);
+            $("#bigCategory").removeAttr("checked");
+            $("#smallCategory").removeAttr("checked");
             $("#picture_input").val("");
             $("#introduce_input").val("");
             $("#url_input").val("");
         }else if($(".detail_tb tr").length >= 4){
             alert("已经添加了三条数据，不可以进行添加操作！如若必须添加，可先删除一条数据后再添加");
             $("#create_submit").attr("disabled",true);
+            $("#bigCategory").removeAttr("checked");
+            $("#smallCategory").removeAttr("checked");
             $("#picture_input").val("");
             $("#introduce_input").val("");
             $("#url_input").val("");
@@ -38,8 +44,10 @@ $(function () {
             var $picture_input = $.trim($("#picture_input").val());
             var $introduce_input = $.trim($("#introduce_input").val());
             var $url_input = $.trim($("#url_input").val());
-            if(checkValue($picture_input, $introduce_input,$url_input)){
+            if(checkValue1($Category, $picture_input, $introduce_input,$url_input)){
                 $("#activityBanner_form").submit();
+                $("#bigCategory").removeAttr("checked");
+                $("#smallCategory").removeAttr("checked");
                 $("#picture_input").val("");
                 $("#introduce_input").val("");
                 $("#url_input").val("");
@@ -54,12 +62,50 @@ $(function () {
 
     $("#update_submit").click(function(){
         var $dialog_category = $.trim($('input[name="category"]:checked').val());
-        var $dialog_picture = $.trim($("#dialog_picture").val());
-        var $dialog_introduce = $.trim($("#dialog_introduce").val());
-        var $dialog_url = $.trim($("#dialog_url").val());
-        if(checkValue1($dialog_category,$dialog_picture, $dialog_introduce, $dialog_url)){
-            $("#activity_update_form").submit();
+        var bigNum = 0, smallNum = 0;
+        var arr = $(".category");
+        for(var i=0; i< arr.length; i++){
+            if($(arr[i]).text().trim() == "大Banner"){
+                bigNum++;
+            }else if($(arr[i]).text().trim() == "小Banner"){
+                smallNum++;
+            }
         }
+        if($dialog_category == "bigCategory" && bigNum >= 1){
+            alert("已经添加了一条大Banner数据，不可以进行修改操作！如若必须添加，可先删除一条大Banner数据后再修改");
+            var $dialog_picture = $.trim($("#dialog_picture").val());
+            var $dialog_introduce = $.trim($("#dialog_introduce").val());
+            var $dialog_url = $.trim($("#dialog_url").val());
+            $("#dialog_smallCategory").attr("checked","true");
+            $("#dialog_bigCategory").removeAttr("checked");
+            if(checkValue($dialog_picture, $dialog_introduce, $dialog_url)){
+                $("#activity_update_form").submit();
+                $("#dialog_bigCategory").removeAttr("checked");
+                $("#dialog_smallCategory").removeAttr("checked");
+            }
+        }else if($dialog_category == "smallCategory" && smallNum >= 2){
+            alert("已经添加了两条小Banner数据，不可以进行修改操作！如若必须添加，可先删除一条小Banner数据后再修改");
+            var $dialog_picture = $.trim($("#dialog_picture").val());
+            var $dialog_introduce = $.trim($("#dialog_introduce").val());
+            var $dialog_url = $.trim($("#dialog_url").val());
+            $("#dialog_bigCategory").attr("checked","true");
+            $("#dialog_smallCategory").removeAttr("checked");
+            if(checkValue($dialog_picture, $dialog_introduce, $dialog_url)){
+                $("#activity_update_form").submit();
+                $("#dialog_bigCategory").removeAttr("checked");
+                $("#dialog_smallCategory").removeAttr("checked");
+            }
+        }else{
+            var $dialog_picture = $.trim($("#dialog_picture").val());
+            var $dialog_introduce = $.trim($("#dialog_introduce").val());
+            var $dialog_url = $.trim($("#dialog_url").val());
+            if(checkValue1($dialog_category,$dialog_picture, $dialog_introduce, $dialog_url)){
+                $("#activity_update_form").submit();
+                $("#dialog_bigCategory").removeAttr("checked");
+                $("#dialog_smallCategory").removeAttr("checked");
+            }
+        }
+
     });
 });
 
