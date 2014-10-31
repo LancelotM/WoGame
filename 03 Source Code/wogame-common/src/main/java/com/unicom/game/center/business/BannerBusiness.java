@@ -25,9 +25,6 @@ public class BannerBusiness {
     @Autowired
     private HomepageConfigDao bannerDao;
 
-    @Autowired
-    private SFTPHelper sftpHelper;
-
     @Value("#{properties['banner.image.path']}")
     private String imagePath;
 
@@ -66,13 +63,11 @@ public class BannerBusiness {
     }
 
     public BannerInfoList fetchAllBanner() {
-        BannerInfoList bannerInfoList = null;
+        BannerInfoList bannerInfoList = new BannerInfoList();
 
         try {
             List<HomepageConfigDomain> bannerList = bannerDao.fetchBannerInfo(0, true);
             if (null != bannerList && !bannerList.isEmpty()) {
-                bannerInfoList = new BannerInfoList();
-
                 List<BannerInfo> topBanner = new ArrayList<BannerInfo>();
                 List<BannerInfo> activityModule = new ArrayList<BannerInfo>();
                 List<BannerInfo> activityBanner = new ArrayList<BannerInfo>();
@@ -81,21 +76,26 @@ public class BannerBusiness {
                     BannerInfo bannerInfo = convertToBannerInfo(domain);
 
                     if (null != bannerInfo) {
-                        switch (bannerInfo.getAdType()) {
+                        switch (bannerInfo.getAdType().intValue()) {
                             case Constant.HOMEPAGE_TOP_AD:
                                 bannerInfoList.setTopAD(bannerInfo);
+                                break;
 
                             case Constant.HOMEPAGE_TOP_BANNER:
                                 topBanner.add(bannerInfo);
+                                break;
 
                             case Constant.HOMEPAGE_ACTIVITY_MODULE:
                                 activityModule.add(bannerInfo);
+                                break;
 
                             case Constant.HOMEPAGE_ACTIVITY_BANNER:
                                 activityBanner.add(bannerInfo);
+                                break;
 
                             case Constant.HOMEPAGE_FOOTER_AD:
                                 bannerInfoList.setBottomAD(bannerInfo);
+                                break;
 
                             default:
                                 ;

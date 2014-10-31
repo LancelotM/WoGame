@@ -30,7 +30,7 @@ public class SFTPHelper {
 	private String host;
 
 	@Value("#{properties['sftp.port']}")
-	private int port;
+	private Integer port;
 
 	@Value("#{properties['sftp.username']}")
 	private String username;

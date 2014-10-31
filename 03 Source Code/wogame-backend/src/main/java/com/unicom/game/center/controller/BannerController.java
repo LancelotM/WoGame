@@ -1,5 +1,7 @@
 package com.unicom.game.center.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +30,6 @@ import com.unicom.game.center.model.BannerInfo;
 import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.utils.Logging;
 import com.unicom.game.center.utils.Operator;
-import com.unicom.game.center.utils.SFTPHelper;
 
 @Controller
 public class BannerController {
@@ -39,20 +40,23 @@ public class BannerController {
     @Value("#{properties['banner.image.path']}")
     private String imagePath;
 
-    @Autowired
-    private SFTPHelper sftpHelper;
-
-    private String uploadImage(MultipartFile file) throws IOException {
-        if(file == null || file.getBytes().length == 0){
-        	Logging.logError("Image file is null, can't upload image.");
-            return null;
-        }
+    private String uploadImage(MultipartFile file)  {
         String result = String.valueOf(System.currentTimeMillis());
-        boolean flag = sftpHelper.uploadFile(file.getInputStream(), (imagePath + result));
-        if(!flag){
-        	Logging.logError("Upload image failure.");
-            return null;
-        }
+    	try{
+            if(file == null || file.getBytes().length == 0){
+            	Logging.logError("Image file is null, can't upload image.");
+                return null;
+            }    		
+    		
+            byte[] fileByte = file.getBytes();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(imagePath + result));
+            stream.write(fileByte);
+            stream.close();
+    	}catch(Exception e){
+    		Logging.logError("Upload image failure.", e);
+    		return null;
+    	}
+
         return Constant.IMAGE_BASE_URL + result;
     }
 
@@ -137,27 +141,27 @@ public class BannerController {
         ModelMap modelMap = new ModelMap();
         switch (type){
             case 1 :
-                viewValue = "floatwindow";
+                viewValue = "floatWindow";
                 bannerInfos = "floatWindowInfos";
                 break;
             case 2 :
-                viewValue = "topbanner";
+                viewValue = "topBanner";
                 bannerInfos = "topBannerInfos";
                 break;
             case 3 :
-                viewValue = "activitymodule";
+                viewValue = "activityModule";
                 bannerInfos = "activityModuleInfos";
                 break;
             case 4 :
-                viewValue = "activitybanner";
+                viewValue = "activityBanner";
                 bannerInfos = "activityBannerInfos";
                 break;
             case 5 :
-                viewValue = "bottombanner";
+                viewValue = "bottomBanner";
                 bannerInfos = "bottomBannerInfos";
                 break;
             default:
-                viewValue = "topbanner";
+                viewValue = "topBanner";
                 bannerInfos = "topBannerInfos";
                 break;
         }
@@ -169,7 +173,7 @@ public class BannerController {
 
     }
 
-    @RequestMapping(value = "/topbanner", method = RequestMethod.GET)
+    @RequestMapping(value = "/topBanner", method = RequestMethod.GET)
     public ModelAndView topBanner(HttpServletRequest request, HttpSession session) throws IOException {
         ModelMap model = new ModelMap();
         if(session == null){
@@ -181,13 +185,13 @@ public class BannerController {
             if(null != topBannerInfos){
                 model.put("topBannerInfos", topBannerInfos);
             }
-            return new ModelAndView("/topbanner", model);
+            return new ModelAndView("/topBanner", model);
         }else{
             return new ModelAndView("/index", model);
         }
     }
 
-    @RequestMapping(value = "/activitybanner", method = {RequestMethod.GET})
+    @RequestMapping(value = "/activityBanner", method = {RequestMethod.GET})
     public ModelAndView activityBanner(HttpServletRequest request, HttpSession session) {
         ModelMap model = new ModelMap();
         if(session == null){
@@ -199,13 +203,13 @@ public class BannerController {
             if(null != activityBannerInfos){
                 model.put("activityBannerInfos",activityBannerInfos);
             }
-            return new ModelAndView("/activitybanner", model);
+            return new ModelAndView("/activityBanner", model);
         }else{
             return new ModelAndView("/index", model);
         }
     }
 
-    @RequestMapping(value = "/floatwindow", method = {RequestMethod.GET})
+    @RequestMapping(value = "/floatWindow", method = {RequestMethod.GET})
     public ModelAndView floatWindow(HttpServletRequest request, HttpSession session) {
         ModelMap model = new ModelMap();
         if(session == null){
@@ -217,13 +221,13 @@ public class BannerController {
             if(null != floatWindowInfos){
                 model.put("floatWindowInfos",floatWindowInfos);
             }
-            return new ModelAndView("/floatwindow", model);
+            return new ModelAndView("/floatWindow", model);
         }else{
             return new ModelAndView("/index", model);
         }
     }
 
-    @RequestMapping(value = "/bottombanner", method = {RequestMethod.GET})
+    @RequestMapping(value = "/bottomBanner", method = {RequestMethod.GET})
     public ModelAndView bottomBanner(HttpServletRequest request, HttpSession session) {
         ModelMap model = new ModelMap();
         if(session == null){
@@ -235,13 +239,13 @@ public class BannerController {
             if(null != bottomBannerInfos){
                 model.put("bottomBannerInfos",bottomBannerInfos);
             }
-            return new ModelAndView("/bottombanner", model);
+            return new ModelAndView("/bottomBanner", model);
         }else{
             return new ModelAndView("/index", model);
         }
     }
 
-    @RequestMapping(value = "/activitymodule", method = {RequestMethod.GET})
+    @RequestMapping(value = "/activityModule", method = {RequestMethod.GET})
     public ModelAndView activityModule(HttpServletRequest request, HttpSession session) {
         ModelMap model = new ModelMap();
         if(session == null){
@@ -253,7 +257,7 @@ public class BannerController {
             if(null != activityModuleInfos){
                 model.put("activityModuleInfos",activityModuleInfos);
             }
-            return new ModelAndView("/activitymodule", model);
+            return new ModelAndView("/activityModule", model);
         }else{
             return new ModelAndView("/index", model);
         }
@@ -298,7 +302,7 @@ public class BannerController {
         if(null != BannerInfos){
             modelMap.put("topBannerInfos", BannerInfos);
         }
-        return new ModelAndView("/topbanner", modelMap);
+        return new ModelAndView("/topBanner", modelMap);
     }
 
 }

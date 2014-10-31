@@ -81,7 +81,7 @@ public class HomeController
 	            if(null != floatWindowInfos){
 	                model.put("floatWindowInfos",floatWindowInfos);
 	            }				
-				viewName = "/floatwindow";
+				viewName = "/floatWindow";
 			}
 
             if("1".equals(remember)){
