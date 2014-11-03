@@ -110,7 +110,7 @@
 
                     var stringBuffer = [];
 
-                    stringBuffer.push('<dl class="huodong_list">');
+                    stringBuffer.push(' <div class="zixun_list">');
 
                     stringBuffer.push('<a href="${ctx}/gameInfo/detail.do;jsessionid=${sessionid}?id=' + entry.id + '">');
 
@@ -118,12 +118,16 @@
                     /*图片*/
 
 
+                            stringBuffer.push(' <div class="zixun_img">');
                     stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86";width="86"/>');
+                    stringBuffer.push('</div>')
+
+                    stringBuffer.push('<dl class="zixun_right">');
 
                     stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
 
                     stringBuffer.push('<dd  >' +su(entry.intro,35,0,35) + '</dd>');
-                    stringBuffer.push('<dd>' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
+                    stringBuffer.push('<dd  class="etc">' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + '-' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
 
 
                     stringBuffer.push('</a>');

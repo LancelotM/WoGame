@@ -275,7 +275,8 @@
                             </dd>
                             </a>
                             <dd class="dow">
-                                <a href="#">下载</a></dd>
+
+                                <a href="javascript:download('${h.productId}','${h.title}','${h.iconUrl}')" data-role="none">下载</a></dd>
                         </dl>
 
                     </li>
@@ -336,20 +337,28 @@
         <!--列表-->
 
         <c:forEach var="n" items="${newest}">
-            <div class="pro_list"><a href="#">
-                <div class="pro_cp">
+            <div class="pro_list" style="height: auto"><a href="#">
+                <div class="pro_cp" style="border-top: #dedede 1px solid;">
                     <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}">
                         <div class="pro_cp_l"><img src="${n.iconUrl}" height="86"/></div>
 
-                    <dl class="pro_cp_c">
-                        <dt>${n.gameName}</dt>
+                    <dl class="pro_cp_c" style="height: auto">
+                        <dt class="etc">${n.gameName}</dt>
                         <dd><fmt:formatNumber value="${n.apkSize/1024}" minFractionDigits="2"></fmt:formatNumber> MB
                         </dd>
+
+                      <%--  <dd class="etc" style="width: 100%"></dd>--%>
+                        <div class="etc" style="width: 100%">${n.intro}</div>
+
+
                     </dl>
+
                     </a>
-                    <div class="pro_cp_r radius">下载</div>
+                    <div class="pro_cp_r radius"><a href="javascript:download('${n.productId}','${n.gameName}','${n.iconUrl}')" data-role="none">下载</a></div>
+
+
                 </div>
-                <div class="plist_f etc">${n.intro}</div>
+
             </a>
             </div>
         </c:forEach>
@@ -507,6 +516,11 @@
         location.href = url;
     }
 
+
+            function download(id, name, icon) {
+
+                doDownload("${ctx}/download.do;jsessionid=${sessionid}", id, name, icon);
+            }
 
 
 </script>

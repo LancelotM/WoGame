@@ -109,14 +109,19 @@
                         /*显示下载*/
                         if (entry.banner.res_type == 2) {
                             stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                            stringBuffer.push('<img src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
-                            stringBuffer.push('<div class="pro_cp_r1 radius">');
-                            stringBuffer.push('<a href="javascript:download(\'' + entry.id
-                                    + '\',\'' + entry.name
-                                    + '\',\'' + entry.icon
-                                    + '\')">下载</a>');
+                            stringBuffer.push('<img  src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/>');
+
+                            stringBuffer.push('<div class="recommend_large_img_bottom">'+entry.title);
+
                             stringBuffer.push('</div>');
 
+                            stringBuffer.push('<div style=" text-indent: 0px;" class="pro_cp_r1 radius">');
+                            stringBuffer.push('<a  href="javascript:download(\'' + entry.product_id
+                                    + '\',\'' + entry.title
+                                    + '\',\'' + entry.icon_url
+                                    + '\')">下载</a>');
+                            stringBuffer.push('</div>');
+                            stringBuffer.push('</a>');
                     } else if (entry.banner.res_type == 9) {
 
                         stringBuffer.push('<a href=${ctx}/changWan;jsessionid=${sessionid}">');
@@ -154,17 +159,17 @@
 
                         stringBuffer.push('<div class="pro_cp_r radius">');
 
-                        stringBuffer.push('<a href="javascript:download(\'' + entry.id
-                                + '\',\'' + entry.name
-                                + '\',\'' + entry.icon
+                        stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
+                                + '\',\'' + entry.title
+                                + '\',\'' + entry.icon_url
                                 + '\')">下载</a>');
                         stringBuffer.push('</div>');
 
 
                         stringBuffer.push('<div class="plist_f etc">');
-                        stringBuffer.push('<a href="javascript:download(\'' + entry.id
-                                + '\',\'' + entry.name
-                                + '\',\'' + entry.icon
+                        stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
+                                + '\',\'' + entry.title
+                                + '\',\'' + entry.icon_url
                                 + '\')">' + entry.intro + '</a></div>');
 
 

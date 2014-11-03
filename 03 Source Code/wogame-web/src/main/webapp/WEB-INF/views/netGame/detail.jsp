@@ -81,13 +81,20 @@
     <dd><fmt:formatNumber value="${ac.game.apkSize/1024}" minFractionDigits="2"/> MB</dd>
 
     </dl>
-    <div class="hd_xiazai radius">下载</div>
+    <div class="hd_xiazai radius"> <a href="javascript:download('${ac.game.productId}','${ac.game.gameName}','${ac.game.iconUrl}')" data-role="none">下载</a></div>
 </a>
 </div>
 <div class="hd_l_title">活动简介</div>
 <div class="hd_l_count2">
     ${ac.content}
 </div>
+<script type="application/javascript">
+    function download(id, name, icon) {
+
+        doDownload("${ctx}/download.do;jsessionid=${sessionid}", id, name, icon);
+    }
+
+</script>
 <jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

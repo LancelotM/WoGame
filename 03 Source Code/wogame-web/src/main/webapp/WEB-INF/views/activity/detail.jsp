@@ -63,13 +63,26 @@
         <dd><fmt:formatNumber value="${activityContent.game.apkSize/1024}"  pattern="##.#" minFractionDigits="2"></fmt:formatNumber> MB</dd>
 
     </dl>
-    <div class="hd_xiazai radius">下载</div>
+
+    <div class="hd_xiazai radius">
+        <a href="javascript:download('${activityContent.game.productId}','${activityContent.game.gameName}','${activityContent.game.iconUrl}')" data-role="none">
+        <dt>下载</dt> </a>
+
+   </div>
 </a>
 </div>
 <div class="hd_l_title">活动简介</div>
 <div class="hd_l_count2">
     ${activityContent.content}
 </div>
+<script type="application/javascript">
+    function download(id, name, icon) {
+
+        doDownload("${ctx}/download.do;jsessionid=${sessionid}", id, name, icon);
+    }
+
+</script>
+
 <jsp:include page="../footer.jsp"/>
 </body>
 </html>

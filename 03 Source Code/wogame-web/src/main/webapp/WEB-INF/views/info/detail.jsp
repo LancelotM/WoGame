@@ -66,15 +66,23 @@
 
             MB</dd>
     </dl>
-    <div class="hd_xiazai radius">下载</div>
+    <div class="hd_xiazai radius">
+        <a href="javascript:download('${gameInfoContent.game.productId}','${gameInfoContent.game.gameName}','${gameInfoContent.game.iconUrl}')" data-role="none">
+        下载</a>
+    </div>
 </a>
 </div>
 <div class="hd_l_title">活动简介</div>
 <div class="hd_l_count2">
     ${gameInfoContent.content}
 </div>
-</body>
-</html>
+<script type="application/javascript">
+    function download(id, name, icon) {
+
+        doDownload("${ctx}/download.do;jsessionid=${sessionid}", id, name, icon);
+    }
+
+</script>
 <jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

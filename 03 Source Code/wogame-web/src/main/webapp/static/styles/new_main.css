@@ -326,7 +326,7 @@ dl.juanti dd {
 }
 
 dl.huodong_list {
-    margin: 8px 8px 8px 8px;
+    margin: 0px 8px 8px 8px;
     background: #ffffff;
     overflow: hidden;
     padding: 10px 8px 10px 8px;
@@ -361,7 +361,7 @@ dl.huodong_list dd {
     display: block;
     word-break: break-all;
     word-wrap: break-word;
-    width: 100%;
+    width: 70%;
 }
 
 .more_new {
@@ -2449,3 +2449,6 @@ dl.kf02 {
     width: 320px;
     height: 160px;
 }
+
+.recommend_large_img_bottom
+{position:absolute; bottom: 1px; width: 100%; height: 50px; background-color: #000000; opacity: 0.5;font-size: 16px;  text-indent: 20px;line-height: 50px; color: #ffffff}

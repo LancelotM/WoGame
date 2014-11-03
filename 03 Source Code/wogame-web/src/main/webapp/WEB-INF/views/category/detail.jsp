@@ -204,9 +204,9 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
 
                         stringBuffer.push('<div class="pro_cp_r radius">');
 
-                        stringBuffer.push('<a href="javascript:download(\'' + entry.id
-                                + '\',\'' + entry.name
-                                + '\',\'' + entry.icon
+                        stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
+                                + '\',\'' + entry.game_name
+                                + '\',\'' + entry.icon_url
                                 + '\')">下载</a>');
                         stringBuffer.push('</div>');
 

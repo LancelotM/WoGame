@@ -112,6 +112,7 @@
 
                     var stringBuffer = [];
 
+
                     stringBuffer.push('<dl class="huodong_list">');
 
                     stringBuffer.push('<a href="${ctx}/activity/detail.do;jsessionid=${sessionid}?id=' + entry.id + '">');
@@ -125,7 +126,7 @@
                     stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
 
                     stringBuffer.push('<dd>' + su(entry.intro,35,0,35) + '</dd>');
-                    stringBuffer.push('<dd>' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
+                    stringBuffer.push('<dd class="etc">' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
 
 
                     stringBuffer.push('</a>');

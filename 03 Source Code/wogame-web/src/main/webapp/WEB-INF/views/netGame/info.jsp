@@ -71,6 +71,7 @@
                     <dl class="pro_cp_c">
                         <dt>${l.gameName}</dt>
                         <dd>新服：${l.serverName} </dd>
+
                         <dd>
                             时间：
 
@@ -80,10 +81,13 @@
                         <dd>
 
                     </dl>
-                    <div class="pro_cp_r radius">下载</div>
+
+
                 </div>
-                </c:forEach>
             </a>
+                <div class="pro_cp_r radius"> <a href="javascript:download('${l.productId}','${l.gameName}','${l.iconUrl}')" data-role="none">下载</a></div>
+                </c:forEach>
+
 
 
         </div>
@@ -155,7 +159,7 @@
                     stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
 
                     stringBuffer.push('<dd>' +su(entry.intro,35,0,35)  + '</dd>');
-                    stringBuffer.push('<dd>' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy-MM-dd") + ' - ' + getFormatDateByLong(entry.end_time, "yyyy-MM-dd") + '</dd>');
+                    stringBuffer.push('<dd class="etc">' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
 
 
                     stringBuffer.push('</a>');

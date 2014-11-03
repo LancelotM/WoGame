@@ -156,15 +156,15 @@
 
                         stringBuffer.push('<div class="pro_cp_r radius">');
 
-                        stringBuffer.push('<a href="javascript:download(\'' + entry.id
-                                + '\',\'' + entry.name
-                                + '\',\'' + entry.icon
+                        stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
+                                + '\',\'' + entry.game_name
+                                + '\',\'' + entry.icon_url
                                 + '\')">下载</a>');
                         stringBuffer.push('</div>');
 
 
                         stringBuffer.push('<div class="plist_f etc">');
-                        stringBuffer.push('<a href="javascript:download(\'' + entry.id
+                        stringBuffer.push('<a href="javascript:download(\'' + entry.product_id
                                 + '\',\'' + entry.name
                                 + '\',\'' + entry.icon
                                 + '\')">' + entry.intro + '</a></div>');
