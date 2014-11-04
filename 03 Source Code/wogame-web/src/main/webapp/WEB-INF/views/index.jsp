@@ -33,7 +33,7 @@
         function cookiesave(n, v, mins, dn, path) {
             if (n) {
 
-                if (!mins) mins = 365 * 24 * 60;
+                if (!mins) mins = 24 * 60;
                 if (!path) path = "/";
                 var date = new Date();
 
