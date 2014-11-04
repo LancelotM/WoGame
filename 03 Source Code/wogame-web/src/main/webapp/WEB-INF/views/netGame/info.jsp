@@ -132,7 +132,7 @@
         }
         isSearching = true;
 
-        $.getJSON("${ctx}/netgame/infolist.do", {"pageNum": pPageNum, "pageSize": 4}, function (data) {
+        $.getJSON("${ctx}/netgame/infolist.do", {"pageNum": pPageNum, "pageSize": 10}, function (data) {
 
             isSearching = false;
             if (data.items.length != 0) {
