@@ -150,7 +150,7 @@
                         /*图片*/
                         stringBuffer.push('<div class="pro_cp_l">');
                         stringBuffer.push('<a href="' + urlBase + entry.id + '">');
-                        stringBuffer.push('<img src="' + entry.icon + '" data-src="' + entry.icon + '" height="86"/></a>');
+                        stringBuffer.push('<img src="' + entry.icon + '" data-src="' + entry.icon + '" height="86"/>');
                         stringBuffer.push('</div>');
 
                         /*游戏名称*/
@@ -162,6 +162,7 @@
                         stringBuffer.push('</dl>');
 
                         stringBuffer.push('</div>');
+                        stringBuffer.push('</a>');
 
                         stringBuffer.push('<div class="pro_cp_r radius">');
 
@@ -240,9 +241,9 @@
 
     });
 
-    /*   function download(id, name, icon) {
+       function download(id, name, icon) {
      doDownload("${ctx}/download;jsessionid=${sessionid}", id, name, icon);
-     }*/
+     }
 
     function search(){
         var keyword;
