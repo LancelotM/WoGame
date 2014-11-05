@@ -121,8 +121,7 @@ public class IndexController {
 
     //方法
     public void initIndexData(Model model, int pageNum) {
-        RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
-        List<RollingAdVo> list = rollingAdListVo.getData();
+        List<RollingAdVo> list = new ArrayList<RollingAdVo>();
 
         BannerInfoList banner = bannerBusiness.fetchAllBanner();
 
@@ -142,6 +141,11 @@ public class IndexController {
                 list.add(r);
             }        	
         }
+        
+        RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
+        if(null != rollingAdListVo && !rollingAdListVo.getData().isEmpty()){
+            list.addAll(rollingAdListVo.getData());            	
+        }  
 
         model.addAttribute("adList", list);
 
