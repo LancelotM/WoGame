@@ -20,13 +20,13 @@
                 </div>
                 <div class="log_title" style="margin-top:20px;">
                     <form	id="report_form" action="${basePath}/reportInfo" method="post">
-                        起始日期：<input id="startDateStr" class="dateStr" type="text" value="" name="startDate" readonly="true" style="height:22px;"/>&nbsp;&nbsp;
-                        截止日期：<input id="endDateStr" type="text" value="" name="endDate" readonly="true" style="height:22px;"/>&nbsp;&nbsp;
+                        起始日期：<input id="startDateStr" class="dateStr" type="text" value="" name="startDate" readonly="true" style="height:22px;width: 150px;"/>&nbsp;&nbsp;
+                        截止日期：<input id="endDateStr" type="text" value="" name="endDate" readonly="true" style="height:22px;width: 150px;"/>&nbsp;&nbsp;
                         <#--游戏名称：<input id="gameName" type="text" value="${end!}" name="gameName" style=" height:22px;"/>&nbsp;&nbsp;-->
                         <#if admin?exists && admin>
                                 ChannelID：<input id="downloadChaid" type="text" name="channelId" style="height:22px;"/>&nbsp;&nbsp;
                             <#else>
-                                ChannelID：<input id="downloadChaid" type="text" value="${developer_channelCode!}" disabled="disabled" name="channelId" style="height:22px;"/>&nbsp;&nbsp;
+                                ChannelID：<input id="downloadChaid" type="text" value="${developer_channelCode!}" disabled="disabled" name="channelId" style="height:22px;width: 150px;"/>&nbsp;&nbsp;
                         </#if>
 
                         <a id="downloadinfo_search" href="javascript:;"  style="color:black;"><img class="title_image" src="${basePath}/static/images/search_img.png"/>下载日志搜索</a>
