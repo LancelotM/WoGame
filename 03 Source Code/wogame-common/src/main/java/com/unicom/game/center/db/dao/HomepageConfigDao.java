@@ -3,6 +3,7 @@ package com.unicom.game.center.db.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.unicom.game.center.utils.Constant;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +39,11 @@ public class HomepageConfigDao extends HibernateDao<HomepageConfigDomain>{
 	public List<HomepageConfigDomain> fetchBannerInfo(int type, boolean isAll){
 		StringBuffer sb = new StringBuffer();
 		sb.append(" from HomepageConfigDomain banner");
-		sb.append(" where banner.status = true");
+        if(type != Constant.HOMEPAGE_TOP_AD && type != Constant.HOMEPAGE_FOOTER_AD){
+            sb.append(" where banner.status = true");
+        }else{
+            sb.append(" where (banner.status = true or banner.status = false)");
+        }
 		
 		if(!isAll){
 			sb.append(" and banner.adType = ");

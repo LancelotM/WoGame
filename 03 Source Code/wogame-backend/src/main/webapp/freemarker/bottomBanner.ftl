@@ -14,10 +14,17 @@
                         <#list bottomBannerInfos as bottomBannerInfo>
                             <script type="text/javascript">
                                 $(function(){
+                                    var $status = ${bottomBannerInfo.status?string("true","false")};
                                     $("#picture_input").val("${bottomBannerInfo.imageName!}");
                                     $("#content_input").val("${bottomBannerInfo.description!}");
                                     $("#url_input").val("${bottomBannerInfo.url!}");
                                     $("#bottom_id").val("${bottomBannerInfo.id!}");
+                                    if($status){
+                                        $("#show").attr("checked",true);
+                                    }else{
+                                        $("#show").attr("checked",false);
+                                        $("#hidden").attr("checked",true);
+                                    }
                                 });
                             </script>
                         </#list>
