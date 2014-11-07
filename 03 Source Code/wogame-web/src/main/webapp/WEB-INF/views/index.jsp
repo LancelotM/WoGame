@@ -227,7 +227,7 @@
                         <div class="index_hd_title">${mo.title}</div>
                         <a href="${mo.url};jsessionid=${sessionid}">
                             <div class="index_hd_count"><img data-src="${mo.imageName}"  src="${ctx}/static/images/gameicon.png" height="100"/></div>
-                            <div class="index_hd_url">${mo.description}</div>
+                            <div class="index_hd_url etc">${mo.description}</div>
                         </a>
                     </div>
                     </dt>
@@ -242,7 +242,7 @@
                         <div class="index_hd_title">${mo.title}</div>
                         <a href="${mo.url};jsessionid=${sessionid}">
                             <div class="index_hd_count"><img data-src="${mo.imageName}"  src="${ctx}/static/images/gameicon.png" height="100"/></div>
-                            <div class="index_hd_url">${mo.description}</div>
+                            <div class="index_hd_url etc">${mo.description}</div>
                         </a>
                     </div>
                     </dt>
@@ -299,7 +299,7 @@
             <div class="huodongzt">
                 <a href="${bList[0].url}">
                     <div class="index_hd_count"><img data-src="${bList[0].imageName}"  src="${ctx}/static/images/gameicon.png" height="130"/></div>
-                    <div class="index_hd_url">${bList[0].description}</div>
+                    <div class="index_hd_url etc">${bList[0].description}</div>
                 </a>
             </div>
 
@@ -311,7 +311,7 @@
             <div class="huodong">
                 <a href="${bList[1].url}">
                     <div class="index_hd_count"><img data-src="${bList[1].imageName}"  src="${ctx}/static/images/gameicon.png" height="100"/></div>
-                    <div class="index_hd_url">${bList[1].description}</div>
+                    <div class="index_hd_url etc">${bList[1].description}</div>
                 </a>
             </div>
             </dt>
@@ -319,7 +319,7 @@
                 <div class="huodong_r">
                     <a href="${bList[2].url}">
                         <div class="index_hd_count"><img data-src="${bList[2].imageName}"  src="${ctx}/static/images/gameicon.png" width="320" height="160"/></div>
-                        <div class="index_hd_url">${bList[2].description}</div>
+                        <div class="index_hd_url etc">${bList[2].description}</div>
                     </a>
                 </div>
             </dd>
