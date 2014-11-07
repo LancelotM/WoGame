@@ -1,7 +1,10 @@
 package com.unicom.game.center.web;
 
+import com.google.gson.Gson;
+import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.SubjectDetailListVo;
 import com.unicom.game.center.vo.SubjectDetailVo;
 import com.unicom.game.center.vo.SubjectListVo;
@@ -14,12 +17,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Controller
 @RequestMapping(value = "/subject")
 public class SubjectController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private UnicomLogServer unicomLogServer;
 
     @RequestMapping(value = "/ajaxlist", method = RequestMethod.GET)
     @ResponseBody
@@ -50,13 +61,33 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list() {
+    public String list(HttpSession session) {
+        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
+        String date = df.format(new Date());
+        ServerLogInfo serverLogInfo = new ServerLogInfo();
+        serverLogInfo.setPageName("专题");
+        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
+        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setDate(date);
+
+        Gson gson = new Gson();
+        unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
         return "subject/list";
     }
 
 
     @RequestMapping(value = "/detailList", method = RequestMethod.GET)
-    public String detailList(@RequestParam("id") int id, Model model) {
+    public String detailList(@RequestParam("id") int id, Model model, HttpSession session) {
+        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
+        String date = df.format(new Date());
+        ServerLogInfo serverLogInfo = new ServerLogInfo();
+        serverLogInfo.setPageName("专题详情");
+        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
+        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setDate(date);
+
+        Gson gson = new Gson();
+        unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
         model.addAttribute("id", id);
         return "subject/detailList";
     }
