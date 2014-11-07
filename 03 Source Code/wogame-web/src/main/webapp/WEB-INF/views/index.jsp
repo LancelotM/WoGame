@@ -34,7 +34,7 @@
         function cookiesave(n, v, mins, dn, path) {
             if (n) {
 
-                if (!mins) mins = 365 * 24 * 60;
+                if (!mins) mins = 24 * 60;
                 if (!path) path = "/";
                 var date = new Date();
 
@@ -442,10 +442,10 @@
                 <dd>0元畅玩</dd>
             </dl>
         </a></li>
-        <li><a href="${ctx}/newGame/topNewest.do;jsessionid=${sessionid}">
+        <li><a href="${ctx}/newGame/topHotest.do;jsessionid=${sessionid}">
             <dl class="user_icon3">
                 <dt><img src="${ctx}/static/images/user_icon4.png"/></dt>
-                <dd>新游排行</dd>
+                <dd>飙升</dd>
             </dl>
         </a></li>
         <li><a href="${ctx}/category/list.do;jsessionid=${sessionid}">

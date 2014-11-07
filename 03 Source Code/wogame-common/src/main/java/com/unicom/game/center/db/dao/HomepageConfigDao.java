@@ -3,6 +3,7 @@ package com.unicom.game.center.db.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.unicom.game.center.utils.Constant;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
 
@@ -38,15 +39,18 @@ public class HomepageConfigDao extends HibernateDao<HomepageConfigDomain>{
 	public List<HomepageConfigDomain> fetchBannerInfo(int type, boolean isAll){
 		StringBuffer sb = new StringBuffer();
 		sb.append(" from HomepageConfigDomain banner");
-		sb.append(" where banner.status = true");
-		
-		if(!isAll){
-			sb.append(" and banner.adType = ");
-			sb.append(type);
-			sb.append(" order by banner.position asc ");
-		}else{
-			sb.append(" order by banner.adType asc, banner.position asc ");
-		}		
+
+        if(isAll){
+            sb.append(" where banner.status = true");
+            sb.append(" order by banner.adType asc, banner.position asc ");
+        }else {
+            sb.append(" where banner.adType = ");
+            sb.append(type);
+            if(type != Constant.HOMEPAGE_TOP_AD && type != Constant.HOMEPAGE_FOOTER_AD){
+                sb.append(" and banner.status = true");
+            }
+            sb.append(" order by banner.position asc ");
+        }
 		
 		@SuppressWarnings("unchecked")
 		List<HomepageConfigDomain> bannerInfos= getSession().createQuery(sb.toString())
