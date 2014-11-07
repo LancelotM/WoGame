@@ -225,7 +225,7 @@
                     <dt>
                     <div class="huodong">
                         <div class="index_hd_title">${mo.title}</div>
-                        <a href="${mo.url};jsessionid=${sessionid}">
+                        <a href="${mo.url}">
                             <div class="index_hd_count"><img data-src="${mo.imageName}"  src="${ctx}/static/images/gameicon.png" height="100"/></div>
                             <div class="index_hd_url etc">${mo.description}</div>
                         </a>
@@ -240,7 +240,7 @@
                     <dt>
                     <div class="huodong_r">
                         <div class="index_hd_title">${mo.title}</div>
-                        <a href="${mo.url};jsessionid=${sessionid}">
+                        <a href="${mo.url}">
                             <div class="index_hd_count"><img data-src="${mo.imageName}"  src="${ctx}/static/images/gameicon.png" height="100"/></div>
                             <div class="index_hd_url etc">${mo.description}</div>
                         </a>

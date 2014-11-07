@@ -12,4 +12,8 @@ public class Constants {
      * ChannelId In Logger Name
      */
     public static final String LOGGER_CONTENT_NAME_CHANNEL_ID = "channelId";
+
+    public static final String LOGGER_CONTENT_NAME_CHANNEL_CODE = "channelCode";
+
+    public static final String LOGGER_CONTENT_NAME_CLIENT_IP = "clientIP";
 }

@@ -1,10 +1,13 @@
 package com.unicom.game.center.web;
 
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.service.ZTEService;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.util.UrlUtil;
+import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.SearchKeywordItemVo;
 import com.unicom.game.center.vo.SearchKeywordsVo;
 import com.unicom.game.center.vo.SearchResultItemVo;
@@ -22,7 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -41,12 +47,25 @@ public class GameSearchController {
 
     @Autowired
     private StatisticsLogger statisticsLogger;
+
     @Autowired
     private ZTEService zteService;
 
+    @Autowired
+    private UnicomLogServer unicomLogServer;
+
     @RequestMapping(value = "init", method = RequestMethod.GET)
-    public String list(Model model, HttpServletRequest request) {
+    public String list(Model model, HttpServletRequest request,HttpSession session) {
         SearchKeywordsVo vo = zteService.readSearchAllKeywords();
+        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
+        String date = df.format(new Date());
+        ServerLogInfo serverLogInfo = new ServerLogInfo();
+        serverLogInfo.setPageName("搜索");
+        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
+        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setDate(date);
+        Gson gson = new Gson();
+        unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
         String refer = request.getHeader("Referer");
         if (refer != null) {
             if (refer.contains("/gameInfo")) {
@@ -107,8 +126,16 @@ public class GameSearchController {
 
 
     @RequestMapping(value = "/result", method = RequestMethod.GET)
-    public String searchResult(@RequestParam("keyword") String keyword, Model model) {
-
+    public String searchResult(@RequestParam("keyword") String keyword, Model model, HttpSession session) {
+        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
+        String date = df.format(new Date());
+        ServerLogInfo serverLogInfo = new ServerLogInfo();
+        serverLogInfo.setPageName("搜索");
+        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
+        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setDate(date);
+        Gson gson = new Gson();
+        unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
 
         try {
             model.addAttribute("keyword", URLDecoder.decode(keyword, "UTF-8"));

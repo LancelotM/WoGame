@@ -38,10 +38,14 @@ public class ChannelInfoBusiness {
 	private String backendKey;	
 	
 	@Value("#{properties['channel.info.path']}")
-	private String channelInfoPath;	
-	
-	
-	public List<ChannelInfo> fetchActiveChannelInfos(){
+	private String channelInfoPath;
+
+    public String fetchChannelCode(String channel_id){
+        ChannelInfo channelInfo = fetchChannelInfoById(Integer.parseInt(channel_id));
+        return (null != channelInfo) ? channelInfo.getChannelCode() : null;
+    }
+
+    public List<ChannelInfo> fetchActiveChannelInfos(){
 		List<ChannelInfo> channelInfos = null;
 		try{
 			channelInfos = channelInfoDao.fetchActiveChannels();
