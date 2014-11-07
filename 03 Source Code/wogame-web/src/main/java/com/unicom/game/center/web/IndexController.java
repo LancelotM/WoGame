@@ -188,12 +188,12 @@ public class IndexController {
         //公告
         model.addAttribute("b", banner);
 
-        //后台配置活动模块
+        //后台配置活动模块  需要判断类型
         List<BannerInfo> bannerInfoList = banner.getActivityModule();
         List<BannerInfo> bannerList = new ArrayList<BannerInfo>();
         if (bannerInfoList != null) {
             for (BannerInfo b : bannerInfoList) {
-                if (bannerList.size() < 2) {
+                if (b.getAdType()==3 && bannerList.size() < 2) {
                     bannerList.add(b);
                 }
             }
@@ -203,11 +203,11 @@ public class IndexController {
         //后台配置三个活动
         List<BannerInfo> BannerInfoList = banner.getActivityBanner();
         List<BannerInfo> bList = new ArrayList<BannerInfo>();
-        if (BannerInfoList != null) {
-            for (BannerInfo b : BannerInfoList) {
-                if (bList.size() < 3) {
-                    bList.add(b);
-                }
+                if (BannerInfoList != null) {
+                    for (BannerInfo b : BannerInfoList) {
+                        if (b.getAdType()==4 && bList.size() < 3) {
+                            bList.add(b);
+                        }
             }
         }
         model.addAttribute("bList", bList);
