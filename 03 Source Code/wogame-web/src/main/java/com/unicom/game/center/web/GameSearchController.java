@@ -7,6 +7,7 @@ import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.service.ZTEService;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.util.UrlUtil;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.SearchKeywordItemVo;
 import com.unicom.game.center.vo.SearchKeywordsVo;
@@ -25,8 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,16 +55,10 @@ public class GameSearchController {
 
     @RequestMapping(value = "init", method = RequestMethod.GET)
     public String list(Model model, HttpServletRequest request,HttpSession session) {
+        if(null == session){
+            session = request.getSession(true);
+        }
         SearchKeywordsVo vo = zteService.readSearchAllKeywords();
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
-        ServerLogInfo serverLogInfo = new ServerLogInfo();
-        serverLogInfo.setPageName("搜索");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
-        serverLogInfo.setDate(date);
-        Gson gson = new Gson();
-        unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
         String refer = request.getHeader("Referer");
         if (refer != null) {
             if (refer.contains("/gameInfo")) {
@@ -78,6 +71,14 @@ public class GameSearchController {
         }
 
         model.addAttribute("list", vo == null ? new ArrayList<SearchKeywordItemVo>() : vo.getHotWordData());
+        String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
+        ServerLogInfo serverLogInfo = new ServerLogInfo();
+        serverLogInfo.setPageName("搜索");
+        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
+        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setDate(date);
+        Gson gson = new Gson();
+        unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
         return "search/category";
     }
 
@@ -99,7 +100,7 @@ public class GameSearchController {
 
         // 记录Log
         HttpSession session = request.getSession();
-        String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+        String channel = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID).toString();
         if (null == channel) {
             channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
         }
@@ -126,9 +127,18 @@ public class GameSearchController {
 
 
     @RequestMapping(value = "/result", method = RequestMethod.GET)
-    public String searchResult(@RequestParam("keyword") String keyword, Model model, HttpSession session) {
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
+    public String searchResult(@RequestParam("keyword") String keyword, Model model, HttpServletRequest request, HttpSession session) {
+        if(null == session){
+            session = request.getSession(true);
+        }
+
+        try {
+            model.addAttribute("keyword", URLDecoder.decode(keyword, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            model.addAttribute("keyword", keyword);
+        }
+
+        String date = DateUtils.formatDateToString(new Date(),"yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("搜索");
         serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
@@ -136,12 +146,6 @@ public class GameSearchController {
         serverLogInfo.setDate(date);
         Gson gson = new Gson();
         unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
-
-        try {
-            model.addAttribute("keyword", URLDecoder.decode(keyword, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            model.addAttribute("keyword", keyword);
-        }
         return "search/result";
     }
 

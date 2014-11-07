@@ -11,6 +11,7 @@ import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.utils.AESEncryptionHelper;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.*;
 
@@ -75,13 +76,12 @@ public class IndexController {
     public String list(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, @RequestParam(value = "token", required = false) String token, Model model, HttpServletRequest request, HttpSession session) {
         String channelCode = com.unicom.game.center.utils.Constant.WOGAME_CHANNEL_CODE;
         String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
+        String date = DateUtils.formatDateToString(new Date(),"yyyy年MM月dd日 hh:mm:ss");
         try {
             if (null != token && !"".equals(token)) {
                 channel = AESEncryptionHelper.decrypt(token, siteKey);
                 if(null != channel){
-                    channelCode = channelInfoBusiness.fetchChannelCode(channel);
+                    channelCode = channelInfoBusiness.fetchChannelCode(Integer.parseInt(channel));
                 }
             }
         } catch (Exception e) {
@@ -98,33 +98,38 @@ public class IndexController {
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE,channelCode);
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP,clientIP);
 
+        model.addAttribute("isIndex", true);
+
+        initIndexData(model, pageNum);
+
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("首页");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode(channelCode);
+        serverLogInfo.setIp(clientIP);
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();
         unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
-        model.addAttribute("isIndex", true);
-
-        initIndexData(model, pageNum);
         return "index";
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String main(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, Model model, HttpSession session) {
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
+    public String main(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, Model model, HttpServletRequest request, HttpSession session) {
+        if(null == session){
+            session = request.getSession(true);
+        }
+
+        initIndexData(model, pageNum);
+
+        String date = DateUtils.formatDateToString(new Date(),"yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("首页");
+        serverLogInfo.setDate(date);
         serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
         serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
-        serverLogInfo.setDate(date);
 
         Gson gson = new Gson();
         unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
-        initIndexData(model, pageNum);
         return "index";
     }
 

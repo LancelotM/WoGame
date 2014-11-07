@@ -40,8 +40,8 @@ public class ChannelInfoBusiness {
 	@Value("#{properties['channel.info.path']}")
 	private String channelInfoPath;
 
-    public String fetchChannelCode(String channel_id){
-        ChannelInfo channelInfo = fetchChannelInfoById(Integer.parseInt(channel_id));
+    public String fetchChannelCode(int channel_id){
+        ChannelInfo channelInfo = fetchChannelInfoById(channel_id);
         return (null != channelInfo) ? channelInfo.getChannelCode() : null;
     }
 

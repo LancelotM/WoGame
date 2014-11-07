@@ -1,12 +1,11 @@
 package com.unicom.game.center.web;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.unicom.game.center.model.ServerLogInfo;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +25,7 @@ import com.unicom.game.center.vo.NetGameServerItemVo;
 import com.unicom.game.center.vo.NetGameServerListVo;
 import com.unicom.game.center.vo.NetGameServerVo;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -68,9 +68,11 @@ public class NetGameController {
     }
 
     @RequestMapping(value = "/server", method = RequestMethod.GET)
-    public String netGameServerList(HttpSession session) {
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
+    public String netGameServerList(HttpServletRequest request, HttpSession session) {
+        if(null == session){
+            session = request.getSession(true);
+        }
+        String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("新服预告");
         serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
@@ -84,9 +86,16 @@ public class NetGameController {
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public String netGameInfoList(Model model, HttpSession session) {
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
+    public String netGameInfoList(Model model, HttpServletRequest request, HttpSession session) {
+        if(null == session){
+            session = request.getSession(true);
+        }
+
+        NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 1);
+        List<NetGameServerItemVo> list = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList();
+        model.addAttribute("list", list);
+
+        String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("网游资讯");
         serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
@@ -95,17 +104,19 @@ public class NetGameController {
 
         Gson gson = new Gson();
         unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
-        NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 1);
-        List<NetGameServerItemVo> list = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList();
-        model.addAttribute("list", list);
-
         return "netGame/info";
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String fetchInfoDetail(@RequestParam("id") int id, Model model, HttpSession session) {
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
+    public String fetchInfoDetail(@RequestParam("id") int id, Model model,HttpServletRequest request, HttpSession session) {
+        if(null == session){
+            session = request.getSession(true);
+        }
+
+        InfoDetailListVo infoDetailListVo = gameService.readInfoDetail(id);
+        InfoDetailVo i = infoDetailListVo.getInfoDetailVo();
+        model.addAttribute("ac", i);
+        String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("网游资讯详情");
         serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
@@ -114,9 +125,6 @@ public class NetGameController {
 
         Gson gson = new Gson();
         unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
-        InfoDetailListVo infoDetailListVo = gameService.readInfoDetail(id);
-        InfoDetailVo i = infoDetailListVo.getInfoDetailVo();
-        model.addAttribute("ac", i);
         return "netGame/detail";
     }
 

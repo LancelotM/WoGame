@@ -5,6 +5,8 @@ import com.unicom.game.center.business.PackageInfoBusiness;
 import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.service.ZTEService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
+import com.unicom.game.center.utils.Constant;
 import com.unicom.game.center.vo.GameDownloadVo;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -65,13 +67,15 @@ public class GameDownloadController {
     public GameDownloadVo info(@RequestParam("productId") String productId,
                                @RequestParam("productName") String productName,
                                @RequestParam("productIcon") String productIcon,
-                               HttpServletRequest request) throws UnsupportedEncodingException {
-
+                               HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
+        if(null == session){
+            session = request.getSession(true);
+        }
         String utf8ProductName = URLDecoder.decode(URLDecoder.decode(productName, "UTF-8"), "UTF-8");
 
-        HttpSession session = request.getSession();
         // 记录Log
-        String channel = (String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+        String channel = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID).toString();
+        String ip = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString();
         if(null == channel){
         	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
         }
@@ -95,37 +99,13 @@ public class GameDownloadController {
             // 取得channel code
             String channelCode = packageInfoBusiness.checkPackageExist(channel, productId, info.getOnlineTime());
 
-            logDownloadUrl(productId, info, getClientIp(request), channelCode);
+            logDownloadUrl(productId, info, ip, channelCode);
             info.setDownloadUrl(wrapDownloadUrl(productId, info.getDownloadUrl(), info.getOnlineTime(), channelCode));
         }
 
         return info;
     }
 
-    private String getClientIp(HttpServletRequest request) {
-        String ip = request.getHeader("x-real-ip");
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("x-forwarded-for");
-            if (ip != null) {
-                ip = ip.split(",")[0].trim();
-            }
-        }
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-
-        return ip;
-    }
 
     /**
      * 成功获取下载地址URL日志（共计18个字段，用|线分隔）：

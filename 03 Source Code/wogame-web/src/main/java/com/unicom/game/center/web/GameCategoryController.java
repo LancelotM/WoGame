@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.*;
 import org.slf4j.Logger;
@@ -16,11 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -42,11 +42,13 @@ public class GameCategoryController {
     private Logger logger = LoggerFactory.getLogger(GameCategoryController.class);
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public String list(Model model, HttpSession session) {
+    public String list(Model model,HttpServletRequest request, HttpSession session) {
+        if(null == session){
+            session = request.getSession(true);
+        }
         CategoryListVo categoryListVo = gameService.readCategoryList();
         model.addAttribute("list", categoryListVo.getCategoryData());
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
+        String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("分类");
         serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
@@ -61,18 +63,10 @@ public class GameCategoryController {
     @RequestMapping(value = "detail", method = RequestMethod.GET)
     public String detail(@RequestParam("categoryId") int categoryId,
                          @RequestParam("categoryName") String categoryName,
-                         Model model, HttpSession session) {
-        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日 hh:mm:ss");
-        String date = df.format(new Date());
-        ServerLogInfo serverLogInfo = new ServerLogInfo();
-        serverLogInfo.setPageName("分类详情");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
-        serverLogInfo.setDate(date);
-
-        Gson gson = new Gson();
-        unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
-
+                         Model model,HttpServletRequest request, HttpSession session) {
+        if(null == session){
+            session = request.getSession(true);
+        }
         CategoryListVo categoryListVo = gameService.readCategoryList();
         List<CategoryItemVo> l = categoryListVo.getCategoryData();
 
@@ -97,6 +91,16 @@ public class GameCategoryController {
         } catch (UnsupportedEncodingException e) {
             model.addAttribute("categoryName", categoryName);
         }
+
+        String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
+        ServerLogInfo serverLogInfo = new ServerLogInfo();
+        serverLogInfo.setPageName("分类详情");
+        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
+        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setDate(date);
+
+        Gson gson = new Gson();
+        unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
 
         return "category/detail";
     }
