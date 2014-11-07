@@ -8,6 +8,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <Link Rel="ICON NAME" href="${ctx}/favicon.ico">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
@@ -109,7 +110,7 @@
                         stringBuffer.push('<div class="jiaobiao_' + entry.corner_mark + '">');
                         stringBuffer.push('</div>');
                         stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                        stringBuffer.push('<img src="' + entry.banner.banner_url + '" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
+                        stringBuffer.push('<img src="${ctx}/static/images/gameicon.png" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
                         /*显示下载*/
                         if (entry.banner.res_type == 2) {
                             stringBuffer.push('<div class="pro_cp_r1 radius">');
@@ -141,7 +142,7 @@
                         /*图片*/
                         stringBuffer.push('<div class="pro_cp_l">');
                         stringBuffer.push('<a href="' + urlBase + entry.product_id + '">');
-                        stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86"/>');
+                        stringBuffer.push('<img src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon_url + '" height="86"/>');
                         stringBuffer.push('</div>');
 
                         /*游戏名称*/

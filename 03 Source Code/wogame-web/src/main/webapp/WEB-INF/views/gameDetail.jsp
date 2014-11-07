@@ -8,6 +8,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <Link Rel="ICON NAME" href="${ctx}/favicon.ico">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
@@ -45,7 +46,7 @@
     <div class="youxi_lr_06" style="width:${fn:length(v.pics) * 120}px">
         <c:forEach var="p" items="${v.pics}" varStatus="index">
             <a href="javascript:popup('popdiv${index.index}')">
-                <img src="${p}" width="108" height="156"/>
+                <img  src="${ctx}/static/images/gameicon.png" data-src="${p}" width="108" height="156"/>
             </a>
         </c:forEach>
     </div>
@@ -54,14 +55,14 @@
 <!--弹出层,默认不显示-->
 <c:forEach var="p" items="${v.pics}" varStatus="index">
     <div id="popdiv${index.index}" style="display:none;position: absolute;z-index: 9999;top:5px;left:5px;">
-        <img src="${p}" onclick="jvascript:$('#popdiv${index.index}').hide();"/>
+        <img  src="${ctx}/static/images/gameicon.png" data-src="${p}" onclick="jvascript:$('#popdiv${index.index}').hide();"/>
     </div>
 </c:forEach>
 
 
 <!--介绍-->
 <div class="jieshao relative">
-    <div class="jieshao_img absolute"><img src="${v.iconUrl}" height="86"/></div>
+    <div class="jieshao_img absolute"><img  src="${ctx}/static/images/gameicon.png" data-src="${v.iconUrl}" height="86"/></div>
     <dl class="jieshao_dl absolute">
         <dt>
             <c:choose>

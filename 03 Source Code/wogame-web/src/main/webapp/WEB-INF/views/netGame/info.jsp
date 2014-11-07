@@ -8,6 +8,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <Link Rel="ICON NAME" href="${ctx}/favicon.ico">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
@@ -67,7 +68,7 @@
             <c:forEach var="l" items="${list}">
             <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${l.productId}">
                 <div class="pro_cp" style="margin-left: 10px;">
-                    <div class="pro_cp_l" style="top: 20px;"><img src="${l.iconUrl}" height="86"/></div>
+                    <div class="pro_cp_l" style="top: 20px;"><img  src="${ctx}/static/images/gameicon.png" data-src="${l.iconUrl}" height="86"/></div>
                     <dl class="pro_cp_c">
                         <dt>${l.gameName}</dt>
                         <dd>新服：${l.serverName} </dd>
@@ -154,7 +155,7 @@
                     /*图片*/
 
 
-                    stringBuffer.push('<img src="' + entry.icon_url + '" data-src="' + entry.icon_url + '" height="86";width="86"/>');
+                    stringBuffer.push('<img  src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon_url + '" height="86";width="86"/>');
 
                     stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
 

@@ -8,6 +8,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <Link Rel="ICON NAME" href="${ctx}/favicon.ico">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
@@ -112,11 +113,7 @@
                 play: {
                     auto: true
                 }
-
-
             });
-
-
         });
     </script>
 
@@ -134,16 +131,20 @@
 <c:if test="${!empty b.topAD}">
     <div id="note" class="note">
 
+            <img src="${b.topAD.imageName==''? '1' : b.topAD.imageName}" onerror="this.src='${ctx}/static/images/icon_huodong.png'"
+                     style="height: 25px;width: 25px; top: 5px; position: absolute; left: 12px; vertical-align: middle;">
+      <input type="hidden" id="topDescription" value="${b.topAD.description}"/>
+          <div id="gongao" style=" margin-left: 22px; height: 40px; line-height: 40px; position: absolute">
+              <div style="width:90%;height:30px;margin-left:25px;white-space: nowrap;overflow:hidden;" id="scroll_div" class="scroll_div">
+                  <div id="scroll_begin" style="width:900px;">
+                     <a id="descriptionText"  href="${b.topAD.url}" style="color: #ffffff">
+                           </a>
+                  </div>
+                  <div id="scroll_end"></div>
+              </div>
+          </div>
 
-        <img src="${b.topAD.imageName==''? '1' : b.topAD.imageName}" onerror="this.src='${ctx}/static/images/icon_huodong.png'"
-             style="height: 25px;width: 25px; position: relative; left: 12px; vertical-align: middle;">
-
-
-        <a href="${b.topAD.url}"
-           style="margin-left: 18px; vertical-align: middle">${b.topAD.description}</a>
-
-
-        <a style="position: absolute; right: 0px;" href="#" onclick="closeclick()"
+         <a style="position: absolute; right: 0px;" href="#" onclick="closeclick()"
            class="guanbi"><img
                 src="${ctx}/static/images/colose.png"
                 border="0"/></a>
@@ -161,27 +162,27 @@
                 <c:choose>
                     <%--外链--%>
                     <c:when test="${a.banner.resType==10}">
-                        <img src="${a.banner.bannerUrl}"
+                        <img data-src="${a.banner.bannerUrl}" src="${ctx}/static/images/gameicon.png"
                              onclick="javascript:toAdDetail('${a.banner.externalUrl}')" alt=""/>
                     </c:when>
 
                     <%--游戏--%>
                     <c:when test="${a.banner.resType==2}">
-                        <img src="${a.banner.bannerUrl}"
+                        <img data-src="${a.banner.bannerUrl}" src="${ctx}/static/images/gameicon.png"
                              onclick="javascript:toAdDetail('${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${a.banner.linkId}')"
                              alt=""/>
                     </c:when>
 
                     <%--专题--%>
                     <c:when test="${a.banner.resType==3}">
-                        <img src="${a.banner.bannerUrl}"
+                        <img data-src="${a.banner.bannerUrl}" src="${ctx}/static/images/gameicon.png"
                              onclick="javascript:toAdDetail('${ctx}/subject/detailList.do;jsessionid=${sessionid}?id=${a.banner.linkId}')"
                              alt=""/>
                     </c:when>
 
                     <%--活动--%>
                     <c:when test="${a.banner.resType==4}">
-                        <img src="${a.banner.bannerUrl}"
+                        <img data-src="${a.banner.bannerUrl}" src="${ctx}/static/images/gameicon.png"
                              onclick="javascript:toAdDetail('${ctx}/gameInfo/detail.do;jsessionid=${sessionid}?id=${a.banner.linkId}')"
                              alt=""/>
 
@@ -225,7 +226,7 @@
                     <div class="huodong">
                         <div class="index_hd_title">${mo.title}</div>
                         <a href="${mo.url};jsessionid=${sessionid}">
-                            <div class="index_hd_count"><img src="${mo.imageName}" height="100"/></div>
+                            <div class="index_hd_count"><img data-src="${mo.imageName}"  src="${ctx}/static/images/gameicon.png" height="100"/></div>
                             <div class="index_hd_url">${mo.description}</div>
                         </a>
                     </div>
@@ -240,7 +241,7 @@
                     <div class="huodong_r">
                         <div class="index_hd_title">${mo.title}</div>
                         <a href="${mo.url};jsessionid=${sessionid}">
-                            <div class="index_hd_count"><img src="${mo.imageName}" height="100"/></div>
+                            <div class="index_hd_count"><img data-src="${mo.imageName}"  src="${ctx}/static/images/gameicon.png" height="100"/></div>
                             <div class="index_hd_url">${mo.description}</div>
                         </a>
                     </div>
@@ -266,7 +267,7 @@
                             <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${h.productId}">
                             <dt>
                                 <img
-                                        src="${h.iconUrl}"/>
+                                      data-src="${h.iconUrl}"  src="${ctx}/static/images/gameicon.png"/>
                             </dt>
                             <dd class="tit etc">${h.title}
                             </dd>
@@ -280,7 +281,6 @@
                         </dl>
 
                     </li>
-
 
                 </c:forEach>
             </ul>
@@ -298,7 +298,7 @@
 
             <div class="huodongzt">
                 <a href="${bList[0].url}">
-                    <div class="index_hd_count"><img src="${bList[0].imageName}" height="130"/></div>
+                    <div class="index_hd_count"><img data-src="${bList[0].imageName}"  src="${ctx}/static/images/gameicon.png" height="130"/></div>
                     <div class="index_hd_url">${bList[0].description}</div>
                 </a>
             </div>
@@ -310,7 +310,7 @@
             <dt>
             <div class="huodong">
                 <a href="${bList[1].url}">
-                    <div class="index_hd_count"><img src="${bList[1].imageName}" height="100"/></div>
+                    <div class="index_hd_count"><img data-src="${bList[1].imageName}"  src="${ctx}/static/images/gameicon.png" height="100"/></div>
                     <div class="index_hd_url">${bList[1].description}</div>
                 </a>
             </div>
@@ -318,7 +318,7 @@
             <dd>
                 <div class="huodong_r">
                     <a href="${bList[2].url}">
-                        <div class="index_hd_count"><img src="${bList[2].imageName}" width="320" height="160"/></div>
+                        <div class="index_hd_count"><img data-src="${bList[2].imageName}"  src="${ctx}/static/images/gameicon.png" width="320" height="160"/></div>
                         <div class="index_hd_url">${bList[2].description}</div>
                     </a>
                 </div>
@@ -340,7 +340,7 @@
             <div class="pro_list" style="height: auto"><a href="#">
                 <div class="pro_cp" style="border-top: #dedede 1px solid;">
                     <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}">
-                        <div class="pro_cp_l"><img src="${n.iconUrl}" height="86"/></div>
+                        <div class="pro_cp_l"><img data-src="${n.iconUrl}"  src="${ctx}/static/images/gameicon.png" height="86"/></div>
 
                     <dl class="pro_cp_c" style="height: auto">
                         <dt class="etc">${n.gameName}</dt>
@@ -379,7 +379,7 @@
                 <c:forEach var="n" items="${netGame.netGameServerItemVoList}">
                     <li><a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}">
                         <div class="kf_left">
-                            <div class="kf_img"><img src="${n.iconUrl}" height="86"/></div>
+                            <div class="kf_img"><img data-src="${n.iconUrl}"  src="${ctx}/static/images/gameicon.png" height="86"/></div>
                             <div class="kf_dow radius">下载</div>
                         </div>
                         <div class="kf_right">
@@ -461,11 +461,22 @@
 <!-- 底部公告-->
 <c:if test="${!empty b.bottomAD }">
 
-    <div id="note" class="note" style="width: 100%">
-        <img src="${b.bottomAD.imageName==''? '1' : b.bottomAD.imageName}" onerror="this.src='${ctx}/static/images/icon_huodong.png'"
-             style="height: 25px;width: 25px; position: relative; left: 12px; vertical-align: middle;">
-        <a href="javascript:download_file('${b.bottomAD.url}');" 
-           style="vertical-align: middle; margin-left: 20px;">${b.bottomAD.description}</a>
+   <div id="note" class="note">
+
+     <img src="${b.bottomAD.imageName==''? '1' : b.bottomAD.imageName}" onerror="this.src='${ctx}/static/images/icon_huodong.png'"
+             style="height: 25px;width: 25px; top: 5px; position: absolute; left: 12px; vertical-align: middle;">
+       <input type="hidden" id="BottomDescription" value="${b.bottomAD.description}"/>
+        <div id="gongao1" style=" height: 40px; line-height: 40px; position: absolute">
+            <div style="width:80%;height:30px; margin-left:50px;white-space: nowrap;overflow:hidden;" id="scroll_div1" class="scroll_div">
+                <div id="bottom_scroll_begin" style="width:900px;">
+                    <a id="bottomDescriptionText" style="color: #ffffff"  href="javascript:download_file('${b.bottomAD.url}');">
+                            </a>
+                </div>
+                <div id="scroll_end1"></div>
+            </div>
+
+        </div>
+
     </div>
 
 </c:if>
@@ -473,57 +484,99 @@
 
 <script type="application/javascript">
 
-	function category(id,name){
-	    var name=encodeURI(encodeURI(name));
-	
-	    location.href = "${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId="+id+"&categoryName="+name;	
-	}
+        function category(id,name){
+            var name=encodeURI(encodeURI(name));
 
-    function clearSearch() {
-
-        $("#w_input").val('');
-
-    }
-
-    function search() {
-        var keyword;
-        var inputtext = $("#w_input").val();
-
-        if (inputtext == "" || inputtext == "请输入搜索内容") {
-
-            alert("请输入搜索关键字")
-            return false;
-        } else {
-
-            keyword = encodeURI(encodeURI(inputtext));
-
-            location.href = "${ctx}/search/result.do;jsessionid=${sessionid}?keyword=" + keyword;
+            location.href = "${ctx}/category/detail.do;jsessionid=${sessionid}?categoryId="+id+"&categoryName="+name;
         }
-    }
 
-    function bannerdetail(linkid, title) {
+        function clearSearch() {
+            $("#w_input").val('');
+        }
 
-        var link = encodeURI(encodeURI(linkid));
-        var title = encodeURI(encodeURI(title));
+        function search() {
+            var keyword;
+            var inputtext = $("#w_input").val();
 
-        location.href = "${ctx}/banner.do;jsessionid=${sessionid}?linkId=" + link + '&title=' + title;
+            if (inputtext == "" || inputtext == "请输入搜索内容") {
 
-    }
+                alert("请输入搜索关键字")
+                return false;
+            } else {
 
+                keyword = encodeURI(encodeURI(inputtext));
 
-    function toAdDetail(url) {
-
-        location.href = url;
-    }
-
-
-            function download(id, name, icon) {
-
-                doDownload("${ctx}/download.do;jsessionid=${sessionid}", id, name, icon);
+                location.href = "${ctx}/search/result.do;jsessionid=${sessionid}?keyword=" + keyword;
             }
+        }
 
+        function bannerdetail(linkid, title) {
+
+            var link = encodeURI(encodeURI(linkid));
+            var title = encodeURI(encodeURI(title));
+
+            location.href = "${ctx}/banner.do;jsessionid=${sessionid}?linkId=" + link + '&title=' + title;
+
+        }
+
+
+        function toAdDetail(url) {
+
+            location.href = url;
+        }
+        function download(id, name, icon) {
+
+            doDownload("${ctx}/download.do;jsessionid=${sessionid}", id, name, icon);
+        }
 
 </script>
+
+<style type="text/css">
+    #gongao{width:80%;height:30px;overflow:hidden;line-height:30px;font-size:13px;font-family:'宋体';color:#ffffff;font-weight:bold;}
+    #gongao #scroll_begin, #gongao #scroll_end{display:inline}
+    #gongao1{width:95%;height:30px;overflow:hidden;line-height:30px;font-size:13px;font-family:'宋体';color:#ffffff;font-weight:bold;}
+    #gongao1 #bottom_scroll_begin, #gongao1 #scroll_end1{display:inline}
+
+</style>
+<script type="text/javascript">
+    function ScrollImgLeft(){
+        var speed=50;
+        $("#descriptionText").text($("#topDescription").val()+'　　　　　　　　　　　　');
+        var scroll_begin = document.getElementById("scroll_begin");
+            var scroll_end = document.getElementById("scroll_end");
+            var scroll_div = document.getElementById("scroll_div");
+            scroll_end.innerHTML=scroll_begin.innerHTML;
+            function Marquee(){
+                if(scroll_end.offsetWidth-scroll_div.scrollLeft<=0){
+                    scroll_div.scrollLeft-=scroll_begin.offsetWidth;
+                }
+                else{
+                    scroll_div.scrollLeft++;
+                }
+            }
+            var MyMar=setInterval(Marquee,speed);
+    }
+
+    function ScrollImgLeft1(){
+        var speed=50;
+        $("#bottomDescriptionText").text($("#BottomDescription").val()+'　　　　　　');
+        var scroll_begin = document.getElementById("bottom_scroll_begin");
+            var scroll_end = document.getElementById("scroll_end1");
+            var scroll_div = document.getElementById("scroll_div1");
+            scroll_end.innerHTML=scroll_begin.innerHTML;
+            function MarqueeButtom(){
+                if(scroll_end.offsetWidth-scroll_div.scrollLeft<=0)
+                    scroll_div.scrollLeft-=scroll_begin.offsetWidth;
+                else
+                    scroll_div.scrollLeft++;
+            }
+
+            var MyMar=setInterval(MarqueeButtom,speed);
+    }
+
+</script>
+<script type="text/javascript">ScrollImgLeft();</script>
+<script type="text/javascript">ScrollImgLeft1();</script>
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
