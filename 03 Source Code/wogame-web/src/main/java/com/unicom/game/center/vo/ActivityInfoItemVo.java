@@ -43,6 +43,17 @@ public class ActivityInfoItemVo {
     @JsonProperty("end_time")
     private long endTime;
 
+    @JsonProperty("banner")
+    private Banner banner;
+
+    public Banner getBanner() {
+        return banner;
+    }
+
+    public void setBanner(Banner banner) {
+        this.banner = banner;
+    }
+
     public long getEndTime() {
         return endTime;
     }
