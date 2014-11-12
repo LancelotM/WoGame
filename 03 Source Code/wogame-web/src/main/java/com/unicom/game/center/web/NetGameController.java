@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
+import com.unicom.game.center.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
-import com.unicom.game.center.vo.InfoDetailListVo;
-import com.unicom.game.center.vo.InfoDetailVo;
-import com.unicom.game.center.vo.NetGameInfoListVo;
-import com.unicom.game.center.vo.NetGameInfoVo;
-import com.unicom.game.center.vo.NetGameServerItemVo;
-import com.unicom.game.center.vo.NetGameServerListVo;
-import com.unicom.game.center.vo.NetGameServerVo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -61,10 +55,24 @@ public class NetGameController {
         if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }
-
         NetGameInfoListVo netGameServerListVo = gameService.readNetGameInfoList(pageNum, size);
-
-        return netGameServerListVo.getNetGameInfoVo();
+        NetGameInfoVo ac= netGameServerListVo.getNetGameInfoVo();
+        NetGameInfoItemVo a=new NetGameInfoItemVo();
+        a.setId(231);
+        a.setType(1);
+        a.setTitle("网游彻夜狂欢，双11的棍棍族庆典");
+        a.setIntro("网游彻夜狂欢，双11的棍棍族庆典");
+        Banner b=new Banner();
+        b.setLinkId("230");
+        b.setResType(4);
+        b.setBannerUrl("http://wgfiles.wostore.cn/images/2014/11/a5f601bdc210461b81b63f4c803ebe57");
+        a.setBanner(b);
+        a.setCornerMark(new Integer("0").intValue());
+        a.setCreateTime(1415609553000L);
+        a.setStartTime(1415548800000l);
+        a.setEndTime(1415721600000l);
+        ac.getNetGameInfoItemVoList().add(0,a);
+        return ac;
     }
 
     @RequestMapping(value = "/server", method = RequestMethod.GET)

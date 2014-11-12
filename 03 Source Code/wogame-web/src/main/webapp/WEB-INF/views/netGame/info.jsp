@@ -98,7 +98,12 @@
             <div class="hdjianjie">网游活动</div>
         </div>
 
+        <dl class="juanti_lr"><a href="#">
+            <dt><img id="image"  src="${ctx}/static/images/gameicon.png" data-src="" height="312"/></dt>
 
+            <dd  id="title" class="etc"></dd>
+            <dd  id="time" class="etc" style="line-height: 15px;"></dd>
+        </a></dl>
 
 
         <div id="list">
@@ -141,10 +146,16 @@
                 if (pPageNum <= 1) {
                     el.empty();
                 }
+                if (data.items[0].banner!= null) {
+                    /*  $("#t1").text(su(data.title,5,0,4));*/
+                    $("#image").attr("data-src", data.items[0].banner.banner_url);
+                    $("#title").html(data.items[0].title);
+                    $("#time").html(getFormatDateByLong(data.items[0].start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(data.items[0].end_time, "yyyy.MM.dd"));
+                }
 
                 $.each(data.items, function (index, entry) {
 
-
+            if(index!=0){
                     var stringBuffer = [];
 
                     stringBuffer.push('<dl class="huodong_list">');
@@ -173,7 +184,7 @@
 
 
                     el.append(stringBuffer.join(""));
-                });
+            }});
                 $("img[data-src]").scrollLoading();
             } else {
 
