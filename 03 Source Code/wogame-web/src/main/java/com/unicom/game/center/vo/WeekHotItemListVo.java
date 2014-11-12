@@ -26,6 +26,12 @@ public class WeekHotItemListVo {
     @JsonProperty("icon_url")
     private String iconUrl;
 
+    @JsonProperty("package_name")
+    private String packageName;
+
+    @JsonProperty("apk_size")
+    private Long apkSize;
+
     public Long getApkSize() {
         return apkSize;
     }
@@ -106,9 +112,4 @@ public class WeekHotItemListVo {
         this.intro = intro;
     }
 
-    @JsonProperty("package_name")
-    private String packageName;
-
-    @JsonProperty("apk_size")
-    private Long apkSize;
 }
