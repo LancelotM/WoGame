@@ -84,13 +84,10 @@ public class GameInfoController {
     @ResponseBody
     public GameInfoDataVo gameInfoList(@RequestParam(value = "pageNum", required = false,defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
-
         if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }
-
         GameInfoListVo gameInfoListVo = gameService.readGameInfoList(pageNum, size);
-
         GameInfoDataVo ac= gameInfoListVo.getGameInfoVo();
         GameInfoItemVo a=new GameInfoItemVo();
         a.setId(231);

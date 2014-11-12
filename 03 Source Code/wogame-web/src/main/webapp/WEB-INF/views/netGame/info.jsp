@@ -72,25 +72,17 @@
                     <dl class="pro_cp_c">
                         <dt>${l.gameName}</dt>
                         <dd>新服：${l.serverName} </dd>
-
                         <dd>
                             时间：
-
                                 <jsp:useBean id="date" class="java.util.Date"/>
                                 <jsp:setProperty name="date" property="time" value="${l.openTime}"/>
                                 <fmt:formatDate value="${date}" pattern="yyyy.MM.dd"/>
                         <dd>
-
                     </dl>
-
-
                 </div>
             </a>
                 <div class="pro_cp_r radius"> <a href="javascript:download('${l.productId}','${l.gameName}','${l.iconUrl}')" data-role="none">下载</a></div>
                 </c:forEach>
-
-
-
         </div>
 
 

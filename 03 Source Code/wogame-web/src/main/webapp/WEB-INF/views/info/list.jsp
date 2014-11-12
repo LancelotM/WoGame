@@ -36,7 +36,7 @@
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
-    <a   href="${ctx}/main.do;jsessionid=${sessionid}">
+    <a href="${ctx}/main.do;jsessionid=${sessionid}">
         <div class="fanhui absolute pic"></div>
 
         <div class="fanhui-text absolute" style="color:#FF9C00 ">首页</div>
@@ -58,7 +58,6 @@
 </div>
 
 
-
 <!--列表-->
 <div id="wrapper" style="top: 95px;">
     <div id="scroller">
@@ -67,10 +66,10 @@
         </div>
 
         <dl class="juanti_lr"><a href="#">
-            <dt><img id="image"  src="${ctx}/static/images/gameicon.png" data-src="" height="312"/></dt>
+            <dt><img id="image" src="${ctx}/static/images/gameicon.png" data-src="" height="312"/></dt>
 
-            <dd  id="title" class="etc"></dd>
-            <dd  id="time" class="etc" style="line-height: 15px;"></dd>
+            <dd id="title" class="etc"></dd>
+            <dd id="time" class="etc" style="line-height: 15px;"></dd>
         </a></dl>
 
         <div id="list">
@@ -83,8 +82,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 <script type="application/javascript">
@@ -114,49 +111,49 @@
                 if (pPageNum <= 1) {
                     el.empty();
                 }
-                if (data.items[0].banner!= null) {
+                if (data.items[0].banner != null) {
                     /*  $("#t1").text(su(data.title,5,0,4));*/
                     $("#image").attr("data-src", data.items[0].banner.banner_url);
                     $("#title").html(data.items[0].title);
                     $("#time").html(getFormatDateByLong(data.items[0].start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(data.items[0].end_time, "yyyy.MM.dd"));
                 }
-
                 $.each(data.items, function (index, entry) {
 
-                    if(index!=0){
-                    var stringBuffer = [];
+                    if (index != 0) {
+                        var stringBuffer = [];
 
-                    stringBuffer.push(' <div class="zixun_list">');
+                        stringBuffer.push(' <div class="zixun_list">');
 
-                    stringBuffer.push('<a href="${ctx}/gameInfo/detail.do;jsessionid=${sessionid}?id=' + entry.id + '">');
-
-
-                    /*图片*/
+                        stringBuffer.push('<a href="${ctx}/gameInfo/detail.do;jsessionid=${sessionid}?id=' + entry.id + '">');
 
 
-                            stringBuffer.push(' <div class="zixun_img">');
-                    stringBuffer.push('<img  src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon_url + '" height="86";width="86"/>');
-                    stringBuffer.push('</div>')
-
-                    stringBuffer.push('<dl class="zixun_right">');
-
-                    stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
-
-                    stringBuffer.push('<dd  >' +su(entry.intro,35,0,35) + '</dd>');
-                    stringBuffer.push('<dd  class="etc">' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + '-' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
+                        /*图片*/
 
 
-                    stringBuffer.push('</a>');
+                        stringBuffer.push(' <div class="zixun_img">');
+                        stringBuffer.push('<img  src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon_url + '" height="86";width="86"/>');
+                        stringBuffer.push('</div>')
+
+                        stringBuffer.push('<dl class="zixun_right">');
+
+                        stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
+
+                        stringBuffer.push('<dd  >' + su(entry.intro, 35, 0, 35) + '</dd>');
+                        stringBuffer.push('<dd  class="etc">' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + '-' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
 
 
-                    stringBuffer.push('</dl>');
+                        stringBuffer.push('</a>');
 
 
-                    /*当程序加载页面自动运行ajaxGetData（1）自动加载好页面就ok*/
+                        stringBuffer.push('</dl>');
 
 
-                    el.append(stringBuffer.join(""));
-                    } });
+                        /*当程序加载页面自动运行ajaxGetData（1）自动加载好页面就ok*/
+
+
+                        el.append(stringBuffer.join(""));
+                    }
+                });
                 $("img[data-src]").scrollLoading();
             } else {
 

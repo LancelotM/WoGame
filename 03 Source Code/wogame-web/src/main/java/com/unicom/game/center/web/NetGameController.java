@@ -49,9 +49,7 @@ public class NetGameController {
     @RequestMapping(value = "/infolist", method = RequestMethod.GET)
     @ResponseBody
     public NetGameInfoVo netGameInfoList(@RequestParam(value = "pageNum",required = false,defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
-
         int size = Constants.PAGE_SIZE_DEFAULT;
-
         if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }

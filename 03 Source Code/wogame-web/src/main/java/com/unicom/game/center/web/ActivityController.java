@@ -39,11 +39,9 @@ public class ActivityController {
     @ResponseBody
     public ActivityInfoVo activityInfoList(@RequestParam(value = "pageNum", required = false,defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
-
         if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }
-
         ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(pageNum, size);
          ActivityInfoVo ac= activityInfoListVo.getActivityInfoVo();
         ActivityInfoItemVo a=new ActivityInfoItemVo();
@@ -60,7 +58,7 @@ public class ActivityController {
         a.setCreateTime(1415609553000L);
         a.setStartTime(1415548800000l);
         a.setEndTime(1415721600000l);
-         ac.getActivityInfoItemVoList().add(0,a);
+        ac.getActivityInfoItemVoList().add(0,a);
         return ac;
     }
 
