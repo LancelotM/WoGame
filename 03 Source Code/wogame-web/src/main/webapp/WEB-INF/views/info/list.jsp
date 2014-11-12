@@ -65,13 +65,6 @@
             <span class="pullDownIcon"></span><span class="pullDownLabel">刷新...</span>
         </div>
 
-        <dl class="juanti_lr"><a href="#">
-            <dt><img id="image" src="${ctx}/static/images/gameicon.png" data-src="" height="312"/></dt>
-
-            <dd id="title" class="etc"></dd>
-            <dd id="time" class="etc" style="line-height: 15px;"></dd>
-        </a></dl>
-
         <div id="list">
 
         </div>
@@ -111,24 +104,23 @@
                 if (pPageNum <= 1) {
                     el.empty();
                 }
-                if (data.items[0].banner != null) {
-                    /*  $("#t1").text(su(data.title,5,0,4));*/
-                    $("#image").attr("data-src", data.items[0].banner.banner_url);
-                    $("#title").html(data.items[0].title);
-                    $("#time").html(getFormatDateByLong(data.items[0].start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(data.items[0].end_time, "yyyy.MM.dd"));
-                }
+
                 $.each(data.items, function (index, entry) {
-
-                    if (index != 0) {
                         var stringBuffer = [];
+                    if (entry.banner != null) {
+                        stringBuffer.push('<dl class="juanti_lr"><a href="#"><dt>');
+                        stringBuffer.push('<img  src="${ctx}/static/images/gameicon.png" data-src="' + entry.banner.banner_url + '" height="312"/>');
+                        stringBuffer.push('</dt>');
+                        stringBuffer.push('<div  class="etc" style="line-height: 20px;margin-left: 8px;">' + entry.title + '</div>');
+                        stringBuffer.push('<div class="etc"  style="line-height: 15px; margin-right:8px;float: right" >' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + ' - ' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</div>');
+                        stringBuffer.push('</a> </dl>');
 
+                    }else {
                         stringBuffer.push(' <div class="zixun_list">');
 
                         stringBuffer.push('<a href="${ctx}/gameInfo/detail.do;jsessionid=${sessionid}?id=' + entry.id + '">');
 
-
                         /*图片*/
-
 
                         stringBuffer.push(' <div class="zixun_img">');
                         stringBuffer.push('<img  src="${ctx}/static/images/gameicon.png" data-src="' + entry.icon_url + '" height="86";width="86"/>');
@@ -138,7 +130,7 @@
 
                         stringBuffer.push('<dt  class="etc">' + entry.title + '</dt>');
 
-                        stringBuffer.push('<dd  >' + su(entry.intro, 35, 0, 35) + '</dd>');
+                        stringBuffer.push('<dd  >' + su(entry.intro, 20, 0, 20) + '</dd>');
                         stringBuffer.push('<dd  class="etc">' + "时间：" + getFormatDateByLong(entry.start_time, "yyyy.MM.dd") + '-' + getFormatDateByLong(entry.end_time, "yyyy.MM.dd") + '</dd>');
 
 
@@ -147,12 +139,12 @@
 
                         stringBuffer.push('</dl>');
 
-
+                    }
                         /*当程序加载页面自动运行ajaxGetData（1）自动加载好页面就ok*/
 
 
                         el.append(stringBuffer.join(""));
-                    }
+
                 });
                 $("img[data-src]").scrollLoading();
             } else {
