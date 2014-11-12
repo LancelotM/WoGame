@@ -37,6 +37,7 @@ public class RecommendDataVo {
     @JsonProperty("banner")
     private Banner banner;
 
+    @JsonProperty("download_url")
     private String download_url;
 
 
