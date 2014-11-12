@@ -84,27 +84,14 @@ public class GameInfoController {
     @ResponseBody
     public GameInfoDataVo gameInfoList(@RequestParam(value = "pageNum", required = false,defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
+
         if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }
+
         GameInfoListVo gameInfoListVo = gameService.readGameInfoList(pageNum, size);
-        GameInfoDataVo ac= gameInfoListVo.getGameInfoVo();
-        GameInfoItemVo a=new GameInfoItemVo();
-        a.setId(231);
-        a.setType(1);
-        a.setTitle("网游彻夜狂欢，双11的棍棍族庆典");
-        a.setIntro("网游彻夜狂欢，双11的棍棍族庆典");
-        Banner b=new Banner();
-        b.setLinkId("230");
-        b.setResType(4);
-        b.setBannerUrl("http://wgfiles.wostore.cn/images/2014/11/a5f601bdc210461b81b63f4c803ebe57");
-        a.setBanner(b);
-        a.setCornerMark(new Integer("0").intValue());
-        a.setCreateTime(1415609553000L);
-        a.setStartTime(1415548800000l);
-        a.setEndTime(1415721600000l);
-        ac.getGameInfoItemVoList().add(0,a);
-        return ac;
+
+        return gameInfoListVo.getGameInfoVo();
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

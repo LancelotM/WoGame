@@ -6,7 +6,10 @@ import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
-import com.unicom.game.center.vo.*;
+import com.unicom.game.center.vo.ActivityInfoListVo;
+import com.unicom.game.center.vo.ActivityInfoVo;
+import com.unicom.game.center.vo.InfoDetailListVo;
+import com.unicom.game.center.vo.InfoDetailVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/activity")
@@ -39,27 +41,14 @@ public class ActivityController {
     @ResponseBody
     public ActivityInfoVo activityInfoList(@RequestParam(value = "pageNum", required = false,defaultValue = "0") Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, Model model) {
         int size = Constants.PAGE_SIZE_DEFAULT;
+
         if (null != pageSize && pageSize > 0) {
             size = pageSize;
         }
+
         ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(pageNum, size);
-         ActivityInfoVo ac= activityInfoListVo.getActivityInfoVo();
-        ActivityInfoItemVo a=new ActivityInfoItemVo();
-        a.setId(231);
-        a.setType(1);
-        a.setTitle("网游彻夜狂欢，双11的棍棍族庆典");
-        a.setIntro("网游彻夜狂欢，双11的棍棍族庆典");
-        Banner b=new Banner();
-        b.setLinkId("230");
-        b.setResType(4);
-        b.setBannerUrl("http://wgfiles.wostore.cn/images/2014/11/a5f601bdc210461b81b63f4c803ebe57");
-        a.setBanner(b);
-        a.setCornerMark(new Integer("0").intValue());
-        a.setCreateTime(1415609553000L);
-        a.setStartTime(1415548800000l);
-        a.setEndTime(1415721600000l);
-        ac.getActivityInfoItemVoList().add(0,a);
-        return ac;
+
+        return activityInfoListVo.getActivityInfoVo();
     }
 
 
