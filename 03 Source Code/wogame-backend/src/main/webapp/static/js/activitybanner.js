@@ -1,7 +1,7 @@
 var Dialog={};
+var before_category;
 $(function () {
     initEvent();
-
     $("#random_input").val(Math.random()*99+1);
 
     $("#create_submit").click(function(){
@@ -61,6 +61,7 @@ $(function () {
     });
 
     $("#update_submit").click(function(){
+        var categoryBefore  = before_category;
         var $dialog_category = $.trim($('input[name="category"]:checked').val());
         var bigNum = 0, smallNum = 0;
         var arr = $(".category");
@@ -71,7 +72,7 @@ $(function () {
                 smallNum++;
             }
         }
-        if($dialog_category == "bigCategory" && bigNum >= 1){
+        if(categoryBefore == 2 &&$dialog_category == "bigCategory" && bigNum == 1){
             alert("已经添加了一条大Banner数据，不可以进行修改操作！如若必须添加，可先删除一条大Banner数据后再修改");
             var $dialog_picture = $.trim($("#dialog_picture").val());
             var $dialog_introduce = $.trim($("#dialog_introduce").val());
@@ -83,7 +84,7 @@ $(function () {
                 $("#dialog_bigCategory").removeAttr("checked");
                 $("#dialog_smallCategory").removeAttr("checked");
             }
-        }else if($dialog_category == "smallCategory" && smallNum >= 2){
+        }else if(categoryBefore == 1 && $dialog_category == "smallCategory" && smallNum == 2){
             alert("已经添加了两条小Banner数据，不可以进行修改操作！如若必须添加，可先删除一条小Banner数据后再修改");
             var $dialog_picture = $.trim($("#dialog_picture").val());
             var $dialog_introduce = $.trim($("#dialog_introduce").val());
@@ -116,8 +117,10 @@ function updateActivityBanner(id){
         var $categoryCode = data.position;
         if($categoryCode == 1){
             $("#dialog_bigCategory").attr("checked",true);
+            before_category = 1;
         }else if($categoryCode == 2){
             $("#dialog_smallCategory").attr("checked",true);
+            before_category = 2;
         }
         $('#dialog_picture').val(data.imageName);
         $('#dialog_introduce').val(data.description);
