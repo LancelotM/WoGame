@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.*;
@@ -44,7 +45,7 @@ public class GameCategoryController {
     @RequestMapping(value = "list", method = RequestMethod.GET)
     public String list(Model model,HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         CategoryListVo categoryListVo = gameService.readCategoryList();
         model.addAttribute("list", categoryListVo.getCategoryData());
@@ -65,7 +66,7 @@ public class GameCategoryController {
                          @RequestParam("categoryName") String categoryName,
                          Model model,HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         CategoryListVo categoryListVo = gameService.readCategoryList();
         List<CategoryItemVo> l = categoryListVo.getCategoryData();

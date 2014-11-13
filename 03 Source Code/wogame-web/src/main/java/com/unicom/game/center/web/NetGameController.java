@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.vo.InfoDetailListVo;
 import com.unicom.game.center.vo.InfoDetailVo;
 import com.unicom.game.center.vo.NetGameInfoListVo;
@@ -70,7 +71,7 @@ public class NetGameController {
     @RequestMapping(value = "/server", method = RequestMethod.GET)
     public String netGameServerList(HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
@@ -88,7 +89,7 @@ public class NetGameController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public String netGameInfoList(Model model, HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
 
         NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 1);
@@ -110,7 +111,7 @@ public class NetGameController {
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String fetchInfoDetail(@RequestParam("id") int id, Model model,HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
 
         InfoDetailListVo infoDetailListVo = gameService.readInfoDetail(id);

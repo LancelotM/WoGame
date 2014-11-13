@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.util.UrlUtil;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
@@ -62,7 +63,7 @@ public class GameInfoController {
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String fetchGameInfoDetail(@RequestParam("id") int id, Model model,HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         InfoDetailListVo infoDetailListVo = gameService.readInfoDetail(id);
         InfoDetailVo i = infoDetailListVo.getInfoDetailVo();
@@ -97,7 +98,7 @@ public class GameInfoController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String news(HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();

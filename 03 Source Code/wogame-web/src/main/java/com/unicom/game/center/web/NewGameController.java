@@ -5,6 +5,7 @@ import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.NewListVo;
@@ -88,7 +89,7 @@ public class NewGameController {
     @RequestMapping(value = "/topNewest", method = RequestMethod.GET)
     public String topNewest(HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
@@ -105,7 +106,7 @@ public class NewGameController {
     @RequestMapping(value = "/topHotest", method = RequestMethod.GET)
     public String topHotest(HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();

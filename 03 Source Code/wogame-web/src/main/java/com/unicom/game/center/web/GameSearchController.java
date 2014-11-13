@@ -6,6 +6,7 @@ import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.StatisticsLogger;
 import com.unicom.game.center.service.ZTEService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.util.UrlUtil;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
@@ -56,7 +57,7 @@ public class GameSearchController {
     @RequestMapping(value = "init", method = RequestMethod.GET)
     public String list(Model model, HttpServletRequest request,HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         SearchKeywordsVo vo = zteService.readSearchAllKeywords();
         String refer = request.getHeader("Referer");
@@ -129,7 +130,7 @@ public class GameSearchController {
     @RequestMapping(value = "/result", method = RequestMethod.GET)
     public String searchResult(@RequestParam("keyword") String keyword, Model model, HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
 
         try {

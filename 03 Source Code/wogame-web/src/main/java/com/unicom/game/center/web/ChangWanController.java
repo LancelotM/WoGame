@@ -35,7 +35,7 @@ public class ChangWanController {
     @RequestMapping(value = "/changWan")
     public String changWan(HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+            session = HttpClientUtil.fetchSession(request);            
         }
         String clientIP = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString();
     	String channel = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID).toString();

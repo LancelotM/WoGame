@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.GameDetailListVo;
@@ -33,7 +34,7 @@ public class GameDetailController {
 
     public String gameDetailList(@RequestParam("product_id") String productId, Model model,HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
 
         GameDetailListVo gameDetailListVo = gameService.readGameDetailList(productId);

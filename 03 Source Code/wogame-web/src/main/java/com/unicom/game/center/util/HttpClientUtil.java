@@ -1,7 +1,30 @@
 package com.unicom.game.center.util;
 
-import com.google.common.collect.Lists;
-import org.apache.http.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.security.cert.CertificateException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.MethodNotSupportedException;
+import org.apache.http.NameValuePair;
+import org.apache.http.NoHttpResponseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.ResponseHandler;
@@ -28,20 +51,7 @@ import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLHandshakeException;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import javax.servlet.http.HttpServletRequest;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.security.cert.CertificateException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Lists;
 
 /**
  * @className:HttpClientUtil.java
@@ -666,5 +676,18 @@ public class HttpClientUtil {
         }
 
         return ip;
+    }
+    
+    public static HttpSession fetchSession(HttpServletRequest request){
+    	HttpSession session = request.getSession(true);
+        String clientIP = getClientIp(request);
+        String channelCode = com.unicom.game.center.utils.Constant.WOGAME_CHANNEL_CODE;
+        String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+        
+        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
+        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE,channelCode);
+        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP,clientIP); 
+        
+        return session;
     }
 }

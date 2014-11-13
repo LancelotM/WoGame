@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.unicom.game.center.model.ServerLogInfo;
 import com.unicom.game.center.service.GameService;
 import com.unicom.game.center.util.Constants;
+import com.unicom.game.center.util.HttpClientUtil;
 import com.unicom.game.center.utils.DateUtils;
 import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.SubjectDetailListVo;
@@ -63,7 +64,7 @@ public class SubjectController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
@@ -81,7 +82,7 @@ public class SubjectController {
     @RequestMapping(value = "/detailList", method = RequestMethod.GET)
     public String detailList(@RequestParam("id") int id, Model model, HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
 
         model.addAttribute("id", id);

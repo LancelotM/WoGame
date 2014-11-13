@@ -69,7 +69,7 @@ public class GameDownloadController {
                                @RequestParam("productIcon") String productIcon,
                                HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
         String utf8ProductName = URLDecoder.decode(URLDecoder.decode(productName, "UTF-8"), "UTF-8");
 

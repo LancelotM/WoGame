@@ -116,7 +116,7 @@ public class IndexController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, Model model, HttpServletRequest request, HttpSession session) {
         if(null == session){
-            session = request.getSession(true);
+        	session = HttpClientUtil.fetchSession(request);
         }
 
         initIndexData(model, pageNum);
