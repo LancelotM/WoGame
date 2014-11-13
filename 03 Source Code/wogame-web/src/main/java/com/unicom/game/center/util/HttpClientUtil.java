@@ -679,14 +679,22 @@ public class HttpClientUtil {
     }
     
     public static HttpSession fetchSession(HttpServletRequest request){
-    	HttpSession session = request.getSession(true);
-        String clientIP = getClientIp(request);
-        String channelCode = com.unicom.game.center.utils.Constant.WOGAME_CHANNEL_CODE;
-        String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
-        
-        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
-        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE,channelCode);
-        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP,clientIP); 
+    	HttpSession session = request.getSession(false);
+    	
+    	if(null == session){
+    		session = request.getSession(true);
+    	}
+    	
+    	String clientIP = (String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP);
+    	if(null == clientIP){
+            clientIP = getClientIp(request);
+            String channelCode = com.unicom.game.center.utils.Constant.WOGAME_CHANNEL_CODE;
+            String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
+            
+            session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
+            session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE,channelCode);
+            session.setAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP,clientIP);     		
+    	}
         
         return session;
     }

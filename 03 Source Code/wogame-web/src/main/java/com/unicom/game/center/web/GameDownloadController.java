@@ -67,15 +67,13 @@ public class GameDownloadController {
     public GameDownloadVo info(@RequestParam("productId") String productId,
                                @RequestParam("productName") String productName,
                                @RequestParam("productIcon") String productIcon,
-                               HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+                               HttpServletRequest request) throws UnsupportedEncodingException {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         String utf8ProductName = URLDecoder.decode(URLDecoder.decode(productName, "UTF-8"), "UTF-8");
 
         // 记录Log
-        String channel = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID).toString();
-        String ip = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString();
+        String channel = (String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
+        String ip = (String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP);
         if(null == channel){
         	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
         }

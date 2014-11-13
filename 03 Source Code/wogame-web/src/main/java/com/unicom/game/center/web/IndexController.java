@@ -114,10 +114,8 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String main(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, Model model, HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String main(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, Model model, HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
 
         initIndexData(model, pageNum);
 
@@ -125,8 +123,8 @@ public class IndexController {
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("首页");
         serverLogInfo.setDate(date);
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
 
         Gson gson = new Gson();
         unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));

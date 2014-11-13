@@ -54,15 +54,13 @@ public class ActivityController {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String list(HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("活动列表");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();
@@ -72,10 +70,8 @@ public class ActivityController {
 
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String fetchInfoDetail(@RequestParam("id") int id, Model model, HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String fetchInfoDetail(@RequestParam("id") int id, Model model, HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         InfoDetailListVo infoDetailListVo = gameService.readInfoDetail(id);
         InfoDetailVo i = infoDetailListVo.getInfoDetailVo();
         model.addAttribute("activityContent", i);

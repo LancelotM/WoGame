@@ -61,18 +61,16 @@ public class GameInfoController {
 
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String fetchGameInfoDetail(@RequestParam("id") int id, Model model,HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String fetchGameInfoDetail(@RequestParam("id") int id, Model model,HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         InfoDetailListVo infoDetailListVo = gameService.readInfoDetail(id);
         InfoDetailVo i = infoDetailListVo.getInfoDetailVo();
         model.addAttribute("gameInfoContent", i);
         String date = DateUtils.formatDateToString(new Date(),"yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("资讯活动详情");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();
@@ -96,15 +94,13 @@ public class GameInfoController {
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String news(HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String news(HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("资讯列表");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();

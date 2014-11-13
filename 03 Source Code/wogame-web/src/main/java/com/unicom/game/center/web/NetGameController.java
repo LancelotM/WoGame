@@ -69,15 +69,13 @@ public class NetGameController {
     }
 
     @RequestMapping(value = "/server", method = RequestMethod.GET)
-    public String netGameServerList(HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String netGameServerList(HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("新服预告");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();
@@ -87,11 +85,8 @@ public class NetGameController {
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public String netGameInfoList(Model model, HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
-
+    public String netGameInfoList(Model model, HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 1);
         List<NetGameServerItemVo> list = netGameServerListVo.getNetGameServerVo().getNetGameServerItemVoList();
         model.addAttribute("list", list);
@@ -99,8 +94,8 @@ public class NetGameController {
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("网游资讯");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();
@@ -109,10 +104,8 @@ public class NetGameController {
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    public String fetchInfoDetail(@RequestParam("id") int id, Model model,HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String fetchInfoDetail(@RequestParam("id") int id, Model model,HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
 
         InfoDetailListVo infoDetailListVo = gameService.readInfoDetail(id);
         InfoDetailVo i = infoDetailListVo.getInfoDetailVo();
@@ -120,8 +113,8 @@ public class NetGameController {
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("网游资讯详情");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();

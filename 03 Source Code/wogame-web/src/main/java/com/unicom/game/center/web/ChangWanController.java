@@ -33,12 +33,11 @@ public class ChangWanController {
     private UnicomLogServer unicomLogServer;
 
     @RequestMapping(value = "/changWan")
-    public String changWan(HttpServletRequest request, HttpSession session) {
-        if(null == session){
-            session = HttpClientUtil.fetchSession(request);            
-        }
-        String clientIP = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString();
-    	String channel = session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID).toString();
+    public String changWan(HttpServletRequest request) {
+        HttpSession session = HttpClientUtil.fetchSession(request);            
+
+        String clientIP = (String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP);
+    	String channel = (String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID);
         if(null == channel){
         	channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
         } 
@@ -49,7 +48,7 @@ public class ChangWanController {
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("0元畅玩");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
         serverLogInfo.setIp(clientIP);
         serverLogInfo.setDate(date);
 

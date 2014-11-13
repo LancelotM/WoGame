@@ -58,7 +58,7 @@ public class NewGameController {
 
     @RequestMapping(value = "/ajaxList", method = RequestMethod.GET)
     @ResponseBody
-    public NewVo ajaxList(@RequestParam(value = "pageNum",required = false, defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize, HttpSession session) {
+    public NewVo ajaxList(@RequestParam(value = "pageNum",required = false, defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         int size = Constants.PAGE_SIZE_DEFAULT;
 
         if (null != pageSize && pageSize > 0) {
@@ -87,15 +87,13 @@ public class NewGameController {
 
 
     @RequestMapping(value = "/topNewest", method = RequestMethod.GET)
-    public String topNewest(HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String topNewest(HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("最新榜");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();
@@ -104,15 +102,13 @@ public class NewGameController {
     }
 
     @RequestMapping(value = "/topHotest", method = RequestMethod.GET)
-    public String topHotest(HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String topHotest(HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("飙升榜");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();

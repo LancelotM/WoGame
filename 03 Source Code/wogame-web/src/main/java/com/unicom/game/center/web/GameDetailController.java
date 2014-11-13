@@ -32,11 +32,8 @@ public class GameDetailController {
 
     @RequestMapping(value = "/detaillist", method = RequestMethod.GET)
 
-    public String gameDetailList(@RequestParam("product_id") String productId, Model model,HttpServletRequest request, HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
-
+    public String gameDetailList(@RequestParam("product_id") String productId, Model model,HttpServletRequest request) {
+    	HttpSession session = HttpClientUtil.fetchSession(request);
         GameDetailListVo gameDetailListVo = gameService.readGameDetailList(productId);
         GameDetailVo v = gameDetailListVo.getGameDetailVo();
         model.addAttribute("v", v);
@@ -44,8 +41,8 @@ public class GameDetailController {
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("游戏详情");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
 
         Gson gson = new Gson();
