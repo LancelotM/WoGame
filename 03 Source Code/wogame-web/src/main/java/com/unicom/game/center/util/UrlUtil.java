@@ -116,19 +116,21 @@ public class UrlUtil {
      * @return url路径
      */
     private static String urlPage(String strURL) {
-        String strPage = strURL;
-        String[] arrSplit = null;
+    	String strPage = strURL;
+    	if(null != strURL){
+            String[] arrSplit = null;
 
-        strURL = strURL.trim();
+            strURL = strURL.trim();
 
-        arrSplit = strURL.split("[?]");
-        if (strURL.length() > 0) {
-            if (arrSplit.length > 1) {
-                if (arrSplit[0] != null) {
-                    strPage = arrSplit[0];
+            arrSplit = strURL.split("[?]");
+            if (strURL.length() > 0) {
+                if (arrSplit.length > 1) {
+                    if (arrSplit[0] != null) {
+                        strPage = arrSplit[0];
+                    }
                 }
-            }
-        }
+            }    		
+    	}
 
         return strPage;
     }

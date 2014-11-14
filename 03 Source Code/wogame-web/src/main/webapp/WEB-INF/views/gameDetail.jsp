@@ -22,42 +22,7 @@
     </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/utils.js?20140715092223"></script>
-    <script type="application/javascript">
-        $(function(){
-            $(".head-back").click(function(){
-                if ((navigator.userAgent.indexOf('MSIE') >= 0) && (navigator.userAgent.indexOf('Opera') < 0)){ // IE
-                    if(history.length > 0){
-                        $(".head-back").attr("href","#");
-                        window.history.go( -1 );
-                        return false;
-                    }else{
-                        $("#back-text").text("首页");
-                        location.href = '${ctx}/index';
-                    }
-                }else{ //非IE浏览器
-                    if (navigator.userAgent.indexOf('Firefox') >= 0 ||
-                            navigator.userAgent.indexOf('Opera') >= 0 ||
-                            navigator.userAgent.indexOf('Safari') >= 0 ||
-                            navigator.userAgent.indexOf('Chrome') >= 0 ||
-                            navigator.userAgent.indexOf('WebKit') >= 0){
 
-                        if(window.history.length > 1){
-                            $(".head-back").attr("href","#");
-                            window.history.go( -1 );
-                            return false;
-                        }else{
-                            $("#back-text").text("首页");
-                            location.href = '${ctx}/index';
-                        }
-                    }else{ //未知的浏览器
-                        $(".head-back").attr("href","#");
-                        window.history.go( -1 );
-                        return false;
-                    }
-                }
-            });
-        });
-    </script>
 </head>
 
 <body class="ibody_bg">
@@ -65,11 +30,10 @@
 
 <div class="head" style="position: fixed;top:0;left:0;width:100%;z-index: 1000;">
 
-    <%--<a href="#" onclick="javascript:history.go(-1); return false">--%>
-    <a class="head-back">
+    <a href="#" onclick="javascript:history.go(-1); return false">
         <div class="fanhui absolute pic"></div>
 
-        <div id="back-text" class="fanhui-text absolute" style="color:#FF9C00 ">${v.gameName}</div>
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">${v.gameName}</div>
     </a>
 
 
