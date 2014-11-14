@@ -55,10 +55,8 @@ public class GameSearchController {
     private UnicomLogServer unicomLogServer;
 
     @RequestMapping(value = "init", method = RequestMethod.GET)
-    public String list(Model model, HttpServletRequest request,HttpSession session) {
-        if(null == session){
-        	session = HttpClientUtil.fetchSession(request);
-        }
+    public String list(Model model, HttpServletRequest request) {
+        HttpSession session = HttpClientUtil.fetchSession(request);
         SearchKeywordsVo vo = zteService.readSearchAllKeywords();
         String refer = request.getHeader("Referer");
         if (refer != null) {
@@ -75,8 +73,8 @@ public class GameSearchController {
         String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("搜索");
-        serverLogInfo.setChannelCode(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE).toString());
-        serverLogInfo.setIp(session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP).toString());
+        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
         serverLogInfo.setDate(date);
         Gson gson = new Gson();
         unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
