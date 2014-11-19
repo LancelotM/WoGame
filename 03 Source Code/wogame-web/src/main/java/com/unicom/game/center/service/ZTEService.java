@@ -188,6 +188,7 @@ public class ZTEService {
 //        headers.set("sessionid", "202dc1f08ee64f8f896fafc3c5c62c03");
 //        headers.set("appfrom", "openfeint");
         headers.set("newclient", "1");
+        headers.set("clientchannelflag", "81");
 //        headers.set("phoneAccessMode", "3");
 //        headers.set("usertype", "3");
 //        if (isContainChannel) {
