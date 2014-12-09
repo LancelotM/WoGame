@@ -124,8 +124,9 @@
 <div class="head_index relative" style="position: fixed;width:100%;z-index: 1001; margin: 0 auto;">
     <div class="logo absolute"><a href="${ctx}/main.do;jsessionid=${sessionid}">首页</a></div>
     <div style="float: left;">
-   <div style="margin-left: 110px;line-height:29px; font-size: 15px; color: #FF9C00" >沃游戏</div>
-    <div style="margin-left: 110px;line-height:10px;" >好游戏任你选</div>
+       <a href="http://wostore.cn/wogame">
+   <div style="margin-left: 70px;line-height:29px; font-size: 15px; color: #FF9C00" >沃游戏</div></a>
+    <div style="margin-left: 70px;line-height:10px;" >好游戏任你选</div>
     </div>
     <a href="http://wostore.cn/wogame">
     <div style="position: absolute; right: 20px;top:12px;height: 26px;width: 92px;  line-height: 26px; background-color: #FF9C00; text-align: center;" class="round">下载Android版</div></a>
@@ -359,7 +360,7 @@
                     </dl>
 
                     </a>
-                    <div class="pro_cp_r radius"><a href="javascript:download('${n.productId}','${n.gameName}','${n.iconUrl}')" data-role="none">下载</a></div>
+                    <a href="javascript:download('${n.productId}','${n.gameName}','${n.iconUrl}')" data-role="none"><div class="pro_cp_r radius">下载</div></a>
 
 
                 </div>
@@ -385,7 +386,7 @@
                     <li>
                         <div class="kf_left">
                             <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}"><div class="kf_img"><img data-src="${n.iconUrl}"  src="${ctx}/static/images/gameicon.png" height="86"/></div> </a>
-                            <div class="kf_dow radius"><a href="javascript:download('${n.productId}','${n.gameName}','${n.iconUrl}')" data-role="none">下载</a></div>
+                            <a href="javascript:download('${n.productId}','${n.gameName}','${n.iconUrl}')" data-role="none"><div class="kf_dow radius">下载</div></a>
                         </div>
                         <div class="kf_right">
                             <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}"> <div class="kfr_1 etc">
