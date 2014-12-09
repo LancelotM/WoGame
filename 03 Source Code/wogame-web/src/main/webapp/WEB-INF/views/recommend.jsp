@@ -125,7 +125,7 @@
                             stringBuffer.push('</a>');
                     } else if (entry.banner.res_type == 9) {
 
-                        stringBuffer.push('<a href=${ctx}/changWan;jsessionid=${sessionid}">');
+                        stringBuffer.push('<a href="http://sales.wostore.cn:8083/hytq/hytq.action?link=0" target="_blank">');
                         stringBuffer.push('<img src="${ctx}/static/images/gameicon.png" data-src="' + entry.banner.banner_url + '" height="160"/></a>');
                     }
 

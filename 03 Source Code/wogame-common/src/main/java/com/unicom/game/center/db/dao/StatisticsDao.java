@@ -35,7 +35,6 @@ public class StatisticsDao extends HibernateDao<StatisticsDomain>{
 	public List<PageTrafficModel> fetchTrafficInfoByDate(String startDate, String endDate, Integer channelId){
 		StringBuffer sb = new StringBuffer();
 		sb.append(" select sum(pt.homepagePV) as homepagePV,  sum(pt.homepageUV) as homepageUV,");
-		sb.append(" sum(pt.changwanPV) as changwanPV,  sum(pt.changwanUV) as changwanUV,");
 		sb.append(" DATE_FORMAT(pt.dateCreated, '%m-%d') as date");
 		sb.append(" from StatisticsDomain pt");
 		sb.append(" where pt.dateCreated >= '");
@@ -66,7 +65,6 @@ public class StatisticsDao extends HibernateDao<StatisticsDomain>{
 	public List<PageTrafficModel> fetchTrafficInfoByMonth(String startDate, String endDate, Integer channelId){
 		StringBuffer sb = new StringBuffer();
 		sb.append(" select sum(pt.homepage_pv) as homepagePV,  sum(pt.homepage_uv) as homepageUV,");
-		sb.append(" sum(pt.changwan_pv) as changwanPV,  sum(pt.changwan_uv) as changwanUV,");
 		sb.append(" DATE_FORMAT(pt.date_created, '%Y-%m') as date");
 		sb.append(" from statistics pt");
 		sb.append(" where pt.date_created >= '");
@@ -101,10 +99,8 @@ public class StatisticsDao extends HibernateDao<StatisticsDomain>{
 			for(Object[] object : list){
 				PageTrafficModel info = new PageTrafficModel();
 				info.setHomepagePV(String.valueOf(object[0]));
-				info.setHomepageUV(String.valueOf(object[1]));
-				info.setChangwanPV(String.valueOf(object[2]));
-				info.setChangwanUV(String.valueOf(object[3]));			
-				info.setDate(String.valueOf(object[4]));
+				info.setHomepageUV(String.valueOf(object[1]));			
+				info.setDate(String.valueOf(object[2]));
 				trafficInfoList.add(info);
 			}
 		}

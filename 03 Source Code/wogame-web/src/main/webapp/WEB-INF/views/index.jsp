@@ -127,7 +127,7 @@
    <div style="margin-left: 110px;line-height:29px; font-size: 15px; color: #FF9C00" >沃游戏</div>
     <div style="margin-left: 110px;line-height:10px;" >好游戏任你选</div>
     </div>
-    <a href="http://wostore.cn/wogame">
+    <a href="javascript:download_file('http://wostore.cn/wogame')">
     <div style="position: absolute; right: 20px;top:12px;height: 26px;width: 92px;  line-height: 26px; background-color: #FF9C00; text-align: center;" class="round">下载Android版</div></a>
 </div>
 <div style="height: 50px;"></div>
@@ -442,7 +442,7 @@
                 <dd>专题</dd>
             </dl>
         </a></li>
-        <li><a href="${ctx}/changWan;jsessionid=${sessionid}">
+        <li><a href="http://sales.wostore.cn:8083/hytq/hytq.action?link=0" target="_blank">
             <dl class="user_icon2">
                 <dt><img src="${ctx}/static/images/user_icon3.png"/></dt>
                 <dd>0元畅玩</dd>

@@ -15,11 +15,7 @@ public class PageTrafficModel implements Serializable{
 	
 	private String homepagePV;
 	
-	private String homepageUV;
-	
-	private String changwanPV;
-	
-	private String changwanUV;	
+	private String homepageUV;	
 	
 	private String date;
 
@@ -37,22 +33,6 @@ public class PageTrafficModel implements Serializable{
 
 	public void setHomepageUV(String homepageUV) {
 		this.homepageUV = homepageUV;
-	}
-
-	public String getChangwanPV() {
-		return changwanPV;
-	}
-
-	public void setChangwanPV(String changwanPV) {
-		this.changwanPV = changwanPV;
-	}
-
-	public String getChangwanUV() {
-		return changwanUV;
-	}
-
-	public void setChangwanUV(String changwanUV) {
-		this.changwanUV = changwanUV;
 	}
 
 	public String getDate() {

@@ -78,9 +78,7 @@
 
 
 <script type="text/javascript">
-    function toChangWanPage() {
-        location.href = "${ctx}/changWan;jsessionid=${sessionid}";
-    }
+
     function category(id,name){
         var name=encodeURI(encodeURI(name));
 
