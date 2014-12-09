@@ -63,7 +63,7 @@
     <dl class="hd_youxi">
         <dt>${gameInfoContent.game.gameName}</dt>
         <dd>
-            <fmt:formatNumber value="${gameInfoContent.game.apkSize/1024}" pattern="##.#" minFractionDigits="2"/>
+            <fmt:formatNumber value="${gameInfoContent.game.apkSize/1024}"   pattern="##.##" minFractionDigits="2"/>
 
             MB</dd>
     </dl>

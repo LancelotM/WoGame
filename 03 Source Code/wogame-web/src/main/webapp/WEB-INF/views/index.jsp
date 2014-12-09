@@ -28,7 +28,6 @@
     <script type="text/javascript" src="${ctx}/static/js/jquery.slides.min.js"></script>
     <script type="text/javascript" src="${ctx}/static/js/slider.js"></script>
 
-
     <!--弹出文本提示写入cooking-->
     <script type="text/javascript">
         function cookiesave(n, v, mins, dn, path) {
@@ -122,10 +121,16 @@
 
 <body class="ibody_bg">
 <!--top-->
-<div class="head_index relative">
+<div class="head_index relative" style="position: fixed;width:100%;z-index: 1001; margin: 0 auto;">
     <div class="logo absolute"><a href="${ctx}/main.do;jsessionid=${sessionid}">首页</a></div>
-    <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
+    <div style="float: left;">
+   <div style="margin-left: 110px;line-height:29px; font-size: 15px; color: #FF9C00" >沃游戏</div>
+    <div style="margin-left: 110px;line-height:10px;" >好游戏任你选</div>
+    </div>
+    <a href="http://wostore.cn/wogame">
+    <div style="position: absolute; right: 20px;top:12px;height: 26px;width: 92px;  line-height: 26px; background-color: #FF9C00; text-align: center;" class="round">下载Android版</div></a>
 </div>
+<div style="height: 50px;"></div>
 <!--图片广告位-->
 <input type="hidden" value="${ctx}" id="ctx"/>
 <c:if test="${!empty b.topAD}">
@@ -272,7 +277,7 @@
                             <dd class="tit etc">${h.title}
                             </dd>
                             <dd class="mb">
-                                <fmt:formatNumber value="${h.apkSize/1024}" pattern="##.#" minFractionDigits="1"/>M
+                                <fmt:formatNumber value="${h.apkSize/1024}" pattern="##.##" minFractionDigits="2"/>M
                             </dd>
                             </a>
                             <dd class="dow">
@@ -344,7 +349,7 @@
 
                     <dl class="pro_cp_c" style="height: auto">
                         <dt class="etc">${n.gameName}</dt>
-                        <dd><fmt:formatNumber value="${n.apkSize/1024}" minFractionDigits="2"></fmt:formatNumber> MB
+                        <dd><fmt:formatNumber value="${n.apkSize/1024}"  pattern="##.##" minFractionDigits="2"></fmt:formatNumber> MB
                         </dd>
 
                       <%--  <dd class="etc" style="width: 100%"></dd>--%>
@@ -386,8 +391,8 @@
                             <div class="kfr_1 etc">
                                     ${n.gameName}
                             </div>
-                            <div class="kfr_2"><fmt:formatNumber pattern="##.#" value="${n.apkSize/1024}"
-                                                                 minFractionDigits="1"></fmt:formatNumber> MB
+                            <div class="kfr_2"><fmt:formatNumber  pattern="##.##" minFractionDigits="2" value="${n.apkSize/1024}"
+                                                                 ></fmt:formatNumber> MB
                             </div>
                             <div class="kfr_3 etc">新服:${n.serverName}</div>
                             <div class="kfr_4 etc" style="letter-spacing:-1px;">时间:

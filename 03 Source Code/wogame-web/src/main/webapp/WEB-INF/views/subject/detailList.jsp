@@ -41,7 +41,7 @@
     <a   href="${ctx}/subject/list.do;jsessionid=${sessionid}">
         <div class="fanhui absolute pic"></div>
 
-        <div class="fanhui-text absolute" style="color:#FF9C00 " id="t1"></div>
+        <div class="fanhui-text absolute" style="color:#FF9C00 ">返回</div>
     </a>
 
 
@@ -101,7 +101,6 @@
         $.getJSON("${ctx}/subject/gamelist.do;jsessionid=${sessionid}", {"id": subId, "pageNum": pPageNum, "pageSize": 10}, function (data) {
 
             if (data.description != null) {
-               $("#t1").text(su(data.title,5,0,4));
                 $("#image").attr("src", data.banner_url);
 
                 var arr = new Array();

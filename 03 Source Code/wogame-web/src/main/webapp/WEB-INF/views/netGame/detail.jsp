@@ -79,7 +79,7 @@
     <div class="hd_youxi_img"><img  src="${ctx}/static/images/gameicon.png" data-src="${ac.game.iconUrl}" height="70"/></div>
     <dl class="hd_youxi">
     <dt>${ac.game.gameName}</dt>
-    <dd><fmt:formatNumber value="${ac.game.apkSize/1024}" minFractionDigits="2"/> MB</dd>
+    <dd><fmt:formatNumber value="${ac.game.apkSize/1024}"   pattern="##.##" minFractionDigits="2"/> MB</dd>
 
     </dl>
     <div class="hd_xiazai radius"> <a href="javascript:download('${ac.game.productId}','${ac.game.gameName}','${ac.game.iconUrl}')" data-role="none">下载</a></div>

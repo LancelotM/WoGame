@@ -61,7 +61,7 @@
     <div class="hd_youxi_img"><img src="${activityContent.game.iconUrl}" height="70"/></div>
     <dl class="hd_youxi">
         <dt>${activityContent.game.gameName}</dt>
-        <dd><fmt:formatNumber value="${activityContent.game.apkSize/1024}"  pattern="##.#" minFractionDigits="2"></fmt:formatNumber> MB</dd>
+        <dd><fmt:formatNumber value="${activityContent.game.apkSize/1024}"    pattern="##.##" minFractionDigits="2"></fmt:formatNumber> MB</dd>
 
     </dl>
 

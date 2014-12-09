@@ -38,13 +38,13 @@ src="http://apps.bdimg.com/cloudaapi/lightapp.js#21e4cc6e9f6e857f9ba7ac86ababad5
 <a   href="${ctx}/category/list.do;jsessionid=${sessionid}" >
     <div class="fanhui absolute pic"></div>
 
-    <div class="fanhui-text absolute" style="color:#FF9C00 " id="c1">${categoryName}</div>
+    <div class="fanhui-text absolute" style="color:#FF9C00 " id="c1">类别</div>
 </a>
 
 
 
 
-    <div class="title">类别</div>
+    <div class="title">${categoryName}</div>
 
     <div class="sousuo absolute pic"><a href="${ctx}/search/init.do;jsessionid=${sessionid}">搜索</a></div>
 </div>

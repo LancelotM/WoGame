@@ -2381,13 +2381,22 @@ dl.kf02 {
     border-left: #DFDFDF 1px solid;
     border-right: #DFDFDF 1px solid;
     background: #ffffff;
-    padding: 8px 8px;
+    padding: 8px 8px 28px;
     line-height: 21px;
     color: #5A5A5A;
 }
+/*圆角index*/
+.round {
+    background: none repeat scroll 0 0 #82C400;
+    border-width: 0;
+    color: #FFFFFF;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor:pointer;
+}
 
 .youxi_desc_height_min {
-    height: 50px;
+    height: 70px;
 }
 
 .youxi_lr_04 {
