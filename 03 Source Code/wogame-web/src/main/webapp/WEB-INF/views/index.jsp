@@ -382,18 +382,19 @@
             <ul>
 
                 <c:forEach var="n" items="${netGame.netGameServerItemVoList}">
-                    <li><a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}">
+                    <li>
                         <div class="kf_left">
-                            <div class="kf_img"><img data-src="${n.iconUrl}"  src="${ctx}/static/images/gameicon.png" height="86"/></div>
-                            <div class="kf_dow radius">下载</div>
+                            <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}"><div class="kf_img"><img data-src="${n.iconUrl}"  src="${ctx}/static/images/gameicon.png" height="86"/></div> </a>
+                            <div class="kf_dow radius"><a href="javascript:download('${n.productId}','${n.gameName}','${n.iconUrl}')" data-role="none">下载</a></div>
                         </div>
                         <div class="kf_right">
-                            <div class="kfr_1 etc">
+                            <a href="${ctx}/gamedetail/detaillist.do;jsessionid=${sessionid}?product_id=${n.productId}"> <div class="kfr_1 etc">
                                     ${n.gameName}
                             </div>
                             <div class="kfr_2"><fmt:formatNumber  pattern="##.##" minFractionDigits="2" value="${n.apkSize/1024}"
                                                                  ></fmt:formatNumber> MB
                             </div>
+                            </a>
                             <div class="kfr_3 etc">新服:${n.serverName}</div>
                             <div class="kfr_4 etc" style="letter-spacing:-1px;">时间:
 
@@ -403,7 +404,7 @@
 
                             </div>
                         </div>
-                    </a></li>
+                   </li>
                 </c:forEach>
 
             </ul>
