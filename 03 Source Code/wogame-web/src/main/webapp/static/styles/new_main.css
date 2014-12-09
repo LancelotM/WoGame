@@ -163,11 +163,11 @@ a.bai14zt:hover {
 }
 
 .logo {
-    width: 81px;
+    width: 66px;
     height: 46px;
-    background: url(../images/wo_logo.png) #FBFBFB center center no-repeat;
-    background-size: 81px 23px;
-    left: 15px;
+    background: url(../images/logo.jpg) #FBFBFB center center no-repeat;
+    background-size: 46px 40px;
+    left: 2px;
     top: 0px;
 }
 
@@ -2400,7 +2400,7 @@ dl.kf02 {
 }
 
 .youxi_lr_04 {
-    margin: 0px 6px 0px 6px;
+    margin: 0px 6px 26px;
     height: 12px;
     position: relative;
     overflow: hidden;
