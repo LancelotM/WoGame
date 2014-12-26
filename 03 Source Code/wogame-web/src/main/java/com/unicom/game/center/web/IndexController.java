@@ -33,9 +33,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 管理员管理用户的Controller.
@@ -76,11 +74,11 @@ public class IndexController {
     public String list(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, @RequestParam(value = "token", required = false) String token, Model model, HttpServletRequest request, HttpSession session) {
         String channelCode = com.unicom.game.center.utils.Constant.WOGAME_CHANNEL_CODE;
         String channel = com.unicom.game.center.utils.Constant.DEFAULT_CHANNLE_ID;
-        String date = DateUtils.formatDateToString(new Date(),"yyyy年MM月dd日 hh:mm:ss");
+        String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         try {
             if (null != token && !"".equals(token)) {
                 channel = AESEncryptionHelper.decrypt(token, siteKey);
-                if(null != channel){
+                if (null != channel) {
                     channelCode = channelInfoBusiness.fetchChannelCode(Integer.parseInt(channel));
                 }
             }
@@ -95,8 +93,8 @@ public class IndexController {
         statisticsLogger.pageview(StringUtils.join(logData, "|"));
 
         session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_ID, channel);
-        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE,channelCode);
-        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP,clientIP);
+        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE, channelCode);
+        session.setAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP, clientIP);
 
         model.addAttribute("isIndex", true);
 
@@ -115,16 +113,16 @@ public class IndexController {
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum, Model model, HttpServletRequest request) {
-    	HttpSession session = HttpClientUtil.fetchSession(request);
+        HttpSession session = HttpClientUtil.fetchSession(request);
 
         initIndexData(model, pageNum);
 
-        String date = DateUtils.formatDateToString(new Date(),"yyyy年MM月dd日 hh:mm:ss");
+        String date = DateUtils.formatDateToString(new Date(), "yyyy年MM月dd日 hh:mm:ss");
         ServerLogInfo serverLogInfo = new ServerLogInfo();
         serverLogInfo.setPageName("首页");
         serverLogInfo.setDate(date);
-        serverLogInfo.setChannelCode((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
-        serverLogInfo.setIp((String)session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
+        serverLogInfo.setChannelCode((String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CHANNEL_CODE));
+        serverLogInfo.setIp((String) session.getAttribute(Constants.LOGGER_CONTENT_NAME_CLIENT_IP));
 
         Gson gson = new Gson();
         unicomLogServer.pageviewLog(gson.toJson(serverLogInfo));
@@ -141,13 +139,13 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/banner", method = RequestMethod.GET)
-    public String topBannerAdd(@RequestParam(value = "linkId") String linkId,@RequestParam(value = "title") String title, Model model) {
+    public String topBannerAdd(@RequestParam(value = "linkId") String linkId, @RequestParam(value = "title") String title, Model model) {
 
 
         try {
             model.addAttribute("linkId", URLDecoder.decode(linkId, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            model.addAttribute("linkId",linkId);
+            model.addAttribute("linkId", linkId);
         }
         try {
             model.addAttribute("title", URLDecoder.decode(title, "UTF-8"));
@@ -166,7 +164,7 @@ public class IndexController {
 
         //追加后台配置滚动
         List<BannerInfo> topBanner = banner.getTopBanner();
-        if(null != topBanner){
+        if (null != topBanner) {
             for (BannerInfo b : topBanner) {
                 RollingAdVo r = new RollingAdVo();
                 r.setTitle(b.getDescription());
@@ -178,19 +176,46 @@ public class IndexController {
                 r.setBanner(banner1);
 
                 list.add(r);
-            }        	
+            }
         }
-        
+
         RollingAdListVo rollingAdListVo = gameService.readRollingAdList();
-        if(null != rollingAdListVo && !rollingAdListVo.getData().isEmpty()){
-            list.addAll(rollingAdListVo.getData());            	
-        }  
+        if (null != rollingAdListVo && !rollingAdListVo.getData().isEmpty()) {
+            list.addAll(rollingAdListVo.getData());
+        }
 
         model.addAttribute("adList", list);
 
+        //开服信息
+        NetGameServerVo netGame = gameService.netGameLatestServerList();
+        model.addAttribute("netGame", netGame.getSectionName());
+
+        //公告
+        model.addAttribute("b", banner);
+
+        //后台配置活动模块  需要判断类型
+        List<BannerInfo> bannerInfoList = banner.getActivityModule();
+        List<BannerInfo> bannerList = new ArrayList<BannerInfo>();
+        if (bannerInfoList != null) {
+            for (BannerInfo b : bannerInfoList) {
+                if (b.getAdType() == 3 && bannerList.size() < 2) {
+                    bannerList.add(b);
+                }
+            }
+        }
+        model.addAttribute("bannerList", bannerList);
+
+
+    }
+
+
+    //火热 最新 ajax
+    @RequestMapping(value = "/ajaxList/hotNewest")
+    @ResponseBody
+    public Map hotList(Model model) {
+
         //火热
         RecommendedListVo recommendedListVo = gameService.readRecommendedList(1, Constants.PAGE_SIZE_DEFAULT);
-
         RecommendDataListVo recommendedDataList = new RecommendDataListVo();
         if (null != recommendedListVo && null != recommendedListVo.getRecommendedListData()) {
             List<RecommendDataVo> recommendedList = new ArrayList<RecommendDataVo>();
@@ -207,52 +232,53 @@ public class IndexController {
 
             recommendedDataList.setRecommendData(recommendedList);
         }
-        model.addAttribute("hot", recommendedDataList.getRecommendData());
-
-        //最新
         NewListVo newListVo = gameService.readNewList(1, 5);
         List<NewItemListVo> newest = newListVo.getDataList().getNewItemListVo();
-        model.addAttribute("newest", newest);
+        Map m = new HashMap();
+        m.put("hot", recommendedDataList.getRecommendData());
+        m.put("newest", newest);
+
+        return m;
+    }
+
+
+    //新服预告ajax
+    @RequestMapping(value = "/ajaxList/newItemCategory")
+    @ResponseBody
+    public Map newItemList() {
+
+        NetGameServerVo netGame = gameService.netGameLatestServerList();
+        Map m = new HashMap();
+        m.put("newItem", netGame.getNetGameServerItemVoList());
 
         //分类
         CategoryListVo categoryListVo = gameService.readCategoryList();
         List<CategoryItemVo> category = categoryListVo.getCategoryData();
-        model.addAttribute("category", category);
+        m.put("category",category);
 
-        //活动
-//        ActivityInfoListVo activityInfoListVo = gameService.readActivityInfoList(1, 3);
-//        List<ActivityInfoItemVo> activity = activityInfoListVo.getActivityInfoVo().getActivityInfoItemVoList();
-//        model.addAttribute("activity", activity);
+        return m;
+    }
 
-        //开服信息
-        NetGameServerVo netGame = gameService.netGameLatestServerList();
-        model.addAttribute("netGame", netGame);
+    //活动
 
-        //公告
-        model.addAttribute("b", banner);
+    //新服预告ajax
+    @RequestMapping(value = "/ajaxList/activity")
+    @ResponseBody
+    public Map activityList() {
 
-        //后台配置活动模块  需要判断类型
-        List<BannerInfo> bannerInfoList = banner.getActivityModule();
-        List<BannerInfo> bannerList = new ArrayList<BannerInfo>();
-        if (bannerInfoList != null) {
-            for (BannerInfo b : bannerInfoList) {
-                if (b.getAdType()==3 && bannerList.size() < 2) {
-                    bannerList.add(b);
-                }
-            }
-        }
-        model.addAttribute("bannerList", bannerList);
-
+        BannerInfoList banner = bannerBusiness.fetchAllBanner();
         //后台配置三个活动
         List<BannerInfo> BannerInfoList = banner.getActivityBanner();
         List<BannerInfo> bList = new ArrayList<BannerInfo>();
-                if (BannerInfoList != null) {
-                    for (BannerInfo b : BannerInfoList) {
-                        if (b.getAdType()==4 && bList.size() < 3) {
-                            bList.add(b);
-                        }
+        if (BannerInfoList != null) {
+            for (BannerInfo b : BannerInfoList) {
+                if (b.getAdType() == 4 && bList.size() < 3) {
+                    bList.add(b);
+                }
             }
         }
-        model.addAttribute("bList", bList);
+        Map m = new HashMap();
+        m.put("activity", bList);
+        return m;
     }
 }
