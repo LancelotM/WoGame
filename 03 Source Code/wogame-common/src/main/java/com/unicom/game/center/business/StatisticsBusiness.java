@@ -84,10 +84,6 @@ public class StatisticsBusiness {
         homepagePV.setName("首页 PV");
         JsonModel homepageUV = new JsonModel();
         homepageUV.setName("首页 UV");
-        JsonModel changwanPV = new JsonModel();
-        changwanPV.setName("0元畅玩 PV");
-        JsonModel changwanUV = new JsonModel();
-        changwanUV.setName("0元畅玩 UV");
 
         if(pageTrafficInfos == null){
             List<String> units = new ArrayList<String>();
@@ -95,16 +91,12 @@ public class StatisticsBusiness {
                 for(int i = 0;i<30;i++){
                     homepagePV.addData(0);
                     homepageUV.addData(0);
-                    changwanPV.addData(0);
-                    changwanUV.addData(0);
                     units.add(DateUtils.formatDateToString(DateUtils.getDayByInterval(new Date(),-(i+1)),"MM-dd"));
                 }
             }else if("month".equals(dateType)){
                 for(int i = 0;i<12;i++){
                     homepagePV.addData(0);
                     homepageUV.addData(0);
-                    changwanPV.addData(0);
-                    changwanUV.addData(0);
                     units.add(DateUtils.formatDateToString(DateUtils.stringToDate(DateUtils.getMonthFirstByInterval(new Date(),-(i)),"yyyy-MM-dd"),"yyyy-MM"));
 
                 }
@@ -115,16 +107,12 @@ public class StatisticsBusiness {
             for(PageTrafficModel pageTrafficInfo: pageTrafficInfos){
                 homepagePV.addData(Integer.parseInt(pageTrafficInfo.getHomepagePV()));
                 homepageUV.addData(Integer.parseInt(pageTrafficInfo.getHomepageUV()));
-                changwanPV.addData(Integer.parseInt(pageTrafficInfo.getChangwanPV()));
-                changwanUV.addData(Integer.parseInt(pageTrafficInfo.getChangwanUV()));
                 jsonData.addUnit(pageTrafficInfo.getDate());
             }
         }
 
         jsonData.addResult(homepagePV);
         jsonData.addResult(homepageUV);
-        jsonData.addResult(changwanPV);
-        jsonData.addResult(changwanUV);
         jsonData.setStatus("success");
         return jsonData;
     }  	

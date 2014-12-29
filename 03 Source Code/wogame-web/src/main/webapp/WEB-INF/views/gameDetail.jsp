@@ -152,7 +152,7 @@
 <div style="height: 100px;"></div>
 
 <!--列表-->
-<div class="w_footer_dow" style="height: 126px;">
+<div class="w_footer_dow" style="height: 66px;">
 
 
     <dl class="w_dowload">
@@ -161,7 +161,6 @@
 
         </a>
     </dl>
-    <jsp:include page="footer.jsp"/>
 </div>
 
 <script type="application/javascript">
