@@ -90,7 +90,10 @@ public class BannerBusiness {
                                 break;
 
                             case Constant.HOMEPAGE_ACTIVITY_BANNER:
-                                activityBanner.add(bannerInfo);
+                            	if(Constant.HOMEPAGE_SMALL_ACTIVITY_BANNER_FLAG == bannerInfo.getPosition().intValue()){
+                            		activityBanner.add(bannerInfo);
+                            	}
+                                
                                 break;
 
                             case Constant.HOMEPAGE_FOOTER_AD:

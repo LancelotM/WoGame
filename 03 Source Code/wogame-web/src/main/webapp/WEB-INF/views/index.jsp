@@ -243,26 +243,19 @@
                 $("#activity").hide();
             } else {
                 var stringBuffer = [];
-                stringBuffer.push("<div class='huodong_hot'>");
-                stringBuffer.push("<div class='huodongzt'>");
-                stringBuffer.push("<a href='"+data["activity"][0].url+"'>");
-                stringBuffer.push("<div class='index_hd_count'>");
-                stringBuffer.push("<img data-src='"+data["activity"][0].imageName+"' src='${ctx}/static/images/gameicon.png' height='130'/></div>");
-                stringBuffer.push("<div class='index_hd_url etc'>"+data["activity"][0].description+"</div>");
-                stringBuffer.push("</a></div></div>");
                 stringBuffer.push("<dl class='huodong_box22'><dt>");
-                stringBuffer.push("<div class='huodong'><a href="+data["activity"][1].url+">");
+                stringBuffer.push("<div class='huodong'><a href="+data["activity"][0].url+">");
                 stringBuffer.push("<div class='index_hd_count'>");
-                stringBuffer.push("<img data-src="+data["activity"][1].imageName+" src='${ctx}/static/images/gameicon.png' height='100'/>");
+                stringBuffer.push("<img data-src="+data["activity"][0].imageName+" src='${ctx}/static/images/gameicon.png' height='100'/>");
                 stringBuffer.push(" </div>");
-                stringBuffer.push(" <div class='index_hd_url etc'>"+data["activity"][1].description+"</div>");
+                stringBuffer.push(" <div class='index_hd_url etc'>"+data["activity"][0].description+"</div>");
                 stringBuffer.push("  </a> </div></dt><dd>");
                 stringBuffer.push("  <div class='huodong_r'>");
-                stringBuffer.push("<a href='"+data["activity"][2].url+"'>");
+                stringBuffer.push("<a href='"+data["activity"][1].url+"'>");
                 stringBuffer.push("<div class='index_hd_count'>");
-                stringBuffer.push(" <img data-src='"+data["activity"][2].imageName+"' src='${ctx}/static/images/gameicon.png' width='320' height='160'/>");
+                stringBuffer.push(" <img data-src='"+data["activity"][1].imageName+"' src='${ctx}/static/images/gameicon.png' width='320' height='160'/>");
                 stringBuffer.push("</div>");
-                stringBuffer.push("<div class='index_hd_url etc'>"+data["activity"][2].description+"</div>");
+                stringBuffer.push("<div class='index_hd_url etc'>"+data["activity"][1].description+"</div>");
                 stringBuffer.push("</a></div></dd></dl>");
             }
             $(".huodong_hot").prepend(stringBuffer.join(""));

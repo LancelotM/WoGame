@@ -34,7 +34,10 @@ public class Constant
     public static final int HOMEPAGE_ACTIVITY_BANNER = 4;
 
     public static final int HOMEPAGE_FOOTER_AD = 5;
-
+    
+    public static final int HOMEPAGE_BIG_ACTIVITY_BANNER_FLAG = 1;
+    
+    public static final int HOMEPAGE_SMALL_ACTIVITY_BANNER_FLAG = 2;
 
     public static final String IMAGE_BASE_URL  = "http://channel.wostore.cn:8080/images/";
     
