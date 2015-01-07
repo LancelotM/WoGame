@@ -15,6 +15,7 @@
 					<input type="text" style="display:none">               
                     <input id="random_input" type="hidden" name="random" value=""/>
                     <input id="type_input" type="text" name="adType" style="display: none;" value="4"/>
+                    <input id="smallCategory" type="radio" name="category" value="smallCategory" checked="true" style="width: 50px;display: none;"/>
                     <table id="create_manager_table" cellspacing="0" style="margin-bottom:42px;">
                         <tr class="first_tr">
                             <td class="head_format">图片</td>
@@ -34,13 +35,13 @@
                             <td class="head_format">链接</td>
                             <td><input id="url_input" type="text" name="url" title="请输入URL"/></td>
                         </tr>
-                        <tr class="first_tr">
+                        <#--<tr class="first_tr">
                             <td class="head_format">类别</td>
                             <td>
-                                <#--<input id="bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner-->
+                                &lt;#&ndash;<input id="bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner&ndash;&gt;
                                 <input id="smallCategory" type="radio" name="category" value="smallCategory" style="width: 50px;"/>小Banner
                             </td>
-                        </tr>
+                        </tr>-->
                         <tr class="first_tr">
                             <td class="head_format"></td>
                             <td>
@@ -58,6 +59,9 @@
                     <input type="text" style="display:none">
                     <input type="file" style="display:none">
                     <input type="text" style="display:none">
+                    <input id="dialog_id" name="id" type="text" value="" style="display: none;"/>
+                    <input id="dialog_type" type="text" name="adType" style="display: none;" value="4"/>
+                    <input id="dialog_smallCategory" type="radio" name="category" checked="true" value="smallCategory" style="width: 50px;display:none"/>
                     <table id="activity_dialog_table">
                         <tr>
                             <td>图片：</td>
@@ -77,21 +81,13 @@
                             <td>链接:</td>
                             <td><input id="dialog_url" name="url" type="text" value=""/></td>
                         </tr>
-                        <tr>
+                        <#--<tr>
                             <td>类别：</td>
                             <td>
-                                <#--<input id="dialog_bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner-->
+                                &lt;#&ndash;<input id="dialog_bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner&ndash;&gt;
                                 <input id="dialog_smallCategory" type="radio" name="category" value="smallCategory" style="width: 50px;"/>小Banner
                             </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input id="dialog_id" name="id" type="text" value="" style="display: none;"/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input id="dialog_type" type="text" name="adType" style="display: none;" value="4"/></td>
-                        </tr>
+                        </tr>-->
                         <tr>
                             <td></td>
                             <td>
@@ -119,7 +115,7 @@
                     <caption class="table_title"><img class="title_image" src="${basePath}/static/images/icon_table.png" alt=""/><span>已上传活动Banner详细</span></caption>
                     <thead class="activity_head">
                         <tr class="first_tr">
-                            <td>类别</td>
+                            <#--<td>类别</td>-->
                             <td>链接</td>
                             <td>图片</td>
                             <td>介绍</td>
@@ -129,17 +125,18 @@
                     <tbody class="activity_detail">
                         <#if activityBannerInfos?exists>
                             <#list activityBannerInfos as activityBannerInfo>
+                                <#if activityBannerInfo.position == 2>
                                 <tr>
-                                    <td class="category">
+                                    <#--<td class="category">
                                         <if activityBannerInfo.position == 2>
                                          小Banner
                                         </if>
-                                        <#--<#if activityBannerInfo.position == 1>
+                                        &lt;#&ndash;<#if activityBannerInfo.position == 1>
                                             大Banner
                                         <#elseif  activityBannerInfo.position == 2>
                                             小Banner
-                                        </#if>-->
-                                    </td>
+                                        </#if>&ndash;&gt;
+                                    </td>-->
                                     <td  class="hidden_url">
                                         <span>
                                             <#if (activityBannerInfo.url?length) gt 10>
@@ -175,6 +172,7 @@
                                         <a class="delbtn" href="javascript:;" onclick="delActivityBanner(${activityBannerInfo.id});"><img src="${basePath}/static/images/delete.png"/></a>
                                     </td>
                                 </tr>
+                                </#if>
                             </#list>
                         </#if>
                     </tbody>

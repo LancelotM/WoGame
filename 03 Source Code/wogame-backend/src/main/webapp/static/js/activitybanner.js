@@ -5,26 +5,10 @@ $(function () {
     $("#random_input").val(Math.random()*99+1);
 
     $("#create_submit").click(function(){
-        var $Category = $.trim($('input[name="category"]:checked').val());
-        var smallNum = 0;
-        var arr = $(".category");
-        for(var i=0; i< arr.length; i++){
-            if($(arr[i]).text().trim() == "小Banner"){
-                smallNum++;
-            }
-        }if($Category == "smallCategory" && smallNum >= 2){
-            alert("已经添加了两条小Banner数据，不可以进行添加操作！如若必须添加，可先删除一条小Banner数据后再添加");
-            $("#create_submit").attr("disabled",true);
-            $("#bigCategory").removeAttr("checked");
-            $("#smallCategory").removeAttr("checked");
-            $("#picture_input").val("");
-            $("#introduce_input").val("");
-            $("#url_input").val("");
-        }else if($(".detail_tb tr").length >= 3){
+
+        if($(".detail_tb tr").length >= 3){
             alert("已经添加了两条数据，不可以进行添加操作！如若必须添加，可先删除一条数据后再添加");
             $("#create_submit").attr("disabled",true);
-            $("#bigCategory").removeAttr("checked");
-            $("#smallCategory").removeAttr("checked");
             $("#picture_input").val("");
             $("#introduce_input").val("");
             $("#url_input").val("");
@@ -33,10 +17,8 @@ $(function () {
             var $picture_input = $.trim($("#picture_input").val());
             var $introduce_input = $.trim($("#introduce_input").val());
             var $url_input = $.trim($("#url_input").val());
-            if (checkValue1($Category, $picture_input, $introduce_input, $url_input)) {
+            if (checkValue1($picture_input, $introduce_input, $url_input)) {
                 $("#activityBanner_form").submit();
-                $("#bigCategory").removeAttr("checked");
-                $("#smallCategory").removeAttr("checked");
                 $("#picture_input").val("");
                 $("#introduce_input").val("");
                 $("#url_input").val("");
@@ -102,37 +84,12 @@ $(function () {
     });
 
     $("#update_submit").click(function(){
-        var categoryBefore  = before_category;
-        var $dialog_category = $.trim($('input[name="category"]:checked').val());
-        var smallNum = 0;
-        var arr = $(".category");
-        for(var i=0; i< arr.length; i++){
-            if($(arr[i]).text().trim() == "小Banner"){
-                smallNum++;
-            }
-        }
-        if(categoryBefore == 1 && $dialog_category == "smallCategory" && smallNum == 2){
-            alert("已经添加了两条小Banner数据，不可以进行修改操作！如若必须添加，可先删除一条小Banner数据后再修改");
             var $dialog_picture = $.trim($("#dialog_picture").val());
             var $dialog_introduce = $.trim($("#dialog_introduce").val());
             var $dialog_url = $.trim($("#dialog_url").val());
-            $("#dialog_bigCategory").attr("checked","true");
-            $("#dialog_smallCategory").removeAttr("checked");
-            if(checkValue($dialog_picture, $dialog_introduce, $dialog_url)){
+            if(checkValue1($dialog_picture, $dialog_introduce, $dialog_url)){
                 $("#activity_update_form").submit();
-                $("#dialog_bigCategory").removeAttr("checked");
-                $("#dialog_smallCategory").removeAttr("checked");
             }
-        }else{
-            var $dialog_picture = $.trim($("#dialog_picture").val());
-            var $dialog_introduce = $.trim($("#dialog_introduce").val());
-            var $dialog_url = $.trim($("#dialog_url").val());
-            if(checkValue1($dialog_category,$dialog_picture, $dialog_introduce, $dialog_url)){
-                $("#activity_update_form").submit();
-                $("#dialog_bigCategory").removeAttr("checked");
-                $("#dialog_smallCategory").removeAttr("checked");
-            }
-        }
     });
 
     /*$("#update_submit").click(function(){
@@ -243,8 +200,22 @@ function checkValue(imageName, description, url){
         return true;
     }
 }
+function checkValue1(imageName, description, url){
+    if(imageName.length == 0){
+        alert("请上传图片！");
+        return false;
+    }else if(description.length == 0){
+        alert("请输入介绍！");
+        return false;
+    }else if(url.length == 0){
+        alert("url不能为空！");
+        return false;
+    }else{
+        return true;
+    }
+}
 
-function checkValue1(category,imageName, description, url){
+/*function checkValue1(category,imageName, description, url){
     if(imageName.length == 0){
         alert("请上传图片！");
         return false;
@@ -260,7 +231,7 @@ function checkValue1(category,imageName, description, url){
     }else{
         return true;
     }
-}
+}*/
 
 function initEvent(){
     $(".hidden_description,.hidden_txt, .hidden_url").mouseenter(function(){
@@ -295,7 +266,7 @@ function delActivityBanner(id){
 
                         id = content.id;
 
-                        html += '<td class="category"><span>'+ changeValue(content.position) +'</td>';
+                        /*html += '<td class="category"><span>'+ changeValue(content.position) +'</td>';*/
 
                         html += '<td class="hidden_url"><span>'+ changeLength(content.url)+'</span><div class="url_div">'+ content.url +'</div></td>';
 
@@ -327,13 +298,13 @@ function changeLength(obj){
     return val;
 }
 
-function changeValue(obj){
+/*function changeValue(obj){
     if(obj == 2){
         return "小Banner";
     }
-    /*if(obj == 1){
+    *//*if(obj == 1){
         return "大Banner";
     }else{
         return "小Banner";
-    }*/
-}
+    }*//*
+}*/
