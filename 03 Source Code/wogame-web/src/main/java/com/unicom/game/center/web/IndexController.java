@@ -39,6 +39,7 @@ import com.unicom.game.center.utils.UnicomLogServer;
 import com.unicom.game.center.vo.Banner;
 import com.unicom.game.center.vo.CategoryItemVo;
 import com.unicom.game.center.vo.CategoryListVo;
+import com.unicom.game.center.vo.NetGameServerListVo;
 import com.unicom.game.center.vo.NetGameServerVo;
 import com.unicom.game.center.vo.NewItemListVo;
 import com.unicom.game.center.vo.NewListVo;
@@ -259,8 +260,10 @@ public class IndexController {
     @RequestMapping(value = "/ajaxList/newItemCategory")
     @ResponseBody
     public Map newItemList() {
+    	//新服预告
+    	NetGameServerListVo netGameServerListVo = gameService.readNetGameServerList(1, 10);
 
-        NetGameServerVo netGame = gameService.netGameLatestServerList();
+        NetGameServerVo netGame = netGameServerListVo.getNetGameServerVo();
         Map m = new HashMap();
         m.put("newItem", netGame.getNetGameServerItemVoList());
 
@@ -272,20 +275,18 @@ public class IndexController {
         return m;
     }
 
-    //活动
-
-    //新服预告ajax
+    //活动ajax
     @RequestMapping(value = "/ajaxList/activity")
     @ResponseBody
     public Map activityList() {
 
         BannerInfoList banner = bannerBusiness.fetchAllBanner();
-        //后台配置三个活动
-        List<BannerInfo> BannerInfoList = banner.getActivityBanner();
+        //后台配置活动
+        List<BannerInfo> bannerInfoList = banner.getActivityBanner();
         List<BannerInfo> bList = new ArrayList<BannerInfo>();
-        if (BannerInfoList != null) {
-            for (BannerInfo b : BannerInfoList) {
-                if (b.getAdType() == 4 && bList.size() < 3) {
+        if (bannerInfoList != null) {
+            for (BannerInfo b : bannerInfoList) {
+                if (b.getAdType() == 4 && bList.size() < 2) {
                     bList.add(b);
                 }
             }
