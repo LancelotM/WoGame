@@ -37,7 +37,7 @@
                         <tr class="first_tr">
                             <td class="head_format">类别</td>
                             <td>
-                                <input id="bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner
+                                <#--<input id="bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner-->
                                 <input id="smallCategory" type="radio" name="category" value="smallCategory" style="width: 50px;"/>小Banner
                             </td>
                         </tr>
@@ -80,7 +80,7 @@
                         <tr>
                             <td>类别：</td>
                             <td>
-                                <input id="dialog_bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner
+                                <#--<input id="dialog_bigCategory" type="radio" name="category" value="bigCategory" style="width: 50px;"/>大Banner-->
                                 <input id="dialog_smallCategory" type="radio" name="category" value="smallCategory" style="width: 50px;"/>小Banner
                             </td>
                         </tr>
@@ -131,11 +131,14 @@
                             <#list activityBannerInfos as activityBannerInfo>
                                 <tr>
                                     <td class="category">
-                                        <#if activityBannerInfo.position == 1>
+                                        <if activityBannerInfo.position == 2>
+                                         小Banner
+                                        </if>
+                                        <#--<#if activityBannerInfo.position == 1>
                                             大Banner
                                         <#elseif  activityBannerInfo.position == 2>
                                             小Banner
-                                        </#if>
+                                        </#if>-->
                                     </td>
                                     <td  class="hidden_url">
                                         <span>

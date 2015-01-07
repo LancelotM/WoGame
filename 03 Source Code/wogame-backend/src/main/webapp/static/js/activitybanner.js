@@ -6,6 +6,47 @@ $(function () {
 
     $("#create_submit").click(function(){
         var $Category = $.trim($('input[name="category"]:checked').val());
+        var smallNum = 0;
+        var arr = $(".category");
+        for(var i=0; i< arr.length; i++){
+            if($(arr[i]).text().trim() == "小Banner"){
+                smallNum++;
+            }
+        }if($Category == "smallCategory" && smallNum >= 2){
+            alert("已经添加了两条小Banner数据，不可以进行添加操作！如若必须添加，可先删除一条小Banner数据后再添加");
+            $("#create_submit").attr("disabled",true);
+            $("#bigCategory").removeAttr("checked");
+            $("#smallCategory").removeAttr("checked");
+            $("#picture_input").val("");
+            $("#introduce_input").val("");
+            $("#url_input").val("");
+        }else if($(".detail_tb tr").length >= 3){
+            alert("已经添加了两条数据，不可以进行添加操作！如若必须添加，可先删除一条数据后再添加");
+            $("#create_submit").attr("disabled",true);
+            $("#bigCategory").removeAttr("checked");
+            $("#smallCategory").removeAttr("checked");
+            $("#picture_input").val("");
+            $("#introduce_input").val("");
+            $("#url_input").val("");
+        }else {
+            $("#create_submit").removeAttr("disabled");
+            var $picture_input = $.trim($("#picture_input").val());
+            var $introduce_input = $.trim($("#introduce_input").val());
+            var $url_input = $.trim($("#url_input").val());
+            if (checkValue1($Category, $picture_input, $introduce_input, $url_input)) {
+                $("#activityBanner_form").submit();
+                $("#bigCategory").removeAttr("checked");
+                $("#smallCategory").removeAttr("checked");
+                $("#picture_input").val("");
+                $("#introduce_input").val("");
+                $("#url_input").val("");
+            }
+        }
+    });
+
+
+/*    $("#create_submit").click(function(){
+        var $Category = $.trim($('input[name="category"]:checked').val());
         var bigNum = 0, smallNum = 0;
         var arr = $(".category");
         for(var i=0; i< arr.length; i++){
@@ -53,7 +94,7 @@ $(function () {
                 $("#url_input").val("");
             }
         }
-    });
+    });*/
 
     $('#cancel').click(function(){
         document.body.removeChild(Dialog.maskLayer);
@@ -61,6 +102,40 @@ $(function () {
     });
 
     $("#update_submit").click(function(){
+        var categoryBefore  = before_category;
+        var $dialog_category = $.trim($('input[name="category"]:checked').val());
+        var smallNum = 0;
+        var arr = $(".category");
+        for(var i=0; i< arr.length; i++){
+            if($(arr[i]).text().trim() == "小Banner"){
+                smallNum++;
+            }
+        }
+        if(categoryBefore == 1 && $dialog_category == "smallCategory" && smallNum == 2){
+            alert("已经添加了两条小Banner数据，不可以进行修改操作！如若必须添加，可先删除一条小Banner数据后再修改");
+            var $dialog_picture = $.trim($("#dialog_picture").val());
+            var $dialog_introduce = $.trim($("#dialog_introduce").val());
+            var $dialog_url = $.trim($("#dialog_url").val());
+            $("#dialog_bigCategory").attr("checked","true");
+            $("#dialog_smallCategory").removeAttr("checked");
+            if(checkValue($dialog_picture, $dialog_introduce, $dialog_url)){
+                $("#activity_update_form").submit();
+                $("#dialog_bigCategory").removeAttr("checked");
+                $("#dialog_smallCategory").removeAttr("checked");
+            }
+        }else{
+            var $dialog_picture = $.trim($("#dialog_picture").val());
+            var $dialog_introduce = $.trim($("#dialog_introduce").val());
+            var $dialog_url = $.trim($("#dialog_url").val());
+            if(checkValue1($dialog_category,$dialog_picture, $dialog_introduce, $dialog_url)){
+                $("#activity_update_form").submit();
+                $("#dialog_bigCategory").removeAttr("checked");
+                $("#dialog_smallCategory").removeAttr("checked");
+            }
+        }
+    });
+
+    /*$("#update_submit").click(function(){
         var categoryBefore  = before_category;
         var $dialog_category = $.trim($('input[name="category"]:checked').val());
         var bigNum = 0, smallNum = 0;
@@ -107,7 +182,7 @@ $(function () {
             }
         }
 
-    });
+    });*/
 });
 
 
@@ -115,10 +190,10 @@ function updateActivityBanner(id){
     maskActivityDialog('#activity_dialog');
     $.get(getBasePath()+"/fetchtobanner?id="+id,function(data,status){
         var $categoryCode = data.position;
-        if($categoryCode == 1){
+        /*if($categoryCode == 1){
             $("#dialog_bigCategory").attr("checked",true);
             before_category = 1;
-        }else if($categoryCode == 2){
+        }else */if($categoryCode == 2){
             $("#dialog_smallCategory").attr("checked",true);
             before_category = 2;
         }
@@ -253,9 +328,12 @@ function changeLength(obj){
 }
 
 function changeValue(obj){
-    if(obj == 1){
+    if(obj == 2){
+        return "小Banner";
+    }
+    /*if(obj == 1){
         return "大Banner";
     }else{
         return "小Banner";
-    }
+    }*/
 }
