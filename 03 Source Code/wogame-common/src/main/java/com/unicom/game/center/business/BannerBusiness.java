@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.unicom.game.center.utils.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,7 +38,9 @@ public class BannerBusiness {
                 bannerList = new ArrayList<BannerInfo>();
                 for (HomepageConfigDomain domain : domainList) {
                     BannerInfo bannerInfo = convertToBannerInfo(domain);
-                    bannerList.add(bannerInfo);
+                    if(null != bannerInfo){
+                    	bannerList.add(bannerInfo);
+                    }                    
                 }
             }
         } catch (Exception e) {
@@ -174,6 +177,11 @@ public class BannerBusiness {
         BannerInfo info = null;
 
         if (null != domain) {
+        	if(domain.getAdType() == Constant.HOMEPAGE_ACTIVITY_BANNER && domain.getPosition() == Constant.HOMEPAGE_BIG_ACTIVITY_BANNER_FLAG){
+        		// remove big activity banner
+        		return info;
+        	}
+        	
             info = new BannerInfo();
 
             info.setId(domain.getId());
