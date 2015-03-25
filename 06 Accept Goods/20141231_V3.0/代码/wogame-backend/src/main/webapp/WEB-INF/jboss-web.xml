@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jboss-web>
+    <context-root>/wogamecenter</context-root>
+    <loader-repository>
+        com.unicom.game.center:loader=WoGameCenterClassLoader
+    </loader-repository>
+</jboss-web>

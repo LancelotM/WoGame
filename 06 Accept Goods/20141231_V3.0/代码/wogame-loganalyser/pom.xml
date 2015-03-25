@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.unicom</groupId>
+		<artifactId>wogamecenter</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+	  
+	<artifactId>wogame-loganalyser</artifactId>
+	<name>wogame-loganalyser</name>
+
+    <packaging>jar</packaging>
+    
+    <properties>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+    <build>
+        <finalName>LogAnalyser</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>configuration/${configuration.name}</directory>
+            </resource>            
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+            </plugin>
+            <plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-shade-plugin</artifactId>
+            	<version>1.5</version>
+            	<dependencies>
+            		<dependency>
+            			<artifactId>commons-io</artifactId>
+						<groupId>commons-io</groupId>
+						<version>1.4</version>
+            		</dependency>
+      				<dependency>
+      					<artifactId>jdependency</artifactId>
+						<groupId>org.vafer</groupId>
+						<version>0.6</version>
+      					<exclusions>
+      						<exclusion>
+      							<artifactId>commons-io</artifactId>
+      							<groupId>commons-io</groupId>
+      						</exclusion>
+      					</exclusions>
+      				</dependency>	
+            	</dependencies>
+            	<executions>
+            		<execution>  
+            			<phase>package</phase>
+						<goals>  
+							<goal>shade</goal>  
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">  
+									<resource>META-INF/spring.handlers</resource>  
+								</transformer>  
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">  
+									<resource>META-INF/spring.schemas</resource>  
+								</transformer>		
+							</transformers>
+							<filters>
+								<filter>
+                  					<artifact>*:*</artifact>
+                  					<excludes>
+                    					<exclude>META-INF/*.SF</exclude>
+                    					<exclude>META-INF/*.DSA</exclude>
+                    					<exclude>META-INF/*.RSA</exclude>
+                  					</excludes>
+                				</filter>
+              				</filters>
+						</configuration>
+            		</execution>
+            	</executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.2</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>     
+                              		         
+        </plugins>
+    </build>
+
+    <dependencies>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>		
+
+        <dependency>
+        	<groupId>${project.groupId}</groupId>
+        	<artifactId>wogame-common</artifactId>
+        	<version>${project.version}</version>
+        </dependency>
+        
+    </dependencies>    	
+</project>
